@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Narsh 2026">
+    <title>Narsh 2026</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        background: #ffffff;
+        color: #111111;
+      }
+      main {
+        max-width: 560px;
+        margin: 96px auto;
+        padding: 0 24px;
+      }
+      h1 {
+        font-size: 32px;
+        margin: 0 0 12px 0;
+        letter-spacing: -0.02em;
+      }
+      p {
+        margin: 0 0 16px 0;
+        font-size: 16px;
+      }
+      form {
+        display: flex;
+        gap: 8px;
+        margin: 16px 0 8px;
+      }
+      input[type="email"] {
+        flex: 1;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+      button {
+        padding: 10px 14px;
+        border: 1px solid #0b57d0;
+        background: #0b57d0;
+        color: #ffffff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .status {
+        margin-top: 12px;
+        font-size: 14px;
+        color: #333;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div id="gate">
+        <h1>Narsh 2026</h1>
+        <p>Enter your email to get access.</p>
+        <form id="login-form">
+          <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          <button id="submit" type="submit">Send link</button>
+        </form>
+        <div id="status" class="status"></div>
+      </div>
+
+      <div id="content" class="hidden">
+        <h1>Coming soon</h1>
+        <p>Thanks for confirming your email. Details are on the way.</p>
+      </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,116 @@
+# Roadmap: Narsh 2026
+
+**Created:** 2026-05-15
+**Milestone:** v1.0
+**Phases:** 5
+**Mode:** Vertical MVP — each phase delivers a working end-to-end feature
+
+---
+
+### Phase 1: Access & Design Foundation
+**Goal:** Replace the Supabase magic link gate with tiered password access, establish the visual design system (warm, playful, colorful), and create the responsive page shell with navigation.
+**Mode:** mvp
+**Success Criteria**:
+1. Guest can enter a password on the landing page and access gated content
+2. Two different passwords unlock two tiers of content (Day 2 vs full)
+3. Navigation menu is visible and links to placeholder sections
+4. Landing page looks warm, playful, and on-brand (not default/unstyled)
+5. All pages render correctly on mobile (iPhone SE width) and desktop
+
+**Requirements:** ACC-01, ACC-02, ACC-03, ACC-04, ACC-05
+
+**UI hint:** yes
+
+---
+
+### Phase 2: Map Timeline
+**Goal:** Build the scroll-driven interactive world map that tells Arash and Natalie's parallel life stories converging, with photo slideshows and narrative text at each stop.
+**Mode:** mvp
+**Success Criteria**:
+1. World map displays with pins at all life chapter locations
+2. Scrolling smoothly flies the map between stops in chronological order
+3. Each stop displays narrative text describing that phase of life
+4. Each stop shows a clickable photo slideshow (placeholder images acceptable)
+5. Timeline works on mobile (touch scroll, readable text, tappable photos)
+
+**Requirements:** TIME-01, TIME-02, TIME-03, TIME-04
+
+**UI hint:** yes
+
+---
+
+### Phase 3: Guest Graph
+**Goal:** Build the interactive guest relationship visualization combining a force-directed social graph with family tree layout, filterable by group, with photos on key nodes.
+**Mode:** mvp
+**Success Criteria**:
+1. Force-directed graph renders with guest nodes and relationship edges
+2. User can switch to family tree layout for immediate family view
+3. Filters allow viewing subsets by group (family, city, relationship type)
+4. Core family member nodes display profile photos and names
+5. Graph is navigable on mobile (pinch-zoom, tap for details)
+
+**Requirements:** GRAPH-01, GRAPH-02, GRAPH-03, GRAPH-04
+
+**UI hint:** yes
+
+---
+
+### Phase 4: Puzzle Page
+**Goal:** Build a standalone puzzle page with a custom "Clues by Sam" style word-association puzzle and links to favorite daily puzzles.
+**Mode:** mvp
+**Success Criteria**:
+1. Custom puzzle renders as an interactive grid of clue items
+2. User can select items and check if they form a correct group
+3. Correctly guessed groups are revealed with category name
+4. Page includes curated links to favorite daily puzzles
+5. Puzzle plays well on mobile (tap to select, clear feedback)
+
+**Requirements:** PUZZLE-01, PUZZLE-02
+
+**UI hint:** yes
+
+---
+
+### Phase 5: Info Pages
+**Goal:** Build the practical information pages — event schedule (tier-aware), venue & travel details, and dress code guidance.
+**Mode:** mvp
+**Success Criteria**:
+1. Event schedule page shows correct events based on guest tier (Day 2 vs full)
+2. Venue page displays location, directions, hotel recommendations, and parking info
+3. Dress code page provides clear guidance on what to wear
+4. Info pages match the established warm, playful design language
+5. All info pages are readable and well-laid-out on mobile
+
+**Requirements:** INFO-01, INFO-02, INFO-03
+
+**UI hint:** yes
+
+---
+
+## Coverage
+
+| Requirement | Phase |
+|-------------|-------|
+| ACC-01 | 1 |
+| ACC-02 | 1 |
+| ACC-03 | 1 |
+| ACC-04 | 1 |
+| ACC-05 | 1 |
+| TIME-01 | 2 |
+| TIME-02 | 2 |
+| TIME-03 | 2 |
+| TIME-04 | 2 |
+| GRAPH-01 | 3 |
+| GRAPH-02 | 3 |
+| GRAPH-03 | 3 |
+| GRAPH-04 | 3 |
+| PUZZLE-01 | 4 |
+| PUZZLE-02 | 4 |
+| INFO-01 | 5 |
+| INFO-02 | 5 |
+| INFO-03 | 5 |
+
+**18/18 requirements mapped** ✓
+
+---
+*Roadmap created: 2026-05-15*

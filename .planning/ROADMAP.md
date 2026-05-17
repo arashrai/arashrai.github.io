@@ -22,8 +22,13 @@
 **Plans:** 3 plans
 
 Plans:
+**Wave 1**
 - [ ] 01-01-PLAN.md — Walking skeleton: CSS design system, auth module, and landing page rewrite with password gate
+
+**Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — Navigation module and six section placeholder pages with auth guards
+
+**Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 01-03-PLAN.md — Human verification of complete Phase 1 delivery
 
 **UI hint:** yes

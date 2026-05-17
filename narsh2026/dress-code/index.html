@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Narsh 2026">
+    <title>Dress Code -- Narsh 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/narsh2026/styles.css">
+  </head>
+  <body class="auth-pending">
+    <header class="site-header">
+      <a href="/narsh2026/" class="site-logo">Narsh 2026</a>
+      <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
+        <span class="nav-toggle-icon"></span>
+      </button>
+      <nav class="site-nav" id="site-nav">
+        <a href="/narsh2026/our-story/">Our Story</a>
+        <a href="/narsh2026/our-people/">Our People</a>
+        <a href="/narsh2026/puzzles/">Puzzles</a>
+        <a href="/narsh2026/schedule/">Schedule</a>
+        <a href="/narsh2026/venue-travel/">Venue & Travel</a>
+        <a href="/narsh2026/dress-code/" class="active">Dress Code</a>
+      </nav>
+    </header>
+    <main class="page-content">
+      <h1>Dress Code</h1>
+      <p class="coming-soon">We're working on something special. Check back soon!</p>
+    </main>
+    <script src="/narsh2026/auth.js"></script>
+    <script src="/narsh2026/nav.js"></script>
+    <script>
+      const tier = NARSH_AUTH.requireAuth();
+      if (tier) {
+        NARSH_AUTH.applyTierVisibility(tier);
+      }
+    </script>
+  </body>
+</html>

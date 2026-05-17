@@ -8,7 +8,7 @@
 ---
 
 ### Phase 1: Access & Design Foundation
-**Goal:** Replace the Supabase magic link gate with tiered password access, establish the visual design system (warm, playful, colorful), and create the responsive page shell with navigation.
+**Goal:** As a wedding guest, I want to enter a password to access the wedding website, so that I feel personally invited and can navigate to all the wedding information.
 **Mode:** mvp
 **Success Criteria**:
 1. Guest can enter a password on the landing page and access gated content
@@ -18,6 +18,13 @@
 5. All pages render correctly on mobile (iPhone SE width) and desktop
 
 **Requirements:** ACC-01, ACC-02, ACC-03, ACC-04, ACC-05
+
+**Plans:** 3 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Walking skeleton: CSS design system, auth module, and landing page rewrite with password gate
+- [ ] 01-02-PLAN.md — Navigation module and six section placeholder pages with auth guards
+- [ ] 01-03-PLAN.md — Human verification of complete Phase 1 delivery
 
 **UI hint:** yes
 
@@ -114,3 +121,4 @@
 
 ---
 *Roadmap created: 2026-05-15*
+*Updated: 2026-05-17 — Phase 1 plans created*

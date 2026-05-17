@@ -37,7 +37,7 @@ Declared values (must be multiples of 4):
 | sm | 8px | Compact element spacing, form gap |
 | md | 16px | Default element spacing, paragraph margin, form margin |
 | lg | 24px | Section padding, container horizontal padding |
-| xl | 40px | Major layout gaps, hero section spacing |
+| xl | 48px | Major layout gaps, hero section spacing |
 | 2xl | 64px | Page-level vertical spacing, hero top margin |
 
 Exceptions: Touch targets for the hamburger menu button and password submit button must be minimum 44x44px (WCAG 2.5.5).
@@ -51,9 +51,11 @@ Exceptions: Touch targets for the hamburger menu button and password submit butt
 | Role | Size | Weight | Line Height | Font Family |
 |------|------|--------|-------------|-------------|
 | Body | 17px | 400 (regular) | 1.6 | Source Sans 3 |
-| Small / Label | 14px | 600 (semibold) | 1.4 | Source Sans 3 |
+| Small / Label | 14px | 400 (regular) | 1.4 | Source Sans 3 |
 | Heading (h2-h3) | 20px | 700 (bold) | 1.2 | Playfair Display |
 | Display (h1) | 28px | 700 (bold) | 1.2 | Playfair Display |
+
+Labels are differentiated from body text by size (14px vs 17px) and context, not by weight. Where additional visual distinction is needed for labels (e.g., form labels, nav metadata), apply `letter-spacing: 0.02em` and `text-transform: uppercase`.
 
 Mobile overrides (below 768px):
 - Display (h1): 24px
@@ -63,7 +65,7 @@ Letter spacing on headings: `-0.02em` (carries forward existing pattern from cur
 
 Google Fonts load string:
 ```
-https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap
+https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap
 ```
 
 **Source:** RESEARCH.md Discretion Recommendations (typography), RESEARCH.md Pattern 3 (`--font-*` tokens)

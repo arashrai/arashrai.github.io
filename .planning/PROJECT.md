@@ -26,7 +26,7 @@ Guests feel a personal, heartfelt connection to Natalie and Arash's story — th
 - [ ] Event timeline/schedule page
 - [ ] Venue and travel information page
 - [ ] Dress code information
-- [ ] Photo storage and optimized delivery for timeline images
+- [ ] Photo optimization and delivery for timeline images (repo-committed, optimized before commit)
 - [ ] Warm, playful, colorful visual design with fun animations
 
 ### Out of Scope
@@ -50,7 +50,7 @@ Arash's existing personal site (arashrai.com) is being transformed into the wedd
 - Natalie: Cayman Islands (birth, 1999) → [childhood locations] → Canada (SHAD Valley, Waterloo)
 - Together: SHAD Valley (met) → Waterloo → internship cities → Seattle
 
-**Photos:** Not yet curated, 1-3 per timeline stop, ~15-20 stops total. Need storage recommendation (repo-committed vs CDN).
+**Photos:** Not yet curated, 1-3 per timeline stop, ~15-20 stops total. Stored in repo (`narsh2026/images/`), optimized before commit. Staging folder: `~/Documents/wedding-website-photos/` (organized by section, e.g. `splash-screen/`).
 
 **Design direction:** Warm & playful — colorful, personality-forward, fun animations. Not minimal/corporate.
 
@@ -68,7 +68,7 @@ Arash's existing personal site (arashrai.com) is being transformed into the wedd
 |----------|-----------|---------|
 | Replace Supabase magic links with password-based access | Simpler for guests, supports two-tier access naturally | — Pending |
 | Static site (no framework) | Existing approach, GitHub Pages compatible, no build step needed | — Pending |
-| Photo storage approach | Need to decide: repo-committed (simple) vs CDN like Cloudinary (scalable) | — Pending |
+| Photo storage approach | Static site on GitHub Pages — dynamic Google Drive loading requires API keys, fragile export URLs, and adds runtime failure risk on the wedding day. Repo-committed images are served via CDN for free, load instantly, and have zero dependencies. ~15-30 optimized images at 5-15 MB total is well within GitHub limits. | Repo-committed: optimize and commit final picks to `narsh2026/images/`. Staging folder at `~/Documents/wedding-website-photos/` for curation before selecting finals. |
 
 ## Evolution
 
@@ -88,4 +88,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-15 after initialization*
+*Last updated: 2026-05-17 after Phase 1 completion*

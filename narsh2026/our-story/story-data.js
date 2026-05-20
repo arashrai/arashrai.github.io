@@ -53,7 +53,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2005,
       narrative: "Trading tropical heat for Canadian winters. Natalie discovered snow, hockey, and the particular joy of a Tim Hortons hot chocolate on a cold morning.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-4.svg", alt: "Natalie in Ontario" }
+        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Natalie in Ontario" }
       ],
       isConvergence: false
     },
@@ -66,7 +66,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2010,
       narrative: "From one coast to another. Vancouver meant mountains, ocean, and a new chapter in yet another country. By now, Arash had lived on three continents before turning thirteen.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-5.svg", alt: "Arash in Vancouver" }
+        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Arash in Vancouver" }
       ],
       isConvergence: false
     },
@@ -79,7 +79,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2016,
       narrative: "Two stories collide at SHAD Valley. A summer program for curious minds brought together a kid from three continents and an island girl turned Canuck. Neither knew it yet, but this was the beginning of everything.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-6.svg", alt: "Natalie and Arash at SHAD Valley" }
+        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash at SHAD Valley" }
       ],
       isConvergence: true
     },
@@ -92,7 +92,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2017,
       narrative: "University of Waterloo. Co-op terms, late-night study sessions, and the slow realization that the person you keep running into might be the person you were always running toward.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-7.svg", alt: "Natalie and Arash at Waterloo" }
+        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Natalie and Arash at Waterloo" }
       ],
       isConvergence: false
     },
@@ -105,7 +105,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2018,
       narrative: "Arash's co-op took him to Silicon Valley. Long-distance texts, time zone math, and the discovery that missing someone is its own kind of proof.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-8.svg", alt: "Arash in San Francisco" }
+        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Arash in San Francisco" }
       ],
       isConvergence: false
     },
@@ -118,7 +118,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2019,
       narrative: "Natalie's turn to explore. New York City, the subway, and the strange comfort of being anonymous in a crowd of millions. She sent Arash a photo of every good sunset.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-9.svg", alt: "Natalie in New York City" }
+        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie in New York City" }
       ],
       isConvergence: false
     },
@@ -131,7 +131,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2020,
       narrative: "Back together at Waterloo. A global pandemic meant the world got smaller, but their world got bigger. Quarantine walks, sourdough experiments, and learning to be a team.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-10.svg", alt: "Natalie and Arash back at Waterloo" }
+        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Natalie and Arash back at Waterloo" }
       ],
       isConvergence: false
     },
@@ -144,7 +144,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2022,
       narrative: "The Pacific Northwest called. Seattle brought rain, coffee snobbery, two cats named Beans and Biscuit, and the quiet certainty that this was home. Not the city — each other.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-11.svg", alt: "Natalie and Arash in Seattle" }
+        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Natalie and Arash in Seattle" }
       ],
       isConvergence: false
     },
@@ -157,7 +157,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2024,
       narrative: "He asked. She said yes. (She also said \"finally.\") Two lives that started oceans apart, now writing the same story. The next chapter begins in September 2026.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-12.svg", alt: "Natalie and Arash's proposal" }
+        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash's proposal" }
       ],
       isConvergence: false
     }

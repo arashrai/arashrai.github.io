@@ -29,6 +29,7 @@ const NARSH_MAP = (() => {
   let mapInstance = null;
   let reducedMotion = false;
   let lineAnimationId = null;
+  const lastCoords = { "line-arash": [], "line-natalie": [] };
 
   const init = (containerId) => {
     reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -346,6 +347,7 @@ const NARSH_MAP = (() => {
   const setLineData = (sourceId, coords) => {
     const source = mapInstance.getSource(sourceId);
     if (source) {
+      lastCoords[sourceId] = coords.slice();
       source.setData({
         type: "Feature",
         geometry: {
@@ -463,13 +465,7 @@ const NARSH_MAP = (() => {
   };
 
   const getExistingCoords = (sourceId) => {
-    const source = mapInstance.getSource(sourceId);
-    if (!source || !source._data) return [];
-    const data = source._data;
-    if (data.geometry && data.geometry.coordinates) {
-      return data.geometry.coordinates;
-    }
-    return [];
+    return lastCoords[sourceId] || [];
   };
 
   const pulsePin = () => {

@@ -91,9 +91,15 @@ const NARSH_CAROUSEL = (() => {
     if (containerEl) containerEl.style.display = "";
 
     if (trackEl) {
-      trackEl.innerHTML = photos.map((photo) => {
-        return "<img class=\"carousel-photo\" src=\"" + photo.src + "\" alt=\"" + photo.alt + "\" loading=\"lazy\">";
-      }).join("");
+      trackEl.innerHTML = "";
+      photos.forEach((photo) => {
+        const img = document.createElement("img");
+        img.className = "carousel-photo";
+        img.src = photo.src;
+        img.alt = photo.alt;
+        img.loading = "lazy";
+        trackEl.appendChild(img);
+      });
     }
 
     updateUI();

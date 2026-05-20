@@ -11,6 +11,10 @@
   --color-text-primary: #3D2B1F;
   --color-text-secondary: #6B4F3A;
 
+  /* Journey Line Colors (family wedding-day colors, not sunset palette) */
+  --color-journey-arash: #2A9D8F;
+  --color-journey-natalie: #D4A843;
+
   /* Typography */
   --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;

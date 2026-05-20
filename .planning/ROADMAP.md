@@ -75,6 +75,21 @@ Plans:
 
 **Requirements:** GRAPH-01, GRAPH-02, GRAPH-03, GRAPH-04
 
+**Plans:** 4 plans
+
+Plans:
+**Wave 1**
+- [ ] 03-01-PLAN.md — Social graph core: guest data module, D3 force-directed layout with photo-circle nodes, edges, cluster regions, zoom/pan, and page shell
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 03-02-PLAN.md — Search by name, group filters, expand-in-place node details with connection highlighting, and mobile bottom sheet
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 03-03-PLAN.md — Family tree layout with dual-family side-by-side display, view toggle with crossfade, and family-specific filters
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 03-04-PLAN.md — Human verification of complete Phase 3 delivery
+
 **UI hint:** yes
 
 ---
@@ -140,3 +155,4 @@ Plans:
 *Roadmap created: 2026-05-15*
 *Updated: 2026-05-17 — Phase 1 plans created*
 *Updated: 2026-05-19 — Phase 2 plans created*
+*Updated: 2026-05-20 — Phase 3 plans created*

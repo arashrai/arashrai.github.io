@@ -47,6 +47,18 @@ Plans:
 
 **Requirements:** TIME-01, TIME-02, TIME-03, TIME-04
 
+**Plans:** 3 plans
+
+Plans:
+**Wave 1**
+- [ ] 02-01-PLAN.md — Core scroll-driven map with story data, fly-to animations, progressive line drawing, and narrative text panel
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 02-02-PLAN.md — Photo carousel, clickable timeline bar, mobile cross-fade, and placeholder images
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 02-03-PLAN.md — Human verification of complete Phase 2 delivery
+
 **UI hint:** yes
 
 ---
@@ -127,3 +139,4 @@ Plans:
 ---
 *Roadmap created: 2026-05-15*
 *Updated: 2026-05-17 — Phase 1 plans created*
+*Updated: 2026-05-19 — Phase 2 plans created*

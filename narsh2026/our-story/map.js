@@ -5,9 +5,9 @@
 const NARSH_MAP = (() => {
   "use strict";
 
-  // Token loaded from /narsh2026/config.js (gitignored).
-  // Create config.js with: const NARSH_CONFIG = { MAPBOX_TOKEN: "pk.your_token_here" };
-  const MAPBOX_TOKEN = (typeof NARSH_CONFIG !== "undefined" && NARSH_CONFIG.MAPBOX_TOKEN) || "";
+  // Mapbox public access token (pk. prefix) — safe for client-side code.
+  // Restricted to arashrai.com in the Mapbox dashboard. Free tier: 50k loads/month.
+  const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
 
   const FLY_DURATION = 2000;
   const LINE_DRAW_DURATION = 1200;

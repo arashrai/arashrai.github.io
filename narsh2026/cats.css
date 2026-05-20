@@ -1,0 +1,124 @@
+/* Beans & Biscuit — Wandering Cat Easter Egg */
+
+.cat {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  z-index: 100;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cat svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cat.walking {
+  animation: cat-walk 0.4s steps(2) infinite;
+}
+
+.cat.sleeping {
+  animation: cat-breathe 2s ease-in-out infinite;
+}
+
+.cat:hover .cat-heart {
+  opacity: 1;
+  transform: translateY(-8px) scale(1);
+}
+
+.cat-heart {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0) scale(0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.cat.clicked {
+  animation: cat-flip 0.6s ease-in-out;
+}
+
+.cat-name {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-body, sans-serif);
+  font-size: 11px;
+  color: var(--color-text-secondary, #6B4F3A);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.cat:hover .cat-name {
+  opacity: 1;
+}
+
+.pawprint {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  z-index: 99;
+  opacity: 0.25;
+  pointer-events: none;
+  animation: pawprint-fade 4s ease-out forwards;
+}
+
+@keyframes cat-walk {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes cat-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes cat-flip {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(90deg) scale(1.2); }
+  50% { transform: rotate(180deg) scale(1); }
+  75% { transform: rotate(270deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes pawprint-fade {
+  0% { opacity: 0.25; }
+  70% { opacity: 0.15; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat.walking,
+  .cat.sleeping,
+  .cat.clicked {
+    animation: none;
+  }
+
+  .pawprint {
+    animation: none;
+    opacity: 0.15;
+  }
+}
+
+@media (max-width: 480px) {
+  .cat {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pawprint {
+    width: 10px;
+    height: 10px;
+  }
+}

@@ -40,7 +40,13 @@
         <div id="story-content">
           <h2 class="stop-heading" id="stop-heading"></h2>
           <p class="stop-year" id="stop-year"></p>
-          <div class="stop-carousel" id="stop-carousel"></div>
+          <div class="stop-carousel" id="stop-carousel">
+            <div class="carousel-track"></div>
+            <button class="carousel-prev" aria-label="Previous photo"></button>
+            <button class="carousel-next" aria-label="Next photo"></button>
+            <div class="carousel-dots"></div>
+            <div class="carousel-announce" aria-live="polite"></div>
+          </div>
           <div class="stop-narrative" id="stop-narrative"></div>
         </div>
       </div>
@@ -53,6 +59,8 @@
     <script src="/narsh2026/our-story/story-data.js"></script>
     <script src="/narsh2026/our-story/map.js"></script>
     <script src="/narsh2026/our-story/scroll-controller.js"></script>
+    <script src="/narsh2026/our-story/carousel.js"></script>
+    <script src="/narsh2026/our-story/timeline.js"></script>
     <script>
       const tier = NARSH_AUTH.requireAuth();
       if (tier) {
@@ -80,6 +88,16 @@
 
             if (loadingEl) loadingEl.classList.add("hidden");
 
+            const isMobile = window.matchMedia("(max-width: 767px)");
+            const wrapperEl = document.querySelector("main");
+            let mobileFadeTimer = null;
+
+            // Initialize carousel and timeline
+            NARSH_CAROUSEL.init(document.getElementById("stop-carousel"));
+            NARSH_TIMELINE.init(STOPS, (index) => {
+              NARSH_SCROLL.scrollToStop(index);
+            });
+
             const onStopChange = (newIndex, previousIndex) => {
               const stop = STOPS[newIndex];
               if (!stop) return;
@@ -106,13 +124,32 @@
               if (yearEl) yearEl.textContent = stop.year;
               if (narrativeEl) narrativeEl.textContent = stop.narrative;
 
+              // Update carousel
+              NARSH_CAROUSEL.loadPhotos(stop.photos);
+
+              // Update timeline
+              NARSH_TIMELINE.setActive(newIndex);
+              NARSH_TIMELINE.setVisited(newIndex);
+
               // Bow animation at convergence
               if (stop.isConvergence) {
                 NARSH_MAP.playBowAnimation(stop.coords);
               }
+
+              // Mobile cross-fade: show map during flyTo, then fade to content
+              if (isMobile.matches && wrapperEl) {
+                wrapperEl.classList.remove("mobile-show-content");
+                if (mobileFadeTimer) clearTimeout(mobileFadeTimer);
+                mobileFadeTimer = setTimeout(() => {
+                  wrapperEl.classList.add("mobile-show-content");
+                }, 800);
+              }
             };
 
             NARSH_SCROLL.init(STOPS, onStopChange);
+
+            // Trigger initial stop so content appears without scrolling
+            onStopChange(0, -1);
           }).catch(() => {
             if (loadingEl) loadingEl.classList.add("hidden");
             if (errorEl) {

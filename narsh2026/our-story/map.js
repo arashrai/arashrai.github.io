@@ -67,14 +67,43 @@ const NARSH_MAP = (() => {
     );
 
     return new Promise((resolve, reject) => {
-      mapInstance.on("load", () => {
-        applyWarmStyleOverrides();
-        setupLayers();
-        resolve(mapInstance);
-      });
+      let settled = false;
+
+      const settle = (map) => {
+        if (settled) return;
+        settled = true;
+        try {
+          applyWarmStyleOverrides();
+        } catch (e) {
+          // Style overrides are cosmetic — continue even if they fail
+        }
+        try {
+          setupLayers();
+        } catch (e) {
+          // Layer setup is required — reject if it fails
+          reject(e);
+          return;
+        }
+        resolve(map);
+      };
+
+      mapInstance.on("load", () => settle(mapInstance));
+
+      // Timeout fallback: if style loads slowly, proceed after 8 seconds
+      setTimeout(() => {
+        if (!settled && mapInstance) {
+          settle(mapInstance);
+        }
+      }, 8000);
 
       mapInstance.on("error", (e) => {
-        reject(e);
+        // Only reject on style errors, not tile errors
+        if (e && e.error && e.error.status === 401) {
+          if (!settled) {
+            settled = true;
+            reject(e);
+          }
+        }
       });
     });
   };

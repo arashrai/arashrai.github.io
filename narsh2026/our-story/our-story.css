@@ -1,0 +1,199 @@
+/* Our Story — Page-Specific Styles */
+/* Scroll-driven map timeline layout with fixed positioning */
+
+/* Skip link for keyboard/screen reader users */
+.skip-map {
+  position: absolute;
+  top: -100px;
+  left: var(--space-md);
+  background: var(--color-cream);
+  color: var(--color-text-primary);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  z-index: 200;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+}
+
+.skip-map:focus {
+  top: var(--space-sm);
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Scroll container — tall invisible div that drives scroll position */
+.scroll-container {
+  position: relative;
+  width: 100%;
+  z-index: 0;
+}
+
+/* Map container — fixed viewport behind everything */
+.map-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--color-cream);
+  z-index: 1;
+}
+
+/* Map loading state */
+.map-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  z-index: 2;
+  background: var(--color-cream);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+}
+
+/* Map error state */
+.map-error {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  text-align: center;
+  max-width: 320px;
+  z-index: 2;
+  background: var(--color-cream);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+}
+
+/* Scroll prompt — initial instruction */
+.scroll-prompt {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  z-index: 5;
+  background: rgba(255, 248, 240, 0.9);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  opacity: 1;
+  transition: opacity 600ms ease;
+  pointer-events: none;
+}
+
+.scroll-prompt.fade-out {
+  opacity: 0;
+}
+
+/* Story panel — content card */
+.story-panel {
+  position: fixed;
+  bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  background: var(--color-cream);
+  z-index: 5;
+  padding: var(--space-lg) var(--space-md);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.story-panel.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.story-panel .stop-heading {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-xs) 0;
+}
+
+.story-panel .stop-year {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.story-panel .stop-carousel {
+  margin-bottom: var(--space-md);
+}
+
+.story-panel .stop-narrative {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Timeline bar — fixed at bottom */
+.timeline-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(48px + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(201, 146, 142, 0.15);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+/* Site header z-index override for map page */
+.site-header {
+  position: relative;
+  z-index: 20;
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+  .story-panel {
+    bottom: calc(48px + env(safe-area-inset-bottom, 0px) + var(--space-md));
+    right: var(--space-lg);
+    left: auto;
+    max-width: 420px;
+    max-height: 60vh;
+    overflow-y: auto;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-medium);
+    padding: var(--space-lg);
+  }
+
+  .story-panel .stop-narrative {
+    font-size: 17px;
+  }
+
+  .scroll-prompt {
+    bottom: 80px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-prompt {
+    transition: none;
+  }
+
+  .story-panel {
+    transition: none;
+  }
+}

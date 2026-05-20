@@ -8,9 +8,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
+    <link rel="stylesheet" href="/narsh2026/our-story/our-story.css">
   </head>
   <body class="auth-pending">
+    <a href="#story-content" class="skip-map">Skip to story content</a>
+
     <header class="site-header">
       <a href="/narsh2026/" class="site-logo">Narsh 2026</a>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
@@ -25,16 +29,101 @@
         <a href="/narsh2026/dress-code/">Dress Code</a>
       </nav>
     </header>
-    <main class="page-content">
-      <h1>Our Story</h1>
-      <p class="coming-soon">We're working on something special. Check back soon!</p>
+
+    <main>
+      <div id="scroll-container" class="scroll-container"></div>
+      <div id="map" class="map-container" role="img" aria-label="Interactive world map showing Natalie and Arash's journey"></div>
+      <div class="map-loading" id="map-loading">Loading the map...</div>
+      <div class="map-error hidden" id="map-error"></div>
+      <div class="scroll-prompt" id="scroll-prompt">Scroll to follow our journey</div>
+      <div class="story-panel hidden" id="story-panel">
+        <div id="story-content">
+          <h2 class="stop-heading" id="stop-heading"></h2>
+          <p class="stop-year" id="stop-year"></p>
+          <div class="stop-carousel" id="stop-carousel"></div>
+          <div class="stop-narrative" id="stop-narrative"></div>
+        </div>
+      </div>
+      <div class="timeline-bar" id="timeline-bar" role="navigation" aria-label="Story timeline"></div>
     </main>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>
+    <script src="/narsh2026/our-story/story-data.js"></script>
+    <script src="/narsh2026/our-story/map.js"></script>
+    <script src="/narsh2026/our-story/scroll-controller.js"></script>
     <script>
       const tier = NARSH_AUTH.requireAuth();
       if (tier) {
         NARSH_AUTH.applyTierVisibility(tier);
+
+        const loadingEl = document.getElementById("map-loading");
+        const errorEl = document.getElementById("map-error");
+        const panelEl = document.getElementById("story-panel");
+        const headingEl = document.getElementById("stop-heading");
+        const yearEl = document.getElementById("stop-year");
+        const narrativeEl = document.getElementById("stop-narrative");
+        const promptEl = document.getElementById("scroll-prompt");
+        const STOPS = NARSH_STORY_DATA.STOPS;
+        const scrollState = { firstScroll: true };
+
+        const mapResult = NARSH_MAP.init("map");
+
+        if (mapResult) {
+          mapResult.then((map) => {
+            if (!map) {
+              // WebGL not supported — error already shown by map module
+              if (loadingEl) loadingEl.classList.add("hidden");
+              return;
+            }
+
+            if (loadingEl) loadingEl.classList.add("hidden");
+
+            const onStopChange = (newIndex, previousIndex) => {
+              const stop = STOPS[newIndex];
+              if (!stop) return;
+
+              // Fade out scroll prompt on first scroll
+              if (scrollState.firstScroll) {
+                scrollState.firstScroll = false;
+                if (promptEl) promptEl.classList.add("fade-out");
+              }
+
+              // Show story panel
+              if (panelEl) {
+                panelEl.classList.remove("hidden");
+                panelEl.classList.add("visible");
+              }
+
+              // Update map
+              NARSH_MAP.flyToStop(stop.coords, stop.zoom);
+              NARSH_MAP.updateLines(newIndex, STOPS);
+              NARSH_MAP.updatePins(newIndex, STOPS);
+
+              // Update content
+              if (headingEl) headingEl.textContent = stop.location;
+              if (yearEl) yearEl.textContent = stop.year;
+              if (narrativeEl) narrativeEl.textContent = stop.narrative;
+
+              // Bow animation at convergence
+              if (stop.isConvergence) {
+                NARSH_MAP.playBowAnimation(stop.coords);
+              }
+            };
+
+            NARSH_SCROLL.init(STOPS, onStopChange);
+          }).catch(() => {
+            if (loadingEl) loadingEl.classList.add("hidden");
+            if (errorEl) {
+              errorEl.textContent = "The map couldn't load right now. Try refreshing the page.";
+              errorEl.classList.remove("hidden");
+            }
+          });
+        } else {
+          // init returned null (should not happen with Promise pattern, but safety)
+          if (loadingEl) loadingEl.classList.add("hidden");
+        }
       }
     </script>
   </body>

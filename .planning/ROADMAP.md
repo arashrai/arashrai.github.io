@@ -54,7 +54,7 @@ Plans:
 - [x] 02-01-PLAN.md — Core scroll-driven map with story data, fly-to animations, progressive line drawing, and narrative text panel
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- [ ] 02-02-PLAN.md — Photo carousel, clickable timeline bar, mobile cross-fade, and placeholder images
+- [x] 02-02-PLAN.md — Photo carousel, clickable timeline bar, mobile cross-fade, and placeholder images
 
 **Wave 3** *(blocked on Wave 2 completion)*
 - [ ] 02-03-PLAN.md — Human verification of complete Phase 2 delivery

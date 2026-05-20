@@ -51,7 +51,7 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 02-01-PLAN.md — Core scroll-driven map with story data, fly-to animations, progressive line drawing, and narrative text panel
+- [x] 02-01-PLAN.md — Core scroll-driven map with story data, fly-to animations, progressive line drawing, and narrative text panel
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 02-02-PLAN.md — Photo carousel, clickable timeline bar, mobile cross-fade, and placeholder images

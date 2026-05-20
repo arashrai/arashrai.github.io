@@ -148,6 +148,19 @@
 
             NARSH_SCROLL.init(STOPS, onStopChange);
 
+            // Keyboard left/right arrow navigation between stops
+            document.addEventListener("keydown", (e) => {
+              if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+                e.preventDefault();
+                const next = Math.min(NARSH_SCROLL.getCurrentIndex() + 1, STOPS.length - 1);
+                NARSH_SCROLL.scrollToStop(next);
+              } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+                e.preventDefault();
+                const prev = Math.max(NARSH_SCROLL.getCurrentIndex() - 1, 0);
+                NARSH_SCROLL.scrollToStop(prev);
+              }
+            });
+
             // Trigger initial stop so content appears without scrolling
             onStopChange(0, -1);
           }).catch(() => {

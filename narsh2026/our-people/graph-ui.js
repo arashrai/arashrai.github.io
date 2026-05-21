@@ -1,6 +1,6 @@
 // Narsh 2026 — Graph UI Module
-// Search bar, view toggle, filter button wiring, and expand/collapse
-// bottom sheet for the Our People page.
+// Search bar, view toggle, filter button wiring, family tree filter
+// buttons, and expand/collapse bottom sheet for the Our People page.
 
 const NARSH_GRAPH_UI = (() => {
   "use strict";
@@ -11,6 +11,7 @@ const NARSH_GRAPH_UI = (() => {
   let searchAnnounceEl = null;
   let activeFilters = [];
   let currentView = "social";
+  let activeFamilyFilter = "both";
   let debounceTimer = null;
   let bottomSheetEl = null;
   let previousFocusEl = null;
@@ -24,7 +25,7 @@ const NARSH_GRAPH_UI = (() => {
 
     // Render filter buttons from NARSH_GUESTS.GROUPS
     if (filterBarEl) {
-      renderFilterButtons();
+      renderGroupFilterButtons();
     }
 
     // Search input listener with 300ms debounce
@@ -35,24 +36,28 @@ const NARSH_GRAPH_UI = (() => {
       });
     }
 
-    // View toggle click listeners (view switching for Plan 03)
+    // View toggle click listeners
     if (viewToggleEl) {
       const viewBtns = viewToggleEl.querySelectorAll(".view-btn");
       viewBtns.forEach((btn) => {
         btn.addEventListener("click", () => {
-          // View switching will be implemented in Plan 03
           const view = btn.getAttribute("data-view");
-          console.log("View toggle:", view);
+          handleViewSwitch(view);
         });
       });
     }
 
-    // Filter button click listeners
+    // Filter button click listeners (delegated)
     if (filterBarEl) {
       filterBarEl.addEventListener("click", (event) => {
         const btn = event.target.closest(".filter-btn");
         if (!btn) return;
-        handleFilterClick(btn);
+
+        if (currentView === "tree") {
+          handleFamilyFilterClick(btn);
+        } else {
+          handleFilterClick(btn);
+        }
       });
     }
 
@@ -62,6 +67,46 @@ const NARSH_GRAPH_UI = (() => {
 
     // Bottom sheet event wiring
     initBottomSheetEvents();
+  };
+
+  const handleViewSwitch = (view) => {
+    if (view === currentView) return;
+
+    currentView = view;
+
+    // Update toggle button states
+    if (viewToggleEl) {
+      const viewBtns = viewToggleEl.querySelectorAll(".view-btn");
+      viewBtns.forEach((btn) => {
+        const btnView = btn.getAttribute("data-view");
+        if (btnView === view) {
+          btn.classList.add("active");
+          btn.setAttribute("aria-checked", "true");
+        } else {
+          btn.classList.remove("active");
+          btn.setAttribute("aria-checked", "false");
+        }
+      });
+    }
+
+    // Swap filter bar contents
+    if (filterBarEl) {
+      filterBarEl.textContent = "";
+      if (view === "tree") {
+        renderFamilyFilterButtons();
+      } else {
+        renderGroupFilterButtons();
+      }
+    }
+
+    // Call graph module to switch view
+    if (view === "tree") {
+      NARSH_GRAPH.switchView("tree", activeFamilyFilter);
+    } else {
+      // Reset group filters when switching back to social
+      activeFilters = [];
+      NARSH_GRAPH.switchView("social");
+    }
   };
 
   const handleSearch = () => {
@@ -137,6 +182,28 @@ const NARSH_GRAPH_UI = (() => {
 
     // Call graph module to filter
     NARSH_GRAPH.filterByGroup(activeFilters);
+  };
+
+  const handleFamilyFilterClick = (btn) => {
+    const family = btn.getAttribute("data-family");
+    if (!family) return;
+
+    activeFamilyFilter = family;
+
+    // Update active states on family filter buttons
+    const allBtns = filterBarEl.querySelectorAll(".filter-btn");
+    allBtns.forEach((b) => {
+      if (b.getAttribute("data-family") === family) {
+        b.classList.add("active");
+        b.setAttribute("aria-pressed", "true");
+      } else {
+        b.classList.remove("active");
+        b.setAttribute("aria-pressed", "false");
+      }
+    });
+
+    // Call graph module to filter family tree
+    NARSH_GRAPH.filterFamilyTree(family);
   };
 
   const onNodeExpand = (guestData) => {
@@ -242,7 +309,7 @@ const NARSH_GRAPH_UI = (() => {
     bottomSheetEl.setAttribute("aria-label", guestData.name + " details");
   };
 
-  const renderFilterButtons = () => {
+  const renderGroupFilterButtons = () => {
     // "All" button (active by default)
     const allBtn = document.createElement("button");
     allBtn.className = "filter-btn active";
@@ -258,6 +325,23 @@ const NARSH_GRAPH_UI = (() => {
       btn.setAttribute("data-group", group.id);
       btn.setAttribute("aria-pressed", "false");
       btn.textContent = group.label;
+      filterBarEl.appendChild(btn);
+    });
+  };
+
+  const renderFamilyFilterButtons = () => {
+    const families = [
+      { id: "both", label: "Both Families" },
+      { id: "natalie", label: "Natalie's Family" },
+      { id: "arash", label: "Arash's Family" }
+    ];
+
+    families.forEach((family) => {
+      const btn = document.createElement("button");
+      btn.className = "filter-btn" + (family.id === activeFamilyFilter ? " active" : "");
+      btn.setAttribute("data-family", family.id);
+      btn.setAttribute("aria-pressed", family.id === activeFamilyFilter ? "true" : "false");
+      btn.textContent = family.label;
       filterBarEl.appendChild(btn);
     });
   };

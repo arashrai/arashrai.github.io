@@ -15,6 +15,14 @@
   --color-journey-arash: #2A9D8F;
   --color-journey-natalie: #D4A843;
 
+  /* Graph Visualization Tokens */
+  --color-node-default: #C9928E;
+  --color-node-couple: #C2704F;
+  --color-cluster-opacity: 0.08;
+  --color-edge-default: rgba(61, 43, 31, 0.15);
+  --color-edge-highlight: rgba(61, 43, 31, 0.5);
+  --color-node-dim: 0.25;
+
   /* Typography */
   --font-heading: "Playfair Display", Georgia, serif;
   --font-body: "Source Sans 3", -apple-system, BlinkMacSystemFont, sans-serif;

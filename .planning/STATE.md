@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-21T00:10:46.817Z"
+last_updated: "2026-05-21T15:18:01.679Z"
 progress:
   total_phases: 5
   completed_phases: 2
@@ -19,13 +19,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-15)
 
 **Core value:** Guests feel a personal, heartfelt connection to Natalie and Arash's story
-**Current focus:** Phase 02 — map-timeline
+**Current focus:** Phase 03 — guest-graph
 
 ## Current Phase
 
 **Phase:** 3
 **Name:** Access & Design Foundation
-**Status:** Ready to execute
+**Status:** Executing Phase 03
 **Goal:** Replace Supabase magic link gate with tiered password access, establish visual design system, create responsive page shell with navigation.
 
 ## Progress

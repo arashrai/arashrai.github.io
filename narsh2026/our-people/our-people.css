@@ -1,0 +1,293 @@
+/* Our People -- Page-Specific Styles */
+/* Guest graph visualization: controls, canvas, expanded nodes */
+
+/* Skip link for keyboard/screen reader users */
+.skip-to-graph {
+  position: absolute;
+  top: -100px;
+  left: var(--space-md);
+  background: var(--color-cream);
+  color: var(--color-text-primary);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  z-index: 200;
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+}
+
+.skip-to-graph:focus {
+  top: var(--space-sm);
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Graph page layout */
+.graph-page {
+  padding: var(--space-md);
+}
+
+/* Graph controls container */
+.graph-controls {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+
+/* Search input */
+.graph-search {
+  flex: 1;
+  max-width: 320px;
+  min-height: 44px;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-dusty-rose);
+  background: var(--color-warm-white);
+  border-radius: var(--radius-sm);
+  font-size: 16px;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.graph-search::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.graph-search:focus {
+  outline: none;
+  border-color: var(--color-terracotta);
+  border-width: 2px;
+  box-shadow: var(--shadow-soft);
+  padding: calc(var(--space-sm) - 1px) calc(var(--space-md) - 1px);
+}
+
+/* View toggle */
+.view-toggle {
+  display: flex;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.view-btn {
+  min-width: 100px;
+  height: 36px;
+  border: 1px solid var(--color-dusty-rose);
+  background: var(--color-warm-white);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.view-btn.active {
+  background: var(--color-terracotta);
+  color: #ffffff;
+  border-color: var(--color-terracotta);
+}
+
+.view-btn:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Filter bar */
+.filter-bar {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  padding-bottom: var(--space-xs);
+  margin-bottom: var(--space-md);
+}
+
+.filter-btn {
+  white-space: nowrap;
+  padding: var(--space-sm) var(--space-md);
+  min-height: 44px;
+  border: 1px solid var(--color-dusty-rose);
+  background: var(--color-warm-white);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.filter-btn.active {
+  background: var(--color-terracotta);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.filter-btn:hover {
+  background: rgba(201, 146, 142, 0.2);
+}
+
+.filter-btn.active:hover {
+  background: var(--color-terracotta);
+}
+
+.filter-btn:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Graph canvas container */
+.graph-canvas {
+  width: 100%;
+  height: calc(100vh - 200px);
+  min-height: 400px;
+  background: var(--color-cream);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+/* Graph loading state */
+.graph-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  background: var(--color-cream);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  z-index: 2;
+}
+
+.graph-loading.hidden {
+  display: none;
+}
+
+/* Graph error state */
+.graph-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  text-align: center;
+  max-width: 320px;
+  background: var(--color-cream);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  z-index: 2;
+}
+
+.graph-error.hidden {
+  display: none;
+}
+
+/* Pinch hint overlay */
+.pinch-hint {
+  position: fixed;
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 248, 240, 0.9);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.pinch-hint.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Search announce (screen reader only) */
+.search-announce {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+
+/* SVG node styles */
+.node {
+  cursor: pointer;
+}
+
+.node-label {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  fill: var(--color-text-primary);
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.tree-node .node-label {
+  font-size: 14px;
+}
+
+/* Focus visible on interactive elements */
+.graph-search:focus-visible,
+.filter-btn:focus-visible,
+.view-btn:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Desktop breakpoint */
+@media (min-width: 768px) {
+  .graph-controls {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .view-btn {
+    height: 36px;
+  }
+
+  .graph-canvas {
+    height: calc(100vh - 180px);
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 767px) {
+  .graph-controls {
+    flex-direction: column;
+  }
+
+  .graph-search {
+    max-width: 100%;
+  }
+
+  .view-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .graph-loading,
+  .pinch-hint,
+  .filter-btn,
+  .view-btn,
+  .node,
+  .node-label,
+  .graph-canvas * {
+    transition: none;
+  }
+}

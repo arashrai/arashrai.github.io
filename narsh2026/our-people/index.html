@@ -7,10 +7,13 @@
     <title>Our People -- Narsh 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
+    <link rel="stylesheet" href="/narsh2026/our-people/our-people.css">
   </head>
   <body class="auth-pending">
+    <a href="#graph-canvas" class="skip-to-graph">Skip to guest graph</a>
+
     <header class="site-header">
       <a href="/narsh2026/" class="site-logo">Narsh 2026</a>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
@@ -25,16 +28,38 @@
         <a href="/narsh2026/dress-code/">Dress Code</a>
       </nav>
     </header>
-    <main class="page-content">
+
+    <main class="graph-page">
       <h1>Our People</h1>
-      <p class="coming-soon">We're working on something special. Check back soon!</p>
+      <div class="graph-controls">
+        <input id="graph-search" type="search" class="graph-search" placeholder="Search for a guest..." aria-label="Search guests">
+        <div id="view-toggle" class="view-toggle" role="radiogroup" aria-label="View mode">
+          <button role="radio" aria-checked="true" class="view-btn active" data-view="social">Everyone</button>
+          <button role="radio" aria-checked="false" class="view-btn" data-view="tree">Family Tree</button>
+        </div>
+      </div>
+      <div id="filter-bar" class="filter-bar" role="group" aria-label="Filter by group"></div>
+      <div id="graph-loading" class="graph-loading">Drawing the connections...</div>
+      <div id="graph-error" class="graph-error hidden"></div>
+      <svg id="graph-canvas" class="graph-canvas" role="img" aria-label="Interactive guest relationship visualization" aria-describedby="graph-desc">
+        <desc id="graph-desc"></desc>
+      </svg>
+      <div id="pinch-hint" class="pinch-hint">Pinch to zoom, tap a face to learn more</div>
+      <div id="search-announce" class="search-announce" aria-live="polite"></div>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>
+    <script src="/narsh2026/our-people/guest-data.js"></script>
+    <script src="/narsh2026/our-people/graph.js"></script>
+    <script src="/narsh2026/our-people/graph-ui.js"></script>
     <script>
       const tier = NARSH_AUTH.requireAuth();
       if (tier) {
         NARSH_AUTH.applyTierVisibility(tier);
+        NARSH_GRAPH.init("graph-canvas");
+        NARSH_GRAPH_UI.init();
       }
     </script>
   </body>

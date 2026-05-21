@@ -239,6 +239,134 @@
   font-size: 14px;
 }
 
+/* Dimmed node state (when another node is expanded) */
+.node.dimmed {
+  opacity: 0.25;
+  transition: opacity 200ms ease;
+}
+
+/* Edge labels (shown on highlighted edges when a node is expanded) */
+.edge-label {
+  font-size: 11px;
+  fill: var(--color-text-secondary);
+  pointer-events: none;
+}
+
+/* Expanded detail card (desktop inline, via foreignObject) */
+.expanded-detail {
+  background: var(--color-warm-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-medium);
+  padding: var(--space-md);
+  max-width: 200px;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  pointer-events: none;
+}
+
+/* Bottom sheet (mobile slide-up panel) */
+.bottom-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 40vh;
+  background: var(--color-warm-white);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  box-shadow: var(--shadow-medium);
+  padding: var(--space-lg);
+  transform: translateY(100%);
+  transition: transform 300ms ease-out;
+  z-index: 50;
+  overflow-y: auto;
+}
+
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+
+/* Bottom sheet close button */
+.bottom-sheet-close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  width: 44px;
+  height: 44px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+}
+
+.bottom-sheet-close:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Bottom sheet content */
+.bottom-sheet-photo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+}
+
+.bottom-sheet-img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.bottom-sheet-initials {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--color-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+}
+
+.bottom-sheet-name {
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  text-align: center;
+  margin-bottom: var(--space-sm);
+}
+
+.bottom-sheet-groups {
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.bottom-sheet-field-label {
+  font-size: 14px;
+  font-weight: 600;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-sm);
+}
+
+.bottom-sheet-field-value {
+  font-size: 14px;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+}
+
 /* Focus visible on interactive elements */
 .graph-search:focus-visible,
 .filter-btn:focus-visible,
@@ -287,6 +415,8 @@
   .view-btn,
   .node,
   .node-label,
+  .node.dimmed,
+  .bottom-sheet,
   .graph-canvas * {
     transition: none;
   }

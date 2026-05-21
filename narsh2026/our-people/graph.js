@@ -574,6 +574,9 @@ const NARSH_GRAPH = (() => {
 
       // Set aria-expanded
       targetNodeEl.attr("aria-expanded", "true");
+
+      // Raise expanded node to front so detail card renders above everything
+      targetNodeEl.raise();
     }
 
     // Connection highlighting: build set of connected node IDs
@@ -671,14 +674,14 @@ const NARSH_GRAPH = (() => {
 
     // Create foreignObject for inline detail card
     const foWidth = 200;
-    const foHeight = 180;
 
     const fo = targetNodeEl.append("foreignObject")
       .attr("class", "expanded-detail-fo")
       .attr("x", nodeData.radius + 12)
-      .attr("y", -foHeight / 2)
+      .attr("y", -40)
       .attr("width", foWidth)
-      .attr("height", foHeight);
+      .attr("height", 1)
+      .attr("overflow", "visible");
 
     const cardDiv = fo.append("xhtml:div")
       .attr("class", "expanded-detail")
@@ -951,6 +954,32 @@ const NARSH_GRAPH = (() => {
     const natalieRoot = d3.hierarchy(natalieTreeData);
     const arashRoot = d3.hierarchy(arashTreeData);
 
+    // Sort children so the couple nodes are on the inner edges:
+    // Natalie should be rightmost (last) child in her tree,
+    // Arash should be leftmost (first) child in his tree.
+    // This prevents siblings from appearing between the two trees.
+    const sortCoupleToEdge = (root, coupleId, toEnd) => {
+      root.each((node) => {
+        if (node.children && node.children.length > 1) {
+          const coupleIdx = node.children.findIndex((c) => {
+            let found = false;
+            c.each((d) => { if (d.data.id === coupleId) found = true; });
+            return found;
+          });
+          if (coupleIdx >= 0) {
+            const child = node.children.splice(coupleIdx, 1)[0];
+            if (toEnd) {
+              node.children.push(child);
+            } else {
+              node.children.unshift(child);
+            }
+          }
+        }
+      });
+    };
+    sortCoupleToEdge(natalieRoot, "natalie", true);
+    sortCoupleToEdge(arashRoot, "arash", false);
+
     const treeLayout = d3.tree().nodeSize([100, 140]);
     treeLayout(natalieRoot);
     treeLayout(arashRoot);
@@ -1171,18 +1200,21 @@ const NARSH_GRAPH = (() => {
     };
     document.addEventListener("keydown", escapeHandler);
 
+    // Raise expanded tree node to front so detail card renders above everything
+    nodeEl.raise();
+
     // Show detail card on desktop (below the node)
     if (window.innerWidth >= 768) {
       const guestData = lookupTreeGuestData(nodeId);
       const foWidth = 200;
-      const foHeight = 180;
 
       const fo = nodeEl.append("foreignObject")
         .attr("class", "expanded-detail-fo")
         .attr("x", -foWidth / 2)
         .attr("y", radius + 20)
         .attr("width", foWidth)
-        .attr("height", foHeight);
+        .attr("height", 1)
+        .attr("overflow", "visible");
 
       const cardDiv = fo.append("xhtml:div")
         .attr("class", "expanded-detail")

@@ -1,7 +1,8 @@
 // Narsh 2026 — Graph Module
 // D3 force simulation, SVG rendering, photo-circle nodes, typed edges,
 // soft colored cluster regions, zoom/pan, search zoom-to with pulse,
-// group filtering, and expand-in-place node interaction for the Our People page.
+// group filtering, expand-in-place node interaction, and family tree
+// layout view for the Our People page.
 
 const NARSH_GRAPH = (() => {
   "use strict";
@@ -48,6 +49,10 @@ const NARSH_GRAPH = (() => {
 
   // Escape keydown handler reference (attached/removed on expand/collapse)
   let escapeHandler = null;
+
+  // Tree view state
+  let treeNodeData = []; // flat array of rendered tree nodes for zoomToNode lookup
+  let currentFamilyFilter = "both";
 
   // Callbacks for UI module (set by graph-ui.js during init)
   let onNodeExpandCallback = null;
@@ -136,7 +141,11 @@ const NARSH_GRAPH = (() => {
       const target = event.target;
       if (target === svgEl.node() || target === innerGroupEl.node() || target.tagName === "svg") {
         if (expandedNodeId) {
-          collapseNode();
+          if (currentView === "tree") {
+            collapseTreeNode();
+          } else {
+            collapseNode();
+          }
         }
       }
     });
@@ -358,16 +367,32 @@ const NARSH_GRAPH = (() => {
   };
 
   const zoomToNode = (nodeId) => {
-    if (!svgEl || !zoomBehavior || !simulation) return;
+    if (!svgEl || !zoomBehavior) return;
 
-    const nodes = simulation.nodes();
-    const node = nodes.find((n) => n.id === nodeId);
-    if (!node) return;
+    let nodeX, nodeY, nodeRadius;
+
+    if (currentView === "tree") {
+      // Find node in tree data
+      const treeNode = treeNodeData.find((d) => d.id === nodeId);
+      if (!treeNode) return;
+      nodeX = treeNode.px;
+      nodeY = treeNode.py;
+      nodeRadius = treeNode.radius;
+    } else {
+      // Find node in simulation data
+      if (!simulation) return;
+      const nodes = simulation.nodes();
+      const node = nodes.find((n) => n.id === nodeId);
+      if (!node) return;
+      nodeX = node.x;
+      nodeY = node.y;
+      nodeRadius = node.radius;
+    }
 
     const transform = d3.zoomIdentity
       .translate(width / 2, height / 2)
       .scale(1.5)
-      .translate(-node.x, -node.y);
+      .translate(-nodeX, -nodeY);
 
     svgEl.transition()
       .duration(reducedMotion ? 0 : 500)
@@ -376,46 +401,49 @@ const NARSH_GRAPH = (() => {
     // Pulse animation on target node (scale 1.2x then back to 1.0x)
     if (!reducedMotion) {
       const nodeGroupEl = innerGroupEl.select(".nodes");
-      const targetNodeEl = nodeGroupEl.selectAll("g.node")
-        .filter((d) => d.id === nodeId);
+      const nodeSelector = currentView === "tree" ? "g.tree-node" : "g.node";
+      const targetNodeEl = nodeGroupEl.selectAll(nodeSelector)
+        .filter(function() {
+          const label = d3.select(this).attr("aria-label");
+          const guest = NARSH_GUESTS.getGuestById(nodeId);
+          return guest && label === guest.name;
+        });
 
       if (!targetNodeEl.empty()) {
-        // Select the border circle for pulse
         const borderCircle = targetNodeEl.select(".node-border");
-        const currentR = node.radius;
 
         borderCircle
           .transition()
-          .delay(300) // Wait for zoom to mostly complete
+          .delay(300)
           .duration(150)
-          .attr("r", currentR * 1.2)
+          .attr("r", nodeRadius * 1.2)
           .transition()
           .duration(150)
-          .attr("r", currentR);
+          .attr("r", nodeRadius);
 
-        // Also pulse the background/image
         const bgCircle = targetNodeEl.select(".node-bg");
         if (!bgCircle.empty()) {
           bgCircle
             .transition()
             .delay(300)
             .duration(150)
-            .attr("r", currentR * 1.2)
+            .attr("r", nodeRadius * 1.2)
             .transition()
             .duration(150)
-            .attr("r", currentR);
+            .attr("r", nodeRadius);
         }
 
-        const clipCircle = innerGroupEl.select("#clip-" + nodeId + " circle");
+        const clipId = currentView === "tree" ? "#clip-tree-" + nodeId : "#clip-" + nodeId;
+        const clipCircle = innerGroupEl.select(clipId + " circle");
         if (!clipCircle.empty()) {
           clipCircle
             .transition()
             .delay(300)
             .duration(150)
-            .attr("r", currentR * 1.2)
+            .attr("r", nodeRadius * 1.2)
             .transition()
             .duration(150)
-            .attr("r", currentR);
+            .attr("r", nodeRadius);
         }
       }
     }
@@ -850,16 +878,438 @@ const NARSH_GRAPH = (() => {
     }
   };
 
-  const switchView = (view) => {
-    // Stub for Plan 03 (family tree view)
+  const switchView = (view, familyFilter) => {
+    if (view === currentView && view !== "tree") return;
+
+    // Collapse any expanded node first
+    if (expandedNodeId) {
+      collapseNode();
+    }
+
     currentView = view;
-    console.log("View switched to:", view);
+
+    // Store the current zoom transform to preserve across view switches
+    const currentTransform = svgEl ? d3.zoomTransform(svgEl.node()) : null;
+
+    if (reducedMotion) {
+      // Instant swap: clear and render new view
+      clearSvgContent();
+      if (view === "social") {
+        renderSocialGraph();
+      } else {
+        currentFamilyFilter = familyFilter || "both";
+        renderFamilyTree(currentFamilyFilter);
+      }
+      // Restore zoom transform
+      if (currentTransform && zoomBehavior) {
+        svgEl.call(zoomBehavior.transform, currentTransform);
+      }
+    } else {
+      // Crossfade: fade out over 200ms, swap content, fade in over 200ms
+      innerGroupEl.transition()
+        .duration(200)
+        .style("opacity", 0)
+        .on("end", () => {
+          clearSvgContent();
+          if (view === "social") {
+            renderSocialGraph();
+          } else {
+            currentFamilyFilter = familyFilter || "both";
+            renderFamilyTree(currentFamilyFilter);
+          }
+          // Restore zoom transform
+          if (currentTransform && zoomBehavior) {
+            svgEl.call(zoomBehavior.transform, currentTransform);
+          }
+          innerGroupEl.transition()
+            .duration(200)
+            .style("opacity", 1);
+        });
+    }
+  };
+
+  const clearSvgContent = () => {
+    innerGroupEl.select(".cluster-regions").selectAll("*").remove();
+    innerGroupEl.select(".edges").selectAll("*").remove();
+    innerGroupEl.select(".nodes").selectAll("*").remove();
+    // Remove any tree-specific elements (couple connector, defs for tree clips)
+    innerGroupEl.selectAll(".couple-connector").remove();
+  };
+
+  const renderFamilyTree = (familyFilter) => {
+    // Stop and clear the force simulation
+    if (simulation) {
+      simulation.stop();
+    }
+
+    treeNodeData = [];
+    const filter = familyFilter || "both";
+
+    const natalieTreeData = NARSH_GUESTS.FAMILY_TREES.natalie;
+    const arashTreeData = NARSH_GUESTS.FAMILY_TREES.arash;
+
+    const natalieRoot = d3.hierarchy(natalieTreeData);
+    const arashRoot = d3.hierarchy(arashTreeData);
+
+    const treeLayout = d3.tree().nodeSize([100, 140]);
+    treeLayout(natalieRoot);
+    treeLayout(arashRoot);
+
+    // Determine which trees to render based on filter
+    const showNatalie = (filter === "both" || filter === "natalie");
+    const showArash = (filter === "both" || filter === "arash");
+
+    // Calculate offsets for side-by-side layout
+    let natalieOffsetX = 0;
+    let arashOffsetX = 0;
+    let totalWidth = 0;
+
+    if (showNatalie && showArash) {
+      // Compute natalie tree width
+      const natalieXValues = [];
+      natalieRoot.each((d) => natalieXValues.push(d.x));
+      const natalieMinX = Math.min.apply(null, natalieXValues);
+      const natalieMaxX = Math.max.apply(null, natalieXValues);
+      const natalieWidth = natalieMaxX - natalieMinX;
+
+      // Offset natalie to start from 0
+      natalieOffsetX = -natalieMinX;
+
+      // Compute arash tree width
+      const arashXValues = [];
+      arashRoot.each((d) => arashXValues.push(d.x));
+      const arashMinX = Math.min.apply(null, arashXValues);
+
+      // Arash tree starts after natalie tree + 120px gap
+      arashOffsetX = natalieWidth + 120 - arashMinX;
+
+      // Compute total width for centering
+      const arashMaxX = Math.max.apply(null, arashXValues);
+      totalWidth = (natalieWidth) + 120 + (arashMaxX - arashMinX);
+    } else if (showNatalie) {
+      const natalieXValues = [];
+      natalieRoot.each((d) => natalieXValues.push(d.x));
+      const natalieMinX = Math.min.apply(null, natalieXValues);
+      natalieOffsetX = -natalieMinX;
+      totalWidth = Math.max.apply(null, natalieXValues) - natalieMinX;
+    } else if (showArash) {
+      const arashXValues = [];
+      arashRoot.each((d) => arashXValues.push(d.x));
+      const arashMinX = Math.min.apply(null, arashXValues);
+      arashOffsetX = -arashMinX;
+      totalWidth = Math.max.apply(null, arashXValues) - arashMinX;
+    }
+
+    // Center the tree(s) in the viewport
+    const centerOffsetX = (width - totalWidth) / 2;
+    const centerOffsetY = 80; // top padding for tree
+
+    const edgesGroup = innerGroupEl.select(".edges");
+    const nodesGroup = innerGroupEl.select(".nodes");
+
+    // Ensure defs exist for tree clip paths
+    const defsEl = innerGroupEl.select("defs").empty()
+      ? innerGroupEl.insert("defs", ":first-child")
+      : innerGroupEl.select("defs");
+    defsEl.selectAll("clipPath").remove();
+
+    // Draw tree branches and nodes for each family
+    if (showNatalie) {
+      drawTreeBranches(natalieRoot, natalieOffsetX + centerOffsetX, centerOffsetY, COLOR_NATALIE, edgesGroup);
+      drawTreeNodes(natalieRoot, natalieOffsetX + centerOffsetX, centerOffsetY, nodesGroup, defsEl);
+    }
+
+    if (showArash) {
+      drawTreeBranches(arashRoot, arashOffsetX + centerOffsetX, centerOffsetY, COLOR_ARASH, edgesGroup);
+      drawTreeNodes(arashRoot, arashOffsetX + centerOffsetX, centerOffsetY, nodesGroup, defsEl);
+    }
+
+    // Draw couple connector line when showing both families
+    if (showNatalie && showArash) {
+      // Find Natalie and Arash nodes in the rendered tree data
+      const natalieNode = treeNodeData.find((d) => d.id === "natalie");
+      const arashNode = treeNodeData.find((d) => d.id === "arash");
+
+      if (natalieNode && arashNode) {
+        edgesGroup.append("path")
+          .attr("class", "couple-connector")
+          .attr("d", "M" + natalieNode.px + "," + natalieNode.py + " L" + arashNode.px + "," + arashNode.py)
+          .attr("stroke", COLOR_BOTH)
+          .attr("stroke-width", 3)
+          .attr("stroke-dasharray", "6 4")
+          .attr("fill", "none");
+      }
+    }
+
+    // Update accessibility description
+    const descEl = document.getElementById("graph-desc");
+    if (descEl) {
+      descEl.textContent = treeNodeData.length + " family members shown in family tree view";
+    }
+  };
+
+  const drawTreeBranches = (root, offsetX, offsetY, color, edgesGroup) => {
+    const linkGenerator = d3.linkVertical()
+      .x((d) => d.x + offsetX)
+      .y((d) => d.y + offsetY);
+
+    root.links().forEach((link) => {
+      edgesGroup.append("path")
+        .attr("class", "tree-branch")
+        .attr("d", linkGenerator(link))
+        .attr("stroke", color)
+        .attr("stroke-width", 2)
+        .attr("fill", "none")
+        .attr("stroke-linecap", "round");
+    });
+  };
+
+  const drawTreeNodes = (root, offsetX, offsetY, nodesGroup, defsEl) => {
+    root.each((d) => {
+      const guest = NARSH_GUESTS.getGuestById(d.data.id);
+      const isCouple = guest ? guest.isCouple : false;
+      const radius = isCouple ? NODE_RADIUS_TREE_COUPLE : NODE_RADIUS_TREE;
+      const px = d.x + offsetX;
+      const py = d.y + offsetY;
+
+      // Track for zoomToNode
+      treeNodeData.push({
+        id: d.data.id,
+        px: px,
+        py: py,
+        radius: radius,
+        isCouple: isCouple
+      });
+
+      // Create clip path for this tree node
+      defsEl.append("clipPath")
+        .attr("id", "clip-tree-" + d.data.id)
+        .append("circle")
+        .attr("r", radius);
+
+      const g = nodesGroup.append("g")
+        .attr("class", "tree-node")
+        .attr("role", "button")
+        .attr("tabindex", "0")
+        .attr("aria-label", d.data.name)
+        .attr("transform", "translate(" + px + "," + py + ")");
+
+      // Photo or initials fallback
+      if (guest && guest.photo) {
+        g.append("image")
+          .attr("href", guest.photo)
+          .attr("width", radius * 2)
+          .attr("height", radius * 2)
+          .attr("x", -radius)
+          .attr("y", -radius)
+          .attr("clip-path", "url(#clip-tree-" + d.data.id + ")");
+      } else {
+        g.append("circle")
+          .attr("class", "node-bg")
+          .attr("r", radius)
+          .attr("fill", "#FFF8F0");
+        g.append("text")
+          .attr("class", "node-initials")
+          .attr("text-anchor", "middle")
+          .attr("dy", "0.35em")
+          .attr("font-size", "14px")
+          .attr("font-family", "var(--font-body)")
+          .attr("fill", "#6B4F3A")
+          .text(getInitials(d.data.name));
+      }
+
+      // Border circle
+      g.append("circle")
+        .attr("class", "node-border")
+        .attr("r", radius)
+        .attr("fill", "none")
+        .attr("stroke", isCouple ? COLOR_BOTH : COLOR_NODE_DEFAULT)
+        .attr("stroke-width", isCouple ? 3 : 2);
+
+      // Name label (always visible in tree view per D-16)
+      g.append("text")
+        .attr("class", "node-label")
+        .attr("dy", radius + 16)
+        .text(d.data.name);
+
+      // Click handler for expand-in-place
+      g.on("click", (event) => {
+        event.stopPropagation();
+        expandTreeNode(d.data.id, g, px, py, radius);
+      });
+
+      // Keyboard handler
+      g.on("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          event.stopPropagation();
+          expandTreeNode(d.data.id, g, px, py, radius);
+        }
+      });
+    });
+  };
+
+  const expandTreeNode = (nodeId, nodeEl, px, py, radius) => {
+    // If this node is already expanded, do nothing
+    if (expandedNodeId === nodeId) return;
+
+    // If another node is expanded, collapse it first
+    if (expandedNodeId) {
+      collapseTreeNode();
+    }
+
+    expandedNodeId = nodeId;
+
+    // Set aria-expanded
+    nodeEl.attr("aria-expanded", "true");
+
+    // Attach Escape key handler
+    escapeHandler = (event) => {
+      if (event.key === "Escape") {
+        collapseTreeNode();
+      }
+    };
+    document.addEventListener("keydown", escapeHandler);
+
+    // Show detail card on desktop (below the node)
+    if (window.innerWidth >= 768) {
+      const guestData = lookupTreeGuestData(nodeId);
+      const foWidth = 200;
+      const foHeight = 180;
+
+      const fo = nodeEl.append("foreignObject")
+        .attr("class", "expanded-detail-fo")
+        .attr("x", -foWidth / 2)
+        .attr("y", radius + 20)
+        .attr("width", foWidth)
+        .attr("height", foHeight);
+
+      const cardDiv = fo.append("xhtml:div")
+        .attr("class", "expanded-detail")
+        .style("background", "var(--color-warm-white)")
+        .style("border-radius", "var(--radius-md)")
+        .style("box-shadow", "var(--shadow-medium)")
+        .style("padding", "var(--space-md)")
+        .style("max-width", foWidth + "px")
+        .style("font-family", "var(--font-body)")
+        .style("color", "var(--color-text-primary)");
+
+      // Name
+      const nameDiv = cardDiv.append("xhtml:div")
+        .style("font-size", "17px")
+        .style("font-weight", "600")
+        .style("margin-bottom", "var(--space-sm)");
+      nameDiv.node().textContent = guestData.name;
+
+      // Groups
+      if (guestData.groups && guestData.groups.length > 0) {
+        const groupLabels = guestData.groups.map((gId) => {
+          const group = NARSH_GUESTS.GROUPS.find((g) => g.id === gId);
+          return group ? group.label : gId;
+        });
+        const groupsDiv = cardDiv.append("xhtml:div")
+          .style("font-size", "14px")
+          .style("color", "var(--color-text-secondary)")
+          .style("margin-bottom", "var(--space-sm)");
+        groupsDiv.node().textContent = groupLabels.join(", ");
+      }
+
+      // Connection to couple
+      if (guestData.connectionToCouple) {
+        const connLabel = cardDiv.append("xhtml:div")
+          .style("font-size", "14px")
+          .style("color", "var(--color-text-secondary)")
+          .style("font-weight", "600")
+          .style("margin-top", "var(--space-sm)");
+        connLabel.node().textContent = "How we know them";
+
+        const connValue = cardDiv.append("xhtml:div")
+          .style("font-size", "14px")
+          .style("color", "var(--color-text-secondary)");
+        connValue.node().textContent = guestData.connectionToCouple;
+      }
+
+      // Fun fact
+      if (guestData.funFact) {
+        const factLabel = cardDiv.append("xhtml:div")
+          .style("font-size", "14px")
+          .style("color", "var(--color-text-secondary)")
+          .style("font-weight", "600")
+          .style("margin-top", "var(--space-sm)");
+        factLabel.node().textContent = "Fun fact";
+
+        const factValue = cardDiv.append("xhtml:div")
+          .style("font-size", "14px")
+          .style("color", "var(--color-text-secondary)");
+        factValue.node().textContent = guestData.funFact;
+      }
+    }
+
+    // Notify UI module for mobile bottom sheet
+    if (onNodeExpandCallback) {
+      const guestData = lookupTreeGuestData(nodeId);
+      onNodeExpandCallback(guestData);
+    }
+  };
+
+  const collapseTreeNode = () => {
+    if (!expandedNodeId) return;
+
+    // Remove detail cards
+    const nodesGroup = innerGroupEl.select(".nodes");
+    nodesGroup.selectAll(".expanded-detail-fo").remove();
+
+    // Reset aria-expanded on all tree nodes
+    nodesGroup.selectAll(".tree-node")
+      .attr("aria-expanded", null);
+
+    // Remove Escape handler
+    if (escapeHandler) {
+      document.removeEventListener("keydown", escapeHandler);
+      escapeHandler = null;
+    }
+
+    expandedNodeId = null;
+
+    // Notify UI module
+    if (onNodeCollapseCallback) {
+      onNodeCollapseCallback();
+    }
+  };
+
+  const lookupTreeGuestData = (nodeId) => {
+    const guest = NARSH_GUESTS.getGuestById(nodeId);
+    if (guest) {
+      return {
+        id: nodeId,
+        name: guest.name,
+        photo: guest.photo,
+        groups: guest.groups,
+        funFact: guest.funFact,
+        connectionToCouple: guest.connectionToCouple
+      };
+    }
+    return { id: nodeId, name: "Unknown", groups: [], photo: null, funFact: null, connectionToCouple: null };
+  };
+
+  const filterFamilyTree = (family) => {
+    // Collapse any expanded node first
+    if (expandedNodeId) {
+      collapseTreeNode();
+    }
+
+    currentFamilyFilter = family || "both";
+
+    // Clear tree content and re-render
+    clearSvgContent();
+    renderFamilyTree(currentFamilyFilter);
   };
 
   return {
     init,
     switchView,
     filterByGroup,
+    filterFamilyTree,
     zoomToNode,
     expandNode,
     collapseNode,

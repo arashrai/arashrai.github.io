@@ -237,6 +237,48 @@
 
 .tree-node .node-label {
   font-size: 14px;
+  font-family: var(--font-body);
+}
+
+.tree-node .node-initials {
+  font-family: var(--font-body);
+}
+
+/* Tree node focus and interaction */
+.tree-node {
+  cursor: pointer;
+}
+
+.tree-node:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+.tree-node .node-border {
+  stroke-width: 2;
+}
+
+/* Tree branch lines (family-colored) */
+.tree-branch {
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Couple connector (dashed terracotta line) */
+.couple-connector {
+  stroke-width: 3;
+  stroke-dasharray: 6 4;
+  fill: none;
+}
+
+/* Crossfade transition for view switching */
+.graph-inner {
+  transition: opacity 200ms ease;
+}
+
+.graph-inner.fading {
+  opacity: 0;
 }
 
 /* Dimmed node state (when another node is expanded) */
@@ -417,6 +459,10 @@
   .node-label,
   .node.dimmed,
   .bottom-sheet,
+  .graph-inner,
+  .tree-branch,
+  .tree-node,
+  .couple-connector,
   .graph-canvas * {
     transition: none;
   }

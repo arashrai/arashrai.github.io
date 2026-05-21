@@ -79,7 +79,7 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 03-01-PLAN.md — Social graph core: guest data module, D3 force-directed layout with photo-circle nodes, edges, cluster regions, zoom/pan, and page shell
+- [x] 03-01-PLAN.md — Social graph core: guest data module, D3 force-directed layout with photo-circle nodes, edges, cluster regions, zoom/pan, and page shell
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 03-02-PLAN.md — Search by name, group filters, expand-in-place node details with connection highlighting, and mobile bottom sheet

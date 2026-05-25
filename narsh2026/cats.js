@@ -39,7 +39,7 @@ const NARSH_CATS = (() => {
       '<ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
       '<ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
       // Head
-      '<circle cx="48" cy="17" r="12" fill="' + b + '"/>' +
+      '<ellipse cx="48" cy="17" rx="12" ry="10" fill="' + b + '"/>' +
       // Ears (connected to head — triangles overlapping the circle)
       '<path d="M40 11 L43 0 L47 9 Z" fill="' + b + '"/>' +
       '<path d="M49 9 L53 0 L56 11 Z" fill="' + b + '"/>' +
@@ -109,7 +109,7 @@ const NARSH_CATS = (() => {
       // Head — dark base
       '<circle cx="48" cy="17" r="12" fill="' + dk + '"/>' +
       // Orange half of face (left/back half of head when facing right)
-      '<defs><clipPath id="trino-face-clip"><circle cx="48" cy="17" r="12"/></clipPath></defs>' +
+      '<defs><clipPath id="trino-face-clip"><ellipse cx="48" cy="17" rx="12" ry="10"/></clipPath></defs>' +
       '<rect x="36" y="5" width="12" height="24" fill="' + or + '" clip-path="url(#trino-face-clip)"/>' +
       // Ears — left orange, right dark (matching face split)
       '<path d="M40 11 L43 0 L47 9 Z" fill="' + or + '"/>' +

@@ -1,7 +1,7 @@
 ---
 phase: 4
 slug: puzzle-page
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-05-25
@@ -51,37 +51,37 @@ Exceptions:
 
 ## Typography
 
-Inherited from Phase 1 design system. One new weight added (600 for game UI elements per CONTEXT.md code_context).
+Inherited from Phase 1 design system. Two weights only: 400 (regular) and 700 (bold).
 
 | Role | Size | Weight | Line Height | Font Family |
 |------|------|--------|-------------|-------------|
-| Body | 17px | 400 (regular) | 1.6 | Source Sans 3 |
-| Small / Label | 14px | 400 (regular) | 1.4 | Source Sans 3 |
 | Heading (page h1) | 28px | 700 (bold) | 1.2 | Playfair Display |
-| Section heading (h2) | 20px | 700 (bold) | 1.2 | Playfair Display |
+| Section heading (h2), modal heading | 20px | 700 (bold) | 1.2 | Playfair Display |
+| Body, modal body, daily puzzle title | 16px | 400 (regular) | 1.6 | Source Sans 3 |
+| Small / Label | 12px | 400 (regular) | 1.4 | Source Sans 3 |
 
 Mobile overrides (below 768px):
 - Heading (h1): 24px
-- Body: 16px
 
-Phase 4 specific:
+Phase 4 specific (all sizes from the 4-size scale above):
 - Card emoji (profession icon): 28px line-height 1.0 (centered in card face)
-- Card character name: 12px Source Sans 3 semibold (600), line-height 1.2, max 2 lines with ellipsis overflow
-- Card profession label: 11px Source Sans 3 regular (400), line-height 1.2, `--color-text-secondary`
-- Clue text (flipped card back): 13px Source Sans 3 regular (400), line-height 1.4
-- Game stats bar (timer, mistakes, hints): 14px Source Sans 3 semibold (600)
+- Card character name: 12px Source Sans 3 bold (700), line-height 1.2, max 2 lines with ellipsis overflow
+- Card profession label: 12px Source Sans 3 regular (400), line-height 1.2, `--color-text-secondary`
+- Clue text (flipped card back): 12px Source Sans 3 regular (400), line-height 1.4
+- Criminal/innocent role label: 12px Source Sans 3 bold (700), uppercase
+- Game stats bar (timer, mistakes, hints): 12px Source Sans 3 bold (700)
 - Modal heading: 20px Playfair Display bold (700), line-height 1.2
 - Modal body text: 16px Source Sans 3 regular (400), line-height 1.5
-- Button labels (Hint, Inspect, Share): 14px Source Sans 3 semibold (600)
-- Daily puzzle link card title: 17px Source Sans 3 semibold (600)
-- Daily puzzle link card description: 14px Source Sans 3 regular (400), `--color-text-secondary`
+- Button labels (Hint, Inspect, Share): 12px Source Sans 3 bold (700)
+- Daily puzzle link card title: 16px Source Sans 3 bold (700)
+- Daily puzzle link card description: 12px Source Sans 3 regular (400), `--color-text-secondary`
 
-Font loading: Add `wght@600` to Source Sans 3 import (existing pages only load 400). The puzzle page's Google Fonts link must be:
+Font loading: No changes to Source Sans 3 import needed (existing pages load 400; 700 is already loaded for Playfair Display headings). The puzzle page's Google Fonts link remains:
 ```
-Source+Sans+3:wght@400;600
+Source+Sans+3:wght@400
 ```
 
-**Source:** Phase 1 UI-SPEC typography, extended for game-specific text roles, CONTEXT.md D-04 (emoji faces + name + profession)
+**Source:** Phase 1 UI-SPEC typography, consolidated to 4 sizes (12/16/20/28) and 2 weights (400/700) for game-specific text roles, CONTEXT.md D-04 (emoji faces + name + profession)
 
 ---
 
@@ -178,7 +178,7 @@ Elements that must NOT use accent:
 | Viewport | Card Width | Card Height | Grid Gap |
 |----------|-----------|-------------|----------|
 | Desktop (>= 768px) | ~120px (1fr of 4-col grid, max-width 528px grid) | ~150px (aspect-ratio 4:5) | 8px |
-| Mobile (480-767px) | ~90px (1fr) | ~112px (aspect-ratio 4:5) | 6px |
+| Mobile (480-767px) | ~90px (1fr) | ~112px (aspect-ratio 4:5) | 8px |
 | Small mobile (< 480px) | ~76px (1fr) | ~95px (aspect-ratio 4:5) | 4px |
 
 Card aspect ratio is 4:5 (width:height). The grid has a `max-width: 528px` on desktop to prevent cards from becoming overly large. Cards have `--radius-md` (12px) corners.
@@ -191,8 +191,8 @@ Card aspect ratio is 4:5 (width:height). The grid has a `max-width: 528px` on de
 |                  |
 |      [emoji]     |  <- 28px, centered
 |                  |
-|   [name text]    |  <- 12px semibold, centered, max 2 lines
-|  [profession]    |  <- 11px regular, centered, 1 line
+|   [name text]    |  <- 12px bold, centered, max 2 lines
+|  [profession]    |  <- 12px regular, centered, 1 line
 +------------------+
 ```
 
@@ -201,9 +201,9 @@ Card front: `--color-cream` background, 1px `--color-dusty-rose` border, `--radi
 Card back (flipped, criminal):
 ```
 +------------------+
-| CRIMINAL         |  <- 11px semibold, --color-criminal, uppercase
+| CRIMINAL         |  <- 12px bold, --color-criminal, uppercase
 |                  |
-| "Clue text here  |  <- 13px regular, --color-text-primary
+| "Clue text here  |  <- 12px regular, --color-text-primary
 |  referencing     |
 |  other chars"    |
 |                  |
@@ -315,7 +315,7 @@ Components needed for this phase (vanilla HTML/CSS/JS, no external dependencies)
 | Breakpoint | Width | Layout Changes |
 |------------|-------|----------------|
 | Mobile | < 480px | Tighter grid gap (4px), smaller card text, controls stack if needed |
-| Tablet | 480-767px | Medium grid gap (6px), game fits comfortably |
+| Tablet | 480-767px | Same grid gap as desktop (8px), game fits comfortably |
 | Desktop | >= 768px | Full grid gap (8px), max-width 528px grid centered, daily links 2-column |
 
 ### Desktop Layout (>= 768px)
@@ -538,11 +538,11 @@ This phase has zero external dependencies. No CDN libraries, no npm packages, no
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: PASS
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS (revised: 4 sizes 12/16/20/28, 2 weights 400/700)
+- [x] Dimension 5 Spacing: PASS (revised: 6px mobile gap → 8px)
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** approved (2026-05-25, after revision)

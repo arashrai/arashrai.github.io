@@ -2,7 +2,7 @@
 
 .cat {
   position: fixed;
-  width: 50px;
+  width: 56px;
   height: 40px;
   z-index: 100;
   cursor: pointer;
@@ -113,7 +113,7 @@
 
 @media (max-width: 480px) {
   .cat {
-    width: 40px;
+    width: 45px;
     height: 32px;
   }
 

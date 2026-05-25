@@ -30,7 +30,7 @@
   <!-- Black nose -->
   <path d="M32 40 L29 43.5 L35 43.5 Z" fill="#222" stroke="#111" stroke-width="0.8" stroke-linejoin="round"/>
   <!-- Mouth -->
-  <path d="M29 44.5 Q30.5 47 32 44.5 Q33.5 47 35 44.5" stroke="#888" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <path d="M26 45 Q29 49 32 45 Q35 49 38 45" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/>
   <!-- Whiskers -->
   <line x1="18" y1="42" x2="4" y2="39" stroke="#888" stroke-width="1" stroke-linecap="round"/>
   <line x1="18" y1="45" x2="4" y2="47" stroke="#888" stroke-width="1" stroke-linecap="round"/>

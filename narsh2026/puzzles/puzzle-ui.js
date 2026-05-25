@@ -325,6 +325,11 @@ const NARSH_PUZZLE_UI = (() => {
     // Restore visual state from localStorage if game had progress
     restoreVisualState();
 
+    // Auto-show starting hint if no cards are flipped yet
+    if (NARSH_PUZZLE.getFlippedCards().size === 0) {
+      autoShowStartingHint();
+    }
+
     // Click outside to dismiss guess dialog
     document.addEventListener("click", (event) => {
       if (activeGuessDialogEl && !activeGuessDialogEl.contains(event.target)) {
@@ -759,7 +764,7 @@ const NARSH_PUZZLE_UI = (() => {
     // Inspect button
     inspectBtnEl = document.createElement("button");
     inspectBtnEl.className = "btn-inspect";
-    inspectBtnEl.textContent = "Inspect";
+    inspectBtnEl.textContent = "Dim Read Cards";
     inspectBtnEl.setAttribute("aria-pressed", "false");
     inspectBtnEl.addEventListener("click", handleInspectClick);
     controlsEl.appendChild(inspectBtnEl);
@@ -772,6 +777,21 @@ const NARSH_PUZZLE_UI = (() => {
       copyShareText(shareBtnEl);
     });
     controlsEl.appendChild(shareBtnEl);
+  };
+
+  // --- Auto-show starting hint ---
+
+  const autoShowStartingHint = () => {
+    const hint = NARSH_PUZZLE.getNextHint();
+    if (!hint) return;
+
+    applyHintHighlights(hint.reveals);
+    hintShowing = true;
+    if (hintBtnEl) {
+      hintBtnEl.classList.add("active");
+      hintBtnEl.setAttribute("aria-pressed", "true");
+      hintBtnEl.textContent = "Hide Hint";
+    }
   };
 
   // --- Hint handling ---
@@ -856,11 +876,11 @@ const NARSH_PUZZLE_UI = (() => {
   const handleInspectClick = () => {
     const isOn = NARSH_PUZZLE.toggleInspectMode();
     if (isOn) {
-      inspectBtnEl.textContent = "Inspecting";
+      inspectBtnEl.textContent = "Dimming On";
       inspectBtnEl.classList.add("active");
       inspectBtnEl.setAttribute("aria-pressed", "true");
     } else {
-      inspectBtnEl.textContent = "Inspect";
+      inspectBtnEl.textContent = "Dim Read Cards";
       inspectBtnEl.classList.remove("active");
       inspectBtnEl.setAttribute("aria-pressed", "false");
     }

@@ -110,7 +110,7 @@ Plans:
 
 Plans:
 **Wave 1**
-- [ ] 04-01-PLAN.md — Core playable puzzle: data module with 20 characters, game state machine with deducibility checks, 4x5 card grid with 3D flip animation and guess dialog
+- [x] 04-01-PLAN.md — Core playable puzzle: data module with 20 characters, game state machine with deducibility checks, 4x5 card grid with 3D flip animation and guess dialog
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 04-02-PLAN.md — Full feature set: color tags, inspect/dim mode, progressive hints, timer, share results, modals, localStorage persistence, and daily puzzle links section

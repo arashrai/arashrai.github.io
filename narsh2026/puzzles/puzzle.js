@@ -191,10 +191,9 @@ const NARSH_PUZZLE = (() => {
     const mistakeWord = mistakes === 1 ? "mistake" : "mistakes";
     const hintWord = hintsUsed === 1 ? "hint" : "hints";
 
-    let text = "Clues Puzzle\n";
+    let text = "\u{1F490} Narsh 2026 Puzzle\n";
     text += "\u{23F1}️ " + timeStr + " | ❌ " + mistakes + " " + mistakeWord + " | \u{1F4A1} " + hintsUsed + " " + hintWord + "\n\n";
 
-    // Emoji grid: red square for criminal, green square for innocent, 4 per row
     if (puzzleData) {
       const characters = puzzleData.CHARACTERS;
       for (let i = 0; i < characters.length; i++) {
@@ -204,6 +203,8 @@ const NARSH_PUZZLE = (() => {
         text += characters[i].criminal ? "\u{1F7E5}" : "\u{1F7E9}";
       }
     }
+
+    text += "\n\nCan you crack the case? \u{1F52E}\narashrai.com/narsh2026/puzzles/";
 
     return text;
   };

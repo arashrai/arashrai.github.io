@@ -55,10 +55,10 @@ const NARSH_CATS = (() => {
       '<circle cx="51.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
       // Left eye (missing — gentle closed line, behind)
       '<path d="M42 15 Q44 16.5 46 15" stroke="#222" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
-      // Pink nose
-      '<path d="M49 18.5 L48 19.5 L50 19.5 Z" fill="#E8A0A0"/>' +
-      // Mouth
-      '<path d="M48 20.2 Q49 21.2 50 20.2" stroke="#777" stroke-width="0.6" fill="none" stroke-linecap="round"/>' +
+      // Pink nose (Presto's is pink)
+      '<path d="M49 17.8 L47.5 19.5 L50.5 19.5 Z" fill="#E8A0A0" stroke="#D4868A" stroke-width="0.5" stroke-linejoin="round"/>' +
+      // Mouth — "w" shape
+      '<path d="M47.5 19.8 Q48.2 21.2 49 19.8 Q49.8 21.2 50.5 19.8" stroke="#555" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
       // Whiskers — right side (forward)
       '<line x1="53" y1="19" x2="64" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
       '<line x1="53" y1="20.5" x2="64" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
@@ -124,10 +124,10 @@ const NARSH_CATS = (() => {
       '<circle cx="45.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
       '<circle cx="51" cy="14" r="2" fill="#222"/>' +
       '<circle cx="51.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
-      // Pink nose
-      '<path d="M49 18.5 L48 19.5 L50 19.5 Z" fill="#E8A0A0"/>' +
-      // Mouth
-      '<path d="M48 20.2 Q49 21.2 50 20.2" stroke="#777" stroke-width="0.6" fill="none" stroke-linecap="round"/>' +
+      // Black nose (Trino's is black)
+      '<path d="M49 17.8 L47.5 19.5 L50.5 19.5 Z" fill="#222" stroke="#111" stroke-width="0.5" stroke-linejoin="round"/>' +
+      // Mouth — "w" shape
+      '<path d="M47.5 19.8 Q48.2 21.2 49 19.8 Q49.8 21.2 50.5 19.8" stroke="#555" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
       // Whiskers — right side (forward)
       '<line x1="53" y1="19" x2="64" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
       '<line x1="53" y1="20.5" x2="64" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +

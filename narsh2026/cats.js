@@ -32,12 +32,12 @@ const NARSH_CATS = (() => {
       '<ellipse cx="38" cy="34" rx="8" ry="7" fill="#FFFDFB"/>' +
       // Neck fill (bridges body and head)
       '<ellipse cx="40" cy="24" rx="8" ry="10" fill="' + b + '"/>' +
-      // Front legs (in front of body)
-      '<rect x="37" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
-      '<rect x="45" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
+      // Front legs (in front of body, tucked under chest)
+      '<rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
+      '<rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
       // Front paws (white)
-      '<ellipse cx="40.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
-      '<ellipse cx="48.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
+      '<ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
+      '<ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
       // Head
       '<circle cx="48" cy="17" r="12" fill="' + b + '"/>' +
       // Ears (connected to head — triangles overlapping the circle)
@@ -46,23 +46,27 @@ const NARSH_CATS = (() => {
       // Inner ears (pink)
       '<path d="M41.5 10.5 L43 2.5 L45.5 9.5 Z" fill="#D4A0A0"/>' +
       '<path d="M50.5 9.5 L53 2.5 L54.5 10.5 Z" fill="#D4A0A0"/>' +
-      // White muzzle
-      '<ellipse cx="53" cy="21" rx="5" ry="4" fill="#FFFDFB"/>' +
+      // White muzzle (centered on face)
+      '<ellipse cx="49" cy="20" rx="5" ry="4" fill="#FFFDFB"/>' +
       // Black chin spot (Presto's mark!)
-      '<ellipse cx="53" cy="23.5" rx="2.2" ry="1.3" fill="' + b + '"/>' +
-      // Right eye (visible)
-      '<circle cx="52" cy="15" r="2" fill="#222"/>' +
-      '<circle cx="52.6" cy="14.6" r="0.6" fill="#FFFDFB"/>' +
-      // Left eye (missing — gentle closed line)
+      '<ellipse cx="49" cy="22.5" rx="2.2" ry="1.3" fill="' + b + '"/>' +
+      // Right eye (visible — front of face)
+      '<circle cx="51" cy="14" r="2" fill="#222"/>' +
+      '<circle cx="51.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
+      // Left eye (missing — gentle closed line, behind)
       '<path d="M42 15 Q44 16.5 46 15" stroke="#222" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
       // Pink nose
-      '<path d="M53 19.5 L52 20.5 L54 20.5 Z" fill="#E8A0A0"/>' +
+      '<path d="M49 18.5 L48 19.5 L50 19.5 Z" fill="#E8A0A0"/>' +
       // Mouth
-      '<path d="M52 21.2 Q53 22.2 54 21.2" stroke="#777" stroke-width="0.6" fill="none" stroke-linecap="round"/>' +
-      // Whiskers
-      '<line x1="56" y1="20" x2="65" y2="18" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="56" y1="21.5" x2="65" y2="22" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="56" y1="23" x2="64" y2="25" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>';
+      '<path d="M48 20.2 Q49 21.2 50 20.2" stroke="#777" stroke-width="0.6" fill="none" stroke-linecap="round"/>' +
+      // Whiskers — right side (forward)
+      '<line x1="53" y1="19" x2="64" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="53" y1="20.5" x2="64" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="53" y1="22" x2="63" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      // Whiskers — left side (behind)
+      '<line x1="45" y1="19" x2="36" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="45" y1="20.5" x2="36" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="45" y1="22" x2="37" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>';
     return svg;
   };
 
@@ -96,12 +100,12 @@ const NARSH_CATS = (() => {
       '<ellipse cx="38" cy="34" rx="7" ry="6" fill="#FFFDFB"/>' +
       // Neck fill
       '<ellipse cx="40" cy="24" rx="8" ry="10" fill="' + dk + '"/>' +
-      // Front legs
-      '<rect x="37" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
-      '<rect x="45" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
+      // Front legs (tucked under chest)
+      '<rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
+      '<rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
       // Front paws — left white (like photo), right dark
-      '<ellipse cx="40.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
-      '<ellipse cx="48.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/>' +
+      '<ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
+      '<ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/>' +
       // Head — dark base
       '<circle cx="48" cy="17" r="12" fill="' + dk + '"/>' +
       // Orange half of face (left/back half of head when facing right)
@@ -113,21 +117,25 @@ const NARSH_CATS = (() => {
       // Inner ears
       '<path d="M41.5 10.5 L43 2.5 L45.5 9.5 Z" fill="#D4A0A0"/>' +
       '<path d="M50.5 9.5 L53 2.5 L54.5 10.5 Z" fill="#D4A0A0"/>' +
-      // White muzzle
-      '<ellipse cx="53" cy="21" rx="5" ry="4" fill="#FFFDFB"/>' +
-      // Eyes (both visible)
-      '<circle cx="44" cy="15" r="2" fill="#222"/>' +
-      '<circle cx="44.6" cy="14.6" r="0.6" fill="#FFFDFB"/>' +
-      '<circle cx="52" cy="15" r="2" fill="#222"/>' +
-      '<circle cx="52.6" cy="14.6" r="0.6" fill="#FFFDFB"/>' +
+      // White muzzle (centered on face)
+      '<ellipse cx="49" cy="20" rx="5" ry="4" fill="#FFFDFB"/>' +
+      // Eyes (both visible — front of face)
+      '<circle cx="45" cy="14" r="2" fill="#222"/>' +
+      '<circle cx="45.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
+      '<circle cx="51" cy="14" r="2" fill="#222"/>' +
+      '<circle cx="51.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
       // Pink nose
-      '<path d="M53 19.5 L52 20.5 L54 20.5 Z" fill="#E8A0A0"/>' +
+      '<path d="M49 18.5 L48 19.5 L50 19.5 Z" fill="#E8A0A0"/>' +
       // Mouth
-      '<path d="M52 21.2 Q53 22.2 54 21.2" stroke="#777" stroke-width="0.6" fill="none" stroke-linecap="round"/>' +
-      // Whiskers
-      '<line x1="56" y1="20" x2="65" y2="18" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="56" y1="21.5" x2="65" y2="22" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="56" y1="23" x2="64" y2="25" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>';
+      '<path d="M48 20.2 Q49 21.2 50 20.2" stroke="#777" stroke-width="0.6" fill="none" stroke-linecap="round"/>' +
+      // Whiskers — right side (forward)
+      '<line x1="53" y1="19" x2="64" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="53" y1="20.5" x2="64" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="53" y1="22" x2="63" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      // Whiskers — left side (behind)
+      '<line x1="45" y1="19" x2="36" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="45" y1="20.5" x2="36" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
+      '<line x1="45" y1="22" x2="37" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>';
     return svg;
   };
 

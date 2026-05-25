@@ -24,10 +24,19 @@ const NARSH_STORY_DATA = (() => {
       location: "Grand Cayman, Cayman Islands",
       coords: [-81.2546, 19.3133],
       zoom: 7,
-      year: 1999,
-      narrative: "Born on an island where the water is impossibly blue and everyone knows your name. Natalie grew up barefoot on beaches, building sandcastles and chasing iguanas.",
+      year: "1999 – 2016",
+      narrative: "Born and raised on a small island nation with warm weather and incredible wildlife. Natalie was the kid who kept bunnies, cats, chickens, snakes she caught herself, frogs, and iguanas. She climbed every tree she could find and explored every corner of the island. A natural joker who lived to make people laugh. She completed her high school diploma and IB at Cayman International School in 2016.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Natalie in Grand Cayman" }
+        { src: "/narsh2026/images/story/gc/family-1999.jpg", alt: "Baby Natalie with mom and sister, 1999" },
+        { src: "/narsh2026/images/story/gc/grown-up-quote.jpg", alt: "Young Natalie's school quote: When I grow up I want to be a grown-up" },
+        { src: "/narsh2026/images/story/gc/boat-2003.jpg", alt: "Natalie steering a boat, 2003" },
+        { src: "/narsh2026/images/story/gc/childhood-6.jpg", alt: "Natalie and friend with pet bunny" },
+        { src: "/narsh2026/images/story/gc/childhood-5.jpg", alt: "Natalie climbing a dock post by the Caribbean Sea" },
+        { src: "/narsh2026/images/story/gc/beach-lobster.jpg", alt: "Natalie and sister on the beach with a lobster" },
+        { src: "/narsh2026/images/story/gc/childhood-7.jpg", alt: "Natalie growing up in Grand Cayman" },
+        { src: "/narsh2026/images/story/gc/childhood-8.jpg", alt: "Natalie in the Cayman Islands" },
+        { src: "/narsh2026/images/story/gc/childhood-9.jpg", alt: "Natalie's island childhood" },
+        { src: "/narsh2026/images/story/gc/childhood-10.jpg", alt: "Natalie as a teenager in Grand Cayman" }
       ],
       isConvergence: false
     },
@@ -45,20 +54,7 @@ const NARSH_STORY_DATA = (() => {
       isConvergence: false
     },
     {
-      id: "natalie-childhood",
-      owner: "natalie",
-      location: "Ontario, Canada",
-      coords: [-79.3832, 43.6532],
-      zoom: 5,
-      year: 2005,
-      narrative: "Trading tropical heat for Canadian winters. Natalie discovered snow, hockey, and the particular joy of a Tim Hortons hot chocolate on a cold morning.",
-      photos: [
-        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Natalie in Ontario" }
-      ],
-      isConvergence: false
-    },
-    {
-      id: "arash-canada",
+      id: "arash-vancouver",
       owner: "arash",
       location: "Vancouver, Canada",
       coords: [-123.1216, 49.2827],
@@ -89,49 +85,15 @@ const NARSH_STORY_DATA = (() => {
       location: "Waterloo, Ontario",
       coords: [-80.5204, 43.4643],
       zoom: 8,
-      year: 2017,
-      narrative: "University of Waterloo. Co-op terms, late-night study sessions, and the slow realization that the person you keep running into might be the person you were always running toward.",
+      year: "2016 – 2020",
+      narrative: "Arash convinced Natalie that computer science was a promising career, so she took his word for it and switched from studying veterinary medicine to Computer Science at Waterloo. Best decision ever — he was right, plus they got to be together. They made lifelong friends and landed incredible co-op internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for their future home.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Natalie and Arash at Waterloo" }
-      ],
-      isConvergence: false
-    },
-    {
-      id: "arash-sf-intern",
-      owner: "arash",
-      location: "San Francisco, California",
-      coords: [-122.4194, 37.7749],
-      zoom: 6,
-      year: 2018,
-      narrative: "Arash's co-op took him to Silicon Valley. Long-distance texts, time zone math, and the discovery that missing someone is its own kind of proof.",
-      photos: [
-        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Arash in San Francisco" }
-      ],
-      isConvergence: false
-    },
-    {
-      id: "natalie-nyc-intern",
-      owner: "natalie",
-      location: "New York City, New York",
-      coords: [-74.0060, 40.7128],
-      zoom: 6,
-      year: 2019,
-      narrative: "Natalie's turn to explore. New York City, the subway, and the strange comfort of being anonymous in a crowd of millions. She sent Arash a photo of every good sunset.",
-      photos: [
-        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie in New York City" }
-      ],
-      isConvergence: false
-    },
-    {
-      id: "waterloo-return",
-      owner: "both",
-      location: "Waterloo, Ontario",
-      coords: [-80.5204, 43.4643],
-      zoom: 8,
-      year: 2020,
-      narrative: "Back together at Waterloo. A global pandemic meant the world got smaller, but their world got bigger. Quarantine walks, sourdough experiments, and learning to be a team.",
-      photos: [
-        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Natalie and Arash back at Waterloo" }
+        { src: "/narsh2026/images/story/uw/early-days.jpg", alt: "Natalie and Arash in their early university days" },
+        { src: "/narsh2026/images/story/uw/friends-selfie.jpg", alt: "Natalie and Arash with friends at Waterloo" },
+        { src: "/narsh2026/images/story/uw/friends-outing.jpg", alt: "Natalie and friends on an outing" },
+        { src: "/narsh2026/images/story/uw/bridge-foggy.jpg", alt: "Natalie and Arash at a misty bridge during a co-op adventure" },
+        { src: "/narsh2026/images/story/uw/haystack-rock.jpg", alt: "Arash at Haystack Rock on the Oregon coast" },
+        { src: "/narsh2026/images/story/uw/drone-aerial.jpg", alt: "Aerial view from one of their adventures" }
       ],
       isConvergence: false
     },
@@ -141,8 +103,8 @@ const NARSH_STORY_DATA = (() => {
       location: "Seattle, Washington",
       coords: [-122.3321, 47.6062],
       zoom: 7,
-      year: 2022,
-      narrative: "The Pacific Northwest called. Seattle brought rain, coffee snobbery, two cats named Beans and Biscuit, and the quiet certainty that this was home. Not the city — each other.",
+      year: "2021 – present",
+      narrative: "The Pacific Northwest called. Seattle brought rain, coffee snobbery, two cats named Presto and Trino, and the quiet certainty that this was home. Not the city — each other.",
       photos: [
         { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Natalie and Arash in Seattle" }
       ],
@@ -151,13 +113,13 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "proposal",
       owner: "both",
-      location: "Seattle, Washington",
-      coords: [-122.3321, 47.6062],
+      location: "Tofino, Vancouver Island",
+      coords: [-125.9066, 49.1530],
       zoom: 9,
-      year: 2024,
-      narrative: "He asked. She said yes. (She also said \"finally.\") Two lives that started oceans apart, now writing the same story. The next chapter begins in September 2026.",
+      year: 2025,
+      narrative: "He asked. She said yes. Two lives that started oceans apart, now writing the same story. The next chapter begins in September 2026.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash's proposal" }
+        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "The proposal in Tofino" }
       ],
       isConvergence: false
     }

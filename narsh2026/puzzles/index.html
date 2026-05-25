@@ -7,8 +7,9 @@
     <title>Puzzles -- Narsh 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
+    <link rel="stylesheet" href="/narsh2026/puzzles/puzzle.css">
   </head>
   <body class="auth-pending">
     <header class="site-header">
@@ -25,16 +26,30 @@
         <a href="/narsh2026/dress-code/">Dress Code</a>
       </nav>
     </header>
-    <main class="page-content">
+
+    <main class="puzzle-page">
       <h1>Puzzles</h1>
-      <p class="coming-soon">We're working on something special. Check back soon!</p>
+      <section class="puzzle-game" id="puzzle-game" aria-label="Clues puzzle game">
+        <div class="puzzle-stats" id="puzzle-stats"></div>
+        <div class="puzzle-grid" id="puzzle-grid"></div>
+        <div class="puzzle-controls" id="puzzle-controls"></div>
+      </section>
+      <section class="daily-puzzles" id="daily-puzzles" aria-label="Daily puzzle links">
+        <h2>Daily Puzzles We Love</h2>
+      </section>
     </main>
+
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>
+    <script src="/narsh2026/puzzles/puzzle-data.js"></script>
+    <script src="/narsh2026/puzzles/puzzle.js"></script>
+    <script src="/narsh2026/puzzles/puzzle-ui.js"></script>
     <script>
       const tier = NARSH_AUTH.requireAuth();
       if (tier) {
         NARSH_AUTH.applyTierVisibility(tier);
+        NARSH_PUZZLE.init(NARSH_PUZZLE_DATA);
+        NARSH_PUZZLE_UI.init();
       }
     </script>
   </body>

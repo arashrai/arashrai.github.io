@@ -1,0 +1,343 @@
+/* Puzzles -- Page-Specific Styles */
+/* Card grid layout, 3D card flip, card states, guess dialog, stats bar, controls */
+
+:root {
+  --color-criminal: #C2704F;
+  --color-innocent: #2A9D8F;
+  --color-criminal-light: rgba(194, 112, 79, 0.12);
+  --color-innocent-light: rgba(42, 157, 143, 0.12);
+  --color-card-selected: rgba(212, 168, 67, 0.25);
+  --color-card-dimmed: 0.35;
+  --color-incorrect-flash: #D94F4F;
+}
+
+/* Page layout */
+.puzzle-page {
+  padding: var(--space-md);
+  padding-top: var(--space-xl);
+}
+
+.puzzle-page h1 {
+  font-family: var(--font-heading);
+  text-align: center;
+  font-size: 28px;
+  margin: 0 0 var(--space-md) 0;
+}
+
+.puzzle-page h2 {
+  font-family: var(--font-heading);
+  text-align: center;
+  font-size: 20px;
+  margin: 0 0 var(--space-md) 0;
+}
+
+/* Stats bar */
+.puzzle-stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 528px;
+  margin: 0 auto;
+  background: rgba(201, 146, 142, 0.15);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+.puzzle-stats .stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Card grid */
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-sm);
+  max-width: 528px;
+  margin: 0 auto;
+  margin-top: var(--space-md);
+}
+
+/* Card */
+.puzzle-card {
+  perspective: 800px;
+  cursor: pointer;
+  aspect-ratio: 4 / 5;
+  position: relative;
+  touch-action: manipulation;
+}
+
+.puzzle-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 500ms ease;
+  transform-style: preserve-3d;
+}
+
+.puzzle-card.flipped .puzzle-card-inner {
+  transform: rotateY(180deg);
+}
+
+.puzzle-card-front,
+.puzzle-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.puzzle-card-front {
+  background: var(--color-cream);
+  border: 1px solid var(--color-dusty-rose);
+  box-shadow: var(--shadow-soft);
+}
+
+.puzzle-card-back {
+  transform: rotateY(180deg);
+  padding: var(--space-sm);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.puzzle-card-back.criminal {
+  background: var(--color-criminal-light);
+  border-left: 3px solid var(--color-criminal);
+}
+
+.puzzle-card-back.innocent {
+  background: var(--color-innocent-light);
+  border-left: 3px solid var(--color-innocent);
+}
+
+/* Card hover (desktop only, unflipped) */
+@media (hover: hover) {
+  .puzzle-card:not(.flipped):hover {
+    z-index: 2;
+  }
+
+  .puzzle-card:not(.flipped):hover .puzzle-card-front {
+    box-shadow: var(--shadow-medium);
+    transform: scale(1.02);
+    transition: box-shadow var(--transition-fast), transform var(--transition-fast);
+  }
+}
+
+/* Card flipped: no pointer interaction */
+.puzzle-card.flipped {
+  cursor: default;
+}
+
+/* Card content typography */
+.card-emoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.card-name {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  max-height: 2.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  line-height: 1.2;
+  margin-top: var(--space-xs);
+}
+
+.card-profession {
+  font-size: 12px;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  line-height: 1.2;
+}
+
+/* Card back content */
+.role-label {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  margin-bottom: var(--space-xs);
+}
+
+.role-label.criminal {
+  color: var(--color-criminal);
+}
+
+.role-label.innocent {
+  color: var(--color-innocent);
+}
+
+.clue-text {
+  font-size: 12px;
+  line-height: 1.4;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* Guess dialog */
+.guess-dialog {
+  position: absolute;
+  background: var(--color-warm-white);
+  box-shadow: var(--shadow-medium);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  z-index: 10;
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.guess-btn {
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.guess-btn.criminal-btn {
+  background: var(--color-criminal);
+  color: white;
+}
+
+.guess-btn.innocent-btn {
+  background: var(--color-innocent);
+  color: white;
+}
+
+/* Controls bar */
+.puzzle-controls {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  max-width: 528px;
+  margin: var(--space-md) auto 0;
+}
+
+.puzzle-controls button {
+  min-height: 44px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: 1px solid var(--color-terracotta);
+  background: transparent;
+  color: var(--color-terracotta);
+}
+
+.puzzle-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Daily puzzles section */
+.daily-puzzles {
+  margin-top: var(--space-xl);
+  max-width: 528px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Not-deducible warning overlay */
+.not-deducible-warning {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(61, 43, 31, 0.7);
+  border-radius: var(--radius-md);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.not-deducible-warning span {
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  text-align: center;
+  padding: var(--space-sm);
+}
+
+/* Incorrect guess shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}
+
+.puzzle-card.shake {
+  animation: shake 400ms ease;
+}
+
+.puzzle-card.incorrect-flash .puzzle-card-front {
+  background: var(--color-incorrect-flash);
+  transition: background 150ms ease;
+}
+
+/* Focus visible */
+.puzzle-card:focus-visible .puzzle-card-front {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+.guess-btn:focus-visible,
+.puzzle-controls button:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .puzzle-card-inner {
+    transition-duration: 0s;
+  }
+
+  .puzzle-card.shake {
+    animation: none;
+  }
+
+  .puzzle-card:not(.flipped):hover .puzzle-card-front {
+    transform: none;
+  }
+}
+
+/* Responsive: smaller screens */
+@media (max-width: 768px) {
+  .puzzle-page h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .puzzle-grid {
+    gap: var(--space-xs);
+  }
+}

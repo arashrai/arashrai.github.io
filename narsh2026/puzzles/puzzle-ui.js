@@ -228,6 +228,7 @@ const NARSH_PUZZLE_UI = (() => {
             renderGrid();
             renderStats();
             renderControls();
+            autoRevealStarterCard();
           }
         },
         {
@@ -325,9 +326,9 @@ const NARSH_PUZZLE_UI = (() => {
     // Restore visual state from localStorage if game had progress
     restoreVisualState();
 
-    // Auto-show starting hint if no cards are flipped yet
+    // Auto-reveal the first starter card so the player has a clue to work with
     if (NARSH_PUZZLE.getFlippedCards().size === 0) {
-      autoShowStartingHint();
+      autoRevealStarterCard();
     }
 
     // Click outside to dismiss guess dialog
@@ -779,19 +780,55 @@ const NARSH_PUZZLE_UI = (() => {
     controlsEl.appendChild(shareBtnEl);
   };
 
-  // --- Auto-show starting hint ---
+  // --- Auto-reveal starter card ---
 
-  const autoShowStartingHint = () => {
-    const hint = NARSH_PUZZLE.getNextHint();
-    if (!hint) return;
-
-    applyHintHighlights(hint.reveals);
-    hintShowing = true;
-    if (hintBtnEl) {
-      hintBtnEl.classList.add("active");
-      hintBtnEl.setAttribute("aria-pressed", "true");
-      hintBtnEl.textContent = "Hide Hint";
+  const autoRevealStarterCard = () => {
+    // Find the first starter card (one with an empty path)
+    const total = NARSH_PUZZLE_DATA.getTotalCharacters();
+    let starterIndex = -1;
+    for (let i = 0; i < total; i++) {
+      const character = NARSH_PUZZLE_DATA.getCharacter(i);
+      if (character && character.paths.some((p) => p.length === 0)) {
+        starterIndex = i;
+        break;
+      }
     }
+    if (starterIndex < 0) return;
+
+    const character = NARSH_PUZZLE_DATA.getCharacter(starterIndex);
+    const result = NARSH_PUZZLE.guessRole(starterIndex, character.criminal);
+    if (result.result !== "correct") return;
+
+    const cards = gridEl.querySelectorAll(".puzzle-card");
+    const cardEl = cards[starterIndex];
+    if (!cardEl) return;
+
+    // Flip the card visually
+    cardEl.classList.add("flipped");
+
+    const backEl = cardEl.querySelector(".puzzle-card-back");
+    if (backEl) {
+      backEl.textContent = "";
+      const roleClass = character.criminal ? "criminal" : "innocent";
+      backEl.classList.add(roleClass);
+
+      const roleLabelEl = document.createElement("span");
+      roleLabelEl.className = "role-label " + roleClass;
+      roleLabelEl.textContent = character.criminal ? "CRIMINAL" : "INNOCENT";
+      backEl.appendChild(roleLabelEl);
+
+      const clueTextEl = document.createElement("p");
+      clueTextEl.className = "clue-text";
+      clueTextEl.textContent = result.clueText;
+      backEl.appendChild(clueTextEl);
+    }
+
+    const roleName = character.criminal ? "Criminal" : "Innocent";
+    cardEl.setAttribute("aria-label", character.name + ", " + roleName + " -- " + result.clueText);
+    cardEl.setAttribute("aria-disabled", "true");
+    cardEl.removeAttribute("tabindex");
+
+    updateStats();
   };
 
   // --- Hint handling ---

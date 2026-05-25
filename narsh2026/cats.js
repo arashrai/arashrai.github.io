@@ -1,11 +1,6 @@
 const NARSH_CATS = (() => {
   "use strict";
 
-  const CAT_COLORS = {
-    beans: "#3D2B1F",
-    biscuit: "#D4A843"
-  };
-
   const MOVE_INTERVAL = 3000;
   const SPEED = 1.5;
   const PAWPRINT_INTERVAL = 80;
@@ -15,22 +10,122 @@ const NARSH_CATS = (() => {
   const pawprints = [];
   let animationId = null;
 
-  const createCatSvg = (color) => {
+  // Presto: tuxedo cat, black with white chest/muzzle, black chin spot,
+  // only one eye (right eye visible, left eye missing/closed)
+  const createPrestoSvg = () => {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 40 40");
     svg.setAttribute("fill", "none");
-    svg.innerHTML =
-      '<path d="M8 12 L5 4 L12 9 L20 7 L28 9 L35 4 L32 12 L34 20 L32 28 L28 32 L20 34 L12 32 L8 28 L6 20 Z" fill="' + color + '" stroke="' + color + '" stroke-width="1" stroke-linejoin="round"/>' +
-      '<circle cx="14" cy="16" r="2" fill="#FFFDFB"/>' +
-      '<circle cx="26" cy="16" r="2" fill="#FFFDFB"/>' +
-      '<circle cx="14" cy="16.5" r="1" fill="#2A2A2A"/>' +
-      '<circle cx="26" cy="16.5" r="1" fill="#2A2A2A"/>' +
-      '<ellipse cx="20" cy="21" rx="2" ry="1.2" fill="#C9928E"/>' +
-      '<line x1="6" y1="19" x2="1" y2="17" stroke="' + color + '" stroke-width="0.8"/>' +
-      '<line x1="6" y1="21" x2="1" y2="22" stroke="' + color + '" stroke-width="0.8"/>' +
-      '<line x1="34" y1="19" x2="39" y2="17" stroke="' + color + '" stroke-width="0.8"/>' +
-      '<line x1="34" y1="21" x2="39" y2="22" stroke="' + color + '" stroke-width="0.8"/>' +
-      '<path d="M28 32 Q32 38 28 40" stroke="' + color + '" stroke-width="2" fill="none" stroke-linecap="round"/>';
+
+    // Body — black
+    const body = '<path d="M8 12 L5 4 L12 9 L20 7 L28 9 L35 4 L32 12 L34 20 L32 28 L28 32 L20 34 L12 32 L8 28 L6 20 Z" fill="#2A2A2A" stroke="#2A2A2A" stroke-width="1" stroke-linejoin="round"/>';
+
+    // White chest/bib
+    const chest = '<ellipse cx="20" cy="28" rx="6" ry="5" fill="#FFFDFB"/>';
+
+    // White muzzle area
+    const muzzle = '<ellipse cx="20" cy="20.5" rx="5.5" ry="4" fill="#FFFDFB"/>';
+
+    // Black chin spot (Presto's distinctive mark)
+    const chin = '<ellipse cx="20" cy="23.5" rx="2.5" ry="1.8" fill="#2A2A2A"/>';
+
+    // Right eye (visible) — green-gold like in the photo
+    const rightEye = '<circle cx="26" cy="16" r="2.2" fill="#FFFDFB"/>' +
+      '<circle cx="26" cy="16.3" r="1.3" fill="#8B9A46"/>' +
+      '<circle cx="26" cy="16.5" r="0.6" fill="#2A2A2A"/>';
+
+    // Left eye — missing, shown as a gentle closed line
+    const leftEye = '<line x1="12" y1="16" x2="16" y2="16" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>';
+
+    // Pink nose
+    const nose = '<ellipse cx="20" cy="19" rx="1.5" ry="1" fill="#E8A0A0"/>';
+
+    // Whiskers (dark on white muzzle)
+    const whiskers =
+      '<line x1="10" y1="19" x2="4" y2="17.5" stroke="#555" stroke-width="0.6"/>' +
+      '<line x1="10" y1="20.5" x2="4" y2="21.5" stroke="#555" stroke-width="0.6"/>' +
+      '<line x1="30" y1="19" x2="36" y2="17.5" stroke="#555" stroke-width="0.6"/>' +
+      '<line x1="30" y1="20.5" x2="36" y2="21.5" stroke="#555" stroke-width="0.6"/>';
+
+    // White paws
+    const paws = '<ellipse cx="13" cy="33" rx="2.5" ry="1.5" fill="#FFFDFB"/>' +
+      '<ellipse cx="27" cy="33" rx="2.5" ry="1.5" fill="#FFFDFB"/>';
+
+    // Tail
+    const tail = '<path d="M28 32 Q33 37 29 40" stroke="#2A2A2A" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+
+    // Inner ears (pink)
+    const ears = '<path d="M7 11 L5.5 5.5 L11 9" fill="#D4A0A0"/>' +
+      '<path d="M33 11 L34.5 5.5 L29 9" fill="#D4A0A0"/>';
+
+    svg.innerHTML = body + chest + muzzle + chin + ears + rightEye + leftEye + nose + whiskers + paws + tail;
+    return svg;
+  };
+
+  // Trino: tortoiseshell cat, face split down the middle —
+  // left side orange, right side black, white chest/paw
+  const createTrinoSvg = () => {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 40 40");
+    svg.setAttribute("fill", "none");
+
+    // Clip path for split face
+    const defs = '<defs>' +
+      '<clipPath id="trino-left"><rect x="0" y="0" width="20" height="40"/></clipPath>' +
+      '<clipPath id="trino-right"><rect x="20" y="0" width="20" height="40"/></clipPath>' +
+      '</defs>';
+
+    const bodyPath = 'M8 12 L5 4 L12 9 L20 7 L28 9 L35 4 L32 12 L34 20 L32 28 L28 32 L20 34 L12 32 L8 28 L6 20 Z';
+
+    // Left half — orange/ginger
+    const leftBody = '<path d="' + bodyPath + '" fill="#CC7A3E" stroke="#CC7A3E" stroke-width="1" stroke-linejoin="round" clip-path="url(#trino-left)"/>';
+
+    // Right half — dark black/brown
+    const rightBody = '<path d="' + bodyPath + '" fill="#2A2216" stroke="#2A2216" stroke-width="1" stroke-linejoin="round" clip-path="url(#trino-right)"/>';
+
+    // Subtle tortie patches (dark flecks on the orange side, warm flecks on dark side)
+    const patches =
+      '<circle cx="10" cy="24" r="2" fill="#5C3A1E" opacity="0.5"/>' +
+      '<circle cx="15" cy="14" r="1.5" fill="#5C3A1E" opacity="0.4"/>' +
+      '<circle cx="30" cy="24" r="1.8" fill="#8B5E3C" opacity="0.35"/>';
+
+    // White chest/bib
+    const chest = '<ellipse cx="20" cy="29" rx="5" ry="4.5" fill="#FFFDFB"/>';
+
+    // Muzzle — pink/white center
+    const muzzle = '<ellipse cx="20" cy="20.5" rx="4.5" ry="3.5" fill="#FFFDFB"/>';
+
+    // Both eyes — green like in the photo
+    const eyes = '<circle cx="14" cy="16" r="2.2" fill="#FFFDFB"/>' +
+      '<circle cx="14" cy="16.3" r="1.3" fill="#7D9A3E"/>' +
+      '<circle cx="14" cy="16.5" r="0.6" fill="#2A2A2A"/>' +
+      '<circle cx="26" cy="16" r="2.2" fill="#FFFDFB"/>' +
+      '<circle cx="26" cy="16.3" r="1.3" fill="#7D9A3E"/>' +
+      '<circle cx="26" cy="16.5" r="0.6" fill="#2A2A2A"/>';
+
+    // Pink nose
+    const nose = '<ellipse cx="20" cy="19" rx="1.5" ry="1" fill="#E8A0A0"/>';
+
+    // Whiskers
+    const whiskers =
+      '<line x1="10" y1="19" x2="4" y2="17.5" stroke="#7A5C3A" stroke-width="0.6"/>' +
+      '<line x1="10" y1="20.5" x2="4" y2="21.5" stroke="#7A5C3A" stroke-width="0.6"/>' +
+      '<line x1="30" y1="19" x2="36" y2="17.5" stroke="#555" stroke-width="0.6"/>' +
+      '<line x1="30" y1="20.5" x2="36" y2="21.5" stroke="#555" stroke-width="0.6"/>';
+
+    // White front paw (left) and dark paw (right) — matching the photo
+    const paws = '<ellipse cx="13" cy="33" rx="2.5" ry="1.5" fill="#FFFDFB"/>' +
+      '<ellipse cx="27" cy="33" rx="2.5" ry="1.5" fill="#2A2216"/>';
+
+    // Tail — dark with orange tip
+    const tail = '<path d="M28 32 Q33 37 29 40" stroke="#2A2216" stroke-width="2.5" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="29" cy="39.5" r="1.2" fill="#CC7A3E"/>';
+
+    // Inner ears
+    const ears = '<path d="M7 11 L5.5 5.5 L11 9" fill="#D4A0A0"/>' +
+      '<path d="M33 11 L34.5 5.5 L29 9" fill="#D4A0A0"/>';
+
+    svg.innerHTML = defs + leftBody + rightBody + patches + chest + muzzle + ears + eyes + nose + whiskers + paws + tail;
     return svg;
   };
 
@@ -53,13 +148,13 @@ const NARSH_CATS = (() => {
     };
   };
 
-  const createCat = (name, color) => {
+  const createCat = (name, svgFactory, pawColor) => {
     const el = document.createElement("div");
     el.className = "cat";
     el.setAttribute("aria-label", name + " the cat");
     el.setAttribute("role", "img");
 
-    const svg = createCatSvg(color);
+    const svg = svgFactory();
     el.appendChild(svg);
 
     const heart = document.createElement("span");
@@ -79,7 +174,7 @@ const NARSH_CATS = (() => {
     const cat = {
       el: el,
       name: name,
-      color: color,
+      pawColor: pawColor,
       x: startPos.x,
       y: startPos.y,
       targetX: startPos.x,
@@ -187,7 +282,7 @@ const NARSH_CATS = (() => {
         cat.pawTimer -= dt;
         if (cat.pawTimer <= 0) {
           cat.pawTimer = PAWPRINT_INTERVAL + Math.random() * 40;
-          dropPawprint(cat.x + 20, cat.y + 35, cat.angle * (180 / Math.PI), cat.color);
+          dropPawprint(cat.x + 20, cat.y + 35, cat.angle * (180 / Math.PI), cat.pawColor);
         }
       }
     });
@@ -203,8 +298,8 @@ const NARSH_CATS = (() => {
   };
 
   const init = () => {
-    createCat("Beans", CAT_COLORS.beans);
-    createCat("Biscuit", CAT_COLORS.biscuit);
+    createCat("Presto", createPrestoSvg, "#2A2A2A");
+    createCat("Trino", createTrinoSvg, "#5C3A1E");
     animationId = requestAnimationFrame(loop);
   };
 

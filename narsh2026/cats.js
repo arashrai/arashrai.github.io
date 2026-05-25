@@ -10,122 +10,90 @@ const NARSH_CATS = (() => {
   const pawprints = [];
   let animationId = null;
 
-  // Presto: tuxedo cat, black with white chest/muzzle, black chin spot,
-  // only one eye (right eye visible, left eye missing/closed)
+  // Presto: tuxedo, black chin, one eye (left missing)
+  // Pusheen-style: round blob body, tiny ears, dot eyes, w-mouth, stubby paws
   const createPrestoSvg = () => {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 40 40");
+    svg.setAttribute("viewBox", "0 0 50 40");
     svg.setAttribute("fill", "none");
-
-    // Body — black
-    const body = '<path d="M8 12 L5 4 L12 9 L20 7 L28 9 L35 4 L32 12 L34 20 L32 28 L28 32 L20 34 L12 32 L8 28 L6 20 Z" fill="#2A2A2A" stroke="#2A2A2A" stroke-width="1" stroke-linejoin="round"/>';
-
-    // White chest/bib
-    const chest = '<ellipse cx="20" cy="28" rx="6" ry="5" fill="#FFFDFB"/>';
-
-    // White muzzle area
-    const muzzle = '<ellipse cx="20" cy="20.5" rx="5.5" ry="4" fill="#FFFDFB"/>';
-
-    // Black chin spot (Presto's distinctive mark)
-    const chin = '<ellipse cx="20" cy="23.5" rx="2.5" ry="1.8" fill="#2A2A2A"/>';
-
-    // Right eye (visible) — green-gold like in the photo
-    const rightEye = '<circle cx="26" cy="16" r="2.2" fill="#FFFDFB"/>' +
-      '<circle cx="26" cy="16.3" r="1.3" fill="#8B9A46"/>' +
-      '<circle cx="26" cy="16.5" r="0.6" fill="#2A2A2A"/>';
-
-    // Left eye — missing, shown as a gentle closed line
-    const leftEye = '<line x1="12" y1="16" x2="16" y2="16" stroke="#1A1A1A" stroke-width="1" stroke-linecap="round"/>';
-
-    // Pink nose
-    const nose = '<ellipse cx="20" cy="19" rx="1.5" ry="1" fill="#E8A0A0"/>';
-
-    // Whiskers (dark on white muzzle)
-    const whiskers =
-      '<line x1="10" y1="19" x2="4" y2="17.5" stroke="#555" stroke-width="0.6"/>' +
-      '<line x1="10" y1="20.5" x2="4" y2="21.5" stroke="#555" stroke-width="0.6"/>' +
-      '<line x1="30" y1="19" x2="36" y2="17.5" stroke="#555" stroke-width="0.6"/>' +
-      '<line x1="30" y1="20.5" x2="36" y2="21.5" stroke="#555" stroke-width="0.6"/>';
-
-    // White paws
-    const paws = '<ellipse cx="13" cy="33" rx="2.5" ry="1.5" fill="#FFFDFB"/>' +
-      '<ellipse cx="27" cy="33" rx="2.5" ry="1.5" fill="#FFFDFB"/>';
-
-    // Tail
-    const tail = '<path d="M28 32 Q33 37 29 40" stroke="#2A2A2A" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
-
-    // Inner ears (pink)
-    const ears = '<path d="M7 11 L5.5 5.5 L11 9" fill="#D4A0A0"/>' +
-      '<path d="M33 11 L34.5 5.5 L29 9" fill="#D4A0A0"/>';
-
-    svg.innerHTML = body + chest + muzzle + chin + ears + rightEye + leftEye + nose + whiskers + paws + tail;
+    svg.innerHTML =
+      // Ears (dark)
+      '<polygon points="12,10 15,3 19,10" fill="#2A2A2A" stroke="#222" stroke-width="0.8" stroke-linejoin="round"/>' +
+      '<polygon points="31,10 35,3 38,10" fill="#2A2A2A" stroke="#222" stroke-width="0.8" stroke-linejoin="round"/>' +
+      // Inner ears
+      '<polygon points="13.5,10 15.5,5 17.5,10" fill="#D4A0A0"/>' +
+      '<polygon points="32.5,10 34.5,5 36.5,10" fill="#D4A0A0"/>' +
+      // Body — dark tuxedo
+      '<ellipse cx="25" cy="24" rx="16" ry="13" fill="#2A2A2A" stroke="#222" stroke-width="1.2"/>' +
+      // White chest bib
+      '<ellipse cx="25" cy="27" rx="8" ry="8" fill="#FFFDFB"/>' +
+      // White muzzle
+      '<ellipse cx="25" cy="19" rx="6" ry="4" fill="#FFFDFB"/>' +
+      // Black chin spot (Presto's mark)
+      '<ellipse cx="25" cy="22" rx="2.5" ry="1.5" fill="#2A2A2A"/>' +
+      // Right eye (visible) — simple dot
+      '<circle cx="29" cy="16" r="1.3" fill="#222"/>' +
+      // Left eye — closed/missing, gentle line
+      '<line x1="19" y1="16" x2="22" y2="16" stroke="#222" stroke-width="1.2" stroke-linecap="round"/>' +
+      // Nose
+      '<ellipse cx="25" cy="18.5" rx="1" ry="0.7" fill="#E8A0A0"/>' +
+      // w-mouth
+      '<path d="M23 20 Q24 21.5 25 20 Q26 21.5 27 20" stroke="#222" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
+      // Whiskers
+      '<line x1="15" y1="18" x2="8" y2="16.5" stroke="#555" stroke-width="0.6" stroke-linecap="round"/>' +
+      '<line x1="15" y1="19.5" x2="8" y2="20.5" stroke="#555" stroke-width="0.6" stroke-linecap="round"/>' +
+      '<line x1="35" y1="18" x2="42" y2="16.5" stroke="#555" stroke-width="0.6" stroke-linecap="round"/>' +
+      '<line x1="35" y1="19.5" x2="42" y2="20.5" stroke="#555" stroke-width="0.6" stroke-linecap="round"/>' +
+      // Stubby front paws (white like real Presto)
+      '<ellipse cx="17" cy="35" rx="3.5" ry="2" fill="#FFFDFB" stroke="#222" stroke-width="0.8"/>' +
+      '<ellipse cx="33" cy="35" rx="3.5" ry="2" fill="#FFFDFB" stroke="#222" stroke-width="0.8"/>' +
+      // Tail
+      '<path d="M40 26 Q46 22 44 16" stroke="#2A2A2A" stroke-width="3" fill="none" stroke-linecap="round"/>';
     return svg;
   };
 
-  // Trino: tortoiseshell cat, face split down the middle —
-  // left side orange, right side black, white chest/paw
+  // Trino: tortie, split face (left orange, right black), white chest
   const createTrinoSvg = () => {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 40 40");
+    svg.setAttribute("viewBox", "0 0 50 40");
     svg.setAttribute("fill", "none");
-
-    // Clip path for split face
-    const defs = '<defs>' +
-      '<clipPath id="trino-left"><rect x="0" y="0" width="20" height="40"/></clipPath>' +
-      '<clipPath id="trino-right"><rect x="20" y="0" width="20" height="40"/></clipPath>' +
-      '</defs>';
-
-    const bodyPath = 'M8 12 L5 4 L12 9 L20 7 L28 9 L35 4 L32 12 L34 20 L32 28 L28 32 L20 34 L12 32 L8 28 L6 20 Z';
-
-    // Left half — orange/ginger
-    const leftBody = '<path d="' + bodyPath + '" fill="#CC7A3E" stroke="#CC7A3E" stroke-width="1" stroke-linejoin="round" clip-path="url(#trino-left)"/>';
-
-    // Right half — dark black/brown
-    const rightBody = '<path d="' + bodyPath + '" fill="#2A2216" stroke="#2A2216" stroke-width="1" stroke-linejoin="round" clip-path="url(#trino-right)"/>';
-
-    // Subtle tortie patches (dark flecks on the orange side, warm flecks on dark side)
-    const patches =
-      '<circle cx="10" cy="24" r="2" fill="#5C3A1E" opacity="0.5"/>' +
-      '<circle cx="15" cy="14" r="1.5" fill="#5C3A1E" opacity="0.4"/>' +
-      '<circle cx="30" cy="24" r="1.8" fill="#8B5E3C" opacity="0.35"/>';
-
-    // White chest/bib
-    const chest = '<ellipse cx="20" cy="29" rx="5" ry="4.5" fill="#FFFDFB"/>';
-
-    // Muzzle — pink/white center
-    const muzzle = '<ellipse cx="20" cy="20.5" rx="4.5" ry="3.5" fill="#FFFDFB"/>';
-
-    // Both eyes — green like in the photo
-    const eyes = '<circle cx="14" cy="16" r="2.2" fill="#FFFDFB"/>' +
-      '<circle cx="14" cy="16.3" r="1.3" fill="#7D9A3E"/>' +
-      '<circle cx="14" cy="16.5" r="0.6" fill="#2A2A2A"/>' +
-      '<circle cx="26" cy="16" r="2.2" fill="#FFFDFB"/>' +
-      '<circle cx="26" cy="16.3" r="1.3" fill="#7D9A3E"/>' +
-      '<circle cx="26" cy="16.5" r="0.6" fill="#2A2A2A"/>';
-
-    // Pink nose
-    const nose = '<ellipse cx="20" cy="19" rx="1.5" ry="1" fill="#E8A0A0"/>';
-
-    // Whiskers
-    const whiskers =
-      '<line x1="10" y1="19" x2="4" y2="17.5" stroke="#7A5C3A" stroke-width="0.6"/>' +
-      '<line x1="10" y1="20.5" x2="4" y2="21.5" stroke="#7A5C3A" stroke-width="0.6"/>' +
-      '<line x1="30" y1="19" x2="36" y2="17.5" stroke="#555" stroke-width="0.6"/>' +
-      '<line x1="30" y1="20.5" x2="36" y2="21.5" stroke="#555" stroke-width="0.6"/>';
-
-    // White front paw (left) and dark paw (right) — matching the photo
-    const paws = '<ellipse cx="13" cy="33" rx="2.5" ry="1.5" fill="#FFFDFB"/>' +
-      '<ellipse cx="27" cy="33" rx="2.5" ry="1.5" fill="#2A2216"/>';
-
-    // Tail — dark with orange tip
-    const tail = '<path d="M28 32 Q33 37 29 40" stroke="#2A2216" stroke-width="2.5" fill="none" stroke-linecap="round"/>' +
-      '<circle cx="29" cy="39.5" r="1.2" fill="#CC7A3E"/>';
-
-    // Inner ears
-    const ears = '<path d="M7 11 L5.5 5.5 L11 9" fill="#D4A0A0"/>' +
-      '<path d="M33 11 L34.5 5.5 L29 9" fill="#D4A0A0"/>';
-
-    svg.innerHTML = defs + leftBody + rightBody + patches + chest + muzzle + ears + eyes + nose + whiskers + paws + tail;
+    svg.innerHTML =
+      // Ears
+      '<polygon points="12,10 15,3 19,10" fill="#CC7A3E" stroke="#222" stroke-width="0.8" stroke-linejoin="round"/>' +
+      '<polygon points="31,10 35,3 38,10" fill="#2A2216" stroke="#222" stroke-width="0.8" stroke-linejoin="round"/>' +
+      // Inner ears
+      '<polygon points="13.5,10 15.5,5 17.5,10" fill="#D4A0A0"/>' +
+      '<polygon points="32.5,10 34.5,5 36.5,10" fill="#D4A0A0"/>' +
+      // Body — base dark
+      '<ellipse cx="25" cy="24" rx="16" ry="13" fill="#2A2216" stroke="#222" stroke-width="1.2"/>' +
+      // Orange left half overlay (clip to left side)
+      '<defs><clipPath id="trino-l"><rect x="0" y="0" width="25" height="40"/></clipPath></defs>' +
+      '<ellipse cx="25" cy="24" rx="16" ry="13" fill="#CC7A3E" clip-path="url(#trino-l)"/>' +
+      // Tortie patches
+      '<circle cx="15" cy="26" r="2.5" fill="#5C3A1E" opacity="0.4"/>' +
+      '<circle cx="33" cy="26" r="2" fill="#8B5E3C" opacity="0.3"/>' +
+      // White chest bib
+      '<ellipse cx="25" cy="28" rx="7" ry="7" fill="#FFFDFB"/>' +
+      // Muzzle
+      '<ellipse cx="25" cy="19" rx="6" ry="4" fill="#FFFDFB"/>' +
+      // Eyes — simple dots
+      '<circle cx="21" cy="16" r="1.3" fill="#222"/>' +
+      '<circle cx="29" cy="16" r="1.3" fill="#222"/>' +
+      // Nose
+      '<ellipse cx="25" cy="18.5" rx="1" ry="0.7" fill="#E8A0A0"/>' +
+      // w-mouth
+      '<path d="M23 20 Q24 21.5 25 20 Q26 21.5 27 20" stroke="#222" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
+      // Whiskers
+      '<line x1="15" y1="18" x2="8" y2="16.5" stroke="#7A5C3A" stroke-width="0.6" stroke-linecap="round"/>' +
+      '<line x1="15" y1="19.5" x2="8" y2="20.5" stroke="#7A5C3A" stroke-width="0.6" stroke-linecap="round"/>' +
+      '<line x1="35" y1="18" x2="42" y2="16.5" stroke="#555" stroke-width="0.6" stroke-linecap="round"/>' +
+      '<line x1="35" y1="19.5" x2="42" y2="20.5" stroke="#555" stroke-width="0.6" stroke-linecap="round"/>' +
+      // Stubby paws — white left (like photo), dark right
+      '<ellipse cx="17" cy="35" rx="3.5" ry="2" fill="#FFFDFB" stroke="#222" stroke-width="0.8"/>' +
+      '<ellipse cx="33" cy="35" rx="3.5" ry="2" fill="#2A2216" stroke="#222" stroke-width="0.8"/>' +
+      // Tail — dark with orange tip
+      '<path d="M40 26 Q46 22 44 16" stroke="#2A2216" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<circle cx="44" cy="16.5" r="1.5" fill="#CC7A3E"/>';
     return svg;
   };
 

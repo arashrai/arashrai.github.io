@@ -6,7 +6,7 @@
 const NARSH_PUZZLE_DATA = (() => {
   "use strict";
 
-  const DATA_VERSION = "2";
+  const DATA_VERSION = "3";
 
   // 4x5 grid layout (column A-D, row 1-5):
   //   A1(0)  B1(1)  C1(2)  D1(3)
@@ -20,7 +20,7 @@ const NARSH_PUZZLE_DATA = (() => {
   //
   // Deduction chain starting from Zara (auto-revealed):
   //   Zara → Thor,Uma → Nancy,Wally / Ollie,Paula,Xavi → Scott / Vicky / Igor,Kay
-  //   → Quita / Emma → Ghani / Martin → Anna,Bobby,Derek → Freya
+  //   → Trino / Emma → Ghani / Martin → Anna,Bobby,Presto → Freya
 
   const CHARACTERS = [
     {
@@ -41,9 +41,9 @@ const NARSH_PUZZLE_DATA = (() => {
     },
     {
       criminal: false,
-      profession: "pilot",
-      name: "Derek",
-      emoji: "👨‍✈️",
+      profession: "cat",
+      name: "Presto",
+      emoji: "/narsh2026/puzzles/presto-emoji.svg",
       hint: "The cops in this grid are clean",
       paths: [[5], [3]]
     },
@@ -52,7 +52,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "mech",
       name: "Emma",
       emoji: "👩‍🔧",
-      hint: "Derek has nothing to hide",
+      hint: "Presto has nothing to hide",
       paths: [[7]]
     },
     {
@@ -121,9 +121,9 @@ const NARSH_PUZZLE_DATA = (() => {
     },
     {
       criminal: false,
-      profession: "pilot",
-      name: "Quita",
-      emoji: "👩‍✈️",
+      profession: "cat",
+      name: "Trino",
+      emoji: "/narsh2026/puzzles/trino-emoji.svg",
       hint: "Martin is innocent",
       paths: [[13]]
     },
@@ -132,7 +132,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "sleuth",
       name: "Scott",
       emoji: "🕵️‍♂️",
-      hint: "Quita is innocent",
+      hint: "Trino is innocent",
       paths: [[9]]
     },
     {
@@ -208,7 +208,7 @@ const NARSH_PUZZLE_DATA = (() => {
   const PROFESSION_EMOJI = {
     cop: "👮",
     guard: "💂",
-    pilot: "✈️",
+    cat: "🐱",
     mech: "🔧",
     builder: "👷",
     sleuth: "🕵️",

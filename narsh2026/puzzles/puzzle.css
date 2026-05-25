@@ -150,6 +150,18 @@
   line-height: 1;
 }
 
+img.card-emoji {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+img.card-back-emoji {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
 .card-name {
   font-size: 12px;
   font-weight: 700;

@@ -304,6 +304,23 @@ const NARSH_PUZZLE_UI = (() => {
     }, 3000);
   };
 
+  // --- Emoji rendering (text emoji or SVG image) ---
+
+  const renderEmoji = (emoji, className) => {
+    if (emoji && emoji.endsWith(".svg")) {
+      const imgEl = document.createElement("img");
+      imgEl.src = emoji;
+      imgEl.className = className;
+      imgEl.alt = "";
+      imgEl.setAttribute("aria-hidden", "true");
+      return imgEl;
+    }
+    const spanEl = document.createElement("span");
+    spanEl.className = className;
+    spanEl.textContent = emoji;
+    return spanEl;
+  };
+
   // --- Card back population (shared by flip, restore, and auto-reveal) ---
 
   const populateCardBack = (backEl, cardIndex, clueText, isCriminal) => {
@@ -315,9 +332,7 @@ const NARSH_PUZZLE_UI = (() => {
     backEl.classList.add(roleClass);
 
     // Character identity: emoji, name, profession
-    const emojiEl = document.createElement("span");
-    emojiEl.className = "card-back-emoji";
-    emojiEl.textContent = character.emoji;
+    const emojiEl = renderEmoji(character.emoji, "card-back-emoji");
     backEl.appendChild(emojiEl);
 
     const nameEl = document.createElement("div");
@@ -474,9 +489,7 @@ const NARSH_PUZZLE_UI = (() => {
       tagDotEl.className = "color-tag";
       frontEl.appendChild(tagDotEl);
 
-      const emojiEl = document.createElement("span");
-      emojiEl.className = "card-emoji";
-      emojiEl.textContent = character.emoji;
+      const emojiEl = renderEmoji(character.emoji, "card-emoji");
       frontEl.appendChild(emojiEl);
 
       const nameEl = document.createElement("div");

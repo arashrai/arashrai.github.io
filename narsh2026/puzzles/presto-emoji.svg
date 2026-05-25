@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Ears -->
+  <path d="M10 24 L14 4 L24 20 Z" fill="#2A2A2A"/>
+  <path d="M40 20 L50 4 L54 24 Z" fill="#2A2A2A"/>
+  <path d="M13 22 L14.5 8 L22 19 Z" fill="#D4A0A0"/>
+  <path d="M42 19 L49.5 8 L51 22 Z" fill="#D4A0A0"/>
+  <!-- Head -->
+  <ellipse cx="32" cy="36" rx="24" ry="22" fill="#2A2A2A"/>
+  <!-- White muzzle -->
+  <ellipse cx="32" cy="44" rx="13" ry="10" fill="#FFFDFB"/>
+  <!-- Black chin spot -->
+  <ellipse cx="32" cy="50" rx="5" ry="3" fill="#2A2A2A"/>
+  <!-- Right eye (visible) -->
+  <circle cx="40" cy="32" r="4.5" fill="#FFFDFB"/>
+  <circle cx="40" cy="33" r="2.8" fill="#8B9A46"/>
+  <circle cx="40" cy="33.5" r="1.5" fill="#222"/>
+  <circle cx="41.2" cy="31.5" r="1" fill="#FFFDFB"/>
+  <!-- Left eye (missing — closed line) -->
+  <path d="M18 32 Q22 36 26 32" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Pink nose -->
+  <path d="M32 40 L29 43.5 L35 43.5 Z" fill="#E8A0A0" stroke="#D4868A" stroke-width="0.8" stroke-linejoin="round"/>
+  <!-- Mouth -->
+  <path d="M29 44.5 Q30.5 47 32 44.5 Q33.5 47 35 44.5" stroke="#888" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+  <!-- Whiskers -->
+  <line x1="18" y1="42" x2="4" y2="39" stroke="#888" stroke-width="1" stroke-linecap="round"/>
+  <line x1="18" y1="45" x2="4" y2="47" stroke="#888" stroke-width="1" stroke-linecap="round"/>
+  <line x1="46" y1="42" x2="60" y2="39" stroke="#888" stroke-width="1" stroke-linecap="round"/>
+  <line x1="46" y1="45" x2="60" y2="47" stroke="#888" stroke-width="1" stroke-linecap="round"/>
+</svg>

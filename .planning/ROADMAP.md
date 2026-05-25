@@ -106,6 +106,18 @@ Plans:
 
 **Requirements:** PUZZLE-01, PUZZLE-02
 
+**Plans:** 3 plans
+
+Plans:
+**Wave 1**
+- [ ] 04-01-PLAN.md — Core playable puzzle: data module with 20 characters, game state machine with deducibility checks, 4x5 card grid with 3D flip animation and guess dialog
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 04-02-PLAN.md — Full feature set: color tags, inspect/dim mode, progressive hints, timer, share results, modals, localStorage persistence, and daily puzzle links section
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 04-03-PLAN.md — Human verification of complete Phase 4 delivery
+
 **UI hint:** yes
 
 ---
@@ -156,3 +168,4 @@ Plans:
 *Updated: 2026-05-17 — Phase 1 plans created*
 *Updated: 2026-05-19 — Phase 2 plans created*
 *Updated: 2026-05-20 — Phase 3 plans created*
+*Updated: 2026-05-25 — Phase 4 plans created*

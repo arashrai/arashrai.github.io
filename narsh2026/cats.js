@@ -21,11 +21,8 @@ const NARSH_CATS = (() => {
       // Tail (behind everything)
       '<path d="M8 28 C3 24 1 16 5 10" stroke="' + b + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
       // Back legs (behind body)
-      '<rect x="13" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
-      '<rect x="21" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
-      // Back paws (white)
-      '<ellipse cx="16.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
-      '<ellipse cx="24.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
+      '<g class="leg leg-back-l"><rect x="13" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="16.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
+      '<g class="leg leg-back-r"><rect x="21" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="24.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
       // Body
       '<ellipse cx="28" cy="30" rx="19" ry="12" fill="' + b + '"/>' +
       // White chest bib
@@ -33,11 +30,8 @@ const NARSH_CATS = (() => {
       // Neck fill (bridges body and head)
       '<ellipse cx="40" cy="24" rx="8" ry="10" fill="' + b + '"/>' +
       // Front legs (in front of body, tucked under chest)
-      '<rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
-      '<rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/>' +
-      // Front paws (white)
-      '<ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
-      '<ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
+      '<g class="leg leg-front-l"><rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
+      '<g class="leg leg-front-r"><rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
       // Head
       '<ellipse cx="48" cy="17" rx="12" ry="10" fill="' + b + '"/>' +
       // Ears (connected to head — triangles overlapping the circle)
@@ -83,11 +77,8 @@ const NARSH_CATS = (() => {
       '<path d="M8 28 C3 24 1 16 5 10" stroke="' + dk + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
       '<circle cx="5" cy="10.5" r="2" fill="' + or + '"/>' +
       // Back legs
-      '<rect x="13" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
-      '<rect x="21" y="38" width="7" height="11" rx="3.5" fill="' + or + '"/>' +
-      // Back paws
-      '<ellipse cx="16.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/>' +
-      '<ellipse cx="24.5" cy="48.5" rx="3.8" ry="2" fill="' + or + '"/>' +
+      '<g class="leg leg-back-l"><rect x="13" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/><ellipse cx="16.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/></g>' +
+      '<g class="leg leg-back-r"><rect x="21" y="38" width="7" height="11" rx="3.5" fill="' + or + '"/><ellipse cx="24.5" cy="48.5" rx="3.8" ry="2" fill="' + or + '"/></g>' +
       // Body — dark base
       '<ellipse cx="28" cy="30" rx="19" ry="12" fill="' + dk + '"/>' +
       // Orange patches on body
@@ -101,11 +92,8 @@ const NARSH_CATS = (() => {
       // Neck fill
       '<ellipse cx="40" cy="24" rx="8" ry="10" fill="' + dk + '"/>' +
       // Front legs (tucked under chest)
-      '<rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
-      '<rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/>' +
-      // Front paws — left white (like photo), right dark
-      '<ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/>' +
-      '<ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/>' +
+      '<g class="leg leg-front-l"><rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/><ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
+      '<g class="leg leg-front-r"><rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/><ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/></g>' +
       // Head — dark base
       '<ellipse cx="48" cy="17" rx="12" ry="10" fill="' + dk + '"/>' +
       // Orange half of face (left/back half of head when facing right)

@@ -22,6 +22,18 @@
   animation: cat-walk 0.4s steps(2) infinite;
 }
 
+.cat.walking .leg-front-l,
+.cat.walking .leg-back-r {
+  animation: leg-swing 0.3s ease-in-out infinite alternate;
+  transform-origin: top center;
+}
+
+.cat.walking .leg-front-r,
+.cat.walking .leg-back-l {
+  animation: leg-swing 0.3s ease-in-out infinite alternate-reverse;
+  transform-origin: top center;
+}
+
 .cat.sleeping {
   animation: cat-breathe 2s ease-in-out infinite;
 }
@@ -79,6 +91,11 @@
   50% { transform: translateY(-2px); }
 }
 
+@keyframes leg-swing {
+  0% { transform: rotate(-12deg); }
+  100% { transform: rotate(12deg); }
+}
+
 @keyframes cat-breathe {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
@@ -102,6 +119,10 @@
   .cat.walking,
   .cat.sleeping,
   .cat.clicked {
+    animation: none;
+  }
+
+  .cat.walking .leg {
     animation: none;
   }
 

@@ -1,242 +1,229 @@
 // Narsh 2026 — Puzzle Data Module
 // Character definitions, hint sequence, profession emoji map, daily puzzle links,
 // and clue template resolver for the Clues-style logic puzzle on the Puzzles page.
+// Puzzle modeled after Clues by Sam (May 25, 2026).
 
 const NARSH_PUZZLE_DATA = (() => {
   "use strict";
 
-  const DATA_VERSION = "1";
+  const DATA_VERSION = "2";
 
-  // 20 characters in a 4x5 grid. Each has:
-  //   criminal (boolean), profession (string), name (string), gender (string),
-  //   hint (clue text with template tokens), paths (arrays of prerequisite card indices)
+  // 4x5 grid layout (column A-D, row 1-5):
+  //   A1(0)  B1(1)  C1(2)  D1(3)
+  //   A2(4)  B2(5)  C2(6)  D2(7)
+  //   A3(8)  B3(9)  C3(10) D3(11)
+  //   A4(12) B4(13) C4(14) D4(15)
+  //   A5(16) B5(17) C5(18) D5(19)
   //
-  // Grid layout (by index):
-  //   0  1  2  3
-  //   4  5  6  7
-  //   8  9  10 11
-  //   12 13 14 15
-  //   16 17 18 19
+  // Criminals (5): Bobby(1), Freya(4), Ollie(10), Scott(13), Vicky(16)
+  // Innocent (15): everyone else
   //
-  // Criminals: indices 1, 5, 8, 12, 16 (5 criminals, 15 innocent)
-  //
-  // Paths: each inner array is a set of prerequisite cards that must ALL be flipped
-  // before this card is deducible. Multiple inner arrays = multiple valid paths.
-  // An empty inner array [] means the card is a starting card (no prerequisites).
+  // Deduction chain starting from Zara (auto-revealed):
+  //   Zara → Thor,Uma → Nancy,Wally / Ollie,Paula,Xavi → Scott / Vicky / Igor,Kay
+  //   → Quita / Emma → Ghani / Martin → Anna,Bobby,Derek → Freya
 
   const CHARACTERS = [
     {
       criminal: false,
-      profession: "detective",
-      name: "Rosa",
-      gender: "female",
-      hint: "I investigated #NAME:1 and found evidence of guilt.",
-      paths: [[]]
+      profession: "cop",
+      name: "Anna",
+      emoji: "👮‍♀️",
+      hint: "Freya is definitely not innocent",
+      paths: [[5]]
     },
     {
       criminal: true,
-      profession: "cook",
-      name: "Viktor",
-      gender: "male",
-      hint: "#NAME:2 is in #C:2 and is innocent.",
-      paths: [[0]]
-    },
-    {
-      criminal: false,
-      profession: "teacher",
-      name: "Mei",
-      gender: "female",
-      hint: "The person #BETWEEN:pair(1,3) in my row is not a criminal.",
-      paths: [[1]]
-    },
-    {
-      criminal: false,
-      profession: "artist",
-      name: "Sanjay",
-      gender: "male",
-      hint: "I can confirm #NAME:7 is innocent.",
-      paths: [[]]
-    },
-    {
-      criminal: false,
-      profession: "nurse",
-      name: "Lena",
-      gender: "female",
-      hint: "#NAME:5 in #C:5 is definitely a criminal.",
-      paths: [[0], [3]]
-    },
-    {
-      criminal: true,
-      profession: "lawyer",
-      name: "Marco",
-      gender: "male",
-      hint: "#NAME:9 is someone I would never trust.",
-      paths: [[4]]
-    },
-    {
-      criminal: false,
-      profession: "engineer",
-      name: "Priya",
-      gender: "female",
-      hint: "#NAME:10 and I are both innocent.",
+      profession: "guard",
+      name: "Bobby",
+      emoji: "💂‍♂️",
+      hint: "I'd team up with Freya any day",
       paths: [[5]]
     },
     {
       criminal: false,
-      profession: "scientist",
-      name: "Oliver",
-      gender: "male",
-      hint: "The person in #C:11 on my row is not criminal.",
-      paths: [[3]]
-    },
-    {
-      criminal: true,
-      profession: "police",
-      name: "Dante",
-      gender: "male",
-      hint: "I know that #NAME:12 is also guilty.",
-      paths: [[4], [7]]
+      profession: "pilot",
+      name: "Derek",
+      emoji: "👨‍✈️",
+      hint: "The cops in this grid are clean",
+      paths: [[5], [3]]
     },
     {
       criminal: false,
-      profession: "doctor",
-      name: "Yuki",
-      gender: "female",
-      hint: "#NAME:13 is innocent, I am sure of it.",
-      paths: [[5], [8]]
-    },
-    {
-      criminal: false,
-      profession: "teacher",
-      name: "Carlos",
-      gender: "male",
-      hint: "Both #NAME:14 and #NAME:15 are innocent.",
-      paths: [[6]]
-    },
-    {
-      criminal: false,
-      profession: "artist",
-      name: "Freya",
-      gender: "female",
-      hint: "#NAME:15 told me they are innocent, and I believe them.",
+      profession: "mech",
+      name: "Emma",
+      emoji: "👩‍🔧",
+      hint: "Derek has nothing to hide",
       paths: [[7]]
     },
     {
       criminal: true,
-      profession: "engineer",
-      name: "Hassan",
-      gender: "male",
-      hint: "#NAME:16 is guilty just like me.",
-      paths: [[8], [9]]
+      profession: "builder",
+      name: "Freya",
+      emoji: "👷‍♀️",
+      hint: "Martin was too kind to suspect me",
+      paths: [[8], [0]]
     },
     {
       criminal: false,
-      profession: "nurse",
-      name: "Anya",
-      gender: "female",
-      hint: "I know #NAME:17 is innocent because I saw the evidence.",
+      profession: "sleuth",
+      name: "Ghani",
+      emoji: "🕵️‍♂️",
+      hint: "Bobby is the only criminal in the top row",
+      paths: [[6]]
+    },
+    {
+      criminal: false,
+      profession: "builder",
+      name: "Igor",
+      emoji: "👷‍♂️",
+      hint: "Ghani is innocent, I'm sure of it",
+      paths: [[11]]
+    },
+    {
+      criminal: false,
+      profession: "guard",
+      name: "Kay",
+      emoji: "💂‍♀️",
+      hint: "Emma is innocent",
+      paths: [[11]]
+    },
+    {
+      criminal: false,
+      profession: "builder",
+      name: "Martin",
+      emoji: "👷‍♂️",
+      hint: "Freya is criminal",
+      paths: [[12], [16]]
+    },
+    {
+      criminal: false,
+      profession: "sleuth",
+      name: "Nancy",
+      emoji: "🕵️‍♀️",
+      hint: "Scott is guilty",
+      paths: [[14]]
+    },
+    {
+      criminal: true,
+      profession: "singer",
+      name: "Ollie",
+      emoji: "👨‍🎤",
+      hint: "Nancy never suspected me",
+      paths: [[15]]
+    },
+    {
+      criminal: false,
+      profession: "mech",
+      name: "Paula",
+      emoji: "👩‍🔧",
+      hint: "Igor and Kay are both innocent",
+      paths: [[15]]
+    },
+    {
+      criminal: false,
+      profession: "pilot",
+      name: "Quita",
+      emoji: "👩‍✈️",
+      hint: "Martin is innocent",
+      paths: [[13]]
+    },
+    {
+      criminal: true,
+      profession: "sleuth",
+      name: "Scott",
+      emoji: "🕵️‍♂️",
+      hint: "Quita is innocent",
       paths: [[9]]
     },
     {
       criminal: false,
-      profession: "scientist",
-      name: "Leo",
-      gender: "male",
-      hint: "#NAME:18 is in #C:18 and is not a criminal.",
-      paths: [[10]]
+      profession: "cop",
+      name: "Thor",
+      emoji: "👮‍♂️",
+      hint: "Nancy and Wally are both innocent",
+      paths: [[19]]
     },
     {
       criminal: false,
-      profession: "doctor",
-      name: "Sofia",
-      gender: "female",
-      hint: "#NAME:19 is the last innocent person I need to vouch for.",
-      paths: [[10], [11]]
+      profession: "singer",
+      name: "Uma",
+      emoji: "👩‍🎤",
+      hint: "Ollie is the only criminal next to me",
+      paths: [[19]]
     },
     {
       criminal: true,
       profession: "cook",
-      name: "Remy",
-      gender: "male",
-      hint: "I have nothing useful to say. I am guilty.",
-      paths: [[12]]
+      name: "Vicky",
+      emoji: "👩‍🍳",
+      hint: "Martin is not one of us",
+      paths: [[17]]
     },
     {
       criminal: false,
-      profession: "detective",
-      name: "Noor",
-      gender: "female",
-      hint: "My investigation shows #NAME:18 is clean.",
-      paths: [[13]]
+      profession: "cook",
+      name: "Wally",
+      emoji: "👨‍🍳",
+      hint: "Xavi is innocent but Vicky is not",
+      paths: [[14]]
     },
     {
       criminal: false,
-      profession: "lawyer",
-      name: "Tomas",
-      gender: "male",
-      hint: "I represented #NAME:19 and can confirm innocence.",
-      paths: [[14], [17]]
+      profession: "singer",
+      name: "Xavi",
+      emoji: "👨‍🎤",
+      hint: "Wally always has my back",
+      paths: [[15], [17]]
     },
     {
       criminal: false,
-      profession: "police",
-      name: "Isla",
-      gender: "female",
-      hint: "Case closed. Everyone accounted for.",
-      paths: [[15], [18]]
+      profession: "mech",
+      name: "Zara",
+      emoji: "👩‍🔧",
+      hint: "Xavi and I have 2 innocent neighbors in common",
+      paths: [[]]
     }
   ];
 
-  // Pre-computed hint sequence. Each entry:
-  //   requires: cards that must already be flipped
-  //   sources: cards whose clues point to the reveal
-  //   reveals: cards newly deducible after requirements are met
+  // Hint sequence guides the optimal deduction order.
+  // requires: cards that must already be flipped
+  // sources: cards whose clues point to the reveal
+  // reveals: cards newly deducible after requirements are met
   const HINT_SEQUENCE = [
-    { requires: [], sources: [], reveals: [0, 3] },
-    { requires: [0], sources: [0], reveals: [1] },
-    { requires: [3], sources: [3], reveals: [7] },
-    { requires: [0, 3], sources: [0, 3], reveals: [4] },
-    { requires: [1], sources: [1], reveals: [2] },
-    { requires: [4], sources: [4], reveals: [5] },
-    { requires: [5], sources: [5], reveals: [6, 9] },
-    { requires: [3, 7], sources: [7], reveals: [8] },
-    { requires: [6], sources: [6], reveals: [10] },
-    { requires: [7], sources: [7], reveals: [11] },
-    { requires: [8, 9], sources: [8, 9], reveals: [12] },
+    { requires: [], sources: [], reveals: [19] },
+    { requires: [19], sources: [19], reveals: [14, 15] },
+    { requires: [14], sources: [14], reveals: [9, 17] },
+    { requires: [15], sources: [15], reveals: [10, 11, 18] },
     { requires: [9], sources: [9], reveals: [13] },
-    { requires: [10], sources: [10], reveals: [14] },
-    { requires: [10, 11], sources: [10, 11], reveals: [15] },
-    { requires: [12], sources: [12], reveals: [16] },
-    { requires: [13], sources: [13], reveals: [17] },
-    { requires: [14, 17], sources: [14, 17], reveals: [18] },
-    { requires: [15, 18], sources: [15, 18], reveals: [19] }
+    { requires: [17], sources: [17], reveals: [16] },
+    { requires: [11], sources: [11], reveals: [6, 7] },
+    { requires: [13], sources: [13], reveals: [12] },
+    { requires: [6], sources: [6], reveals: [5] },
+    { requires: [7], sources: [7], reveals: [3] },
+    { requires: [12], sources: [12], reveals: [8] },
+    { requires: [5], sources: [5], reveals: [0, 1, 2] },
+    { requires: [8], sources: [8], reveals: [4] }
   ];
 
   const PROFESSION_EMOJI = {
-    police: "\u{1F46E}",
-    cook: "\u{1F468}‍\u{1F373}",
-    detective: "\u{1F575}️",
-    doctor: "\u{1F468}‍⚕️",
-    teacher: "\u{1F468}‍\u{1F3EB}",
-    artist: "\u{1F3A8}",
-    lawyer: "⚖️",
-    engineer: "\u{1F527}",
-    scientist: "\u{1F52C}",
-    nurse: "\u{1F469}‍⚕️"
+    cop: "👮",
+    guard: "💂",
+    pilot: "✈️",
+    mech: "🔧",
+    builder: "👷",
+    sleuth: "🕵️",
+    singer: "🎤",
+    cook: "🍳"
   };
 
   const DAILY_PUZZLES = [
-    { name: "Clues by Sam", url: "https://cluesbysam.com/", emoji: "\u{1F50D}", description: "Social deduction logic puzzle" },
-    { name: "Minute Cryptic", url: "https://www.minutecryptic.com/", emoji: "\u{1F4DD}", description: "Quick cryptic crossword clue" },
-    { name: "Globle", url: "https://globle-game.com/", emoji: "\u{1F30E}", description: "Guess the country by proximity" },
-    { name: "Wordle", url: "https://www.nytimes.com/games/wordle/index.html", emoji: "\u{1F7E9}", description: "The classic word game" },
-    { name: "FoodGuessr", url: "https://www.foodguessr.com/", emoji: "\u{1F355}", description: "Guess the food origin" }
+    { name: "Clues by Sam", url: "https://cluesbysam.com/", emoji: "🔍", description: "Social deduction logic puzzle" },
+    { name: "Minute Cryptic", url: "https://www.minutecryptic.com/", emoji: "📝", description: "Quick cryptic crossword clue" },
+    { name: "Globle", url: "https://globle-game.com/", emoji: "🌎", description: "Guess the country by proximity" },
+    { name: "Wordle", url: "https://www.nytimes.com/games/wordle/index.html", emoji: "🟩", description: "The classic word game" },
+    { name: "FoodGuessr", url: "https://www.foodguessr.com/", emoji: "🍕", description: "Guess the food origin" }
   ];
 
-  // Resolve clue template tokens in hint text.
-  // #NAME:N -> character name at index N
-  // #C:N -> "column " + ((N % 4) + 1) for character at index N
-  // #BETWEEN:pair(X,Y) -> "between NameX and NameY"
   const resolveClue = (hintText, characters, speakerIndex) => {
     let resolved = hintText;
 
@@ -261,7 +248,7 @@ const NARSH_PUZZLE_DATA = (() => {
 
   const getCharacter = (index) => CHARACTERS[index] || null;
 
-  const getEmoji = (profession) => PROFESSION_EMOJI[profession] || "\u{1F464}";
+  const getEmoji = (profession) => PROFESSION_EMOJI[profession] || "👤";
 
   const getTotalCharacters = () => CHARACTERS.length;
 

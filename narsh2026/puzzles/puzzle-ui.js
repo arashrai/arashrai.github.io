@@ -317,7 +317,7 @@ const NARSH_PUZZLE_UI = (() => {
     // Character identity: emoji, name, profession
     const emojiEl = document.createElement("span");
     emojiEl.className = "card-back-emoji";
-    emojiEl.textContent = NARSH_PUZZLE_DATA.getEmoji(character.profession);
+    emojiEl.textContent = character.emoji;
     backEl.appendChild(emojiEl);
 
     const nameEl = document.createElement("div");
@@ -476,7 +476,7 @@ const NARSH_PUZZLE_UI = (() => {
 
       const emojiEl = document.createElement("span");
       emojiEl.className = "card-emoji";
-      emojiEl.textContent = NARSH_PUZZLE_DATA.getEmoji(character.profession);
+      emojiEl.textContent = character.emoji;
       frontEl.appendChild(emojiEl);
 
       const nameEl = document.createElement("div");

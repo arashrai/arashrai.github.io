@@ -1,5 +1,6 @@
 /* Puzzles -- Page-Specific Styles */
-/* Card grid layout, 3D card flip, card states, guess dialog, stats bar, controls */
+/* Card grid layout, 3D card flip, card states, guess dialog, stats bar, controls,
+   modals, color tags, dimmed state, hint pulse, speech bubbles, daily puzzle links */
 
 :root {
   --color-criminal: #C2704F;
@@ -194,6 +195,38 @@
   margin: 0;
 }
 
+/* Color tag dot */
+.color-tag {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+/* Dimmed state (inspect mode) */
+.puzzle-card.dimmed {
+  opacity: var(--color-card-dimmed);
+  transition: opacity 200ms ease;
+}
+
+/* Hint highlight pulse */
+@keyframes hintPulse {
+  0%, 100% {
+    box-shadow: var(--shadow-soft);
+  }
+  50% {
+    box-shadow: var(--shadow-medium);
+  }
+}
+
+.puzzle-card.hint-highlighted {
+  animation: hintPulse 600ms ease infinite;
+}
+
 /* Guess dialog */
 .guess-dialog {
   position: absolute;
@@ -245,14 +278,198 @@
   font-weight: 700;
   font-family: var(--font-body);
   cursor: pointer;
-  border: 1px solid var(--color-terracotta);
-  background: transparent;
-  color: var(--color-terracotta);
 }
 
-.puzzle-controls button:disabled {
+/* Hint and Inspect buttons: outlined default */
+.btn-hint,
+.btn-inspect {
+  border: 1px solid var(--color-terracotta);
+  color: var(--color-terracotta);
+  background: transparent;
+}
+
+/* Active state for Hint and Inspect */
+.btn-hint.active,
+.btn-inspect.active {
+  background: var(--color-terracotta);
+  color: white;
+}
+
+/* Share button: always filled */
+.btn-share {
+  background: var(--color-terracotta);
+  color: white;
+  border: none;
+}
+
+/* Disabled controls */
+.btn-hint:disabled,
+.btn-inspect:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Speech bubble */
+.speech-bubble {
+  position: absolute;
+  background: var(--color-warm-white);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  font-size: 12px;
+  font-family: var(--font-body);
+  box-shadow: var(--shadow-soft);
+  z-index: 5;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 4px;
+  max-width: 200px;
+  pointer-events: none;
+}
+
+.speech-bubble.criminal {
+  border-left: 3px solid var(--color-criminal);
+}
+
+.speech-bubble.innocent {
+  border-left: 3px solid var(--color-innocent);
+}
+
+.speech-bubble.fade-out {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+/* Modal styles */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modalEnter 250ms ease-out;
+}
+
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(61, 43, 31, 0.4);
+}
+
+.modal-card {
+  position: relative;
+  z-index: 1;
+  max-width: 360px;
+  width: calc(100% - 2 * var(--space-lg));
+  background: var(--color-warm-white);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-medium);
+}
+
+.modal-card h2 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  margin: 0 0 var(--space-md) 0;
+}
+
+.modal-card p {
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: var(--font-body);
+  margin: 0 0 var(--space-md) 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.modal-actions button {
+  flex: 1;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+.modal-btn-primary {
+  background: var(--color-terracotta);
+  color: white;
+  border: none;
+}
+
+.modal-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--color-dusty-rose);
+  color: var(--color-text-primary);
+}
+
+.modal-btn-destructive {
+  background: var(--color-incorrect-flash);
+  color: white;
+  border: none;
+}
+
+/* Modal enter/exit animations */
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modalExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.modal.closing {
+  animation: modalExit 150ms ease-in forwards;
+}
+
+/* Share preview in game-complete modal */
+.share-preview {
+  background: var(--color-cream);
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  font-family: monospace;
+  font-size: 14px;
+  white-space: pre-wrap;
+  margin-bottom: var(--space-md);
+}
+
+.share-preview pre {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  white-space: pre-wrap;
+}
+
+/* Share fallback textarea */
+.share-fallback {
+  width: 100%;
+  min-height: 80px;
+  margin-top: var(--space-sm);
+  padding: var(--space-sm);
+  font-family: monospace;
+  font-size: 12px;
+  border: 1px solid var(--color-dusty-rose);
+  border-radius: var(--radius-sm);
+  resize: none;
 }
 
 /* Daily puzzles section */
@@ -263,7 +480,65 @@
   margin-right: auto;
 }
 
-/* Not-deducible warning overlay */
+.daily-puzzles h2 {
+  font-family: var(--font-heading);
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.daily-puzzles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.daily-puzzle-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--color-warm-white);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  text-decoration: none;
+  color: var(--color-text-primary);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.daily-puzzle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.daily-puzzle-card:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-soft);
+}
+
+.daily-puzzle-card:focus {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+.daily-emoji {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.daily-title {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-body);
+}
+
+.daily-desc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+}
+
+/* Not-deducible warning overlay (kept for backward compat, now replaced by modal) */
 .not-deducible-warning {
   position: absolute;
   inset: 0;
@@ -314,6 +589,16 @@
   outline-offset: 2px;
 }
 
+.modal-actions button:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+.daily-puzzle-card:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .puzzle-card-inner {
@@ -327,12 +612,36 @@
   .puzzle-card:not(.flipped):hover .puzzle-card-front {
     transform: none;
   }
+
+  .puzzle-card.hint-highlighted {
+    animation: none;
+  }
+
+  .modal {
+    animation-duration: 0s;
+  }
+
+  .modal.closing {
+    animation-duration: 0s;
+  }
+
+  .speech-bubble {
+    transition-duration: 0s;
+  }
+
+  .daily-puzzle-card:hover {
+    transform: none;
+  }
 }
 
 /* Responsive: smaller screens */
 @media (max-width: 768px) {
   .puzzle-page h1 {
     font-size: 24px;
+  }
+
+  .daily-puzzles-grid {
+    grid-template-columns: 1fr;
   }
 }
 

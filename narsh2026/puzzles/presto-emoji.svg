@@ -10,13 +10,13 @@
   <ellipse cx="32" cy="44" rx="13" ry="10" fill="#FFFDFB"/>
   <!-- Black chin spot -->
   <ellipse cx="32" cy="50" rx="5" ry="3" fill="#2A2A2A"/>
-  <!-- Right eye (visible) -->
-  <circle cx="40" cy="32" r="4.5" fill="#FFFDFB"/>
-  <circle cx="40" cy="33" r="2.8" fill="#8B9A46"/>
-  <circle cx="40" cy="33.5" r="1.5" fill="#222"/>
-  <circle cx="41.2" cy="31.5" r="1" fill="#FFFDFB"/>
-  <!-- Left eye (missing — closed line) -->
-  <path d="M18 32 Q22 36 26 32" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Left eye (visible) -->
+  <circle cx="24" cy="32" r="4.5" fill="#FFFDFB"/>
+  <circle cx="24" cy="33" r="2.8" fill="#8B9A46"/>
+  <circle cx="24" cy="33.5" r="1.5" fill="#222"/>
+  <circle cx="25.2" cy="31.5" r="1" fill="#FFFDFB"/>
+  <!-- Right eye (missing — closed line) -->
+  <path d="M38 32 Q42 36 46 32" stroke="#444" stroke-width="2" fill="none" stroke-linecap="round"/>
   <!-- Pink nose -->
   <path d="M32 40 L29 43.5 L35 43.5 Z" fill="#E8A0A0" stroke="#D4868A" stroke-width="0.8" stroke-linejoin="round"/>
   <!-- Mouth -->

@@ -304,6 +304,45 @@ const NARSH_PUZZLE_UI = (() => {
     }, 3000);
   };
 
+  // --- Card back population (shared by flip, restore, and auto-reveal) ---
+
+  const populateCardBack = (backEl, cardIndex, clueText, isCriminal) => {
+    const character = NARSH_PUZZLE_DATA.getCharacter(cardIndex);
+    if (!backEl || !character) return;
+
+    backEl.textContent = "";
+    const roleClass = isCriminal ? "criminal" : "innocent";
+    backEl.classList.add(roleClass);
+
+    // Character identity: emoji, name, profession
+    const emojiEl = document.createElement("span");
+    emojiEl.className = "card-back-emoji";
+    emojiEl.textContent = NARSH_PUZZLE_DATA.getEmoji(character.profession);
+    backEl.appendChild(emojiEl);
+
+    const nameEl = document.createElement("div");
+    nameEl.className = "card-back-name";
+    nameEl.textContent = character.name;
+    backEl.appendChild(nameEl);
+
+    const professionEl = document.createElement("div");
+    professionEl.className = "card-back-profession";
+    professionEl.textContent = character.profession;
+    backEl.appendChild(professionEl);
+
+    // Role label
+    const roleLabelEl = document.createElement("span");
+    roleLabelEl.className = "role-label " + roleClass;
+    roleLabelEl.textContent = isCriminal ? "CRIMINAL" : "INNOCENT";
+    backEl.appendChild(roleLabelEl);
+
+    // Clue text
+    const clueTextEl = document.createElement("p");
+    clueTextEl.className = "clue-text";
+    clueTextEl.textContent = clueText;
+    backEl.appendChild(clueTextEl);
+  };
+
   // --- Init ---
 
   const init = () => {
@@ -367,28 +406,13 @@ const NARSH_PUZZLE_UI = (() => {
       // Apply flipped class
       cardEl.classList.add("flipped");
 
-      // Populate card back
+      // Populate card back with identity + role + clue
+      const clueText = NARSH_PUZZLE_DATA.resolveClue(character.hint, NARSH_PUZZLE_DATA.CHARACTERS, cardIndex);
       const backEl = cardEl.querySelector(".puzzle-card-back");
-      if (backEl) {
-        backEl.textContent = "";
-        const roleClass = character.criminal ? "criminal" : "innocent";
-        backEl.classList.add(roleClass);
-
-        const roleLabelEl = document.createElement("span");
-        roleLabelEl.className = "role-label " + roleClass;
-        roleLabelEl.textContent = character.criminal ? "CRIMINAL" : "INNOCENT";
-        backEl.appendChild(roleLabelEl);
-
-        const clueText = NARSH_PUZZLE_DATA.resolveClue(character.hint, NARSH_PUZZLE_DATA.CHARACTERS, cardIndex);
-        const clueTextEl = document.createElement("p");
-        clueTextEl.className = "clue-text";
-        clueTextEl.textContent = clueText;
-        backEl.appendChild(clueTextEl);
-      }
+      populateCardBack(backEl, cardIndex, clueText, character.criminal);
 
       // Update aria
       const roleName = character.criminal ? "Criminal" : "Innocent";
-      const clueText = NARSH_PUZZLE_DATA.resolveClue(character.hint, NARSH_PUZZLE_DATA.CHARACTERS, cardIndex);
       cardEl.setAttribute("aria-label", character.name + ", " + roleName + " -- " + clueText);
       cardEl.setAttribute("aria-disabled", "true");
       cardEl.removeAttribute("tabindex");
@@ -608,24 +632,9 @@ const NARSH_PUZZLE_UI = (() => {
       // Add flipped class for CSS 3D flip
       cardEl.classList.add("flipped");
 
-      // Populate card back
+      // Populate card back with identity + role + clue
       const backEl = cardEl.querySelector(".puzzle-card-back");
-      if (backEl) {
-        backEl.textContent = "";
-
-        const roleClass = result.criminal ? "criminal" : "innocent";
-        backEl.classList.add(roleClass);
-
-        const roleLabelEl = document.createElement("span");
-        roleLabelEl.className = "role-label " + roleClass;
-        roleLabelEl.textContent = result.criminal ? "CRIMINAL" : "INNOCENT";
-        backEl.appendChild(roleLabelEl);
-
-        const clueTextEl = document.createElement("p");
-        clueTextEl.className = "clue-text";
-        clueTextEl.textContent = result.clueText;
-        backEl.appendChild(clueTextEl);
-      }
+      populateCardBack(backEl, cardIndex, result.clueText, result.criminal);
 
       // Update aria attributes
       const character = NARSH_PUZZLE_DATA.getCharacter(cardIndex);
@@ -807,21 +816,7 @@ const NARSH_PUZZLE_UI = (() => {
     cardEl.classList.add("flipped");
 
     const backEl = cardEl.querySelector(".puzzle-card-back");
-    if (backEl) {
-      backEl.textContent = "";
-      const roleClass = character.criminal ? "criminal" : "innocent";
-      backEl.classList.add(roleClass);
-
-      const roleLabelEl = document.createElement("span");
-      roleLabelEl.className = "role-label " + roleClass;
-      roleLabelEl.textContent = character.criminal ? "CRIMINAL" : "INNOCENT";
-      backEl.appendChild(roleLabelEl);
-
-      const clueTextEl = document.createElement("p");
-      clueTextEl.className = "clue-text";
-      clueTextEl.textContent = result.clueText;
-      backEl.appendChild(clueTextEl);
-    }
+    populateCardBack(backEl, starterIndex, result.clueText, character.criminal);
 
     const roleName = character.criminal ? "Criminal" : "Innocent";
     cardEl.setAttribute("aria-label", character.name + ", " + roleName + " -- " + result.clueText);

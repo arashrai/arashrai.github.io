@@ -171,6 +171,28 @@
 }
 
 /* Card back content */
+.card-back-emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.card-back-name {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  text-align: left;
+  line-height: 1.2;
+}
+
+.card-back-profession {
+  font-size: 10px;
+  font-family: var(--font-body);
+  color: var(--color-text-secondary);
+  line-height: 1.2;
+  margin-bottom: var(--space-xs);
+}
+
 .role-label {
   font-size: 12px;
   font-weight: 700;

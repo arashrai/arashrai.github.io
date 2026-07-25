@@ -75,7 +75,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "natalie",
       "name": "Natalie Fleury",
-      "photo": null,
+      "photo": "/narsh2026/images/people/natalie.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -93,7 +93,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "arash",
       "name": "Arash Rai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/arash.jpg",
       "groups": [
         "arashs-family"
       ],
@@ -389,7 +389,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "shawna-morehouse",
       "name": "Shawna Morehouse",
-      "photo": null,
+      "photo": "/narsh2026/images/people/shawna.jpg",
       "groups": [
         "natalies-family"
       ],

@@ -29,11 +29,11 @@ Bill Chen,Waterloo
 Fannette Hsin
 James Hageman,Waterloo
 Sarah Baird,Waterloo,,James Hageman
-Sidney Morehouse,Natalie's Family
-Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse
-Heather Morehouse,Natalie's Family,,,Sidney Morehouse
-James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse
-Karen Morehouse,Natalie's Family,,,Sidney Morehouse
+Sidney Morehouse,Natalie's Family,,,,,,sid.jpg
+Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,shannon.jpg
+Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,heather.jpg
+James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,james.jpg
+Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,karen.jpg
 Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury
 Steve Blumer,Natalie's Family
 Matt D'Souza,Waterloo
@@ -56,9 +56,9 @@ Jasper Chapman-Black,Waterloo
 Stacey Chapman-Black,Waterloo,,Jasper Chapman-Black
 Brandon Lavigne,"Meta Coworkers,Seattleite"
 "Chelsi Manhas ",Abby Friends,,Kyle Katchaluba
-Svetomir Milanovic,Cayman Crew
-William Fleury,"Natalie's Family,Cayman Crew",,,Mary Fleury
-Nicole Fleury,"Natalie's Family,Cayman Crew",,Svetomir Milanovic
+Svetomir Milanovic,Cayman Crew,,,,,,svetomir.jpeg
+William Fleury,"Natalie's Family,Cayman Crew",,,Mary Fleury,,,william.jpg
+Nicole Fleury,"Natalie's Family,Cayman Crew",,Svetomir Milanovic,,,,nicole.jpg
 Kyle Katchaluba,Abby Friends
 Bradley Ramunas,"Stripe Coworkers,Seattleite"
 Natalie Tchokreff,,,George Utsin
@@ -77,9 +77,9 @@ Ashley Darton,,,Stephen Melinyshyn
 Claire Hsu,Stripe Coworkers
 Shawna Huang,Stripe Coworkers
 Isaac Madwed,"Stripe Coworkers,Seattleite",,Celine Rosak
-"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse
+"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,brenda.jpg
 Alexandre Bondoux,"Stripe Coworkers,Seattleite"
-Evan Morehouse,Natalie's Family,,,Brenda Morehouse
+Evan Morehouse,Natalie's Family,,,Brenda Morehouse,,,evan.jpg
 Celine Rosak,Seattleite
 Sam Showalter,"Stripe Coworkers,Seattleite",,
 "David Mediati ",Waterloo
@@ -99,5 +99,5 @@ Seth Hendrickson,Stripe Coworkers
 Josh Jhinger,Abby Friends
 Nimret Malhi,Abby Friends
 Mary Fleury
-Jatinder Kaur
-Amritpal Rai
+Jatinder Kaur,,,,,,,jatinder.jpg
+Amritpal Rai,,,,,,,amritpal.jpg

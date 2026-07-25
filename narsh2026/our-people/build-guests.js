@@ -4,9 +4,9 @@
 //
 // Run from anywhere:  node narsh2026/our-people/build-guests.js
 //
-// The CSV is the ONLY thing you edit by hand. This script derives every
-// id, edge, household bubble, and family tree. It prints a summary + any
-// unresolved name references to stderr so typos are easy to catch.
+// The CSV is the ONLY thing you edit by hand. This script derives every id,
+// edge, household bubble, family side (gold/teal), and marriage link. It prints
+// a summary plus any unresolved names or unconnected relatives to stderr.
 
 "use strict";
 
@@ -158,16 +158,25 @@ const ensureCity = (label) => {
   return id;
 };
 
+const idToName = new Map(people.map((p) => [p.id, p.name]));
+
 people.forEach((p) => {
   p.groups = p.groupsRaw.map(ensureGroup);
   p.cities = p.citiesRaw.map(ensureCity);
   p.isCouple = p.id === "natalie" || p.id === "arash";
-  p.parentIds = p.parentsRaw
-    .map((n) => resolveName(n, `parent of "${p.name}"`))
-    .filter((pid) => pid && pid !== p.id);
   p.comesWithIds = p.comesWithRaw
     .map((n) => resolveName(n, `comes_with of "${p.name}"`))
     .filter((cid) => cid && cid !== p.id);
+  // Parentage comes from the `parent` column (drop self-references only).
+  p.parentIds = p.parentsRaw
+    .map((n) => resolveName(n, `parent of "${p.name}"`))
+    .filter((pid) => pid && pid !== p.id);
+  // Flag names that appear in BOTH parent and comes_with — ambiguous whether
+  // they're a parent or a spouse. Treated as a parent here.
+  const spouseSet = new Set(p.comesWithIds);
+  p.parentIds.filter((pid) => spouseSet.has(pid)).forEach((pid) => {
+    warnings.push(`"${idToName.get(pid) || pid}" is listed as both a parent AND a "comes_with" of "${p.name}" — treating as a parent. Remove it from one column to disambiguate.`);
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -233,29 +242,84 @@ Object.values(childrenByParent).forEach((kids) => {
 });
 
 // ---------------------------------------------------------------------------
-// Family trees (natalie / arash sides). Single-parent selection; wrap a
-// forest under a synthetic side-root so the tree view never crashes.
+// Family SIDES — assigned by walking real parentage links (parent<->child)
+// outward from Natalie and from Arash. This auto-includes blood relatives even
+// if they were never group-tagged (e.g. Arash's parents). Anyone not reached
+// falls back to their family-group tag.
 // ---------------------------------------------------------------------------
-function buildTree(familyGroupId, sideLabel, sideKey) {
-  const members = people.filter((p) => p.groups.includes(familyGroupId));
-  if (!members.length) return { id: sideKey + "-family-root", name: sideLabel, children: [] };
-  const memberIds = new Set(members.map((m) => m.id));
-  const firstParentInFamily = (p) => p.parentIds.find((pid) => memberIds.has(pid)) || null;
-  const kidsOf = {};
-  members.forEach((m) => {
-    const fp = firstParentInFamily(m);
-    if (fp) (kidsOf[fp] = kidsOf[fp] || []).push(m.id);
-  });
-  const node = (id) => ({ id, name: byId.get(id).name, children: (kidsOf[id] || []).map(node) });
-  const roots = members.filter((m) => !firstParentInFamily(m)).map((m) => m.id);
-  if (roots.length === 1) return node(roots[0]);
-  return { id: sideKey + "-family-root", name: sideLabel, children: roots.map(node) };
-}
+const childrenOf = {};
+people.forEach((p) => p.parentIds.forEach((pid) => {
+  (childrenOf[pid] = childrenOf[pid] || []).push(p.id);
+}));
 
-const FAMILY_TREES = {
-  natalie: buildTree(groupLabelToId.get("Natalie's Family"), "Natalie's Family", "natalie"),
-  arash: buildTree(groupLabelToId.get("Arash's Family"), "Arash's Family", "arash")
+const sideOf = {};
+const floodSide = (startId, side) => {
+  if (!byId.has(startId)) return;
+  const queue = [startId];
+  const seen = new Set([startId]);
+  while (queue.length) {
+    const x = queue.shift();
+    if (sideOf[x]) continue; // first side to claim wins (natalie flooded first)
+    sideOf[x] = side;
+    const neighbors = [...(byId.get(x).parentIds || []), ...(childrenOf[x] || [])];
+    neighbors.forEach((n) => { if (!seen.has(n)) { seen.add(n); queue.push(n); } });
+  }
 };
+floodSide("natalie", "natalie");
+floodSide("arash", "arash");
+// Fallback: anyone still unassigned but group-tagged as family
+const NAT_GID = groupLabelToId.get("Natalie's Family");
+const ARA_GID = groupLabelToId.get("Arash's Family");
+people.forEach((p) => {
+  if (sideOf[p.id]) return;
+  if (NAT_GID && p.groups.includes(NAT_GID)) sideOf[p.id] = "natalie";
+  else if (ARA_GID && p.groups.includes(ARA_GID)) sideOf[p.id] = "arash";
+});
+
+// ---------------------------------------------------------------------------
+// Marriages (dashed lines). Detected two ways, both corroborated:
+//   1. Two people listed as parents of the same child (co-parents).
+//   2. A MUTUAL comes_with (both name each other).
+// A one-directional comes_with is ambiguous (could be "child attends with a
+// parent"), so it is NOT drawn as a marriage — those are flagged for cleanup.
+// Parent/child and sibling pairs are never marriages.
+// ---------------------------------------------------------------------------
+const marriageSet = new Set();
+const addMarriage = (a, b) => { if (a && b && a !== b) marriageSet.add([a, b].sort().join("+")); };
+
+// Co-parents
+people.forEach((c) => {
+  for (let i = 0; i < c.parentIds.length; i++)
+    for (let k = i + 1; k < c.parentIds.length; k++)
+      addMarriage(c.parentIds[i], c.parentIds[k]);
+});
+// Mutual comes_with
+people.forEach((p) => p.comesWithIds.forEach((s) => {
+  const sp = byId.get(s);
+  if (sp && sp.comesWithIds.includes(p.id)) addMarriage(p.id, s);
+}));
+
+const isParentChild = (a, b) => byId.get(a).parentIds.includes(b) || byId.get(b).parentIds.includes(a);
+const shareParent = (a, b) => byId.get(a).parentIds.some((x) => byId.get(b).parentIds.includes(x));
+
+const MARRIAGES = [...marriageSet]
+  .map((k) => k.split("+"))
+  .filter(([a, b]) => byId.has(a) && byId.has(b) && !isParentChild(a, b) && !shareParent(a, b))
+  .map(([a, b]) => ({ a, b, side: sideOf[a] && sideOf[a] === sideOf[b] ? sideOf[a] : null }));
+
+// Flags: family members left unconnected by a one-directional comes_with that
+// likely encodes a parent (i.e. they have no parent + a comes_with target).
+const marriedIds = new Set(MARRIAGES.flatMap((m) => [m.a, m.b]));
+people.forEach((p) => {
+  if (!sideOf[p.id]) return;
+  const hasParent = p.parentIds.length > 0;
+  const hasKids = (childrenOf[p.id] || []).length > 0;
+  const inMarriage = marriedIds.has(p.id);
+  if (!hasParent && !hasKids && !inMarriage && p.comesWithIds.length > 0) {
+    const targets = p.comesWithIds.map((id) => byId.get(id).name).join(", ");
+    warnings.push(`"${p.name}" isn't connected in the family tree — their only link is a one-way "comes_with ${targets}". If ${targets} is a PARENT, move that name to the parent column; if a SPOUSE, add "${p.name}" to ${targets}'s comes_with too.`);
+  }
+});
 
 // ---------------------------------------------------------------------------
 // Assemble GUESTS records
@@ -278,7 +342,8 @@ const GUESTS = people.map((p) => ({
   funFact: p.funFact || null,
   connectionToCouple: p.relationship || null,
   householdId: householdOf.get(p.id) || null,
-  familyTree: null
+  side: sideOf[p.id] || null,
+  parents: p.parentIds
 }));
 
 // ---------------------------------------------------------------------------
@@ -302,7 +367,7 @@ const NARSH_GUESTS = (() => {
 
   const HOUSEHOLDS = ${j(HOUSEHOLDS)};
 
-  const FAMILY_TREES = ${j(FAMILY_TREES)};
+  const MARRIAGES = ${j(MARRIAGES)};
 
   const getGuestById = (id) => GUESTS.find(g => g.id === id) || null;
   const getGuestsByGroup = (groupId) => GUESTS.filter(g => g.groups.includes(groupId));
@@ -365,7 +430,7 @@ const NARSH_GUESTS = (() => {
   };
 
   return {
-    GROUPS, CITIES, GUESTS, EDGES, HOUSEHOLDS, FAMILY_TREES,
+    GROUPS, CITIES, GUESTS, EDGES, HOUSEHOLDS, MARRIAGES,
     getGuestById, getGuestsByGroup, getGuestsByCity, searchGuests,
     getSocialNodes, getSocialEdges
   };
@@ -377,12 +442,14 @@ fs.writeFileSync(OUT_PATH, out);
 // ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
+const sideCount = (s) => GUESTS.filter((g) => g.side === s).length;
 console.error("Wrote " + path.relative(process.cwd(), OUT_PATH));
 console.error("  guests:     " + GUESTS.length);
 console.error("  groups:     " + GROUPS.map((g) => g.label).join(", "));
 console.error("  households: " + HOUSEHOLDS.length);
 console.error("  edges:      " + EDGES.length + " (couple/parent/sibling)");
-console.error("  couple in data: natalie=" + byId.has("natalie") + " arash=" + byId.has("arash"));
+console.error("  sides:      natalie=" + sideCount("natalie") + " arash=" + sideCount("arash"));
+console.error("  marriages:  " + MARRIAGES.length + " (" + MARRIAGES.map((m) => byId.get(m.a).name.split(" ")[0] + "↔" + byId.get(m.b).name.split(" ")[0]).join(", ") + ")");
 if (warnings.length) {
   console.error("\n  " + warnings.length + " warning(s):");
   [...new Set(warnings)].forEach((w) => console.error("   - " + w));

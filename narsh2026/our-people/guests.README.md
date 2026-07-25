@@ -53,6 +53,29 @@ These already exist (each has a color in the graph):
 - Leave optional cells blank — don't put `N/A` or `-`.
 - Keep the header row exactly as-is.
 
+## How the Family Tree view works
+
+- **Sides / colors:** Everyone reachable from **you** through parent↔child links is
+  drawn in **gold**; everyone reachable from **Arash** is **teal**. This is by real
+  parentage, so a relative shows up even if you didn't group-tag them (that's how
+  Arash's parents appear). Unconnected but family-group-tagged people fall back to
+  their side's color.
+- **Solid lines = parentage** — drawn only from the `parent` column. Someone with
+  two parents (like you: Shawna + William) gets a solid line to each.
+- **Dashed lines = marriage** — drawn only when corroborated, so no one gets
+  married to their parent by accident:
+  - two people listed as parents of the **same child** (this is how Shawna⟷William
+    is detected), **or**
+  - a **mutual** `comes_with` (both name each other).
+  A one-way `comes_with` is treated as ambiguous and left unconnected in the tree
+  (it still merges a bubble in the Everyone view) — the build prints a warning
+  telling you exactly who to fix.
+
+**Rule of thumb for the two columns:** put a **spouse** in `comes_with`; put a
+**parent** in `parent`. If a child currently "comes with" their parent, move that
+name into the `parent` column so they connect properly. Running the build
+(`node build-guests.js`) prints a list of anyone left unconnected.
+
 ## When you're done
 
 Tell Claude "compile the guest list" and it will regenerate `guest-data.js` from this

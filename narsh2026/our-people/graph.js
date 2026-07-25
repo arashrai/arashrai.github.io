@@ -25,6 +25,13 @@ const NARSH_GRAPH = (() => {
   const COLOR_EDGE = "rgba(61, 43, 31, 0.15)";
   const COLOR_EDGE_HIGHLIGHT = "rgba(61, 43, 31, 0.5)";
 
+  // Family-tree layout: gold = Natalie's side, teal = Arash's side.
+  const SIDE_COLORS = { natalie: COLOR_NATALIE, arash: COLOR_ARASH };
+  const TREE_H_SPACING = 110; // horizontal gap between siblings
+  const TREE_V_SPACING = 150; // vertical gap between generations
+  const TREE_ROOT_GAP = 90;   // gap between adjacent root subtrees on a side
+  const TREE_SIDE_GAP = 220;  // gap between Natalie's and Arash's forests
+
   let svgEl = null;
   let simulation = null;
   let currentView = "social";
@@ -940,129 +947,92 @@ const NARSH_GRAPH = (() => {
   };
 
   const renderFamilyTree = (familyFilter) => {
-    // Stop and clear the force simulation
+    // Tree view is statically laid out — stop the force simulation.
     if (simulation) {
       simulation.stop();
     }
 
     treeNodeData = [];
     const filter = familyFilter || "both";
-
-    const natalieTreeData = NARSH_GUESTS.FAMILY_TREES.natalie;
-    const arashTreeData = NARSH_GUESTS.FAMILY_TREES.arash;
-
-    const natalieRoot = d3.hierarchy(natalieTreeData);
-    const arashRoot = d3.hierarchy(arashTreeData);
-
-    // Sort children so the couple nodes are on the inner edges:
-    // Natalie should be rightmost (last) child in her tree,
-    // Arash should be leftmost (first) child in his tree.
-    // This prevents siblings from appearing between the two trees.
-    const sortCoupleToEdge = (root, coupleId, toEnd) => {
-      root.each((node) => {
-        if (node.children && node.children.length > 1) {
-          const coupleIdx = node.children.findIndex((c) => {
-            let found = false;
-            c.each((d) => { if (d.data.id === coupleId) found = true; });
-            return found;
-          });
-          if (coupleIdx >= 0) {
-            const child = node.children.splice(coupleIdx, 1)[0];
-            if (toEnd) {
-              node.children.push(child);
-            } else {
-              node.children.unshift(child);
-            }
-          }
-        }
-      });
-    };
-    sortCoupleToEdge(natalieRoot, "natalie", true);
-    sortCoupleToEdge(arashRoot, "arash", false);
-
-    const treeLayout = d3.tree().nodeSize([100, 140]);
-    treeLayout(natalieRoot);
-    treeLayout(arashRoot);
-
-    // Determine which trees to render based on filter
     const showNatalie = (filter === "both" || filter === "natalie");
     const showArash = (filter === "both" || filter === "arash");
 
-    // Calculate offsets for side-by-side layout
-    let natalieOffsetX = 0;
-    let arashOffsetX = 0;
-    let totalWidth = 0;
-
-    if (showNatalie && showArash) {
-      // Compute natalie tree width
-      const natalieXValues = [];
-      natalieRoot.each((d) => natalieXValues.push(d.x));
-      const natalieMinX = Math.min.apply(null, natalieXValues);
-      const natalieMaxX = Math.max.apply(null, natalieXValues);
-      const natalieWidth = natalieMaxX - natalieMinX;
-
-      // Offset natalie to start from 0
-      natalieOffsetX = -natalieMinX;
-
-      // Compute arash tree width
-      const arashXValues = [];
-      arashRoot.each((d) => arashXValues.push(d.x));
-      const arashMinX = Math.min.apply(null, arashXValues);
-
-      // Arash tree starts after natalie tree + 120px gap
-      arashOffsetX = natalieWidth + 120 - arashMinX;
-
-      // Compute total width for centering
-      const arashMaxX = Math.max.apply(null, arashXValues);
-      totalWidth = (natalieWidth) + 120 + (arashMaxX - arashMinX);
-    } else if (showNatalie) {
-      const natalieXValues = [];
-      natalieRoot.each((d) => natalieXValues.push(d.x));
-      const natalieMinX = Math.min.apply(null, natalieXValues);
-      natalieOffsetX = -natalieMinX;
-      totalWidth = Math.max.apply(null, natalieXValues) - natalieMinX;
-    } else if (showArash) {
-      const arashXValues = [];
-      arashRoot.each((d) => arashXValues.push(d.x));
-      const arashMinX = Math.min.apply(null, arashXValues);
-      arashOffsetX = -arashMinX;
-      totalWidth = Math.max.apply(null, arashXValues) - arashMinX;
-    }
-
-    // Center the tree(s) in the viewport
-    const centerOffsetX = (width - totalWidth) / 2;
-    const centerOffsetY = 80; // top padding for tree
-
     const edgesGroup = innerGroupEl.select(".edges");
     const nodesGroup = innerGroupEl.select(".nodes");
-
-    // Ensure defs exist for tree clip paths
     const defsEl = innerGroupEl.select("defs").empty()
       ? innerGroupEl.insert("defs", ":first-child")
       : innerGroupEl.select("defs");
     defsEl.selectAll("clipPath").remove();
 
-    // Draw tree branches and nodes for each family
+    const topY = 90;
+
+    // Lay out each side's forest, placed side by side (gold | teal).
+    const layouts = [];
+    let originX = 0;
     if (showNatalie) {
-      drawTreeBranches(natalieRoot, natalieOffsetX + centerOffsetX, centerOffsetY, COLOR_NATALIE, edgesGroup);
-      drawTreeNodes(natalieRoot, natalieOffsetX + centerOffsetX, centerOffsetY, nodesGroup, defsEl);
+      const L = layoutSide("natalie", originX, topY);
+      layouts.push(L);
+      originX += L.width + TREE_SIDE_GAP;
     }
-
     if (showArash) {
-      drawTreeBranches(arashRoot, arashOffsetX + centerOffsetX, centerOffsetY, COLOR_ARASH, edgesGroup);
-      drawTreeNodes(arashRoot, arashOffsetX + centerOffsetX, centerOffsetY, nodesGroup, defsEl);
+      const L = layoutSide("arash", originX, topY);
+      layouts.push(L);
+      originX += L.width + TREE_SIDE_GAP;
     }
 
-    // Draw couple connector line when showing both families
-    if (showNatalie && showArash) {
-      // Find Natalie and Arash nodes in the rendered tree data
-      const natalieNode = treeNodeData.find((d) => d.id === "natalie");
-      const arashNode = treeNodeData.find((d) => d.id === "arash");
+    const totalWidth = Math.max(0, originX - TREE_SIDE_GAP);
+    const centerShift = (width - totalWidth) / 2;
 
-      if (natalieNode && arashNode) {
+    const posById = new Map();
+    const allNodes = [];
+    layouts.forEach((L) => L.nodes.forEach((n) => {
+      n.px += centerShift;
+      allNodes.push(n);
+      posById.set(n.id, n);
+    }));
+
+    // Solid lines = true parentage. Every parent -> child link is drawn, so a
+    // person with two parents (e.g. Natalie) shows a line to each. Colored by
+    // the child's family side.
+    allNodes.forEach((n) => {
+      const guest = NARSH_GUESTS.getGuestById(n.id);
+      if (!guest) return;
+      guest.parents.forEach((pid) => {
+        const p = posById.get(pid);
+        if (!p) return;
+        edgesGroup.append("path")
+          .attr("class", "tree-branch")
+          .attr("d", "M" + p.px + "," + p.py + " L" + n.px + "," + n.py)
+          .attr("stroke", SIDE_COLORS[n.side] || COLOR_NODE_DEFAULT)
+          .attr("stroke-width", 2)
+          .attr("fill", "none")
+          .attr("stroke-linecap", "round")
+          .attr("opacity", 0.65);
+      });
+    });
+
+    // Dashed lines = marriage.
+    NARSH_GUESTS.MARRIAGES.forEach((m) => {
+      const a = posById.get(m.a);
+      const b = posById.get(m.b);
+      if (!a || !b) return;
+      edgesGroup.append("path")
+        .attr("class", "marriage-link")
+        .attr("d", "M" + a.px + "," + a.py + " L" + b.px + "," + b.py)
+        .attr("stroke", SIDE_COLORS[m.side] || COLOR_BOTH)
+        .attr("stroke-width", 2.5)
+        .attr("stroke-dasharray", "6 4")
+        .attr("fill", "none");
+    });
+
+    // Dashed connector between the couple when both sides are shown.
+    if (showNatalie && showArash) {
+      const na = posById.get("natalie");
+      const ar = posById.get("arash");
+      if (na && ar) {
         edgesGroup.append("path")
           .attr("class", "couple-connector")
-          .attr("d", "M" + natalieNode.px + "," + natalieNode.py + " L" + arashNode.px + "," + arashNode.py)
+          .attr("d", "M" + na.px + "," + na.py + " L" + ar.px + "," + ar.py)
           .attr("stroke", COLOR_BOTH)
           .attr("stroke-width", 3)
           .attr("stroke-dasharray", "6 4")
@@ -1070,72 +1040,34 @@ const NARSH_GRAPH = (() => {
       }
     }
 
-    // Update accessibility description
-    const descEl = document.getElementById("graph-desc");
-    if (descEl) {
-      descEl.textContent = treeNodeData.length + " family members shown in family tree view";
-    }
-  };
+    // Render nodes on top of the lines.
+    allNodes.forEach((n) => {
+      treeNodeData.push({ id: n.id, px: n.px, py: n.py, radius: n.radius, isCouple: n.isCouple });
 
-  const drawTreeBranches = (root, offsetX, offsetY, color, edgesGroup) => {
-    const linkGenerator = d3.linkVertical()
-      .x((d) => d.x + offsetX)
-      .y((d) => d.y + offsetY);
-
-    root.links().forEach((link) => {
-      edgesGroup.append("path")
-        .attr("class", "tree-branch")
-        .attr("d", linkGenerator(link))
-        .attr("stroke", color)
-        .attr("stroke-width", 2)
-        .attr("fill", "none")
-        .attr("stroke-linecap", "round");
-    });
-  };
-
-  const drawTreeNodes = (root, offsetX, offsetY, nodesGroup, defsEl) => {
-    root.each((d) => {
-      const guest = NARSH_GUESTS.getGuestById(d.data.id);
-      const isCouple = guest ? guest.isCouple : false;
-      const radius = isCouple ? NODE_RADIUS_TREE_COUPLE : NODE_RADIUS_TREE;
-      const px = d.x + offsetX;
-      const py = d.y + offsetY;
-
-      // Track for zoomToNode
-      treeNodeData.push({
-        id: d.data.id,
-        px: px,
-        py: py,
-        radius: radius,
-        isCouple: isCouple
-      });
-
-      // Create clip path for this tree node
       defsEl.append("clipPath")
-        .attr("id", "clip-tree-" + d.data.id)
+        .attr("id", "clip-tree-" + n.id)
         .append("circle")
-        .attr("r", radius);
+        .attr("r", n.radius);
 
       const g = nodesGroup.append("g")
         .attr("class", "tree-node")
         .attr("role", "button")
         .attr("tabindex", "0")
-        .attr("aria-label", d.data.name)
-        .attr("transform", "translate(" + px + "," + py + ")");
+        .attr("aria-label", n.name)
+        .attr("transform", "translate(" + n.px + "," + n.py + ")");
 
-      // Photo or initials fallback
-      if (guest && guest.photo) {
+      if (n.photo) {
         g.append("image")
-          .attr("href", guest.photo)
-          .attr("width", radius * 2)
-          .attr("height", radius * 2)
-          .attr("x", -radius)
-          .attr("y", -radius)
-          .attr("clip-path", "url(#clip-tree-" + d.data.id + ")");
+          .attr("href", n.photo)
+          .attr("width", n.radius * 2)
+          .attr("height", n.radius * 2)
+          .attr("x", -n.radius)
+          .attr("y", -n.radius)
+          .attr("clip-path", "url(#clip-tree-" + n.id + ")");
       } else {
         g.append("circle")
           .attr("class", "node-bg")
-          .attr("r", radius)
+          .attr("r", n.radius)
           .attr("fill", "#FFF8F0");
         g.append("text")
           .attr("class", "node-initials")
@@ -1144,38 +1076,134 @@ const NARSH_GRAPH = (() => {
           .attr("font-size", "14px")
           .attr("font-family", "var(--font-body)")
           .attr("fill", "#6B4F3A")
-          .text(getInitials(d.data.name));
+          .text(getInitials(n.name));
       }
 
-      // Border circle
       g.append("circle")
         .attr("class", "node-border")
-        .attr("r", radius)
+        .attr("r", n.radius)
         .attr("fill", "none")
-        .attr("stroke", isCouple ? COLOR_BOTH : COLOR_NODE_DEFAULT)
-        .attr("stroke-width", isCouple ? 3 : 2);
+        .attr("stroke", SIDE_COLORS[n.side] || COLOR_NODE_DEFAULT)
+        .attr("stroke-width", n.isCouple ? 3 : 2);
 
-      // Name label (always visible in tree view per D-16)
       g.append("text")
         .attr("class", "node-label")
-        .attr("dy", radius + 16)
-        .text(d.data.name);
+        .attr("dy", n.radius + 16)
+        .text(n.name);
 
-      // Click handler for expand-in-place
       g.on("click", (event) => {
         event.stopPropagation();
-        expandTreeNode(d.data.id, g, px, py, radius);
+        expandTreeNode(n.id, g, n.px, n.py, n.radius);
       });
 
-      // Keyboard handler
       g.on("keydown", (event) => {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
           event.stopPropagation();
-          expandTreeNode(d.data.id, g, px, py, radius);
+          expandTreeNode(n.id, g, n.px, n.py, n.radius);
         }
       });
     });
+
+    const descEl = document.getElementById("graph-desc");
+    if (descEl) {
+      descEl.textContent = treeNodeData.length + " family members shown in family tree view";
+    }
+  };
+
+  // Lay out one family side as a forest of d3.tree subtrees placed
+  // left-to-right. Roots whose lineages intermarry are ordered adjacently to
+  // keep marriage lines short. Returns positioned nodes + total width.
+  const layoutSide = (side, originX, topY) => {
+    const members = NARSH_GUESTS.GUESTS.filter((g) => g.side === side);
+    if (!members.length) return { nodes: [], width: 0 };
+
+    const idSet = new Set(members.map((m) => m.id));
+    const primaryParent = (g) => g.parents.find((p) => idSet.has(p)) || null;
+
+    // Build the primary-parent hierarchy (each child under its first in-side parent).
+    const kids = {};
+    members.forEach((m) => {
+      const pp = primaryParent(m);
+      if (pp) (kids[pp] = kids[pp] || []).push(m.id);
+    });
+    const rootIds = members.filter((m) => !primaryParent(m)).map((m) => m.id);
+
+    // Root ancestor of each member (follow primary-parent chain up).
+    const rootOf = {};
+    members.forEach((m) => {
+      let cur = m.id;
+      let guard = 0;
+      while (guard++ < 1000) {
+        const g = NARSH_GUESTS.getGuestById(cur);
+        const pp = g ? (g.parents.find((p) => idSet.has(p)) || null) : null;
+        if (!pp) break;
+        cur = pp;
+      }
+      rootOf[m.id] = cur;
+    });
+
+    // Adjacency between roots via cross-lineage marriages, then order roots so
+    // connected ones render consecutively.
+    const rootAdj = {};
+    rootIds.forEach((r) => { rootAdj[r] = new Set(); });
+    NARSH_GUESTS.MARRIAGES.forEach((m) => {
+      if (!idSet.has(m.a) || !idSet.has(m.b)) return;
+      const ra = rootOf[m.a];
+      const rb = rootOf[m.b];
+      if (ra && rb && ra !== rb && rootAdj[ra] && rootAdj[rb]) {
+        rootAdj[ra].add(rb);
+        rootAdj[rb].add(ra);
+      }
+    });
+    const orderedRoots = [];
+    const seenRoot = new Set();
+    rootIds.forEach((r) => {
+      if (seenRoot.has(r)) return;
+      const stack = [r];
+      while (stack.length) {
+        const x = stack.pop();
+        if (seenRoot.has(x)) continue;
+        seenRoot.add(x);
+        orderedRoots.push(x);
+        [...(rootAdj[x] || [])].forEach((n) => { if (!seenRoot.has(n)) stack.push(n); });
+      }
+    });
+
+    // Lay out each root subtree with d3.tree, packing them left to right.
+    const nodes = [];
+    let cursorX = originX;
+    orderedRoots.forEach((rid) => {
+      const hierData = (function build(id) {
+        return { id: id, children: (kids[id] || []).map(build) };
+      })(rid);
+      const root = d3.hierarchy(hierData);
+      d3.tree().nodeSize([TREE_H_SPACING, TREE_V_SPACING])(root);
+
+      let minX = Infinity;
+      let maxX = -Infinity;
+      root.each((d) => { if (d.x < minX) minX = d.x; if (d.x > maxX) maxX = d.x; });
+      const shift = cursorX - minX;
+
+      root.each((d) => {
+        const guest = NARSH_GUESTS.getGuestById(d.data.id);
+        const isCouple = guest ? guest.isCouple : false;
+        nodes.push({
+          id: d.data.id,
+          name: guest ? guest.name : d.data.id,
+          photo: guest ? guest.photo : null,
+          isCouple: isCouple,
+          side: side,
+          px: d.x + shift,
+          py: topY + d.y,
+          radius: isCouple ? NODE_RADIUS_TREE_COUPLE : NODE_RADIUS_TREE
+        });
+      });
+
+      cursorX = shift + maxX + TREE_ROOT_GAP;
+    });
+
+    return { nodes: nodes, width: cursorX - originX };
   };
 
   const expandTreeNode = (nodeId, nodeEl, px, py, radius) => {

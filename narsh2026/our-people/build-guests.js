@@ -390,10 +390,14 @@ const NARSH_GUESTS = (() => {
         const members = household.members.map(m => getGuestById(m)).filter(Boolean);
         const allGroups = [...new Set(members.flatMap(m => m.groups))];
         const allCities = [...new Set(members.flatMap(m => m.cities))];
-        const photo = members.find(m => m.photo)?.photo || null;
+        // Distinct member photos: two people with different photos show both
+        // (split node); if members share one photo file they're pictured
+        // together, so it dedupes to a single photo.
+        const photos = [...new Set(members.map(m => m.photo).filter(Boolean))];
+        const photo = photos[0] || null;
         const isCouple = members.some(m => m.isCouple);
         socialNodes.push({
-          id: household.id, name: household.displayName, photo,
+          id: household.id, name: household.displayName, photo, photos,
           groups: allGroups, cities: allCities, isCouple,
           memberIds: household.members, isHousehold: true
         });
@@ -401,6 +405,7 @@ const NARSH_GUESTS = (() => {
         processed.add(guest.id);
         socialNodes.push({
           id: guest.id, name: guest.name, photo: guest.photo,
+          photos: guest.photo ? [guest.photo] : [],
           groups: guest.groups, cities: guest.cities, isCouple: guest.isCouple,
           memberIds: [guest.id], isHousehold: false
         });

@@ -355,15 +355,50 @@ const NARSH_GRAPH = (() => {
     });
   };
 
+  // Photos for a node: a household of two people with different photos shows
+  // both as side-by-side vertical strips (each cropped to fill, clipped to the
+  // circle); a shared photo file dedupes to one and fills the whole circle.
+  const nodePhotos = (d) => (d.photos && d.photos.length ? d.photos : (d.photo ? [d.photo] : []));
+
+  const layoutNodePhotos = (g, d, radius, dur) => {
+    const photos = nodePhotos(d);
+    const stripW = (radius * 2) / photos.length;
+    const clip = "url(#clip-" + d.id + ")";
+
+    const sel = g.selectAll("image.node-photo").data(photos, (p, i) => i);
+    sel.exit().remove();
+    const merged = sel.enter().append("image")
+        .attr("class", "node-photo")
+        .attr("preserveAspectRatio", "xMidYMid slice")
+        .attr("clip-path", clip)
+      .merge(sel);
+    merged
+      .attr("href", (p) => p)
+      .transition().duration(dur)
+      .attr("x", (p, i) => -radius + i * stripW)
+      .attr("y", -radius)
+      .attr("width", stripW)
+      .attr("height", radius * 2);
+
+    // Thin dividers between strips (clipped to the circle), so two faces read
+    // as two people rather than one merged image.
+    g.selectAll("line.photo-divider").remove();
+    for (let i = 1; i < photos.length; i++) {
+      const x = -radius + i * stripW;
+      g.append("line")
+        .attr("class", "photo-divider")
+        .attr("clip-path", clip)
+        .attr("x1", x).attr("y1", -radius)
+        .attr("x2", x).attr("y2", radius)
+        .attr("stroke", "#FFF8F0")
+        .attr("stroke-width", 1.5)
+        .attr("pointer-events", "none");
+    }
+  };
+
   const renderNodeContents = (g, d) => {
-    if (d.photo) {
-      g.append("image")
-        .attr("href", d.photo)
-        .attr("width", d.radius * 2)
-        .attr("height", d.radius * 2)
-        .attr("x", -d.radius)
-        .attr("y", -d.radius)
-        .attr("clip-path", "url(#clip-" + d.id + ")");
+    if (nodePhotos(d).length > 0) {
+      layoutNodePhotos(g, d, d.radius, 0);
     } else {
       // Initials fallback
       g.append("circle")
@@ -652,15 +687,10 @@ const NARSH_GRAPH = (() => {
       .filter((d) => d.id === nodeId);
 
     if (!targetNodeEl.empty()) {
-      // Update image size (if photo)
-      targetNodeEl.select("image")
-        .transition()
-        .duration(reducedMotion ? 0 : 300)
-        .ease(d3.easeQuadOut)
-        .attr("width", targetRadius * 2)
-        .attr("height", targetRadius * 2)
-        .attr("x", -targetRadius)
-        .attr("y", -targetRadius);
+      // Re-layout photo strips at the larger radius (if any photos)
+      if (nodePhotos(expandedNode).length > 0) {
+        layoutNodePhotos(targetNodeEl, expandedNode, targetRadius, reducedMotion ? 0 : 300);
+      }
 
       // Update background circle (if initials)
       targetNodeEl.select(".node-bg")
@@ -919,14 +949,10 @@ const NARSH_GRAPH = (() => {
       if (!targetNodeEl.empty()) {
         const baseR = expandedNode.baseRadius;
 
-        targetNodeEl.select("image")
-          .transition()
-          .duration(reducedMotion ? 0 : 200)
-          .ease(d3.easeQuadIn)
-          .attr("width", baseR * 2)
-          .attr("height", baseR * 2)
-          .attr("x", -baseR)
-          .attr("y", -baseR);
+        // Re-layout photo strips back to base radius (if any photos)
+        if (nodePhotos(expandedNode).length > 0) {
+          layoutNodePhotos(targetNodeEl, expandedNode, baseR, reducedMotion ? 0 : 200);
+        }
 
         targetNodeEl.select(".node-bg")
           .transition()

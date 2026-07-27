@@ -27,10 +27,11 @@ const NARSH_GRAPH = (() => {
 
   // Family-tree layout: gold = Natalie's side, teal = Arash's side.
   const SIDE_COLORS = { natalie: COLOR_NATALIE, arash: COLOR_ARASH };
-  const TREE_H_SPACING = 110; // horizontal gap between siblings
-  const TREE_V_SPACING = 150; // vertical gap between generations
-  const TREE_ROOT_GAP = 90;   // gap between adjacent root subtrees on a side
-  const TREE_SIDE_GAP = 220;  // gap between Natalie's and Arash's forests
+  const TREE_H_SPACING = 180; // horizontal gap between sibling units
+  const TREE_V_SPACING = 160; // vertical gap between generations
+  const TREE_ROOT_GAP = 110;  // gap between adjacent root subtrees on a side
+  const TREE_SIDE_GAP = 180;  // gap between Natalie's and Arash's forests
+  const TREE_MEMBER_OFFSET = 58; // half-distance between the two people in a couple
 
   let svgEl = null;
   let simulation = null;
@@ -1111,96 +1112,133 @@ const NARSH_GRAPH = (() => {
     }
   };
 
-  // Lay out one family side as a forest of d3.tree subtrees placed
-  // left-to-right. Roots whose lineages intermarry are ordered adjacently to
-  // keep marriage lines short. Returns positioned nodes + total width.
+  // Lay out one family side as a genealogy chart: married pairs are grouped
+  // into a single "unit" (two people rendered adjacently, sharing a row), their
+  // children hang below the pair, and generations line up across the side.
+  // The couple member (Natalie / Arash) is pulled to the inner edge so the two
+  // of them end up next to each other. Returns positioned nodes + total width.
   const layoutSide = (side, originX, topY) => {
     const members = NARSH_GUESTS.GUESTS.filter((g) => g.side === side);
     if (!members.length) return { nodes: [], width: 0 };
-
     const idSet = new Set(members.map((m) => m.id));
-    const primaryParent = (g) => g.parents.find((p) => idSet.has(p)) || null;
+    const guestById = (id) => NARSH_GUESTS.getGuestById(id);
+    const inSideParents = (id) => guestById(id).parents.filter((p) => idSet.has(p));
 
-    // Build the primary-parent hierarchy (each child under its first in-side parent).
-    const kids = {};
-    members.forEach((m) => {
-      const pp = primaryParent(m);
-      if (pp) (kids[pp] = kids[pp] || []).push(m.id);
-    });
-    const rootIds = members.filter((m) => !primaryParent(m)).map((m) => m.id);
-
-    // Root ancestor of each member (follow primary-parent chain up).
-    const rootOf = {};
-    members.forEach((m) => {
-      let cur = m.id;
-      let guard = 0;
-      while (guard++ < 1000) {
-        const g = NARSH_GUESTS.getGuestById(cur);
-        const pp = g ? (g.parents.find((p) => idSet.has(p)) || null) : null;
-        if (!pp) break;
-        cur = pp;
-      }
-      rootOf[m.id] = cur;
-    });
-
-    // Adjacency between roots via cross-lineage marriages, then order roots so
-    // connected ones render consecutively.
-    const rootAdj = {};
-    rootIds.forEach((r) => { rootAdj[r] = new Set(); });
+    // --- Group members into couple units (union-find over same-side marriages) ---
+    const uf = {};
+    members.forEach((m) => { uf[m.id] = m.id; });
+    const find = (x) => { while (uf[x] !== x) { uf[x] = uf[uf[x]]; x = uf[x]; } return x; };
     NARSH_GUESTS.MARRIAGES.forEach((m) => {
-      if (!idSet.has(m.a) || !idSet.has(m.b)) return;
-      const ra = rootOf[m.a];
-      const rb = rootOf[m.b];
-      if (ra && rb && ra !== rb && rootAdj[ra] && rootAdj[rb]) {
-        rootAdj[ra].add(rb);
-        rootAdj[rb].add(ra);
-      }
+      if (idSet.has(m.a) && idSet.has(m.b)) uf[find(m.a)] = find(m.b);
     });
-    const orderedRoots = [];
-    const seenRoot = new Set();
-    rootIds.forEach((r) => {
-      if (seenRoot.has(r)) return;
-      const stack = [r];
-      while (stack.length) {
-        const x = stack.pop();
-        if (seenRoot.has(x)) continue;
-        seenRoot.add(x);
-        orderedRoots.push(x);
-        [...(rootAdj[x] || [])].forEach((n) => { if (!seenRoot.has(n)) stack.push(n); });
-      }
-    });
+    const unitMembers = {};
+    members.forEach((m) => { const r = find(m.id); (unitMembers[r] = unitMembers[r] || []).push(m.id); });
+    const unitOf = {};
+    Object.keys(unitMembers).forEach((u) => unitMembers[u].forEach((id) => { unitOf[id] = u; }));
 
-    // Lay out each root subtree with d3.tree, packing them left to right.
+    // --- Primary parent unit per unit (keeps the hierarchy a tree) + roots ---
+    const primaryParentUnit = {};
+    Object.keys(unitMembers).forEach((u) => {
+      let ppu = null;
+      for (const mid of unitMembers[u]) {
+        for (const p of inSideParents(mid)) {
+          if (unitOf[p] && unitOf[p] !== u) { ppu = unitOf[p]; break; }
+        }
+        if (ppu) break;
+      }
+      primaryParentUnit[u] = ppu;
+    });
+    const childUnits = {};
+    Object.keys(unitMembers).forEach((u) => { childUnits[u] = []; });
+    Object.keys(unitMembers).forEach((u) => {
+      if (primaryParentUnit[u]) childUnits[primaryParentUnit[u]].push(u);
+    });
+    const rootUnits = Object.keys(unitMembers).filter((u) => !primaryParentUnit[u]);
+    const rootAncestor = (u) => { let c = u, g = 0; while (primaryParentUnit[c] && g++ < 1000) c = primaryParentUnit[c]; return c; };
+
+    // --- Which units lead to the couple member? (for edge-pulling) ---
+    const target = side === "natalie" ? "natalie" : "arash";
+    const toInnerEnd = side === "natalie"; // Natalie -> right edge; Arash -> left edge
+    const containsTarget = {};
+    const dfsContains = (u) => {
+      if (u in containsTarget) return containsTarget[u];
+      containsTarget[u] = false; // guard against cycles
+      let has = unitMembers[u].includes(target);
+      childUnits[u].forEach((c) => { if (dfsContains(c)) has = true; });
+      containsTarget[u] = has;
+      return has;
+    };
+    Object.keys(unitMembers).forEach(dfsContains);
+    const orderEdge = (arr) => {
+      const others = arr.filter((c) => !containsTarget[c]);
+      const tgt = arr.filter((c) => containsTarget[c]);
+      return toInnerEnd ? [...others, ...tgt] : [...tgt, ...others];
+    };
+    Object.keys(childUnits).forEach((u) => { childUnits[u] = orderEdge(childUnits[u]); });
+
+    // --- Order roots: cluster the target root's connected lineages next to it ---
+    const radj = {};
+    rootUnits.forEach((r) => { radj[r] = new Set(); });
+    members.forEach((g) => inSideParents(g.id).forEach((p) => {
+      const ra = rootAncestor(unitOf[g.id]);
+      const rb = rootAncestor(unitOf[p]);
+      if (ra !== rb && radj[ra] && radj[rb]) { radj[ra].add(rb); radj[rb].add(ra); }
+    }));
+    const targetRoot = rootUnits.find((r) => containsTarget[r]);
+    const comp = [];
+    const seen = new Set();
+    if (targetRoot) {
+      const st = [targetRoot];
+      while (st.length) {
+        const x = st.pop();
+        if (seen.has(x)) continue;
+        seen.add(x);
+        comp.push(x);
+        [...radj[x]].forEach((n) => { if (!seen.has(n)) st.push(n); });
+      }
+    }
+    const rest = rootUnits.filter((r) => !seen.has(r));
+    // Natalie: isolated roots on the left, target lineage on the right (target last).
+    // Arash: target lineage on the left (target first), isolated roots on the right.
+    const orderedRoots = toInnerEnd ? [...rest, ...comp.reverse()] : [...comp, ...rest];
+
+    // --- Lay out unit hierarchy with d3.tree; expand each unit to its people ---
     const nodes = [];
     let cursorX = originX;
-    orderedRoots.forEach((rid) => {
-      const hierData = (function build(id) {
-        return { id: id, children: (kids[id] || []).map(build) };
-      })(rid);
+    orderedRoots.forEach((rootU) => {
+      const hierData = (function build(u) {
+        return { u: u, children: childUnits[u].map(build) };
+      })(rootU);
       const root = d3.hierarchy(hierData);
       d3.tree().nodeSize([TREE_H_SPACING, TREE_V_SPACING])(root);
 
       let minX = Infinity;
       let maxX = -Infinity;
       root.each((d) => { if (d.x < minX) minX = d.x; if (d.x > maxX) maxX = d.x; });
-      const shift = cursorX - minX;
+      const shift = cursorX - (minX - TREE_MEMBER_OFFSET);
 
       root.each((d) => {
-        const guest = NARSH_GUESTS.getGuestById(d.data.id);
-        const isCouple = guest ? guest.isCouple : false;
-        nodes.push({
-          id: d.data.id,
-          name: guest ? guest.name : d.data.id,
-          photo: guest ? guest.photo : null,
-          isCouple: isCouple,
-          side: side,
-          px: d.x + shift,
-          py: topY + d.y,
-          radius: isCouple ? NODE_RADIUS_TREE_COUPLE : NODE_RADIUS_TREE
+        const mem = unitMembers[d.data.u];
+        const ux = d.x + shift;
+        const uy = topY + d.y;
+        mem.forEach((mid, i) => {
+          const guest = guestById(mid);
+          const isCouple = guest ? guest.isCouple : false;
+          const mx = mem.length === 1 ? ux : (i === 0 ? ux - TREE_MEMBER_OFFSET : ux + TREE_MEMBER_OFFSET);
+          nodes.push({
+            id: mid,
+            name: guest ? guest.name : mid,
+            photo: guest ? guest.photo : null,
+            isCouple: isCouple,
+            side: side,
+            px: mx,
+            py: uy,
+            radius: isCouple ? NODE_RADIUS_TREE_COUPLE : NODE_RADIUS_TREE
+          });
         });
       });
 
-      cursorX = shift + maxX + TREE_ROOT_GAP;
+      cursorX = shift + maxX + TREE_MEMBER_OFFSET + TREE_ROOT_GAP;
     });
 
     return { nodes: nodes, width: cursorX - originX };

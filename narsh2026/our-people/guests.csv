@@ -6,13 +6,13 @@ Rene Fleury,Natalie's Family,,,Mary Fleury
 Katelyn Henry,Natalie's Family,,Natreisha Henry,Rene Fleury
 Natreisha Henry,Natalie's Family,,,Rene Fleury
 Ben Blumer,Natalie's Family,,,Steve Blumer
-Jennifer Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",
+Jennifer Reimer,Natalie's Family,,Glen Antle,Rene Fleury,
 Glen Antle,Natalie's Family
 Jillian Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer"
-Shiloh Riddell,Natalie's Family,,Serenity Blumer
-Taliah Riddell,Natalie's Family,,Serenity Blumer
+Shiloh Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer
+Taliah Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer
 Serenity Blumer,Natalie's Family,,,Steve Blumer
-Isaiah Riddell,Natalie's Family,,Serenity Blumer
+Isaiah Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer
 Sumita Barahmand,,,Farzad Sangi
 Farzad Sangi,"Meta Coworkers,Seattleite"
 Susan MacRae
@@ -34,10 +34,10 @@ Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,shannon.jp
 Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,heather.jpg
 James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,james.jpg
 Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,karen.jpg
-Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury
+Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,rosanne.jpg
 Steve Blumer,Natalie's Family
 Matt D'Souza,Waterloo
-Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury"
+Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,gabrielle.jpg
 Grace Jean,,,Matt D'Souza
 Gaea Turman,Seattleite,,Nariyan Krsnadas
 Daniel Prilik,Waterloo
@@ -98,6 +98,7 @@ Tiffany Yeung,"Waterloo,Seattleite"
 Seth Hendrickson,Stripe Coworkers
 Josh Jhinger,Abby Friends
 Nimret Malhi,Abby Friends
-Mary Fleury
-Jatinder Kaur,,,,,,,jatinder.jpg
-Amritpal Rai,,,,,,,amritpal.jpg
+Mary Fleury,Natalie's Family,,,,,,mary.jpg
+Jatinder Kaur,Arash's Family,,,,,,jatinder.jpg
+Amritpal Rai,Arash's Family,,,,,,amritpal.jpg
+Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",

@@ -214,7 +214,7 @@ const NARSH_GUESTS = (() => {
       "householdId": "household-glen-antle",
       "side": "natalie",
       "parents": [
-        "glen-antle"
+        "rene-fleury"
       ]
     },
     {
@@ -263,7 +263,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-isaiah-riddell",
       "side": "natalie",
-      "parents": []
+      "parents": [
+        "serenity-blumer"
+      ]
     },
     {
       "id": "taliah-riddell",
@@ -278,7 +280,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-isaiah-riddell",
       "side": "natalie",
-      "parents": []
+      "parents": [
+        "serenity-blumer"
+      ]
     },
     {
       "id": "serenity-blumer",
@@ -310,7 +314,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-isaiah-riddell",
       "side": "natalie",
-      "parents": []
+      "parents": [
+        "serenity-blumer"
+      ]
     },
     {
       "id": "sumita-barahmand",
@@ -567,7 +573,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "shannon-noble",
       "name": "Shannon Noble",
-      "photo": null,
+      "photo": "/narsh2026/images/people/shannon.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -584,7 +590,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "heather-morehouse",
       "name": "Heather Morehouse",
-      "photo": null,
+      "photo": "/narsh2026/images/people/heather.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -601,7 +607,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "james-noble",
       "name": "James Noble",
-      "photo": null,
+      "photo": "/narsh2026/images/people/james.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -618,7 +624,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "karen-morehouse",
       "name": "Karen Morehouse",
-      "photo": null,
+      "photo": "/narsh2026/images/people/karen.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -635,7 +641,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "rosanne-fleury",
       "name": "Rosanne Fleury",
-      "photo": null,
+      "photo": "/narsh2026/images/people/rosanne.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -682,7 +688,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "gabrielle-blumer",
       "name": "Gabrielle Blumer",
-      "photo": null,
+      "photo": "/narsh2026/images/people/gabrielle.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -1602,8 +1608,10 @@ const NARSH_GUESTS = (() => {
     {
       "id": "mary-fleury",
       "name": "Mary Fleury",
-      "photo": null,
-      "groups": [],
+      "photo": "/narsh2026/images/people/mary.jpg",
+      "groups": [
+        "natalies-family"
+      ],
       "cities": [],
       "isCouple": false,
       "funFact": null,
@@ -1615,8 +1623,10 @@ const NARSH_GUESTS = (() => {
     {
       "id": "jatinder-kaur",
       "name": "Jatinder Kaur",
-      "photo": null,
-      "groups": [],
+      "photo": "/narsh2026/images/people/jatinder.jpg",
+      "groups": [
+        "arashs-family"
+      ],
       "cities": [],
       "isCouple": false,
       "funFact": null,
@@ -1628,8 +1638,10 @@ const NARSH_GUESTS = (() => {
     {
       "id": "amritpal-rai",
       "name": "Amritpal Rai",
-      "photo": null,
-      "groups": [],
+      "photo": "/narsh2026/images/people/amritpal.jpg",
+      "groups": [
+        "arashs-family"
+      ],
       "cities": [],
       "isCouple": false,
       "funFact": null,
@@ -1637,6 +1649,24 @@ const NARSH_GUESTS = (() => {
       "householdId": null,
       "side": "arash",
       "parents": []
+    },
+    {
+      "id": "janessa-reimer",
+      "name": "Janessa Reimer",
+      "photo": null,
+      "groups": [
+        "natalies-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-glen-antle",
+      "side": "natalie",
+      "parents": [
+        "glen-antle",
+        "jennifer-reimer"
+      ]
     }
   ];
 
@@ -1688,7 +1718,7 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "jennifer-reimer",
-      "target": "glen-antle",
+      "target": "rene-fleury",
       "type": "parent"
     },
     {
@@ -1702,8 +1732,23 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "shiloh-riddell",
+      "target": "serenity-blumer",
+      "type": "parent"
+    },
+    {
+      "source": "taliah-riddell",
+      "target": "serenity-blumer",
+      "type": "parent"
+    },
+    {
       "source": "serenity-blumer",
       "target": "steve-blumer",
+      "type": "parent"
+    },
+    {
+      "source": "isaiah-riddell",
+      "target": "serenity-blumer",
       "type": "parent"
     },
     {
@@ -1762,6 +1807,16 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "janessa-reimer",
+      "target": "glen-antle",
+      "type": "parent"
+    },
+    {
+      "source": "janessa-reimer",
+      "target": "jennifer-reimer",
+      "type": "parent"
+    },
+    {
       "source": "rene-fleury",
       "target": "rosanne-fleury",
       "type": "sibling"
@@ -1782,6 +1837,16 @@ const NARSH_GUESTS = (() => {
       "type": "sibling"
     },
     {
+      "source": "katelyn-henry",
+      "target": "jennifer-reimer",
+      "type": "sibling"
+    },
+    {
+      "source": "natreisha-henry",
+      "target": "jennifer-reimer",
+      "type": "sibling"
+    },
+    {
       "source": "ben-blumer",
       "target": "serenity-blumer",
       "type": "sibling"
@@ -1797,8 +1862,23 @@ const NARSH_GUESTS = (() => {
       "type": "sibling"
     },
     {
-      "source": "jennifer-reimer",
-      "target": "jillian-reimer",
+      "source": "jillian-reimer",
+      "target": "janessa-reimer",
+      "type": "sibling"
+    },
+    {
+      "source": "shiloh-riddell",
+      "target": "taliah-riddell",
+      "type": "sibling"
+    },
+    {
+      "source": "shiloh-riddell",
+      "target": "isaiah-riddell",
+      "type": "sibling"
+    },
+    {
+      "source": "taliah-riddell",
+      "target": "isaiah-riddell",
       "type": "sibling"
     },
     {
@@ -1860,9 +1940,10 @@ const NARSH_GUESTS = (() => {
       "members": [
         "jennifer-reimer",
         "glen-antle",
-        "jillian-reimer"
+        "jillian-reimer",
+        "janessa-reimer"
       ],
-      "displayName": "Jennifer, Glen & Jillian"
+      "displayName": "Jennifer, Glen, Jillian & Janessa"
     },
     {
       "id": "household-isaiah-riddell",
@@ -2097,6 +2178,11 @@ const NARSH_GUESTS = (() => {
       "a": "amritpal-rai",
       "b": "jatinder-kaur",
       "side": "arash"
+    },
+    {
+      "a": "glen-antle",
+      "b": "jennifer-reimer",
+      "side": "natalie"
     },
     {
       "a": "rosanne-fleury",

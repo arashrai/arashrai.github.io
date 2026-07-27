@@ -3,8 +3,10 @@ Natalie Fleury,Natalie's Family,The couple (you two!),,"Shawna Morehouse,William
 Arash Rai,Arash's Family,The couple (you two!),,"Jatinder Kaur,Amritpal Rai",Has lived on four continents before turning twenty.,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
 Cindy Fleury,Natalie's Family,,Rene Fleury
 Rene Fleury,Natalie's Family,,,Mary Fleury
-Katelyn Henry,Natalie's Family,,Natreisha Henry,Rene Fleury
-Natreisha Henry,Natalie's Family,,,Rene Fleury
+Katelyn Henry,Natalie's Family,,Natreisha Henry,...
+Natreisha Henry,Natalie's Family,,,...
+Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,gabrielle.jpg
+Kyle Francis,Natalie's Family,,,Rosanne Fleury
 Ben Blumer,Natalie's Family,,,Steve Blumer
 Jennifer Reimer,Natalie's Family,,Glen Antle,Rene Fleury,
 Glen Antle,Natalie's Family
@@ -37,7 +39,6 @@ Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,karen.jpg
 Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,rosanne.jpg
 Steve Blumer,Natalie's Family
 Matt D'Souza,Waterloo
-Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,gabrielle.jpg
 Grace Jean,,,Matt D'Souza
 Gaea Turman,Seattleite,,Nariyan Krsnadas
 Daniel Prilik,Waterloo
@@ -63,7 +64,6 @@ Kyle Katchaluba,Abby Friends
 Bradley Ramunas,"Stripe Coworkers,Seattleite"
 Natalie Tchokreff,,,George Utsin
 George Utsin,Waterloo
-Kyle Francis,Natalie's Family,,,Rosanne Fleury
 Jonah Dlin,Waterloo
 Hannah Dobrik,,,Spencer Dobrik
 Nariyan Krsnadas
@@ -102,3 +102,4 @@ Mary Fleury,Natalie's Family,,,,,,mary.jpg
 Jatinder Kaur,Arash's Family,,,,,,jatinder.jpg
 Amritpal Rai,Arash's Family,,,,,,amritpal.jpg
 Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",
+...,Natalie's Family,,,Rene Fleury

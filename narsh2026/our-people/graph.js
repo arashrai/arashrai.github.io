@@ -992,6 +992,27 @@ const NARSH_GRAPH = (() => {
       posById.set(n.id, n);
     }));
 
+    // Order the two people in a couple so the one whose own parent sits further
+    // left takes the left slot (shortens/uncrosses that parent line). Only fires
+    // when BOTH spouses have a parent in the tree (e.g. Shawna+William).
+    const firstParentPos = (id) => {
+      const g = NARSH_GUESTS.getGuestById(id);
+      if (!g) return null;
+      for (const p of g.parents) { if (posById.has(p)) return posById.get(p); }
+      return null;
+    };
+    NARSH_GUESTS.MARRIAGES.forEach((m) => {
+      const a = posById.get(m.a);
+      const b = posById.get(m.b);
+      if (!a || !b) return;
+      const pa = firstParentPos(m.a);
+      const pb = firstParentPos(m.b);
+      if (!pa || !pb) return;
+      const aShouldBeLeft = pa.px <= pb.px;
+      const aIsLeft = a.px <= b.px;
+      if (aShouldBeLeft !== aIsLeft) { const t = a.px; a.px = b.px; b.px = t; }
+    });
+
     // Solid lines = true parentage. When both of a child's parents are a married
     // couple, draw ONE line from the midpoint of their dashed marriage line
     // (fewer crossing lines); otherwise draw a line to each known parent.
@@ -1140,6 +1161,9 @@ const NARSH_GRAPH = (() => {
     const idSet = new Set(members.map((m) => m.id));
     const guestById = (id) => NARSH_GUESTS.getGuestById(id);
     const inSideParents = (id) => guestById(id).parents.filter((p) => idSet.has(p));
+    // CSV row order — used so siblings render left-to-right in the order their
+    // rows appear in guests.csv (a lever you can reorder to control placement).
+    const guestIndex = new Map(NARSH_GUESTS.GUESTS.map((g, i) => [g.id, i]));
 
     // --- Group members into couple units (union-find over same-side marriages) ---
     const uf = {};
@@ -1186,6 +1210,16 @@ const NARSH_GRAPH = (() => {
       return has;
     };
     Object.keys(unitMembers).forEach(dfsContains);
+
+    // Sort siblings left-to-right by CSV row order (of the bloodline child in
+    // each unit), then pull the couple's branch to the inner edge.
+    const unitSortKey = (u) => {
+      const bloodline = unitMembers[u].filter((mid) => inSideParents(mid).some((p) => unitOf[p] && unitOf[p] !== u));
+      const pool = bloodline.length ? bloodline : unitMembers[u];
+      return Math.min.apply(null, pool.map((id) => (guestIndex.has(id) ? guestIndex.get(id) : 1e9)));
+    };
+    Object.keys(childUnits).forEach((u) => { childUnits[u].sort((a, b) => unitSortKey(a) - unitSortKey(b)); });
+
     const orderEdge = (arr) => {
       const others = arr.filter((c) => !containsTarget[c]);
       const tgt = arr.filter((c) => containsTarget[c]);

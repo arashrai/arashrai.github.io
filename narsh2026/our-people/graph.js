@@ -17,6 +17,11 @@ const NARSH_GRAPH = (() => {
   const FORCE_LINK_DISTANCE = 80;
   const FORCE_COLLIDE_PADDING = 8;
   const ALPHA_REHEAT = 0.3;
+  // Group-clustering force: how far the per-group anchors sit from center (as a
+  // fraction of the smaller viewport side), and how far out group-less people park.
+  const GROUP_ANCHOR_RADIUS_FRAC = 0.45;
+  const GROUP_PERIPHERY_FACTOR = 1.25;
+  const GROUP_FORCE_STRENGTH = 0.35;
 
   const COLOR_ARASH = "#2A9D8F";
   const COLOR_NATALIE = "#D4A843";
@@ -89,6 +94,58 @@ const NARSH_GRAPH = (() => {
     });
   };
 
+  // Anchor each group at a point on a circle around the center. Cached so the
+  // same group always sits in the same place (stable across filtering).
+  let groupAnchors = null;
+  const computeGroupAnchors = () => {
+    const groups = NARSH_GUESTS.GROUPS;
+    const cx = width / 2;
+    const cy = height / 2;
+    const radius = Math.min(width, height) * GROUP_ANCHOR_RADIUS_FRAC;
+    const anchors = {};
+    groups.forEach((g, i) => {
+      // Start at the top and go clockwise; -PI/2 puts group 0 at 12 o'clock.
+      const angle = (i / groups.length) * 2 * Math.PI - Math.PI / 2;
+      anchors[g.id] = { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+    });
+    return anchors;
+  };
+
+  // Custom force: pull each node toward the mean of ITS groups' anchors, so a
+  // one-group person lands on that group's anchor and a multi-group person lands
+  // in the overlap between them (Venn-like). Group-less people are pushed OUT to
+  // a peripheral ring (spread by golden angle) so they never land inside a blob.
+  const groupClusterForce = () => {
+    let nodes = [];
+    const cx = width / 2;
+    const cy = height / 2;
+    const ringRadius = Math.min(width, height) * GROUP_ANCHOR_RADIUS_FRAC * GROUP_PERIPHERY_FACTOR;
+    const strength = GROUP_FORCE_STRENGTH;
+    const force = (alpha) => {
+      nodes.forEach((n, i) => {
+        const gs = n.groups.filter((gid) => groupAnchors[gid]);
+        let tx, ty, k;
+        if (gs.length === 0) {
+          // No group: park on a peripheral ring, outside every blob. The golden
+          // angle (~137.5°) spreads them evenly around the outside.
+          const angle = i * 2.399963229728653;
+          tx = cx + ringRadius * Math.cos(angle);
+          ty = cy + ringRadius * Math.sin(angle);
+          k = strength * 0.5 * alpha;
+        } else {
+          tx = 0; ty = 0;
+          for (const gid of gs) { tx += groupAnchors[gid].x; ty += groupAnchors[gid].y; }
+          tx /= gs.length; ty /= gs.length;
+          k = strength * alpha;
+        }
+        n.vx += (tx - n.x) * k;
+        n.vy += (ty - n.y) * k;
+      });
+    };
+    force.initialize = (n) => { nodes = n; };
+    return force;
+  };
+
   const init = (containerId) => {
     svgEl = d3.select("#" + containerId);
     const containerNode = svgEl.node();
@@ -109,10 +166,11 @@ const NARSH_GRAPH = (() => {
 
     innerGroupEl = svgEl.append("g").attr("class", "graph-inner");
 
-    // Layer ordering: clusters (back) -> edges (middle) -> nodes (front)
+    // Layer ordering: cluster blobs (back) -> edges -> nodes -> cluster labels (front)
     innerGroupEl.append("g").attr("class", "cluster-regions");
     innerGroupEl.append("g").attr("class", "edges");
     innerGroupEl.append("g").attr("class", "nodes");
+    innerGroupEl.append("g").attr("class", "cluster-labels");
 
     renderSocialGraph();
 
@@ -188,13 +246,19 @@ const NARSH_GRAPH = (() => {
         .attr("r", node.radius);
     });
 
-    // Create force simulation
+    // Anchors for the group-clustering force (computed once per render).
+    groupAnchors = computeGroupAnchors();
+
+    // Create force simulation. Center gravity is weak (0.012) so the group
+    // force can pull each group's members apart into their own region; the
+    // group force keeps the whole graph centered around the anchor circle.
     simulation = d3.forceSimulation(visibleNodes)
       .force("link", d3.forceLink(visibleEdges).id((d) => d.id).distance(FORCE_LINK_DISTANCE))
       .force("charge", d3.forceManyBody().strength(FORCE_CHARGE))
       .force("collide", d3.forceCollide().radius((d) => d.radius + FORCE_COLLIDE_PADDING))
-      .force("x", d3.forceX(width / 2).strength(0.05))
-      .force("y", d3.forceY(height / 2).strength(0.05))
+      .force("group", groupClusterForce())
+      .force("x", d3.forceX(width / 2).strength(0.012))
+      .force("y", d3.forceY(height / 2).strength(0.012))
       .alphaDecay(0.03)
       .velocityDecay(0.4);
 
@@ -353,7 +417,9 @@ const NARSH_GRAPH = (() => {
 
   const drawClusterRegions = (nodes) => {
     const clusterGroupEl = innerGroupEl.select(".cluster-regions");
+    const labelGroupEl = innerGroupEl.select(".cluster-labels");
     clusterGroupEl.selectAll("*").remove();
+    labelGroupEl.selectAll("*").remove();
 
     NARSH_GUESTS.GROUPS.forEach((group) => {
       const groupNodes = nodes.filter((n) => n.groups.includes(group.id));
@@ -370,7 +436,32 @@ const NARSH_GRAPH = (() => {
         .attr("d", line(expanded))
         .attr("fill", group.color)
         .attr("fill-opacity", 0.08)
-        .attr("stroke", "none");
+        .attr("stroke", group.color)
+        .attr("stroke-opacity", 0.25)
+        .attr("stroke-width", 1.5);
+
+      // Label the blob at its centroid, in a darker shade of the blob color.
+      // A warm-white halo (paint-order: stroke) keeps it legible over nodes.
+      const centroid = d3.polygonCentroid(expanded);
+      const darker = d3.color(group.color).darker(1.2).formatHex();
+      labelGroupEl.append("text")
+        .attr("class", "cluster-label")
+        .attr("x", centroid[0])
+        .attr("y", centroid[1])
+        .attr("text-anchor", "middle")
+        .attr("dy", "0.35em")
+        .attr("font-family", "var(--font-heading, var(--font-body))")
+        .attr("font-size", "15px")
+        .attr("font-weight", "700")
+        .attr("letter-spacing", "0.02em")
+        .attr("fill", darker)
+        .attr("fill-opacity", 0.85)
+        .attr("paint-order", "stroke")
+        .attr("stroke", "var(--color-warm-white, #FFF8F0)")
+        .attr("stroke-width", 3.5)
+        .attr("stroke-linejoin", "round")
+        .attr("pointer-events", "none")
+        .text(group.label);
     });
   };
 
@@ -941,6 +1032,7 @@ const NARSH_GRAPH = (() => {
 
   const clearSvgContent = () => {
     innerGroupEl.select(".cluster-regions").selectAll("*").remove();
+    innerGroupEl.select(".cluster-labels").selectAll("*").remove();
     innerGroupEl.select(".edges").selectAll("*").remove();
     innerGroupEl.select(".nodes").selectAll("*").remove();
     // Remove any tree-specific elements (couple connector, defs for tree clips)

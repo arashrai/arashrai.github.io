@@ -287,17 +287,16 @@ people.forEach((p) => {
 const marriageSet = new Set();
 const addMarriage = (a, b) => { if (a && b && a !== b) marriageSet.add([a, b].sort().join("+")); };
 
-// Co-parents
+// Co-parents (two people who share a child)
 people.forEach((c) => {
   for (let i = 0; i < c.parentIds.length; i++)
     for (let k = i + 1; k < c.parentIds.length; k++)
       addMarriage(c.parentIds[i], c.parentIds[k]);
 });
-// Mutual comes_with
-people.forEach((p) => p.comesWithIds.forEach((s) => {
-  const sp = byId.get(s);
-  if (sp && sp.comesWithIds.includes(p.id)) addMarriage(p.id, s);
-}));
+// Any comes_with (spouse). Even a one-directional "A comes_with B" with no
+// children is assumed to be a marriage — the parent-child / sibling guards
+// below prevent marrying a child to a parent or two siblings to each other.
+people.forEach((p) => p.comesWithIds.forEach((s) => addMarriage(p.id, s)));
 
 const isParentChild = (a, b) => byId.get(a).parentIds.includes(b) || byId.get(b).parentIds.includes(a);
 const shareParent = (a, b) => byId.get(a).parentIds.some((x) => byId.get(b).parentIds.includes(x));

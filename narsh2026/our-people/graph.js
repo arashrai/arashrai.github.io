@@ -992,24 +992,41 @@ const NARSH_GRAPH = (() => {
       posById.set(n.id, n);
     }));
 
-    // Solid lines = true parentage. Every parent -> child link is drawn, so a
-    // person with two parents (e.g. Natalie) shows a line to each. Colored by
-    // the child's family side.
+    // Solid lines = true parentage. When both of a child's parents are a married
+    // couple, draw ONE line from the midpoint of their dashed marriage line
+    // (fewer crossing lines); otherwise draw a line to each known parent.
+    const marriedKey = (a, b) => [a, b].sort().join("+");
+    const marriedSet = new Set(NARSH_GUESTS.MARRIAGES.map((m) => marriedKey(m.a, m.b)));
+    const drawBranch = (x1, y1, x2, y2, side) => {
+      edgesGroup.append("path")
+        .attr("class", "tree-branch")
+        .attr("d", "M" + x1 + "," + y1 + " L" + x2 + "," + y2)
+        .attr("stroke", SIDE_COLORS[side] || COLOR_NODE_DEFAULT)
+        .attr("stroke-width", 2)
+        .attr("fill", "none")
+        .attr("stroke-linecap", "round")
+        .attr("opacity", 0.65);
+    };
     allNodes.forEach((n) => {
       const guest = NARSH_GUESTS.getGuestById(n.id);
       if (!guest) return;
-      guest.parents.forEach((pid) => {
-        const p = posById.get(pid);
-        if (!p) return;
-        edgesGroup.append("path")
-          .attr("class", "tree-branch")
-          .attr("d", "M" + p.px + "," + p.py + " L" + n.px + "," + n.py)
-          .attr("stroke", SIDE_COLORS[n.side] || COLOR_NODE_DEFAULT)
-          .attr("stroke-width", 2)
-          .attr("fill", "none")
-          .attr("stroke-linecap", "round")
-          .attr("opacity", 0.65);
-      });
+      const parentPos = guest.parents.map((pid) => posById.get(pid)).filter(Boolean);
+
+      // If two of the child's parents are married, drop one line from their midpoint.
+      let unionDrawn = false;
+      for (let i = 0; i < parentPos.length && !unionDrawn; i++) {
+        for (let k = i + 1; k < parentPos.length && !unionDrawn; k++) {
+          if (marriedSet.has(marriedKey(parentPos[i].id, parentPos[k].id))) {
+            const mx = (parentPos[i].px + parentPos[k].px) / 2;
+            const my = (parentPos[i].py + parentPos[k].py) / 2;
+            drawBranch(mx, my, n.px, n.py, n.side);
+            unionDrawn = true;
+          }
+        }
+      }
+      if (!unionDrawn) {
+        parentPos.forEach((p) => drawBranch(p.px, p.py, n.px, n.py, n.side));
+      }
     });
 
     // Dashed lines = marriage.

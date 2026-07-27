@@ -2218,6 +2218,136 @@ const NARSH_GUESTS = (() => {
       "a": "rosanne-fleury",
       "b": "steve-blumer",
       "side": "natalie"
+    },
+    {
+      "a": "cindy-fleury",
+      "b": "rene-fleury",
+      "side": "natalie"
+    },
+    {
+      "a": "farzad-sangi",
+      "b": "sumita-barahmand",
+      "side": null
+    },
+    {
+      "a": "georgia-hong",
+      "b": "jerry-liu",
+      "side": null
+    },
+    {
+      "a": "kendra-kusick",
+      "b": "kyle-francis",
+      "side": "natalie"
+    },
+    {
+      "a": "amy-qiu",
+      "b": "phillip-vo",
+      "side": null
+    },
+    {
+      "a": "greg-bennett",
+      "b": "leighanne-bennett",
+      "side": null
+    },
+    {
+      "a": "james-hageman",
+      "b": "sarah-baird",
+      "side": null
+    },
+    {
+      "a": "grace-jean",
+      "b": "matt-dsouza",
+      "side": null
+    },
+    {
+      "a": "gaea-turman",
+      "b": "nariyan-krsnadas",
+      "side": null
+    },
+    {
+      "a": "annie-huang",
+      "b": "logan-howard",
+      "side": null
+    },
+    {
+      "a": "geoffrey-solomon",
+      "b": "teresa-solomon",
+      "side": null
+    },
+    {
+      "a": "ayush-kapur",
+      "b": "emma-park",
+      "side": null
+    },
+    {
+      "a": "brandon-lavigne",
+      "b": "danielle-lavigne",
+      "side": null
+    },
+    {
+      "a": "brandon-lavigne",
+      "b": "julia-lavigne",
+      "side": null
+    },
+    {
+      "a": "angela-gu",
+      "b": "bill-chen",
+      "side": null
+    },
+    {
+      "a": "jasper-chapman-black",
+      "b": "stacey-chapman-black",
+      "side": null
+    },
+    {
+      "a": "chelsi-manhas",
+      "b": "kyle-katchaluba",
+      "side": null
+    },
+    {
+      "a": "nicole-fleury",
+      "b": "svetomir-milanovic",
+      "side": null
+    },
+    {
+      "a": "george-utsin",
+      "b": "natalie-tchokreff",
+      "side": null
+    },
+    {
+      "a": "hannah-dobrik",
+      "b": "spencer-dobrik",
+      "side": null
+    },
+    {
+      "a": "dina-dlin",
+      "b": "jonah-dlin",
+      "side": null
+    },
+    {
+      "a": "ashley-darton",
+      "b": "stephen-melinyshyn",
+      "side": null
+    },
+    {
+      "a": "celine-rosak",
+      "b": "isaac-madwed",
+      "side": null
+    },
+    {
+      "a": "christina-antinora",
+      "b": "david-mediati",
+      "side": null
+    },
+    {
+      "a": "sam-showalter",
+      "b": "sarah-zhou",
+      "side": null
+    },
+    {
+      "a": "giao-nguyen",
+      "b": "tom-yang",
+      "side": null
     }
   ];
 

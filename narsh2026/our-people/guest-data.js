@@ -1019,7 +1019,10 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-nicole-fleury",
       "side": "natalie",
-      "parents": []
+      "parents": [
+        "shawna-morehouse",
+        "william-fleury"
+      ]
     },
     {
       "id": "kyle-katchaluba",
@@ -1093,7 +1096,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-kendra-kusick",
       "side": "natalie",
-      "parents": []
+      "parents": [
+        "rosanne-fleury"
+      ]
     },
     {
       "id": "jonah-dlin",
@@ -1797,6 +1802,21 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "nicole-fleury",
+      "target": "shawna-morehouse",
+      "type": "parent"
+    },
+    {
+      "source": "nicole-fleury",
+      "target": "william-fleury",
+      "type": "parent"
+    },
+    {
+      "source": "kyle-francis",
+      "target": "rosanne-fleury",
+      "type": "parent"
+    },
+    {
       "source": "brenda-morehouse",
       "target": "sidney-morehouse",
       "type": "parent"
@@ -1815,6 +1835,11 @@ const NARSH_GUESTS = (() => {
       "source": "janessa-reimer",
       "target": "jennifer-reimer",
       "type": "parent"
+    },
+    {
+      "source": "natalie",
+      "target": "nicole-fleury",
+      "type": "sibling"
     },
     {
       "source": "rene-fleury",
@@ -1914,6 +1939,11 @@ const NARSH_GUESTS = (() => {
     {
       "source": "shannon-noble",
       "target": "james-noble",
+      "type": "sibling"
+    },
+    {
+      "source": "gabrielle-blumer",
+      "target": "kyle-francis",
       "type": "sibling"
     }
   ];

@@ -440,6 +440,24 @@ const NARSH_GUESTS = (() => {
 fs.writeFileSync(OUT_PATH, out);
 
 // ---------------------------------------------------------------------------
+// Cache-bust: stamp a fresh ?v= version on the Our People app scripts/styles in
+// index.html so browsers (and GitHub Pages' CDN) fetch the new files instead of
+// replaying stale cached copies after a deploy.
+// ---------------------------------------------------------------------------
+const INDEX_PATH = path.join(DIR, "index.html");
+if (fs.existsSync(INDEX_PATH)) {
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const ver = "" + d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + pad(d.getHours()) + pad(d.getMinutes());
+  let html = fs.readFileSync(INDEX_PATH, "utf8");
+  html = html
+    .replace(/(\/narsh2026\/our-people\/(?:guest-data|graph-ui|graph)\.js)(\?v=\d+)?/g, "$1?v=" + ver)
+    .replace(/(\/narsh2026\/our-people\/our-people\.css)(\?v=\d+)?/g, "$1?v=" + ver);
+  fs.writeFileSync(INDEX_PATH, html);
+  console.error("  cache-bust: stamped ?v=" + ver + " in index.html");
+}
+
+// ---------------------------------------------------------------------------
 // Summary
 // ---------------------------------------------------------------------------
 const sideCount = (s) => GUESTS.filter((g) => g.side === s).length;

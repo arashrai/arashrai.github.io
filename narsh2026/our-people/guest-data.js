@@ -184,6 +184,23 @@ const NARSH_GUESTS = (() => {
       ]
     },
     {
+      "id": "kyle-francis",
+      "name": "Kyle Francis",
+      "photo": null,
+      "groups": [
+        "natalies-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-kendra-kusick",
+      "side": "natalie",
+      "parents": [
+        "rosanne-fleury"
+      ]
+    },
+    {
       "id": "gabrielle-blumer",
       "name": "Gabrielle Blumer",
       "photo": "/narsh2026/images/people/gabrielle.jpg",
@@ -198,23 +215,6 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "steve-blumer",
-        "rosanne-fleury"
-      ]
-    },
-    {
-      "id": "kyle-francis",
-      "name": "Kyle Francis",
-      "photo": null,
-      "groups": [
-        "natalies-family"
-      ],
-      "cities": [],
-      "isCouple": false,
-      "funFact": null,
-      "connectionToCouple": null,
-      "householdId": "household-kendra-kusick",
-      "side": "natalie",
-      "parents": [
         "rosanne-fleury"
       ]
     },
@@ -1734,17 +1734,17 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "kyle-francis",
+      "target": "rosanne-fleury",
+      "type": "parent"
+    },
+    {
       "source": "gabrielle-blumer",
       "target": "steve-blumer",
       "type": "parent"
     },
     {
       "source": "gabrielle-blumer",
-      "target": "rosanne-fleury",
-      "type": "parent"
-    },
-    {
-      "source": "kyle-francis",
       "target": "rosanne-fleury",
       "type": "parent"
     },
@@ -1884,6 +1884,11 @@ const NARSH_GUESTS = (() => {
       "type": "sibling"
     },
     {
+      "source": "kyle-francis",
+      "target": "gabrielle-blumer",
+      "type": "sibling"
+    },
+    {
       "source": "gabrielle-blumer",
       "target": "ben-blumer",
       "type": "sibling"
@@ -1896,11 +1901,6 @@ const NARSH_GUESTS = (() => {
     {
       "source": "ben-blumer",
       "target": "serenity-blumer",
-      "type": "sibling"
-    },
-    {
-      "source": "gabrielle-blumer",
-      "target": "kyle-francis",
       "type": "sibling"
     },
     {
@@ -1983,6 +1983,14 @@ const NARSH_GUESTS = (() => {
       "displayName": "Katelyn & Natreisha"
     },
     {
+      "id": "household-kendra-kusick",
+      "members": [
+        "kyle-francis",
+        "kendra-kusick"
+      ],
+      "displayName": "Kyle & Kendra"
+    },
+    {
       "id": "household-gabrielle-blumer",
       "members": [
         "gabrielle-blumer",
@@ -1990,14 +1998,6 @@ const NARSH_GUESTS = (() => {
         "steve-blumer"
       ],
       "displayName": "Gabrielle, Rosanne & Steve"
-    },
-    {
-      "id": "household-kendra-kusick",
-      "members": [
-        "kyle-francis",
-        "kendra-kusick"
-      ],
-      "displayName": "Kyle & Kendra"
     },
     {
       "id": "household-glen-antle",

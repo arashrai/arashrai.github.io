@@ -17,11 +17,13 @@ const NARSH_GRAPH = (() => {
   const FORCE_LINK_DISTANCE = 80;
   const FORCE_COLLIDE_PADDING = 8;
   const ALPHA_REHEAT = 0.3;
-  // Group-clustering force: how far the per-group anchors sit from center (as a
-  // fraction of the smaller viewport side), and how far out group-less people park.
-  const GROUP_ANCHOR_RADIUS_FRAC = 0.45;
-  const GROUP_PERIPHERY_FACTOR = 1.25;
-  const GROUP_FORCE_STRENGTH = 0.35;
+  // Group-clustering force: per-group anchors sit on an ellipse that fills the
+  // viewport (fractions of width/height, so groups spread apart without going
+  // off-screen). Group-less people park just outside that ellipse.
+  const GROUP_ANCHOR_X_FRAC = 0.40;
+  const GROUP_ANCHOR_Y_FRAC = 0.40;
+  const GROUP_PERIPHERY_FACTOR = 1.18;
+  const GROUP_FORCE_STRENGTH = 0.40;
 
   const COLOR_ARASH = "#2A9D8F";
   const COLOR_NATALIE = "#D4A843";
@@ -101,12 +103,13 @@ const NARSH_GRAPH = (() => {
     const groups = NARSH_GUESTS.GROUPS;
     const cx = width / 2;
     const cy = height / 2;
-    const radius = Math.min(width, height) * GROUP_ANCHOR_RADIUS_FRAC;
+    const rx = width * GROUP_ANCHOR_X_FRAC;
+    const ry = height * GROUP_ANCHOR_Y_FRAC;
     const anchors = {};
     groups.forEach((g, i) => {
       // Start at the top and go clockwise; -PI/2 puts group 0 at 12 o'clock.
       const angle = (i / groups.length) * 2 * Math.PI - Math.PI / 2;
-      anchors[g.id] = { x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle) };
+      anchors[g.id] = { x: cx + rx * Math.cos(angle), y: cy + ry * Math.sin(angle) };
     });
     return anchors;
   };
@@ -119,18 +122,19 @@ const NARSH_GRAPH = (() => {
     let nodes = [];
     const cx = width / 2;
     const cy = height / 2;
-    const ringRadius = Math.min(width, height) * GROUP_ANCHOR_RADIUS_FRAC * GROUP_PERIPHERY_FACTOR;
+    const ringRx = width * GROUP_ANCHOR_X_FRAC * GROUP_PERIPHERY_FACTOR;
+    const ringRy = height * GROUP_ANCHOR_Y_FRAC * GROUP_PERIPHERY_FACTOR;
     const strength = GROUP_FORCE_STRENGTH;
     const force = (alpha) => {
       nodes.forEach((n, i) => {
         const gs = n.groups.filter((gid) => groupAnchors[gid]);
         let tx, ty, k;
         if (gs.length === 0) {
-          // No group: park on a peripheral ring, outside every blob. The golden
-          // angle (~137.5°) spreads them evenly around the outside.
+          // No group: park on a peripheral ellipse, outside every blob. The
+          // golden angle (~137.5°) spreads them evenly around the outside.
           const angle = i * 2.399963229728653;
-          tx = cx + ringRadius * Math.cos(angle);
-          ty = cy + ringRadius * Math.sin(angle);
+          tx = cx + ringRx * Math.cos(angle);
+          ty = cy + ringRy * Math.sin(angle);
           k = strength * 0.5 * alpha;
         } else {
           tx = 0; ty = 0;
@@ -166,11 +170,10 @@ const NARSH_GRAPH = (() => {
 
     innerGroupEl = svgEl.append("g").attr("class", "graph-inner");
 
-    // Layer ordering: cluster blobs (back) -> edges -> nodes -> cluster labels (front)
+    // Layer ordering: cluster blobs + watermarks (back) -> edges -> nodes (front)
     innerGroupEl.append("g").attr("class", "cluster-regions");
     innerGroupEl.append("g").attr("class", "edges");
     innerGroupEl.append("g").attr("class", "nodes");
-    innerGroupEl.append("g").attr("class", "cluster-labels");
 
     renderSocialGraph();
 
@@ -417,9 +420,9 @@ const NARSH_GRAPH = (() => {
 
   const drawClusterRegions = (nodes) => {
     const clusterGroupEl = innerGroupEl.select(".cluster-regions");
-    const labelGroupEl = innerGroupEl.select(".cluster-labels");
     clusterGroupEl.selectAll("*").remove();
-    labelGroupEl.selectAll("*").remove();
+
+    const line = d3.line().curve(d3.curveCatmullRomClosed.alpha(1));
 
     NARSH_GUESTS.GROUPS.forEach((group) => {
       const groupNodes = nodes.filter((n) => n.groups.includes(group.id));
@@ -429,9 +432,33 @@ const NARSH_GRAPH = (() => {
       const hull = d3.polygonHull(points);
       if (!hull) return;
 
-      const expanded = expandHull(hull, 24);
-      const line = d3.line().curve(d3.curveCatmullRomClosed.alpha(1));
+      const expanded = expandHull(hull, 14);
+      const darker = d3.color(group.color).darker(1.2).formatHex();
 
+      // Tiled watermark of the group name, filling the blob as part of its
+      // design. It lives in the back layer, so nodes/edges/labels draw on top.
+      const patternId = "wm-" + group.id;
+      const fontSize = 12;
+      const tileW = group.label.length * fontSize * 0.62 + 40;
+      const tileH = 26;
+      const pattern = clusterGroupEl.append("pattern")
+        .attr("id", patternId)
+        .attr("patternUnits", "userSpaceOnUse")
+        .attr("width", tileW)
+        .attr("height", tileH)
+        .attr("patternTransform", "rotate(-22)");
+      pattern.append("text")
+        .attr("x", 0)
+        .attr("y", fontSize)
+        .attr("font-family", "var(--font-heading, var(--font-body))")
+        .attr("font-size", fontSize + "px")
+        .attr("font-weight", "700")
+        .attr("letter-spacing", "0.08em")
+        .attr("fill", darker)
+        .attr("fill-opacity", 0.16)
+        .text(group.label);
+
+      // Soft colored blob.
       clusterGroupEl.append("path")
         .attr("d", line(expanded))
         .attr("fill", group.color)
@@ -440,28 +467,12 @@ const NARSH_GRAPH = (() => {
         .attr("stroke-opacity", 0.25)
         .attr("stroke-width", 1.5);
 
-      // Label the blob at its centroid, in a darker shade of the blob color.
-      // A warm-white halo (paint-order: stroke) keeps it legible over nodes.
-      const centroid = d3.polygonCentroid(expanded);
-      const darker = d3.color(group.color).darker(1.2).formatHex();
-      labelGroupEl.append("text")
-        .attr("class", "cluster-label")
-        .attr("x", centroid[0])
-        .attr("y", centroid[1])
-        .attr("text-anchor", "middle")
-        .attr("dy", "0.35em")
-        .attr("font-family", "var(--font-heading, var(--font-body))")
-        .attr("font-size", "15px")
-        .attr("font-weight", "700")
-        .attr("letter-spacing", "0.02em")
-        .attr("fill", darker)
-        .attr("fill-opacity", 0.85)
-        .attr("paint-order", "stroke")
-        .attr("stroke", "var(--color-warm-white, #FFF8F0)")
-        .attr("stroke-width", 3.5)
-        .attr("stroke-linejoin", "round")
-        .attr("pointer-events", "none")
-        .text(group.label);
+      // Watermark text, clipped to the blob by filling the same path.
+      clusterGroupEl.append("path")
+        .attr("d", line(expanded))
+        .attr("fill", "url(#" + patternId + ")")
+        .attr("stroke", "none")
+        .attr("pointer-events", "none");
     });
   };
 
@@ -1032,7 +1043,6 @@ const NARSH_GRAPH = (() => {
 
   const clearSvgContent = () => {
     innerGroupEl.select(".cluster-regions").selectAll("*").remove();
-    innerGroupEl.select(".cluster-labels").selectAll("*").remove();
     innerGroupEl.select(".edges").selectAll("*").remove();
     innerGroupEl.select(".nodes").selectAll("*").remove();
     // Remove any tree-specific elements (couple connector, defs for tree clips)

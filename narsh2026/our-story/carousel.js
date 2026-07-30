@@ -112,18 +112,35 @@ const NARSH_CAROUSEL = (() => {
     resizeToCurrent();
   };
 
-  // Size the carousel box to the current photo's natural aspect ratio so the
-  // whole image is visible without cropping, capped so tall portraits don't
-  // overflow the panel.
+  // Size the carousel box to the current photo so the whole image is shown
+  // without cropping, while keeping the photo AND the surrounding text within
+  // the panel so nothing needs to be scrolled. Tall portraits are capped in
+  // height and the box narrows to hug the image (centered).
   const resizeToCurrent = () => {
     if (!containerEl || !trackEl) return;
     const img = trackEl.children[currentIndex];
     if (!img || !img.naturalWidth) return;
-    const width = containerEl.clientWidth;
-    if (!width) return;
-    const maxHeight = window.innerHeight * 0.7;
-    const height = Math.min(width * (img.naturalHeight / img.naturalWidth), maxHeight);
-    containerEl.style.height = height + "px";
+
+    const content = containerEl.parentElement;
+    const maxWidth = content ? content.clientWidth : containerEl.clientWidth;
+    if (!maxWidth) return;
+
+    // Vertical budget for the whole panel, minus the height of the text
+    // (heading, year, narrative) so the photo fits alongside it.
+    const isDesktop = window.innerWidth >= 768;
+    const budget = window.innerHeight * (isDesktop ? 0.6 : 0.7);
+    const textHeight = content ? Math.max(0, content.scrollHeight - containerEl.offsetHeight) : 0;
+    const maxHeight = Math.max(window.innerHeight * 0.25, budget - textHeight - 16);
+
+    const ratio = img.naturalHeight / img.naturalWidth;
+    let w = maxWidth;
+    let h = w * ratio;
+    if (h > maxHeight) {
+      h = maxHeight;
+      w = h / ratio;
+    }
+    containerEl.style.width = w + "px";
+    containerEl.style.height = h + "px";
   };
 
   const goTo = (index) => {

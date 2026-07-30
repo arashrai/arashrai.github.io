@@ -137,9 +137,12 @@
   position: relative;
   background: var(--color-warm-white);
   /* Fallback ratio before the current photo loads; JS sets an exact
-     per-photo height so the whole image is shown without cropping. */
+     per-photo width/height so the whole image is shown without cropping
+     and never forces the panel to scroll. */
   aspect-ratio: 3 / 2;
-  transition: height var(--transition-normal);
+  margin-left: auto;
+  margin-right: auto;
+  transition: height var(--transition-normal), width var(--transition-normal);
 }
 
 /* Carousel track and photos */

@@ -4,12 +4,104 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Narsh 2026">
-    <title>Venue & Travel -- Narsh 2026</title>
+    <title>Venue &amp; Travel -- Narsh 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
     <link rel="stylesheet" href="/narsh2026/cats.css">
+    <style>
+      /* Venue & Travel page -- venue and hotel cards */
+      .venue-section {
+        margin-top: var(--space-xl);
+      }
+
+      .venue-section-heading {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--font-size-xl);
+        color: var(--color-terracotta);
+        letter-spacing: -0.02em;
+        margin: 0 0 var(--space-md) 0;
+        padding-bottom: var(--space-sm);
+        border-bottom: 2px solid var(--color-golden);
+      }
+
+      .venue-card {
+        background: var(--color-warm-white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-md);
+      }
+
+      .venue-card h3 {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        color: var(--color-text-primary);
+        margin: 0 0 var(--space-xs) 0;
+      }
+
+      .venue-eyebrow {
+        display: block;
+        font-weight: 600;
+        color: var(--color-golden);
+        letter-spacing: 0.02em;
+        margin-bottom: var(--space-xs);
+      }
+
+      .venue-card p {
+        margin: 0 0 var(--space-sm) 0;
+      }
+
+      .venue-card p:last-child {
+        margin-bottom: 0;
+      }
+
+      .venue-meta {
+        display: block;
+        color: var(--color-text-secondary);
+        font-size: var(--font-size-sm);
+      }
+
+      .venue-meta strong {
+        color: var(--color-text-primary);
+        font-weight: 600;
+      }
+
+      .venue-note {
+        background: rgba(212, 168, 67, 0.12);
+        border-left: 4px solid var(--color-golden);
+        border-radius: var(--radius-sm);
+        padding: var(--space-md) var(--space-lg);
+        margin-bottom: var(--space-md);
+        color: var(--color-text-secondary);
+      }
+
+      .venue-note p {
+        margin: 0 0 var(--space-sm) 0;
+      }
+
+      .venue-note p:last-child {
+        margin-bottom: 0;
+      }
+
+      .venue-note strong {
+        color: var(--color-text-primary);
+      }
+
+      .venue-card a,
+      .venue-note a {
+        color: var(--color-terracotta);
+        font-weight: 600;
+      }
+
+      .pending {
+        color: var(--color-terracotta);
+        font-style: italic;
+      }
+    </style>
   </head>
   <body class="auth-pending">
     <header class="site-header">
@@ -22,13 +114,69 @@
         <a href="/narsh2026/our-people/">Our People</a>
         <a href="/narsh2026/puzzles/">Puzzles</a>
         <a href="/narsh2026/schedule/">Schedule</a>
-        <a href="/narsh2026/venue-travel/" class="active">Venue & Travel</a>
+        <a href="/narsh2026/venue-travel/" class="active">Venue &amp; Travel</a>
         <a href="/narsh2026/dress-code/">Dress Code</a>
       </nav>
     </header>
     <main class="page-content">
-      <h1>Venue & Travel</h1>
-      <p class="coming-soon">We're working on something special. Check back soon!</p>
+      <h1>Venue &amp; Travel</h1>
+      <p>Everything is in and around Kelowna, in British Columbia's beautiful Okanagan Valley.</p>
+
+      <section class="venue-section">
+        <h2 class="venue-section-heading">Wedding Day Venues</h2>
+        <p class="venue-meta">Saturday, September 26, 2026</p>
+
+        <div class="venue-card">
+          <span class="venue-eyebrow">Anand Karaj &middot; 10:00 AM &ndash; 1:00 PM</span>
+          <h3>Okanagan Sikh Gurdwara</h3>
+          <span class="venue-meta"><strong>Kelowna, BC</strong> &middot; <a href="https://www.google.com/maps/search/?api=1&amp;query=Okanagan+Sikh+Gurdwara+Kelowna" target="_blank" rel="noopener">Open in Maps</a></span>
+        </div>
+
+        <div class="venue-card">
+          <span class="venue-eyebrow">Reception &middot; 5:00 PM &ndash; 10:00 PM</span>
+          <h3>Hillcrest Farm Market</h3>
+          <span class="venue-meta"><strong>Near Kelowna, BC</strong> &middot; <a href="https://www.google.com/maps/search/?api=1&amp;query=Hillcrest+Farm+Market+Kelowna" target="_blank" rel="noopener">Open in Maps</a></span>
+        </div>
+      </section>
+
+      <!-- Full-access guests only: pre-wedding celebrations venue -->
+      <section class="venue-section" data-tier="full">
+        <h2 class="venue-section-heading">Pre-Wedding Celebrations</h2>
+        <p class="venue-meta">Thursday, September 24, 2026 &middot; Mendi and Maiyan &amp; Jago</p>
+
+        <div class="venue-card">
+          <h3>Lakefront Estate on Lake Okanagan</h3>
+          <span class="venue-meta"><strong>Peachland, BC</strong> &middot; approximately 5205 Buchanan Rd &middot; <a href="https://maps.app.goo.gl/sVgq4tqSD2CM4yjA8" target="_blank" rel="noopener">Open in Maps</a></span>
+        </div>
+
+        <div class="venue-note">
+          <p><strong>Parking &amp; getting there:</strong> The exact address can be tricky to pin down, so please navigate with the map link. Parking at the home is limited, and cars will be blocked in during the celebrations.</p>
+          <p>We're looking into shuttle options and will update here once they're confirmed. <span class="pending">Shuttle info coming soon.</span></p>
+        </div>
+      </section>
+
+      <section class="venue-section">
+        <h2 class="venue-section-heading">Where to Stay</h2>
+        <p>We've arranged discounted rates at two nearby hotels for our guests:</p>
+
+        <div class="venue-card">
+          <h3>Hyatt Place Kelowna</h3>
+          <p>Book with <a href="https://www.hyatt.com/en-US/hotel/canada/hyatt-place-kelowna/ylwzk?offercode=wedd" target="_blank" rel="noopener">this link</a> and the promo code <strong>&ldquo;wedd&rdquo;</strong> will be applied automatically when you click &ldquo;Book.&rdquo;</p>
+        </div>
+
+        <div class="venue-card">
+          <h3>Coast Capri Hotel</h3>
+          <p>Use <a href="https://www.coasthotels.com/coast-capri-hotel/deals/wedding-rate" target="_blank" rel="noopener">this link</a> to access the wedding rate.</p>
+        </div>
+      </section>
+
+      <section class="venue-section">
+        <h2 class="venue-section-heading">Getting There</h2>
+        <div class="venue-card">
+          <p>The closest airport is <strong>Kelowna International Airport (YLW)</strong>, just north of the city.</p>
+          <p>The venues are spread around the Kelowna area, so we recommend renting a car or planning rideshares to get between them.</p>
+        </div>
+      </section>
     </main>
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>

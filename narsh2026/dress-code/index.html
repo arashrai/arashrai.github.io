@@ -10,6 +10,84 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
     <link rel="stylesheet" href="/narsh2026/cats.css">
+    <style>
+      /* Dress Code page -- guidance sections and cards */
+      .dress-section {
+        margin-top: var(--space-xl);
+      }
+
+      .dress-section-heading {
+        font-family: var(--font-heading);
+        font-weight: 700;
+        font-size: var(--font-size-xl);
+        color: var(--color-terracotta);
+        letter-spacing: -0.02em;
+        margin: 0 0 var(--space-xs) 0;
+        padding-bottom: var(--space-sm);
+        border-bottom: 2px solid var(--color-golden);
+      }
+
+      .dress-section-sub {
+        color: var(--color-text-secondary);
+        font-style: italic;
+        margin: 0 0 var(--space-md) 0;
+      }
+
+      .dress-card {
+        background: var(--color-warm-white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        padding: var(--space-lg);
+        margin-bottom: var(--space-md);
+      }
+
+      .dress-card p {
+        margin: 0 0 var(--space-sm) 0;
+      }
+
+      .dress-card p:last-child {
+        margin-bottom: 0;
+      }
+
+      .dress-card ul {
+        margin: 0 0 var(--space-sm) 0;
+        padding-left: var(--space-lg);
+      }
+
+      .dress-card li {
+        margin-bottom: var(--space-xs);
+      }
+
+      .dress-note {
+        background: rgba(212, 168, 67, 0.12);
+        border-left: 4px solid var(--color-golden);
+        border-radius: var(--radius-sm);
+        padding: var(--space-md) var(--space-lg);
+        color: var(--color-text-secondary);
+      }
+
+      .dress-note p {
+        margin: 0;
+      }
+
+      .dress-note strong {
+        color: var(--color-text-primary);
+      }
+
+      .color-swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+        margin-top: var(--space-md);
+      }
+
+      .color-swatch {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        box-shadow: var(--shadow-soft);
+      }
+    </style>
   </head>
   <body class="auth-pending">
     <header class="site-header">
@@ -28,7 +106,41 @@
     </header>
     <main class="page-content">
       <h1>Dress Code</h1>
-      <p class="coming-soon">We're working on something special. Check back soon!</p>
+
+      <section class="dress-section">
+        <h2 class="dress-section-heading">The Anand Karaj</h2>
+        <p class="dress-section-sub">The wedding ceremony &middot; Okanagan Sikh Gurdwara</p>
+
+        <div class="dress-card">
+          <p>We warmly recommend wearing Punjabi-style clothing. For women, a <strong>shalwar kameez</strong>-style outfit is perfect.</p>
+          <p>If you'd prefer not to wear Punjabi-style clothing, please just make sure to:</p>
+          <ul>
+            <li>Cover your shoulders and legs completely</li>
+            <li>Wear a head covering that covers most of your hair</li>
+          </ul>
+          <p>If you don't have your own head covering, don't worry &mdash; some will be provided at the Gurdwara.</p>
+        </div>
+
+        <div class="dress-note">
+          <p><strong>Good to know:</strong> During the ceremony you'll be seated on carpeted ground, so choose something you'll be comfortable sitting in.</p>
+        </div>
+      </section>
+
+      <section class="dress-section">
+        <h2 class="dress-section-heading">Everything Else</h2>
+        <p class="dress-section-sub">All other events</p>
+
+        <div class="dress-card">
+          <p>Feel free to wear whatever suits you best! We'd love to see lots of colour, so please steer away from black and grey.</p>
+          <p>Otherwise, every colour is welcome &mdash; the brighter and more joyful, the better.</p>
+          <div class="color-swatches" aria-hidden="true">
+            <span class="color-swatch" style="background: var(--color-terracotta);"></span>
+            <span class="color-swatch" style="background: var(--color-golden);"></span>
+            <span class="color-swatch" style="background: var(--color-dusty-rose);"></span>
+            <span class="color-swatch" style="background: var(--color-journey-arash);"></span>
+          </div>
+        </div>
+      </section>
     </main>
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>

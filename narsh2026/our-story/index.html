@@ -42,10 +42,12 @@
           <p class="stop-year" id="stop-year"></p>
           <div class="stop-carousel" id="stop-carousel">
             <div class="carousel-track"></div>
-            <button class="carousel-prev" aria-label="Previous photo"></button>
-            <button class="carousel-next" aria-label="Next photo"></button>
-            <div class="carousel-dots"></div>
             <div class="carousel-announce" aria-live="polite"></div>
+          </div>
+          <div class="carousel-controls" id="carousel-controls">
+            <button class="carousel-prev" aria-label="Previous photo"></button>
+            <div class="carousel-dots"></div>
+            <button class="carousel-next" aria-label="Next photo"></button>
           </div>
           <div class="stop-narrative" id="stop-narrative"></div>
         </div>
@@ -121,7 +123,17 @@
 
               // Update content
               if (headingEl) headingEl.textContent = stop.location;
-              if (yearEl) yearEl.textContent = stop.year;
+              if (yearEl) {
+                const people = stop.owner === "both"
+                  ? "Arash & Natalie"
+                  : (stop.owner === "arash" ? "Arash" : "Natalie");
+                yearEl.textContent = "";
+                yearEl.append(document.createTextNode(stop.year + " · "));
+                const peopleEl = document.createElement("span");
+                peopleEl.className = "stop-people";
+                peopleEl.textContent = people;
+                yearEl.appendChild(peopleEl);
+              }
               if (narrativeEl) narrativeEl.textContent = stop.narrative;
 
               // Update carousel

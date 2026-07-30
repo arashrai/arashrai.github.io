@@ -130,8 +130,13 @@
   margin: 0 0 var(--space-sm) 0;
 }
 
+.story-panel .stop-people {
+  color: var(--color-terracotta);
+  font-weight: 600;
+}
+
 .story-panel .stop-carousel {
-  margin-bottom: var(--space-md);
+  margin-bottom: var(--space-sm);
   overflow: hidden;
   border-radius: var(--radius-md);
   position: relative;
@@ -159,49 +164,55 @@
   object-fit: contain;
 }
 
-/* Carousel arrow buttons */
-.carousel-prev,
-.carousel-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  min-width: 44px;
-  min-height: 44px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  border-radius: var(--radius-sm);
-  z-index: 2;
+/* Carousel control bar — fixed spot below the photo, on the panel background
+   so the buttons are always visible regardless of photo size or colour. */
+.carousel-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition-fast);
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
 }
 
-.carousel-prev {
-  left: var(--space-sm);
-}
-
+/* Carousel arrow buttons */
+.carousel-prev,
 .carousel-next {
-  right: var(--space-sm);
+  min-width: 40px;
+  min-height: 40px;
+  background: var(--color-warm-white);
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: filter var(--transition-fast), opacity var(--transition-fast);
 }
 
 .carousel-prev:hover,
 .carousel-next:hover {
-  background: rgba(61, 43, 31, 0.08);
+  filter: brightness(0.95);
 }
 
 .carousel-prev:active,
 .carousel-next:active {
-  background: rgba(61, 43, 31, 0.15);
+  filter: brightness(0.9);
+}
+
+.carousel-prev:disabled,
+.carousel-next:disabled {
+  opacity: 0.3;
+  cursor: default;
+  box-shadow: none;
 }
 
 .carousel-prev::before,
 .carousel-next::before {
   content: "";
   display: block;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-top: 2px solid var(--color-text-primary);
   border-left: 2px solid var(--color-text-primary);
 }
@@ -225,13 +236,9 @@
 /* Carousel dot indicators */
 .carousel-dots {
   display: flex;
+  align-items: center;
   justify-content: center;
   gap: var(--space-xs);
-  padding: var(--space-sm) 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
 }
 
 .carousel-dot {

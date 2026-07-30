@@ -8,6 +8,7 @@ const NARSH_CAROUSEL = (() => {
   let photos = [];
   let containerEl = null;
   let trackEl = null;
+  let controlsEl = null;
   let prevEl = null;
   let nextEl = null;
   let dotsEl = null;
@@ -20,10 +21,14 @@ const NARSH_CAROUSEL = (() => {
     containerEl = el;
     if (!containerEl) return;
 
+    // Controls live in a sibling row below the photo, so search the shared
+    // parent (not just the photo box) for the buttons and dots.
+    const scope = containerEl.parentElement || containerEl;
     trackEl = containerEl.querySelector(".carousel-track");
-    prevEl = containerEl.querySelector(".carousel-prev");
-    nextEl = containerEl.querySelector(".carousel-next");
-    dotsEl = containerEl.querySelector(".carousel-dots");
+    controlsEl = scope.querySelector(".carousel-controls");
+    prevEl = scope.querySelector(".carousel-prev");
+    nextEl = scope.querySelector(".carousel-next");
+    dotsEl = scope.querySelector(".carousel-dots");
     announceEl = containerEl.querySelector(".carousel-announce");
     reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -162,14 +167,15 @@ const NARSH_CAROUSEL = (() => {
 
   const updateUI = () => {
     if (photos.length <= 1) {
-      if (prevEl) prevEl.style.display = "none";
-      if (nextEl) nextEl.style.display = "none";
-      if (dotsEl) dotsEl.style.display = "none";
+      // Nothing to navigate — hide the whole control bar.
+      if (controlsEl) controlsEl.style.display = "none";
     } else {
-      if (prevEl) prevEl.style.display = currentIndex === 0 ? "none" : "";
-      if (nextEl) nextEl.style.display = currentIndex === photos.length - 1 ? "none" : "";
+      if (controlsEl) controlsEl.style.display = "";
+      // Keep both arrows in place (a stable spot); disable at the ends
+      // rather than hiding, so the bar doesn't shift between photos.
+      if (prevEl) prevEl.disabled = currentIndex === 0;
+      if (nextEl) nextEl.disabled = currentIndex === photos.length - 1;
       if (dotsEl) {
-        dotsEl.style.display = "";
         dotsEl.innerHTML = photos.map((_, i) => {
           const activeClass = i === currentIndex ? " active" : "";
           return "<span class=\"carousel-dot" + activeClass + "\"></span>";

@@ -267,77 +267,102 @@ const NARSH_MAP = (() => {
 
     // Find the convergence index
     const convergenceIndex = stops.findIndex(s => s.isConvergence);
+    const woven = convergenceIndex >= 0 && stopIndex > convergenceIndex;
 
-    // Build coordinate arrays for each line
-    const arashCoords = [];
-    const natalieCoords = [];
+    // Collect the exact node coordinates for each person's path, and note where
+    // the convergence stop sits within each path (weaving begins there).
+    const arashNodes = [];
+    const natalieNodes = [];
+    let convArashIdx = -1;
+    let convNatalieIdx = -1;
 
     for (let i = 0; i <= stopIndex; i++) {
       const stop = stops[i];
-      const isPostConvergence = convergenceIndex >= 0 && i > convergenceIndex;
-
       if (stop.owner === "arash" || stop.owner === "both") {
-        if (isPostConvergence && stop.owner === "both") {
-          // Apply sine-wave offset for intertwining (arash: phase 0)
-          const offset = computeIntertwineOffset(stop.coords, i, 0);
-          arashCoords.push(offset);
-        } else {
-          arashCoords.push(stop.coords);
-        }
+        if (i === convergenceIndex) convArashIdx = arashNodes.length;
+        arashNodes.push(stop.coords);
       }
-
       if (stop.owner === "natalie" || stop.owner === "both") {
-        if (isPostConvergence && stop.owner === "both") {
-          // Apply sine-wave offset for intertwining (natalie: phase PI)
-          const offset = computeIntertwineOffset(stop.coords, i, Math.PI);
-          natalieCoords.push(offset);
-        } else {
-          natalieCoords.push(stop.coords);
-        }
+        if (i === convergenceIndex) convNatalieIdx = natalieNodes.length;
+        natalieNodes.push(stop.coords);
       }
     }
+
+    // Post-convergence shared segments bow to opposite sides (a weave) but pass
+    // exactly through every node, so both lines meet at each shared stop.
+    const arashCoords = buildLine(arashNodes, woven ? convArashIdx : -1, 1);
+    const natalieCoords = buildLine(natalieNodes, woven ? convNatalieIdx : -1, -1);
 
     if (reducedMotion) {
       // Instant update
       setLineData("line-arash", arashCoords);
       setLineData("line-natalie", natalieCoords);
     } else {
-      // Animate the last segment
-      animateLastSegment("line-arash", arashCoords);
-      animateLastSegment("line-natalie", natalieCoords);
+      // Animate the newly-drawn growth
+      animateReveal("line-arash", arashCoords);
+      animateReveal("line-natalie", natalieCoords);
     }
   };
 
-  const computeIntertwineOffset = (coords, index, phase) => {
-    const offset = Math.sin(index * 2.5 + phase) * INTERTWINE_AMPLITUDE;
-    return [coords[0] + offset, coords[1] + offset * 0.5];
+  // Densify a node path into a smooth polyline. Every segment is split into
+  // SEGMENT_STEPS points so the draw-on animation is smooth. Segments at or
+  // after weaveFromIndex bow perpendicular by a sine that is zero at both
+  // endpoints, so the line still passes through the actual stop coordinates
+  // (the two lines therefore cross exactly at each shared stop).
+  const SEGMENT_STEPS = 24;
+
+  const buildLine = (nodes, weaveFromIndex, sign) => {
+    if (nodes.length === 0) return [];
+    if (nodes.length === 1) return [nodes[0].slice()];
+
+    const out = [nodes[0].slice()];
+    for (let j = 0; j < nodes.length - 1; j++) {
+      const a = nodes[j];
+      const b = nodes[j + 1];
+      const weave = weaveFromIndex >= 0 && j >= weaveFromIndex;
+
+      const dx = b[0] - a[0];
+      const dy = b[1] - a[1];
+      const len = Math.hypot(dx, dy) || 1;
+      const px = -dy / len;
+      const py = dx / len;
+
+      for (let s = 1; s <= SEGMENT_STEPS; s++) {
+        const t = s / SEGMENT_STEPS;
+        const bow = weave ? Math.sin(Math.PI * t) * INTERTWINE_AMPLITUDE * sign : 0;
+        out.push([a[0] + dx * t + px * bow, a[1] + dy * t + py * bow]);
+      }
+    }
+    return out;
   };
 
-  const animateLastSegment = (sourceId, coords) => {
+  const animateReveal = (sourceId, coords) => {
     if (coords.length < 2) {
       setLineData(sourceId, coords);
       return;
     }
 
-    const prevCoords = coords.slice(0, -1);
-    const targetCoord = coords[coords.length - 1];
-    const fromCoord = prevCoords[prevCoords.length - 1];
-    const startTime = performance.now();
+    const prev = lastCoords[sourceId] || [];
+    // Reveal from wherever the line currently ends, so only new growth animates.
+    const startCount = (prev.length >= 1 && prev.length < coords.length) ? prev.length : 1;
+    if (coords.length <= startCount) {
+      setLineData(sourceId, coords);
+      return;
+    }
 
+    const startTime = performance.now();
     const step = (currentTime) => {
       const elapsed = currentTime - startTime;
       const progress = Math.min(elapsed / LINE_DRAW_DURATION, 1);
       // Ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-
-      const currentLng = fromCoord[0] + (targetCoord[0] - fromCoord[0]) * eased;
-      const currentLat = fromCoord[1] + (targetCoord[1] - fromCoord[1]) * eased;
-
-      const animatedCoords = [...prevCoords, [currentLng, currentLat]];
-      setLineData(sourceId, animatedCoords);
+      const count = startCount + Math.floor((coords.length - startCount) * eased);
+      setLineData(sourceId, coords.slice(0, Math.max(count, startCount)));
 
       if (progress < 1) {
         lineAnimationId = requestAnimationFrame(step);
+      } else {
+        setLineData(sourceId, coords);
       }
     };
 

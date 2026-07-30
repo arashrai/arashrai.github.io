@@ -381,8 +381,8 @@
     bottom: calc(48px + env(safe-area-inset-bottom, 0px) + var(--space-md));
     right: var(--space-lg);
     left: auto;
-    max-width: 420px;
-    max-height: 60vh;
+    max-width: 440px;
+    max-height: 82vh;
     overflow-y: auto;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-medium);

@@ -133,9 +133,9 @@ const NARSH_CAROUSEL = (() => {
     // Vertical budget for the whole panel, minus the height of the text
     // (heading, year, narrative) so the photo fits alongside it.
     const isDesktop = window.innerWidth >= 768;
-    const budget = window.innerHeight * (isDesktop ? 0.6 : 0.7);
+    const budget = window.innerHeight * (isDesktop ? 0.74 : 0.72);
     const textHeight = content ? Math.max(0, content.scrollHeight - containerEl.offsetHeight) : 0;
-    const maxHeight = Math.max(window.innerHeight * 0.25, budget - textHeight - 16);
+    const maxHeight = Math.max(window.innerHeight * 0.34, budget - textHeight - 16);
 
     const ratio = img.naturalHeight / img.naturalWidth;
     let w = maxWidth;

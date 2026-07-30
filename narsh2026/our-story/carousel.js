@@ -77,6 +77,8 @@ const NARSH_CAROUSEL = (() => {
         goTo(currentIndex + 1);
       }
     });
+
+    window.addEventListener("resize", resizeToCurrent);
   };
 
   const loadPhotos = (newPhotos) => {
@@ -92,17 +94,36 @@ const NARSH_CAROUSEL = (() => {
 
     if (trackEl) {
       trackEl.innerHTML = "";
-      photos.forEach((photo) => {
+      photos.forEach((photo, i) => {
         const img = document.createElement("img");
         img.className = "carousel-photo";
         img.src = photo.src;
         img.alt = photo.alt;
         img.loading = "lazy";
+        // Resize the box to the photo once it loads, if it's the one on screen.
+        img.addEventListener("load", () => {
+          if (i === currentIndex) resizeToCurrent();
+        });
         trackEl.appendChild(img);
       });
     }
 
     updateUI();
+    resizeToCurrent();
+  };
+
+  // Size the carousel box to the current photo's natural aspect ratio so the
+  // whole image is visible without cropping, capped so tall portraits don't
+  // overflow the panel.
+  const resizeToCurrent = () => {
+    if (!containerEl || !trackEl) return;
+    const img = trackEl.children[currentIndex];
+    if (!img || !img.naturalWidth) return;
+    const width = containerEl.clientWidth;
+    if (!width) return;
+    const maxHeight = window.innerHeight * 0.7;
+    const height = Math.min(width * (img.naturalHeight / img.naturalWidth), maxHeight);
+    containerEl.style.height = height + "px";
   };
 
   const goTo = (index) => {
@@ -118,6 +139,7 @@ const NARSH_CAROUSEL = (() => {
       trackEl.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
     }
 
+    resizeToCurrent();
     updateUI();
   };
 

@@ -11,16 +11,15 @@ Fill in each section below. I'll use this to update the timeline.
 
 ---
 
-## 1. Arash — Mumbai, India (1997)
-**Who:** arash
-**Location:** Mumbai, India
+## 1. Arash — Amritsar, Punjab, India (1997)
+**Who:** Arash
+**Location:** Amritsar, Punjab, India
 **Year:** 1997
 
-Write your brain dump here...
+Born in Punjab, moved away at age 4 to New Zealand.
 
 
-IMG: /path/to/photo.jpg
-IMG: /path/to/another-photo.jpg
+narsh2026/images/story/arash baby.jpg
 
 ---
 
@@ -29,19 +28,19 @@ IMG: /path/to/another-photo.jpg
 **Location:** Grand Cayman, Cayman Islands
 **Year:** 1999 - 2016
 
-I was born and raised on a small island nation called the Cayman Islands (Grand Cayman) with warm weather and fun animals. I was very into nature and kept all sorts of pets throughout my life including bunnies, cats, chickens, snakes (that I caught), frogs, iguanas. I loved to climb trees and explore. I was a joker, I loved to make people laugh or smile.
-I completed my highschool diploma and IB Full diploma at Cayman International School (CIS) in 2016.
+Born and raised in the Cayman Islands (Grand Cayman). It has warm weather and lots of fun animals. Loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes (that I caught), and frogs. Loved climbing all sorts of things and exploring. Loved making people laugh and joked around a lot.
+Completed her highschool and IB diploma at Cayman International School (CIS) in 2016.
 
-IMG: /Users/nataliefleury/Programming/arashrai.github.io/narsh2026/images/story/Natalie — Grand Cayman (1999 - 2016)/
+IMG: narsh2026/images/story/Natalie — Grand Cayman (1999 - 2016)/
 
 ---
 
 ## 3. Arash — Auckland, New Zealand (2001)
-**Who:** arash
+**Who:** Arash
 **Location:** Auckland, New Zealand
 **Year:** 2001
 
-Write your brain dump here...
+Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada. 
 
 
 IMG:
@@ -49,14 +48,14 @@ IMG:
 ---
 
 ## 5. Arash — Vancouver, Canada (2010)
-**Who:** arash
-**Location:** Vancouver, Canada
+**Who:** Arash
+**Location:** Abbotsford, BC, Canada
 **Year:** 2010
 
-Write your brain dump here...
+Moved from Aukland/Austtralia to BC at age 12. Completed his highschool degree.
 
 
-IMG:
+IMG: narsh2026/images/story/arash BC.jpg
 
 ---
 
@@ -66,8 +65,9 @@ IMG:
 **Year:** 2016
 **Convergence:** yes
 
-Write your brain dump here... (This is where you two met!)
-
+Where we met <3
+It was the summer after Arash completed his highschool degree, on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades – the perfect time to completely change her career plans to follow Arash to Waterloo. So worth it!!
+They were seeing each other long-distance after camp until Natalie completed highschool. 
 
 IMG:
 
@@ -78,10 +78,10 @@ IMG:
 **Location:** Waterloo, Ontario, Canada
 **Year:** 2016 - 2020
 
-Arash convinced Natalie that computer science was a promising career so she took his word for it and switched plans plans from doing something medical eg. veterinary medicine to instead study Computer Science at Waterloo. Best decision ever! He was right, plus they got to be together.
+Arash convinced Natalie that computer science was a promising career so she took his word for it and switched plans from doing something medical eg. veterinary medicine to instead study Computer Science at Waterloo. Best decision ever! He was right, plus they got to be together.
 They made some amazing friends for life. They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for our future home!
 
-IMG: /Users/nataliefleury/Programming/arashrai.github.io/narsh2026/images/story/Waterloo, Ontario, Canada (2016)/
+IMG: narsh2026/images/story/Waterloo, Ontario, Canada (2016)/
 
 ---
 
@@ -90,22 +90,22 @@ IMG: /Users/nataliefleury/Programming/arashrai.github.io/narsh2026/images/story/
 **Location:** Seattle, Washington
 **Year:** 2021 - present day
 
-Write your brain dump here...
+Our careers took us to the US and we decided to setup some roots in Seattle. We love the beautiful mountains and water, the climate, and the proximity to Canada and Arash's family.
 
 
-IMG:
+IMG: narsh2026/images/story/seattle/
 
 ---
 
 ## 12. The Proposal (2025)
 **Who:** both
-**Location:** Tophino/Uclulet, Vancouver Island
+**Location:** Uclulet, Vancouver Island, BC, Canada
 **Year:** 2025
 
-Write your brain dump here...
+Arash took Natalie on a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses running right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too. 
 
 
-IMG:
+IMG: narsh2026/images/story/proposal/
 
 ---
 

@@ -6,15 +6,15 @@ const NARSH_STORY_DATA = (() => {
 
   const STOPS = [
     {
-      id: "arash-mumbai",
+      id: "arash-amritsar",
       owner: "arash",
-      location: "Mumbai, India",
-      coords: [72.8777, 19.0760],
+      location: "Amritsar, Punjab, India",
+      coords: [74.8723, 31.6340],
       zoom: 5,
       year: 1997,
-      narrative: "Born in the bustling heart of Mumbai, where monsoon rains and cricket matches filled the earliest chapters. The city of dreams gave Arash his first taste of a big, vibrant world.",
+      narrative: "Where it all begins. Arash was born in Amritsar, in the heart of Punjab. The first four years of his life were spent here, before the family set off for the far side of the world.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-1.svg", alt: "Arash in Mumbai" }
+        { src: "/narsh2026/images/story/arash%20baby.jpg", alt: "Baby Arash in Punjab" }
       ],
       isConvergence: false
     },
@@ -47,22 +47,22 @@ const NARSH_STORY_DATA = (() => {
       coords: [174.7633, -36.8485],
       zoom: 5,
       year: 2001,
-      narrative: "A move to the other side of the world. Auckland brought rugby, meat pies, and a Kiwi accent that would confuse people for years to come. The adventure gene was already strong.",
+      narrative: "Auckland, from ages four to eleven — the most formative years, and Arash still wishes the Kiwi accent had stuck. A brief chapter in Australia followed before the family pointed the compass toward Canada.",
       photos: [
         { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Arash in Auckland" }
       ],
       isConvergence: false
     },
     {
-      id: "arash-vancouver",
+      id: "arash-abbotsford",
       owner: "arash",
-      location: "Vancouver, Canada",
-      coords: [-123.1216, 49.2827],
+      location: "Abbotsford, BC, Canada",
+      coords: [-122.3045, 49.0504],
       zoom: 5,
       year: 2010,
-      narrative: "From one coast to another. Vancouver meant mountains, ocean, and a new chapter in yet another country. By now, Arash had lived on three continents before turning thirteen.",
+      narrative: "At twelve, another new country: Canada. Abbotsford, British Columbia became home, and it's where Arash finished high school — three continents lived on before he'd even graduated.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Arash in Vancouver" }
+        { src: "/narsh2026/images/story/arash%20BC.jpg", alt: "Arash in British Columbia" }
       ],
       isConvergence: false
     },
@@ -73,7 +73,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-80.5204, 43.4643],
       zoom: 6,
       year: 2016,
-      narrative: "Two stories collide at SHAD Valley. A summer program for curious minds brought together a kid from three continents and an island girl turned Canuck. Neither knew it yet, but this was the beginning of everything.",
+      narrative: "Two stories finally collide. SHAD is a summer enrichment program for high schoolers, and it landed a boy who'd grown up across three continents in the same place as an island girl — the summer after Arash finished high school on his way to Waterloo, and the summer between Natalie's grades 11 and 12. It was enough to make Natalie rethink her whole plan and follow him to Waterloo. They dated long-distance until she graduated. So worth it.",
       photos: [
         { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash at SHAD Valley" }
       ],
@@ -104,22 +104,33 @@ const NARSH_STORY_DATA = (() => {
       coords: [-122.3321, 47.6062],
       zoom: 7,
       year: "2021 – present",
-      narrative: "The Pacific Northwest called. Seattle brought rain, coffee snobbery, two cats named Presto and Trino, and the quiet certainty that this was home. Not the city — each other.",
+      narrative: "Their careers took them to the US, and Seattle is where they chose to put down roots — drawn by the mountains and the water, the mild Pacific Northwest climate, and being close to Canada and Arash's family. It came with two cats, Presto and Trino, and the quiet certainty that this was home.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-2.svg", alt: "Natalie and Arash in Seattle" }
+        { src: "/narsh2026/images/story/seattle/20200620_144808.jpg", alt: "Natalie and Arash in Seattle" },
+        { src: "/narsh2026/images/story/seattle/PXL_20220206_210856198.jpg", alt: "Natalie and Arash in Seattle, 2022" },
+        { src: "/narsh2026/images/story/seattle/20220721_195734.jpg", alt: "A Seattle summer, 2022" },
+        { src: "/narsh2026/images/story/seattle/PXL_20240324_171407406.jpg", alt: "Natalie and Arash in the Pacific Northwest, 2024" },
+        { src: "/narsh2026/images/story/seattle/PXL_20240619_072540622.jpg", alt: "Exploring the Pacific Northwest, 2024" },
+        { src: "/narsh2026/images/story/seattle/PXL_20240916_003938733.jpg", alt: "Natalie and Arash in Seattle, 2024" },
+        { src: "/narsh2026/images/story/seattle/PXL_20241225_000049234.jpg", alt: "The holidays in Seattle, 2024" },
+        { src: "/narsh2026/images/story/seattle/PXL_20250330_174700644.jpg", alt: "Natalie and Arash in Seattle, 2025" },
+        { src: "/narsh2026/images/story/seattle/PXL_20250914_210423312.jpg", alt: "Home in Seattle, 2025" }
       ],
       isConvergence: false
     },
     {
       id: "proposal",
       owner: "both",
-      location: "Tofino, Vancouver Island",
-      coords: [-125.9066, 49.1530],
+      location: "Ucluelet, Vancouver Island",
+      coords: [-125.5462, 48.9420],
       zoom: 9,
       year: 2025,
-      narrative: "He asked. She said yes. Two lives that started oceans apart, now writing the same story. The next chapter begins in September 2026.",
+      narrative: "Arash whisked Natalie on a road trip around Vancouver Island — geodesic domes, a petting farm full of baby goats, horses grazing right outside the window, jaw-dropping views, incredible meals, a private spa... and, oh yeah, a proposal too. She said yes. Two lives that started oceans apart, now writing the same story. The next chapter begins in September 2026.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "The proposal in Tofino" }
+        { src: "/narsh2026/images/story/proposal/PXL_20250605_171039942.jpg", alt: "The proposal trip on Vancouver Island" },
+        { src: "/narsh2026/images/story/proposal/PXL_20250605_171242893.jpg", alt: "Natalie and Arash on Vancouver Island" },
+        { src: "/narsh2026/images/story/proposal/PXL_20250622_032122687%20(1).jpg", alt: "Celebrating the engagement" },
+        { src: "/narsh2026/images/story/proposal/1%20(1).jpg", alt: "Newly engaged on Vancouver Island" }
       ],
       isConvergence: false
     }

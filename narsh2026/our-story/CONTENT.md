@@ -61,11 +61,12 @@ IMG: narsh2026/images/story/arash BC.jpg
 
 ## 6. SHAD Valley, Canada (2016)
 **Who:** both
-**Location:** SHAD Valley, Canada
+**Location:** University of Saskatchewan, Canada
 **Year:** 2016
 **Convergence:** yes
 
-Where we met <3
+Where we met!
+We were both a little disheartened that we pulled the short straw of SHAD campuses, being in Saskatchewan of all places, but it was the best thing we could have asked for.
 It was the summer after Arash completed his highschool degree, on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades – the perfect time to completely change her career plans to follow Arash to Waterloo. So worth it!!
 They were seeing each other long-distance after camp until Natalie completed highschool. 
 
@@ -87,7 +88,7 @@ IMG: narsh2026/images/story/Waterloo, Ontario, Canada (2016)/
 
 ## 11. Seattle, Washington (2021)
 **Who:** both
-**Location:** Seattle, Washington
+**Location:** Pike Place Market, Seattle, Washington
 **Year:** 2021 - present day
 
 Our careers took us to the US and we decided to setup some roots in Seattle. We love the beautiful mountains and water, the climate, and the proximity to Canada and Arash's family.

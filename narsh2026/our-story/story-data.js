@@ -69,13 +69,13 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "shad-valley",
       owner: "both",
-      location: "SHAD Valley, Canada",
-      coords: [-80.5204, 43.4643],
+      location: "University of Saskatchewan, Canada",
+      coords: [-106.6330, 52.1332],
       zoom: 6,
       year: 2016,
-      narrative: "Two stories finally collide. SHAD is a summer enrichment program for high schoolers, and it landed a boy who'd grown up across three continents in the same place as an island girl — the summer after Arash finished high school on his way to Waterloo, and the summer between Natalie's grades 11 and 12. It was enough to make Natalie rethink her whole plan and follow him to Waterloo. They dated long-distance until she graduated. So worth it.",
+      narrative: "Where we met! We were both a little disheartened to have drawn the short straw of SHAD campuses — Saskatchewan, of all places — but it turned out to be the best thing we could have asked for. SHAD is a summer enrichment program for high schoolers, and it landed a boy who'd grown up across three continents in the same place as an island girl: the summer after Arash finished high school on his way to Waterloo, and the summer between Natalie's grades 11 and 12. It was enough to make Natalie rethink her whole plan and follow him to Waterloo. They dated long-distance until she graduated. So worth it.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash at SHAD Valley" }
+        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
       ],
       isConvergence: true
     },
@@ -100,8 +100,8 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "seattle",
       owner: "both",
-      location: "Seattle, Washington",
-      coords: [-122.3321, 47.6062],
+      location: "Pike Place Market, Seattle, Washington",
+      coords: [-122.3421, 47.6097],
       zoom: 7,
       year: "2021 – present",
       narrative: "Their careers took them to the US, and Seattle is where they chose to put down roots — drawn by the mountains and the water, the mild Pacific Northwest climate, and being close to Canada and Arash's family. It came with two cats, Presto and Trino, and the quiet certainty that this was home.",

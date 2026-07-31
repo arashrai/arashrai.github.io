@@ -284,26 +284,6 @@ const NARSH_PUZZLE_UI = (() => {
     }
   };
 
-  // --- Speech bubble ---
-
-  const showSpeechBubble = (cardEl, clueText, isCriminal) => {
-    const bubbleEl = document.createElement("div");
-    bubbleEl.className = "speech-bubble " + (isCriminal ? "criminal" : "innocent");
-
-    const textEl = document.createTextNode(clueText);
-    bubbleEl.appendChild(textEl);
-
-    cardEl.appendChild(bubbleEl);
-
-    // Auto-hide after 3 seconds with fade-out
-    setTimeout(() => {
-      bubbleEl.classList.add("fade-out");
-      setTimeout(() => {
-        if (bubbleEl.parentNode) bubbleEl.remove();
-      }, 500);
-    }, 3000);
-  };
-
   // --- Emoji rendering (text emoji or SVG image) ---
 
   const renderEmoji = (emoji, className) => {
@@ -661,12 +641,6 @@ const NARSH_PUZZLE_UI = (() => {
 
       // Clear hint highlights if all revealed
       clearStaleHintHighlights();
-
-      // Show speech bubble with clue text after flip completes
-      const speechDelay = reducedMotion ? 0 : 500;
-      setTimeout(() => {
-        showSpeechBubble(cardEl, result.clueText, result.criminal);
-      }, speechDelay);
 
       // Update stats
       updateStats();

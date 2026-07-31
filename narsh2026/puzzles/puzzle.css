@@ -356,37 +356,6 @@ img.card-back-emoji {
   cursor: not-allowed;
 }
 
-/* Speech bubble */
-.speech-bubble {
-  position: absolute;
-  background: var(--color-warm-white);
-  border-radius: var(--radius-sm);
-  padding: var(--space-sm);
-  font-size: 12px;
-  font-family: var(--font-body);
-  box-shadow: var(--shadow-soft);
-  z-index: 5;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 4px;
-  max-width: 200px;
-  pointer-events: none;
-}
-
-.speech-bubble.criminal {
-  border-left: 3px solid var(--color-criminal);
-}
-
-.speech-bubble.innocent {
-  border-left: 3px solid var(--color-innocent);
-}
-
-.speech-bubble.fade-out {
-  opacity: 0;
-  transition: opacity 500ms ease;
-}
-
 /* Modal styles */
 .modal {
   position: fixed;
@@ -671,10 +640,6 @@ img.card-back-emoji {
 
   .modal.closing {
     animation-duration: 0s;
-  }
-
-  .speech-bubble {
-    transition-duration: 0s;
   }
 
   .daily-puzzle-card:hover {

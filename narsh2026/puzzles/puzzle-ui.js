@@ -761,10 +761,14 @@ const NARSH_PUZZLE_UI = (() => {
     // Inspect button
     inspectBtnEl = document.createElement("button");
     inspectBtnEl.className = "btn-inspect";
-    inspectBtnEl.textContent = "Dim Read Cards";
-    inspectBtnEl.setAttribute("aria-pressed", "false");
     inspectBtnEl.addEventListener("click", handleInspectClick);
     controlsEl.appendChild(inspectBtnEl);
+
+    // Reflect current dim mode (on by default)
+    const inspectOn = NARSH_PUZZLE.isInspectMode();
+    inspectBtnEl.textContent = inspectOn ? "Dimming On" : "Dim Read Cards";
+    inspectBtnEl.classList.toggle("active", inspectOn);
+    inspectBtnEl.setAttribute("aria-pressed", inspectOn ? "true" : "false");
 
     // Share button
     shareBtnEl = document.createElement("button");

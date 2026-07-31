@@ -29,7 +29,7 @@ const NARSH_PUZZLE = (() => {
   let colorTags = {};
 
   // Inspect/dim mode
-  let inspectMode = false;
+  let inspectMode = true;
   let dimmedCards = new Set();
 
   // Hint system
@@ -270,7 +270,7 @@ const NARSH_PUZZLE = (() => {
       accumulated = saved.elapsedMs || 0;
       gameComplete = saved.gameComplete || false;
       currentHintLevel = -1;
-      inspectMode = false;
+      inspectMode = true;
       timerRunning = false;
       timerStart = 0;
 
@@ -293,7 +293,7 @@ const NARSH_PUZZLE = (() => {
       accumulated = 0;
       gameComplete = false;
       currentHintLevel = -1;
-      inspectMode = false;
+      inspectMode = true;
       timerRunning = false;
       timerStart = 0;
       firstAction = false;
@@ -389,7 +389,7 @@ const NARSH_PUZZLE = (() => {
     timerRunning = false;
     timerStart = 0;
     currentHintLevel = -1;
-    inspectMode = false;
+    inspectMode = true;
     firstAction = false;
     clearState();
   };

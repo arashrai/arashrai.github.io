@@ -29,6 +29,7 @@
 
     <main class="puzzle-page">
       <h1>Clues by Narsh</h1>
+      <p class="puzzle-identity-clue" id="puzzle-identity-clue"></p>
       <section class="puzzle-game" id="puzzle-game" aria-label="Clues puzzle game">
         <div class="puzzle-stats" id="puzzle-stats"></div>
         <div class="puzzle-grid" id="puzzle-grid"></div>
@@ -50,6 +51,10 @@
         NARSH_AUTH.applyTierVisibility(tier);
         NARSH_PUZZLE.init(NARSH_PUZZLE_DATA);
         NARSH_PUZZLE_UI.init();
+        const identityEl = document.getElementById("puzzle-identity-clue");
+        if (identityEl && NARSH_PUZZLE_DATA.IDENTITY_CLUE) {
+          identityEl.textContent = NARSH_PUZZLE_DATA.IDENTITY_CLUE;
+        }
       }
     </script>
   </body>

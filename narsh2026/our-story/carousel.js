@@ -104,7 +104,11 @@ const NARSH_CAROUSEL = (() => {
         img.className = "carousel-photo";
         img.src = photo.src;
         img.alt = photo.alt;
-        img.loading = "lazy";
+        // Eager + async decode: only the current stop's (now web-sized) photos
+        // are in the DOM at once, and lazy-loading is unreliable for the
+        // horizontally-translated off-screen carousel slides.
+        img.loading = "eager";
+        img.decoding = "async";
         // Resize the box to the photo once it loads, if it's the one on screen.
         img.addEventListener("load", () => {
           if (i === currentIndex) resizeToCurrent();

@@ -229,40 +229,98 @@ const NARSH_PUZZLE_DATA = (() => {
     { name: "City Angle", url: "https://visitwhale.com/city-angle/", emoji: "🏙️", description: "Guess the city from a street view angle" }
   ];
 
+  // Grid dimensions (used by the clue resolver's positional phrasing).
+  const GRID_WIDTH = 4;
+  const GRID_HEIGHT = 5;
+  const COLS = ["A", "B", "C", "D", "E", "F", "G"];
+
+  const capitalize = (str) =>
+    str.length === 0 ? str : str.charAt(0).toUpperCase() + str.slice(1);
+
+  // Faithful port of the Clues by Sam clue resolver, so displayed clues read
+  // exactly as they do on the original puzzle. speakerIndex (u) enables the
+  // first-person phrasing ("I"/"me"/"my"), and #BETWEEN uses grid positions to
+  // produce "to the left/right of", "above/below", "in row/column", or
+  // "in between X and Y".
   const resolveClue = (hintText, characters, speakerIndex) => {
-    let resolved = hintText;
+    const u = speakerIndex;
+    const f = { cards: characters, width: GRID_WIDTH, height: GRID_HEIGHT };
+    let s = hintText;
 
-    // #NAMES:idx -> possessive name (e.g., "Penny's")
-    resolved = resolved.replace(/#NAMES:(\d+)/g, (match, idx) => {
-      const char = characters[parseInt(idx, 10)];
-      return char ? char.name + "'s" : match;
+    // #C:n -> column letter (1-based)
+    s = s.replace(/#C:([0-9])/gi, (M, x) => COLS[parseInt(x, 10) - 1]);
+
+    // #NAMES:n -> possessive ("my" / "Name'" / "Name's")
+    s = s.replace(/#NAMES:([0-9]+)/gi, (M, x) => {
+      const v = f.cards[x].name;
+      return u == x
+        ? "my"
+        : (v[v.length - 1] === "s" ? "#NAME:" + x + "'" : "#NAME:" + x + "'s");
     });
 
-    // #NAME:idx -> character name
-    resolved = resolved.replace(/#NAME:(\d+)/g, (match, idx) => {
-      const char = characters[parseInt(idx, 10)];
-      return char ? char.name : match;
+    // "#NAME:x and #NAME:y" -> "... and I" when one is the speaker
+    s = s.replace(/#NAME:([0-9]+) and #NAME:([0-9]+)/gi, (M, x, v) => {
+      const N = parseInt(x, 10), H = parseInt(v, 10);
+      if (!isNaN(N) && !isNaN(H) && N == u) return "#NAME:" + v + " and I";
+      if (!isNaN(N) && !isNaN(H) && H == u) return "#NAME:" + x + " and I";
+      return M;
     });
 
-    // #PROFS:profession -> plural profession word (e.g., "builders")
-    resolved = resolved.replace(/#PROFS:([a-zA-Z]+)/g, (match, prof) => {
-      return prof + "s";
+    // "^#NAME:x is/has" -> "I am"/"I have" when the speaker
+    s = s.replace(/^#NAME:([0-9]+) (is|has)/gi, (M, x, v) => {
+      const N = parseInt(x, 10);
+      if (isNaN(N)) return x;
+      if (N == u) return v == "is" ? "I am" : v == "has" ? "I have" : (v ? "I " + v : "I");
+      return v ? "#NAME:" + N + " " + v : "#NAME:" + N;
     });
 
-    // #C:idx -> column label
-    resolved = resolved.replace(/#C:(\d+)/g, (match, idx) => {
-      const col = (parseInt(idx, 10) % 4) + 1;
-      return "column " + col;
+    // (is )?#BETWEEN:pair(x,y) -> positional phrasing
+    s = s.replace(/(is )?#BETWEEN:pair\(([0-9]+),([0-9]+)\)/gi, (M, x, v, N) => {
+      const H = parseInt(v, 10), G = parseInt(N, 10);
+      const Q = H < G ? H : G, I = H < G ? G : H;
+      const ce = Q % f.width, le = Math.floor(Q / f.width);
+      const de = I % f.width, fe = Math.floor(I / f.width);
+      const ve = le == fe;
+      const Se = Q - (ve ? 1 : f.width), V = I + (ve ? 1 : f.width);
+      if (ve) {
+        if (ce == 0 && de == f.width - 1) return (x || "") + "in row " + (le + 1);
+        if (ce == 0) return (x ? "is " : "") + "to the left of " + (u == V ? "me" : "#NAME:" + V);
+        if (de == f.width - 1) return (x ? "is " : "") + "to the right of " + (u == Se ? "me" : "#NAME:" + Se);
+      } else {
+        if (le == 0 && fe == f.height - 1) return (x || "") + "in column " + COLS[ce];
+        if (le == 0) return (x ? "is " : "") + "above " + (u == V ? "me" : "#NAME:" + V);
+        if (fe == f.height - 1) return (x ? "is " : "") + "below " + (u == Se ? "me" : "#NAME:" + Se);
+      }
+      if (u == Se) return (x ? "is " : "") + "in between #NAME:" + V + " and me";
+      if (u == V) return (x ? "is " : "") + "in between #NAME:" + Se + " and me";
+      return (x ? "is " : "") + "in between #NAME:" + Se + " and #NAME:" + V;
     });
 
-    // #BETWEEN:pair(x,y) -> "between NameX and NameY"
-    resolved = resolved.replace(/#BETWEEN:pair\((\d+),(\d+)\)/g, (match, x, y) => {
-      const charX = characters[parseInt(x, 10)];
-      const charY = characters[parseInt(y, 10)];
-      return "between " + (charX ? charX.name : "?") + " and " + (charY ? charY.name : "?");
+    // #PROF(S):prof -> profession, pluralized when the S is present
+    s = s.replace(/#PROF(S?):([a-z]+)/gi, (M, x, v) =>
+      v == "witch" ? "witches" : v + (x ? "s" : ""));
+
+    // "neighboring #NAME:x" -> "neighboring me" when the speaker
+    s = s.replace(/neighboring #NAME:([0-9]+)/gi, (M, x) =>
+      parseInt(x, 10) == u ? "neighboring me" : M);
+
+    // "^#NAME:x" -> "I" when the speaker
+    s = s.replace(/^#NAME:([0-9]+)/gi, (M, x) => (parseInt(x, 10) == u ? "I" : M));
+
+    // "#NAME:x" -> "me" when the speaker
+    s = s.replace(/#NAME:([0-9]+)/gi, (M, x) => (parseInt(x, 10) == u ? "me" : M));
+
+    // "#NAME:x" -> capitalized name
+    s = s.replace(/#NAME:([0-9]+)/gi, (M, x) => {
+      const v = parseInt(x, 10);
+      if (isNaN(v)) return x;
+      return capitalize(f.cards[v].name);
     });
 
-    return resolved;
+    // Cleanups
+    s = s.replace(" exactly 0 ", " no ");
+    s = s.substring(0, 1).toUpperCase() + s.substring(1);
+    return s;
   };
 
   const getCharacter = (index) => CHARACTERS[index] || null;

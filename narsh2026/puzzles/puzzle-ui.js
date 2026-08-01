@@ -464,6 +464,20 @@ const NARSH_PUZZLE_UI = (() => {
       const frontEl = document.createElement("div");
       frontEl.className = "puzzle-card-front";
 
+      // Color tag hit target: corner click/tap cycles the marker.
+      // Deliberately NOT focusable (a span, no tabindex, aria-hidden): one target per
+      // card would roughly double the page's tab stops for a secondary note-taking
+      // affordance, and the card's own role=button / tabindex=0 / Enter-Space path to
+      // the guess dialog must stay unchanged. Keyboard users keep the pre-existing
+      // route to color cycling: focus the card and press the context-menu key
+      // (or Shift+F10), which dispatches contextmenu on the card handler below.
+      // Must stay the immediately-preceding sibling of .color-tag (CSS "+" selector).
+      const tagHitEl = document.createElement("span");
+      tagHitEl.className = "color-tag-hit";
+      tagHitEl.setAttribute("aria-hidden", "true");
+      tagHitEl.title = "Click to cycle color marker";
+      frontEl.appendChild(tagHitEl);
+
       // Color tag dot
       const tagDotEl = document.createElement("span");
       tagDotEl.className = "color-tag";
@@ -506,14 +520,30 @@ const NARSH_PUZZLE_UI = (() => {
         }
       });
 
-      // Desktop: right-click cycles color tag
+      // Primary: click/tap the top-right corner cycles the color tag
+      tagHitEl.addEventListener("click", (event) => {
+        event.stopPropagation();
+        // Nothing to cycle on a flipped card: its front face and dot are not visible.
+        if (cardEl.classList.contains("flipped")) return;
+        const tagColor = NARSH_PUZZLE.cycleColorTag(i);
+        tagDotEl.style.backgroundColor = tagColor;
+      });
+
+      // Suppress the card's long-press timer for corner touches, so a held corner tap
+      // cycles exactly once (via the synthesized click) instead of twice.
+      // stopPropagation is legal in a passive listener; only preventDefault is not.
+      tagHitEl.addEventListener("touchstart", (event) => {
+        event.stopPropagation();
+      }, { passive: true });
+
+      // Desktop: right-click also cycles color tag (alternate to corner click)
       cardEl.addEventListener("contextmenu", (event) => {
         event.preventDefault();
         const tagColor = NARSH_PUZZLE.cycleColorTag(i);
         tagDotEl.style.backgroundColor = tagColor;
       });
 
-      // Mobile: long-press (300ms) cycles color tag
+      // Mobile: long-press (300ms) also cycles color tag (alternate to corner tap)
       let longPressTimer = null;
       cardEl.addEventListener("touchstart", (event) => {
         longPressTimer = setTimeout(() => {

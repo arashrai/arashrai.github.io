@@ -636,6 +636,10 @@ const NARSH_PUZZLE_UI = (() => {
     dialogEl.style.transform = "translateX(-50%)";
 
     cardEl.appendChild(dialogEl);
+    // Raise the host card while the dialog is open. The dialog's own z-index is
+    // trapped inside the card's stacking context (created by perspective), so a
+    // hovered neighbour would otherwise paint over it.
+    cardEl.classList.add("dialog-open");
     activeGuessDialogEl = dialogEl;
 
     criminalBtnEl.focus();
@@ -643,6 +647,10 @@ const NARSH_PUZZLE_UI = (() => {
 
   const dismissGuessDialog = () => {
     if (activeGuessDialogEl) {
+      const hostCardEl = activeGuessDialogEl.closest(".puzzle-card");
+      if (hostCardEl) {
+        hostCardEl.classList.remove("dialog-open");
+      }
       activeGuessDialogEl.remove();
       activeGuessDialogEl = null;
     }

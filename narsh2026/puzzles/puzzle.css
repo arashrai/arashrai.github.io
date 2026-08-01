@@ -184,6 +184,17 @@
   }
 }
 
+/* Card with an open guess dialog. The dialog is a child of the card, and
+   .puzzle-card creates a stacking context via `perspective`, so the dialog's own
+   z-index cannot escape it -- raising the card is the only way to lift the dialog
+   above its neighbours. 20 clears both the hover (2) and hint-highlight (3) levels.
+   The :hover variant ties the hover rule on specificity and wins on source order,
+   so the dialog stays on top even while its own card is hovered. */
+.puzzle-card.dialog-open,
+.puzzle-card.dialog-open:hover {
+  z-index: 20;
+}
+
 /* Card flipped: no pointer interaction */
 .puzzle-card.flipped {
   cursor: default;

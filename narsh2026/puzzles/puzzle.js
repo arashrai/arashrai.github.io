@@ -1,7 +1,8 @@
 // Narsh 2026 — Puzzle Logic Module
 // Game state machine: card flipping, guess validation, deducibility checks,
-// mistake tracking, timer, color tags, inspect/dim mode, hints, share results,
-// localStorage persistence, and callbacks for UI communication.
+// mistake tracking (both a global count and a per-card count), timer, color tags,
+// inspect/dim mode, hints, share results whose emoji grid encodes per-card player
+// accuracy, localStorage persistence, and callbacks for UI communication.
 
 const NARSH_PUZZLE = (() => {
   "use strict";
@@ -28,6 +29,9 @@ const NARSH_PUZZLE = (() => {
 
   // Color tags: cardIndex -> palette index (0-6)
   let colorTags = {};
+
+  // Per-card mistakes: cardIndex -> count of wrong guesses on that card
+  let mistakesByCard = {};
 
   // Inspect/dim mode
   let inspectMode = true;
@@ -197,11 +201,15 @@ const NARSH_PUZZLE = (() => {
 
     if (puzzleData) {
       const characters = puzzleData.CHARACTERS;
+      // Tiles encode the PLAYER's accuracy, not character roles: red = at least one
+      // wrong guess on that card, green = clean first-try solve. Do not "restore" the
+      // old role-based grid -- it spoiled who the criminals were and said nothing
+      // about how the player did.
       for (let i = 0; i < characters.length; i++) {
         if (i > 0 && i % 4 === 0) {
           text += "\n";
         }
-        text += characters[i].criminal ? "\u{1F7E5}" : "\u{1F7E9}";
+        text += (mistakesByCard[i] || 0) > 0 ? "\u{1F7E5}" : "\u{1F7E9}";
       }
     }
 
@@ -224,6 +232,7 @@ const NARSH_PUZZLE = (() => {
         mistakes: mistakes,
         hintsUsed: hintsUsed,
         colorTags: colorTags,
+        mistakesByCard: mistakesByCard,
         elapsedMs: getElapsed(),
         dimmedCards: Array.from(dimmedCards),
         gameComplete: gameComplete
@@ -267,6 +276,9 @@ const NARSH_PUZZLE = (() => {
       mistakes = saved.mistakes || 0;
       hintsUsed = saved.hintsUsed || 0;
       colorTags = saved.colorTags || {};
+      // Saves written before per-card tracking existed have no key: default to {},
+      // which renders an all-green grid and self-heals on the next reset.
+      mistakesByCard = saved.mistakesByCard || {};
       dimmedCards = new Set(saved.dimmedCards || []);
       accumulated = saved.elapsedMs || 0;
       gameComplete = saved.gameComplete || false;
@@ -290,6 +302,7 @@ const NARSH_PUZZLE = (() => {
       mistakes = 0;
       hintsUsed = 0;
       colorTags = {};
+      mistakesByCard = {};
       dimmedCards = new Set();
       accumulated = 0;
       gameComplete = false;
@@ -361,6 +374,7 @@ const NARSH_PUZZLE = (() => {
       return { result: "correct", clueText, criminal: character.criminal };
     } else {
       mistakes++;
+      mistakesByCard[cardIndex] = (mistakesByCard[cardIndex] || 0) + 1;
       if (onMistakeCallback) {
         onMistakeCallback(mistakes);
       }
@@ -372,6 +386,8 @@ const NARSH_PUZZLE = (() => {
   const getFlippedCards = () => new Set(flippedCards);
 
   const getMistakes = () => mistakes;
+
+  const getCardMistakes = (cardIndex) => mistakesByCard[cardIndex] || 0;
 
   const isComplete = () => gameComplete;
 
@@ -385,6 +401,7 @@ const NARSH_PUZZLE = (() => {
     gameComplete = false;
     hintsUsed = 0;
     colorTags = {};
+    mistakesByCard = {};
     dimmedCards = new Set();
     accumulated = 0;
     timerRunning = false;
@@ -400,6 +417,7 @@ const NARSH_PUZZLE = (() => {
     guessRole,
     getFlippedCards,
     getMistakes,
+    getCardMistakes,
     isComplete,
     getCharacterCount,
     reset,

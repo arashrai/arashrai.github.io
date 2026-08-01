@@ -45,5 +45,11 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 **Requirements:** 18
 **Completed:** 0
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260731-pa8 | Puzzle page: corner-click color marker, Clues by Sam credit link, accuracy-based share grid | 2026-07-31 | a315bdb | [260731-pa8-puzzle-page-click-top-right-corner-of-a-](./quick/260731-pa8-puzzle-page-click-top-right-corner-of-a-/) |
+
 ---
-*Last updated: 2026-05-15 after initialization*
+*Last activity: 2026-07-31 - Completed quick task 260731-pa8: puzzle page corner-click color marker, Clues by Sam credit, accuracy-based share grid (browser verification outstanding)*

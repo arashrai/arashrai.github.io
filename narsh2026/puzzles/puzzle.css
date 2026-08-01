@@ -37,6 +37,32 @@
   display: none;
 }
 
+/* Credit line: quiet secondary text between the heading and the identity clue */
+.puzzle-credit {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  max-width: 32rem;
+  margin: 0 auto var(--space-sm) auto;
+}
+
+.puzzle-credit a {
+  color: var(--color-terracotta);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--transition-fast);
+}
+
+.puzzle-credit a:hover,
+.puzzle-credit a:focus {
+  color: var(--color-text-primary);
+}
+
+.puzzle-credit a:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
 .puzzle-page h2 {
   font-family: var(--font-heading);
   text-align: center;
@@ -149,11 +175,25 @@
     transform: scale(1.02);
     transition: box-shadow var(--transition-fast), transform var(--transition-fast);
   }
+
+  /* Hovering the corner target previews the dot it will cycle.
+     Depends on .color-tag-hit being the immediately-preceding sibling of .color-tag. */
+  .color-tag-hit:hover + .color-tag {
+    transform: scale(1.25);
+    border-color: var(--color-terracotta);
+  }
 }
 
 /* Card flipped: no pointer interaction */
 .puzzle-card.flipped {
   cursor: default;
+}
+
+/* A flipped card's front face is back-facing under backface-visibility: hidden, so
+   browsers already skip it in hit testing. This makes the intent explicit rather
+   than depending on that behavior. */
+.puzzle-card.flipped .color-tag-hit {
+  pointer-events: none;
 }
 
 /* Card content typography */
@@ -241,6 +281,26 @@ img.card-back-emoji {
   margin: 0;
 }
 
+/* Color tag hit target (top-right corner) */
+/* Primary way to cycle the color marker: a click/tap target sized well above the
+   14px dot, while leaving the bulk of the card face for the guess dialog. */
+.color-tag-hit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  box-sizing: border-box;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 0 var(--radius-md) 0 var(--radius-md);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  z-index: 1;
+}
+
 /* Color tag dot */
 .color-tag {
   position: absolute;
@@ -253,7 +313,7 @@ img.card-back-emoji {
   background-color: transparent;
   border: 2px solid rgba(61, 43, 31, 0.15);
   box-sizing: border-box;
-  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
 .color-tag[style*="background-color"] {
@@ -641,6 +701,10 @@ img.card-back-emoji {
     transform: none;
   }
 
+  .color-tag-hit:hover + .color-tag {
+    transform: none;
+  }
+
   .puzzle-card.hint-highlighted {
     animation: none;
     box-shadow: 0 0 0 3px rgba(194, 112, 79, 0.6);
@@ -673,5 +737,11 @@ img.card-back-emoji {
 @media (max-width: 480px) {
   .puzzle-grid {
     gap: var(--space-xs);
+  }
+
+  /* Cards are ~71px wide at a 320px viewport -- 30px would claim too much of the face. */
+  .color-tag-hit {
+    width: 28px;
+    height: 28px;
   }
 }

@@ -98,6 +98,19 @@ const NARSH_CAROUSEL = (() => {
     if (containerEl) containerEl.style.display = "";
 
     if (trackEl) {
+      // Rewind the track before rebuilding it. currentIndex goes back to 0
+      // above, but the inline transform that goTo()/touchmove left on the
+      // PREVIOUS stop survives the innerHTML swap -- so the new city opens
+      // still translated to the old photo's offset. That shows a later photo
+      // from the new set, or, when the new set is shorter, scrolls past the
+      // end to a blank box that reads as "the first photo didn't load".
+      // Suppress the transition so this rewind doesn't animate as a slide.
+      trackEl.style.transition = "none";
+      trackEl.style.transform = "translateX(0)";
+      // Commit the reset now, so the next goTo() animates from 0 rather than
+      // coalescing with it and sliding from the stale offset.
+      void trackEl.offsetWidth;
+
       trackEl.innerHTML = "";
       photos.forEach((photo, i) => {
         const img = document.createElement("img");

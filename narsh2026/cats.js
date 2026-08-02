@@ -1,129 +1,152 @@
 const NARSH_CATS = (() => {
   "use strict";
 
-  const MOVE_INTERVAL = 3000;
-  const SPEED = 1.5;
-  const PAWPRINT_INTERVAL = 80;
+  const MOVE_INTERVAL = 3500;
+  const SPEED = 1.4;
+  const PAWPRINT_INTERVAL = 90;
   const MAX_PAWPRINTS = 40;
 
   const cats = [];
   const pawprints = [];
   let animationId = null;
 
-  // Presto: tuxedo cat, side-view walking pose
-  // Black body, white chest/muzzle/paws, black chin spot, one eye (left missing)
+  // Presto: Tuxedo cat, side-view posture
+  // Charcoal body (#242424), white bib/muzzle/paws, black chin spot, one eye, terracotta collar with gold bell
   const createPrestoSvg = () => {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 70 50");
+    svg.setAttribute("viewBox", "0 0 70 48");
     svg.setAttribute("fill", "none");
-    const b = "#2A2A2A";
+    const b = "#242424";
+    const w = "#FFFDFB";
+
     svg.innerHTML =
-      // Tail (behind everything)
-      '<path d="M8 28 C3 24 1 16 5 10" stroke="' + b + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
-      // Back legs (behind body)
-      '<g class="leg leg-back-l"><rect x="13" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="16.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
-      '<g class="leg leg-back-r"><rect x="21" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="24.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
+      // Soft Ground Shadow
+      '<ellipse class="shadow-ellipse" cx="35" cy="46" rx="24" ry="2.8" fill="rgba(61,43,31,0.18)" />' +
+      // Tail (behind)
+      '<path class="tail-path" d="M10 27 C3 22 1 13 6 7 C7.5 5 9.5 6.5 8 8.5 C4.5 13.5 6.5 21 12 25" fill="' + b + '" stroke="' + b + '" stroke-width="2.5" stroke-linecap="round"/>' +
+      // Short Stubby Back legs (attached inside body)
+      '<g class="leg leg-back-l"><rect x="13" y="34" width="7" height="10.5" rx="3.5" fill="' + b + '"/><ellipse cx="16.5" cy="44" rx="3.8" ry="2" fill="' + w + '"/></g>' +
+      '<g class="leg leg-back-r"><rect x="21" y="34" width="7" height="10.5" rx="3.5" fill="' + b + '"/><ellipse cx="24.5" cy="44" rx="3.8" ry="2" fill="' + w + '"/></g>' +
       // Body
-      '<ellipse cx="28" cy="30" rx="19" ry="12" fill="' + b + '"/>' +
-      // White chest bib
-      '<ellipse cx="38" cy="34" rx="8" ry="7" fill="#FFFDFB"/>' +
-      // Neck fill (bridges body and head)
-      '<ellipse cx="40" cy="24" rx="8" ry="10" fill="' + b + '"/>' +
-      // Front legs (in front of body, tucked under chest)
-      '<g class="leg leg-front-l"><rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
-      '<g class="leg leg-front-r"><rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + b + '"/><ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
-      // Head
-      '<ellipse cx="48" cy="17" rx="12" ry="10" fill="' + b + '"/>' +
-      // Ears (connected to head — triangles overlapping the circle)
-      '<path d="M40 11 L43 0 L47 9 Z" fill="' + b + '"/>' +
-      '<path d="M49 9 L53 0 L56 11 Z" fill="' + b + '"/>' +
-      // Inner ears (pink)
-      '<path d="M41.5 10.5 L43 2.5 L45.5 9.5 Z" fill="#D4A0A0"/>' +
-      '<path d="M50.5 9.5 L53 2.5 L54.5 10.5 Z" fill="#D4A0A0"/>' +
-      // White muzzle (centered on face)
-      '<ellipse cx="49" cy="20" rx="5" ry="4" fill="#FFFDFB"/>' +
-      // Black chin spot (Presto's mark!)
-      '<ellipse cx="49" cy="22.5" rx="2.2" ry="1.3" fill="' + b + '"/>' +
-      // Right eye (visible — front of face)
-      '<circle cx="51" cy="14" r="2" fill="#222"/>' +
-      '<circle cx="51.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
-      // Left eye (missing — gentle closed line, behind)
-      '<path d="M42 15 Q44 16.5 46 15" stroke="#222" stroke-width="1.2" fill="none" stroke-linecap="round"/>' +
-      // Pink nose (Presto's is pink)
-      '<path d="M49 17.8 L47.5 19.5 L50.5 19.5 Z" fill="#E8A0A0" stroke="#D4868A" stroke-width="0.5" stroke-linejoin="round"/>' +
-      // Mouth — "w" shape
-      '<path d="M47.5 19.8 Q48.2 21.2 49 19.8 Q49.8 21.2 50.5 19.8" stroke="#555" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
-      // Whiskers — right side (forward)
-      '<line x1="53" y1="19" x2="64" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="53" y1="20.5" x2="64" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="53" y1="22" x2="63" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      // Whiskers — left side (behind)
-      '<line x1="45" y1="19" x2="36" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="45" y1="20.5" x2="36" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="45" y1="22" x2="37" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>';
+      '<ellipse class="cat-body" cx="28" cy="28" rx="19" ry="12" fill="' + b + '"/>' +
+      // Fluffy white chest bib
+      '<path class="cat-bib" d="M32 20 C32 20 43 24 42 35 C38 37 30 35 30 28 Z" fill="' + w + '"/>' +
+      // Neck transition fill
+      '<ellipse cx="40" cy="22" rx="7.5" ry="9.5" fill="' + b + '"/>' +
+      // Short Stubby Front legs
+      '<g class="leg leg-front-l"><rect x="34" y="34" width="7" height="10.5" rx="3.5" fill="' + b + '"/><ellipse cx="37.5" cy="44" rx="3.8" ry="2" fill="' + w + '"/></g>' +
+      '<g class="leg leg-front-r"><rect x="41" y="34" width="7.5" height="10.5" rx="3.5" fill="' + b + '"/><ellipse cx="44.5" cy="44" rx="3.8" ry="2" fill="' + w + '"/></g>' +
+      // Terracotta Collar with Gold Bell
+      '<path d="M39 24 Q45 26 48 23" stroke="#C2704F" stroke-width="2.3" stroke-linecap="round"/>' +
+      '<circle cx="46.5" cy="26.5" r="2.3" fill="#D4A843" stroke="#B38628" stroke-width="0.5"/>' +
+      // Head Group
+      '<g class="head-group">' +
+        '<ellipse cx="48" cy="15" rx="12" ry="10" fill="' + b + '"/>' +
+        // Left Ear
+        '<g class="ear-l"><path d="M39 9 L42.5 0 L46.5 7 Z" fill="' + b + '"/><path d="M40.5 8 L42.5 1.8 L45 7 Z" fill="#E8A0A0"/></g>' +
+        // Right Ear
+        '<g class="ear-r"><path d="M49 7 L53 0 L56.5 9 Z" fill="' + b + '"/><path d="M50.5 7.5 L53 1.8 L55 8.5 Z" fill="#E8A0A0"/></g>' +
+        // White muzzle
+        '<ellipse cx="49" cy="18" rx="5.2" ry="4" fill="' + w + '"/>' +
+        // Black chin spot (Presto\'s mark!)
+        '<ellipse cx="49" cy="21.2" rx="2.2" ry="1.3" fill="' + b + '"/>' +
+        // Right Eye Open (Default)
+        '<g class="eye-open eye-right"><circle cx="51.5" cy="12.2" r="2" fill="#1C1C1C"/><circle cx="52.2" cy="11.5" r="0.6" fill="' + w + '"/><circle cx="50.9" cy="12.9" r="0.4" fill="' + w + '"/></g>' +
+        // Right Eye Closed (Sleep)
+        '<g class="eye-closed eye-right"><path d="M49 12.8 Q51.5 14.3 54 12.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>' +
+        // Right Eye Squinch (Groom)
+        '<g class="eye-squinch eye-right"><path d="M49 11.8 L51.5 13.8 L54 11.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>' +
+        // Left Eye (Missing - gentle closed line, always)
+        '<path d="M41.5 12.8 Q44 14.3 46.5 12.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/>' +
+        // Pink Nose
+        '<path d="M49 15.8 L47.5 17.5 L50.5 17.5 Z" fill="#E8A0A0" stroke="#D4868A" stroke-width="0.5" stroke-linejoin="round"/>' +
+        // Normal Mouth
+        '<path class="mouth-normal" d="M47.5 17.8 Q48.2 19.2 49 17.8 Q49.8 19.2 50.5 17.8" stroke="#444" stroke-width="0.8" stroke-linecap="round" fill="none"/>' +
+        // Whiskers
+        '<line x1="53" y1="17" x2="64" y2="15" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="53" y1="18.5" x2="64" y2="19" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="53" y1="20" x2="63" y2="22.5" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="44" y1="17" x2="34" y2="15" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="44" y1="18.5" x2="34" y2="19" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="44" y1="20" x2="35" y2="22.5" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+      '</g>';
+
     return svg;
   };
 
-  // Trino: tortoiseshell, side-view walking pose
-  // Split face (orange/black), white chest, mixed paws
+  // Trino: Tortoiseshell, split-face posture
+  // Espresso body (#231B15), orange patches (#D97736), gold flecks (#E09F45), split face, sage collar
   const createTrinoSvg = () => {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("viewBox", "0 0 70 50");
+    svg.setAttribute("viewBox", "0 0 70 48");
     svg.setAttribute("fill", "none");
-    const dk = "#2A2216";
-    const or = "#CC7A3E";
+    const dk = "#231B15";
+    const or = "#D97736";
+    const w = "#FFFDFB";
+
     svg.innerHTML =
-      // Tail (dark with orange tip)
-      '<path d="M8 28 C3 24 1 16 5 10" stroke="' + dk + '" stroke-width="4" fill="none" stroke-linecap="round"/>' +
-      '<circle cx="5" cy="10.5" r="2" fill="' + or + '"/>' +
-      // Back legs
-      '<g class="leg leg-back-l"><rect x="13" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/><ellipse cx="16.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/></g>' +
-      '<g class="leg leg-back-r"><rect x="21" y="38" width="7" height="11" rx="3.5" fill="' + or + '"/><ellipse cx="24.5" cy="48.5" rx="3.8" ry="2" fill="' + or + '"/></g>' +
-      // Body — dark base
-      '<ellipse cx="28" cy="30" rx="19" ry="12" fill="' + dk + '"/>' +
-      // Orange patches on body
-      '<ellipse cx="22" cy="28" rx="8" ry="7" fill="' + or + '"/>' +
-      '<ellipse cx="34" cy="32" rx="6" ry="5" fill="' + or + '" opacity="0.7"/>' +
-      // Tortie flecks
-      '<circle cx="18" cy="32" r="3" fill="#5C3A1E" opacity="0.4"/>' +
-      '<circle cx="30" cy="27" r="2" fill="#5C3A1E" opacity="0.3"/>' +
-      // White chest bib
-      '<ellipse cx="38" cy="34" rx="7" ry="6" fill="#FFFDFB"/>' +
+      // Soft Ground Shadow
+      '<ellipse class="shadow-ellipse" cx="35" cy="46" rx="24" ry="2.8" fill="rgba(61,43,31,0.18)" />' +
+      // Tail (espresso with orange tip)
+      '<path class="tail-path" d="M10 27 C3 22 1 13 6 7 C7.5 5 9.5 6.5 8 8.5 C4.5 13.5 6.5 21 12 25" fill="' + dk + '" stroke="' + dk + '" stroke-width="2.5" stroke-linecap="round"/>' +
+      '<circle cx="6" cy="7.5" r="2.2" fill="' + or + '"/>' +
+      // Short Stubby Back legs
+      '<g class="leg leg-back-l"><rect x="13" y="34" width="7" height="10.5" rx="3.5" fill="' + dk + '"/><ellipse cx="16.5" cy="44" rx="3.8" ry="2" fill="' + dk + '"/></g>' +
+      '<g class="leg leg-back-r"><rect x="21" y="34" width="7" height="10.5" rx="3.5" fill="' + or + '"/><ellipse cx="24.5" cy="44" rx="3.8" ry="2" fill="' + or + '"/></g>' +
+      // Body — espresso base
+      '<ellipse class="cat-body" cx="28" cy="28" rx="19" ry="12" fill="' + dk + '"/>' +
+      // Tortie patches & flecks
+      '<ellipse cx="22" cy="26" rx="8.5" ry="7" fill="' + or + '"/>' +
+      '<ellipse cx="34" cy="31" rx="6.5" ry="4.8" fill="' + or + '" opacity="0.8"/>' +
+      '<circle cx="18" cy="30" r="3" fill="#E09F45" opacity="0.6"/>' +
+      '<circle cx="30" cy="24" r="2.3" fill="#E09F45" opacity="0.5"/>' +
+      // Fluffy white chest bib
+      '<path class="cat-bib" d="M32 21 C32 21 42 25 41 34 C38 36 31 34 31 28 Z" fill="' + w + '"/>' +
       // Neck fill
-      '<ellipse cx="40" cy="24" rx="8" ry="10" fill="' + dk + '"/>' +
-      // Front legs (tucked under chest)
-      '<g class="leg leg-front-l"><rect x="34" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/><ellipse cx="37.5" cy="48.5" rx="3.8" ry="2" fill="#FFFDFB"/></g>' +
-      '<g class="leg leg-front-r"><rect x="41" y="38" width="7" height="11" rx="3.5" fill="' + dk + '"/><ellipse cx="44.5" cy="48.5" rx="3.8" ry="2" fill="' + dk + '"/></g>' +
-      // Head — dark base
-      '<ellipse cx="48" cy="17" rx="12" ry="10" fill="' + dk + '"/>' +
-      // Orange half of face (left/back half of head when facing right)
-      '<defs><clipPath id="trino-face-clip"><ellipse cx="48" cy="17" rx="12" ry="10"/></clipPath></defs>' +
-      '<rect x="36" y="5" width="12" height="24" fill="' + or + '" clip-path="url(#trino-face-clip)"/>' +
-      // Ears — left orange, right dark (matching face split)
-      '<path d="M40 11 L43 0 L47 9 Z" fill="' + or + '"/>' +
-      '<path d="M49 9 L53 0 L56 11 Z" fill="' + dk + '"/>' +
-      // Inner ears
-      '<path d="M41.5 10.5 L43 2.5 L45.5 9.5 Z" fill="#D4A0A0"/>' +
-      '<path d="M50.5 9.5 L53 2.5 L54.5 10.5 Z" fill="#D4A0A0"/>' +
-      // White muzzle (centered on face)
-      '<ellipse cx="49" cy="20" rx="5" ry="4" fill="#FFFDFB"/>' +
-      // Eyes (both visible — front of face)
-      '<circle cx="45" cy="14" r="2" fill="#222"/>' +
-      '<circle cx="45.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
-      '<circle cx="51" cy="14" r="2" fill="#222"/>' +
-      '<circle cx="51.6" cy="13.6" r="0.6" fill="#FFFDFB"/>' +
-      // Black nose (Trino's is black)
-      '<path d="M49 17.8 L47.5 19.5 L50.5 19.5 Z" fill="#222" stroke="#111" stroke-width="0.5" stroke-linejoin="round"/>' +
-      // Mouth — "w" shape
-      '<path d="M47.5 19.8 Q48.2 21.2 49 19.8 Q49.8 21.2 50.5 19.8" stroke="#555" stroke-width="0.8" fill="none" stroke-linecap="round"/>' +
-      // Whiskers — right side (forward)
-      '<line x1="53" y1="19" x2="64" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="53" y1="20.5" x2="64" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="53" y1="22" x2="63" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      // Whiskers — left side (behind)
-      '<line x1="45" y1="19" x2="36" y2="17" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="45" y1="20.5" x2="36" y2="21" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>' +
-      '<line x1="45" y1="22" x2="37" y2="24" stroke="#888" stroke-width="0.5" stroke-linecap="round"/>';
+      '<ellipse cx="40" cy="22" rx="7.5" ry="9.5" fill="' + dk + '"/>' +
+      // Short Stubby Front legs
+      '<g class="leg leg-front-l"><rect x="34" y="34" width="7" height="10.5" rx="3.5" fill="' + dk + '"/><ellipse cx="37.5" cy="44" rx="3.8" ry="2" fill="' + w + '"/></g>' +
+      '<g class="leg leg-front-r"><rect x="41" y="34" width="7" height="10.5" rx="3.5" fill="' + dk + '"/><ellipse cx="44.5" cy="44" rx="3.8" ry="2" fill="' + dk + '"/></g>' +
+      // Dusty Rose / Sage Collar with Silver Tag
+      '<path d="M39 24 Q45 26 48 23" stroke="#C9928E" stroke-width="2.3" stroke-linecap="round"/>' +
+      '<circle cx="46.5" cy="26.5" r="2.2" fill="#D0D5DD" stroke="#98A2B3" stroke-width="0.5"/>' +
+      // Head Group
+      '<g class="head-group">' +
+        '<ellipse cx="48" cy="15" rx="12" ry="10" fill="' + dk + '"/>' +
+        // Split Face Clip (Orange left/back half)
+        '<defs><clipPath id="trino-face-clip-v3"><ellipse cx="48" cy="15" rx="12" ry="10"/></clipPath></defs>' +
+        '<rect x="35" y="2" width="13" height="26" fill="' + or + '" clip-path="url(#trino-face-clip-v3)"/>' +
+        // Left Ear (Orange)
+        '<g class="ear-l"><path d="M39 9 L42.5 0 L46.5 7 Z" fill="' + or + '"/><path d="M40.5 8 L42.5 1.8 L45 7 Z" fill="#E8A0A0"/></g>' +
+        // Right Ear (Espresso)
+        '<g class="ear-r"><path d="M49 7 L53 0 L56.5 9 Z" fill="' + dk + '"/><path d="M50.5 7.5 L53 1.8 L55 8.5 Z" fill="#E8A0A0"/></g>' +
+        // White muzzle
+        '<ellipse cx="49" cy="18" rx="5.2" ry="4" fill="' + w + '"/>' +
+        // Left Eye Open
+        '<g class="eye-open eye-left"><circle cx="44.5" cy="12.2" r="2" fill="#1C1C1C"/><circle cx="45.2" cy="11.5" r="0.6" fill="' + w + '"/></g>' +
+        // Left Eye Closed
+        '<g class="eye-closed eye-left"><path d="M42 12.8 Q44.5 14.3 47 12.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>' +
+        // Left Eye Squinch
+        '<g class="eye-squinch eye-left"><path d="M42 11.8 L44.5 13.8 L47 11.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>' +
+        // Right Eye Open
+        '<g class="eye-open eye-right"><circle cx="51.5" cy="12.2" r="2" fill="#1C1C1C"/><circle cx="52.2" cy="11.5" r="0.6" fill="' + w + '"/><circle cx="50.9" cy="12.9" r="0.4" fill="' + w + '"/></g>' +
+        // Right Eye Closed
+        '<g class="eye-closed eye-right"><path d="M49 12.8 Q51.5 14.3 54 12.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>' +
+        // Right Eye Squinch
+        '<g class="eye-squinch eye-right"><path d="M49 11.8 L51.5 13.8 L54 11.8" stroke="#1C1C1C" stroke-width="1.2" stroke-linecap="round" fill="none"/></g>' +
+        // Black Nose
+        '<path d="M49 15.8 L47.5 17.5 L50.5 17.5 Z" fill="#1C1C1C" stroke="#000" stroke-width="0.5" stroke-linejoin="round"/>' +
+        // Normal Mouth
+        '<path class="mouth-normal" d="M47.5 17.8 Q48.2 19.2 49 17.8 Q49.8 19.2 50.5 17.8" stroke="#444" stroke-width="0.8" stroke-linecap="round" fill="none"/>' +
+        // Whiskers
+        '<line x1="53" y1="17" x2="64" y2="15" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="53" y1="18.5" x2="64" y2="19" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="53" y1="20" x2="63" y2="22.5" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="44" y1="17" x2="34" y2="15" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="44" y1="18.5" x2="34" y2="19" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+        '<line x1="44" y1="20" x2="35" y2="22.5" stroke="#AAA" stroke-width="0.5" stroke-linecap="round"/>' +
+      '</g>';
+
     return svg;
   };
 
@@ -139,27 +162,49 @@ const NARSH_CATS = (() => {
   };
 
   const pickTarget = () => {
-    const margin = 60;
+    const margin = 70;
     return {
       x: margin + Math.random() * (window.innerWidth - margin * 2),
       y: margin + Math.random() * (window.innerHeight - margin * 2)
     };
   };
 
+  const setCatState = (cat, state, duration) => {
+    cat.state = state;
+    cat.stateTimer = duration;
+
+    // Reset action classes
+    cat.el.classList.remove("walking", "sitting", "sleeping", "grooming");
+
+    if (state !== "idle") {
+      cat.el.classList.add(state);
+    } else {
+      cat.el.classList.add("sitting");
+    }
+  };
+
   const createCat = (name, svgFactory, pawColor) => {
     const el = document.createElement("div");
-    el.className = "cat";
+    el.className = "cat walking";
     el.setAttribute("aria-label", name + " the cat");
     el.setAttribute("role", "img");
 
     const svg = svgFactory();
     el.appendChild(svg);
 
+    // Floating Zzz element for nap time
+    const zzz = document.createElement("span");
+    zzz.className = "cat-zzz";
+    zzz.textContent = "zZz";
+    el.appendChild(zzz);
+
+    // Floating Heart element for hover/click
     const heart = document.createElement("span");
     heart.className = "cat-heart";
     heart.textContent = "❤️";
     el.appendChild(heart);
 
+    // Name Label on hover
     const nameLabel = document.createElement("span");
     nameLabel.className = "cat-name";
     nameLabel.textContent = name;
@@ -178,33 +223,37 @@ const NARSH_CATS = (() => {
       targetX: startPos.x,
       targetY: startPos.y,
       angle: 0,
-      state: "idle",
-      stateTimer: 0,
+      state: "walking",
+      stateTimer: MOVE_INTERVAL,
       pawTimer: 0,
+      pawSide: 1, // Alternates 1 (right paw) and -1 (left paw)
       clickCooldown: 0
     };
 
     el.addEventListener("mouseenter", () => {
       if (cat.state === "walking") {
-        cat.state = "idle";
-        cat.stateTimer = 2000;
-        el.classList.remove("walking");
-        el.classList.add("sleeping");
+        setCatState(cat, "sitting", 3000);
       }
     });
 
     el.addEventListener("mouseleave", () => {
-      el.classList.remove("sleeping");
+      if (cat.state === "sitting") {
+        cat.stateTimer = 500;
+      }
     });
 
     el.addEventListener("click", () => {
       if (cat.clickCooldown > 0) return;
-      cat.clickCooldown = 800;
-      el.classList.remove("walking", "sleeping");
+      cat.clickCooldown = 900;
+
+      // Happy bounce + purr heart animation
+      el.classList.remove("walking", "sitting", "sleeping", "grooming");
       el.classList.add("clicked");
+
       setTimeout(() => {
         el.classList.remove("clicked");
-      }, 600);
+        setCatState(cat, "sitting", 2000);
+      }, 700);
     });
 
     document.body.appendChild(el);
@@ -244,25 +293,39 @@ const NARSH_CATS = (() => {
 
       cat.stateTimer -= dt;
 
-      if (cat.state === "idle" && cat.stateTimer <= 0) {
-        const target = pickTarget();
-        cat.targetX = target.x;
-        cat.targetY = target.y;
-        cat.state = "walking";
-        cat.stateTimer = MOVE_INTERVAL + Math.random() * 2000;
-        cat.el.classList.remove("sleeping");
-        cat.el.classList.add("walking");
+      // When an action finishes, decide next behavior
+      if (cat.stateTimer <= 0) {
+        if (cat.state !== "walking") {
+          // Finished resting/action -> start walking to new spot
+          const target = pickTarget();
+          cat.targetX = target.x;
+          cat.targetY = target.y;
+          setCatState(cat, "walking", MOVE_INTERVAL + Math.random() * 2500);
+        } else {
+          // Reached destination or walk timeout -> pick a new action!
+          const roll = Math.random();
+          if (roll < 0.45) {
+            // 45% chance: Sitting & watching (2.5 - 4s)
+            setCatState(cat, "sitting", 2500 + Math.random() * 1500);
+          } else if (roll < 0.75) {
+            // 30% chance: DEEP SLEEP (10-second clean nap with Zzz!)
+            setCatState(cat, "sleeping", 10000);
+          } else {
+            // 25% chance: Grooming / paw licking (3.5 - 5s)
+            setCatState(cat, "grooming", 3500 + Math.random() * 1500);
+          }
+        }
       }
 
+      // Movement logic
       if (cat.state === "walking") {
         const dx = cat.targetX - cat.x;
         const dy = cat.targetY - cat.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
-        if (dist < 5) {
-          cat.state = "idle";
-          cat.stateTimer = 1500 + Math.random() * 3000;
-          cat.el.classList.remove("walking");
+        if (dist < 6) {
+          // Arrived! Immediately pick next rest state
+          cat.stateTimer = 0;
           return;
         }
 
@@ -279,8 +342,20 @@ const NARSH_CATS = (() => {
 
         cat.pawTimer -= dt;
         if (cat.pawTimer <= 0) {
-          cat.pawTimer = PAWPRINT_INTERVAL + Math.random() * 40;
-          dropPawprint(cat.x + 25, cat.y + 38, cat.angle * (180 / Math.PI), cat.pawColor);
+          cat.pawTimer = PAWPRINT_INTERVAL + Math.random() * 25;
+          // Alternate left and right paws
+          cat.pawSide = (cat.pawSide === 1) ? -1 : 1;
+
+          // Calculate perpendicular vector for two-track pawprints
+          const perpX = -Math.sin(cat.angle);
+          const perpY = Math.cos(cat.angle);
+          const sideOffset = cat.pawSide * 4;
+
+          const pawX = cat.x + 25 + (perpX * sideOffset);
+          const pawY = cat.y + 32 + (perpY * sideOffset);
+          const pawAngleDeg = (cat.angle * (180 / Math.PI)) + (cat.pawSide * 8);
+
+          dropPawprint(pawX, pawY, pawAngleDeg, cat.pawColor);
         }
       }
     });
@@ -296,7 +371,7 @@ const NARSH_CATS = (() => {
   };
 
   const init = () => {
-    createCat("Presto", createPrestoSvg, "#2A2A2A");
+    createCat("Presto", createPrestoSvg, "#242424");
     createCat("Trino", createTrinoSvg, "#5C3A1E");
     animationId = requestAnimationFrame(loop);
   };

@@ -6,7 +6,7 @@
   height: 40px;
   z-index: 100;
   cursor: pointer;
-  transition: transform 0.1s ease;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
   pointer-events: auto;
   user-select: none;
   -webkit-user-select: none;
@@ -16,36 +16,127 @@
   width: 100%;
   height: 100%;
   display: block;
+  overflow: visible;
 }
 
+/* Default SVG Element Visibility & Morphing Base */
+.cat .eye-open {
+  display: block;
+}
+
+.cat .eye-closed,
+.cat .eye-squinch {
+  display: none;
+}
+
+.cat .mouth-normal {
+  display: block;
+}
+
+.cat .leg,
+.cat .head-group,
+.cat .cat-body,
+.cat .shadow-ellipse {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Base tail swish for living feel */
+.cat .tail-path {
+  animation: tail-swish 3s ease-in-out infinite alternate;
+  transform-origin: 10px 28px;
+}
+
+/* Walking state — subtle short leg walk */
 .cat.walking {
   animation: cat-walk 0.4s steps(2) infinite;
 }
 
 .cat.walking .leg-front-l,
 .cat.walking .leg-back-r {
-  animation: leg-swing 0.3s ease-in-out infinite alternate;
+  animation: leg-swing 0.35s ease-in-out infinite alternate;
   transform-origin: top center;
 }
 
 .cat.walking .leg-front-r,
 .cat.walking .leg-back-l {
-  animation: leg-swing 0.3s ease-in-out infinite alternate-reverse;
+  animation: leg-swing 0.35s ease-in-out infinite alternate-reverse;
   transform-origin: top center;
 }
 
-.cat.sleeping {
-  animation: cat-breathe 2s ease-in-out infinite;
+/* Sitting / Idle state */
+.cat.sitting .tail-path {
+  animation: tail-swish 1.8s ease-in-out infinite alternate;
 }
 
+.cat.sitting .ear-l,
+.cat.sitting .ear-r {
+  animation: ear-twitch 4s ease-in-out infinite;
+}
+
+/* Sleeping state (Clean Loaf Pose) */
+.cat.sleeping {
+  animation: cat-breathe 2.5s ease-in-out infinite;
+}
+
+.cat.sleeping .eye-open {
+  display: none !important;
+}
+
+.cat.sleeping .eye-closed {
+  display: block !important;
+}
+
+/* Hide standing legs completely so no weird shapes/shadows float above the body */
+.cat.sleeping .leg {
+  display: none !important;
+}
+
+.cat.sleeping .head-group {
+  transform: translateY(3px) rotate(3deg);
+}
+
+.cat.sleeping .cat-body {
+  transform: scale(1.06, 0.92) translateY(2px);
+}
+
+.cat.sleeping .shadow-ellipse {
+  transform: scale(0.9, 0.7);
+  opacity: 0.15;
+}
+
+.cat.sleeping .cat-zzz {
+  display: block;
+  animation: zzz-float 2.5s linear infinite;
+}
+
+/* Grooming state */
+.cat.grooming .head-group {
+  transform: translateY(3px) rotate(10deg);
+  animation: head-bob-groom 0.6s ease-in-out infinite alternate;
+}
+
+.cat.grooming .eye-open {
+  display: none !important;
+}
+
+.cat.grooming .eye-squinch {
+  display: block !important;
+}
+
+.cat.grooming .leg-front-r {
+  transform: translate(5px, -10px) rotate(40deg);
+  transform-origin: 41px 34px;
+}
+
+/* Hover heart prompt */
 .cat:hover .cat-heart {
   opacity: 1;
-  transform: translateY(-8px) scale(1);
+  transform: translateY(-10px) scale(1);
 }
 
 .cat-heart {
   position: absolute;
-  top: -16px;
+  top: -18px;
   left: 50%;
   transform: translateX(-50%) translateY(0) scale(0.5);
   opacity: 0;
@@ -54,18 +145,37 @@
   pointer-events: none;
 }
 
+/* Floating Zzz for sleep mode */
+.cat-zzz {
+  position: absolute;
+  top: -24px;
+  left: 55%;
+  font-family: var(--font-heading, serif);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-terracotta, #C2704F);
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
 .cat.clicked {
-  animation: cat-flip 0.6s ease-in-out;
+  animation: cat-happy-bounce 0.6s ease-in-out;
 }
 
 .cat-name {
   position: absolute;
-  bottom: -18px;
+  bottom: -20px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-body, sans-serif);
   font-size: 11px;
+  font-weight: 600;
   color: var(--color-text-secondary, #6B4F3A);
+  background: rgba(255, 248, 240, 0.9);
+  padding: 1px 6px;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   white-space: nowrap;
   opacity: 0;
   transition: opacity 0.2s ease;
@@ -81,37 +191,63 @@
   width: 12px;
   height: 12px;
   z-index: 99;
-  opacity: 0.25;
+  opacity: 0.28;
   pointer-events: none;
   animation: pawprint-fade 4s ease-out forwards;
 }
 
+/* Keyframe Animations */
+
 @keyframes cat-walk {
   0% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
+  50% { transform: translateY(-1.5px); }
 }
 
 @keyframes leg-swing {
-  0% { transform: rotate(-12deg); }
-  100% { transform: rotate(12deg); }
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(5deg); }
+}
+
+@keyframes tail-swish {
+  0% { transform: rotate(-4deg); }
+  50% { transform: rotate(8deg); }
+  100% { transform: rotate(-6deg); }
+}
+
+@keyframes ear-twitch {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(-6deg); }
+  96% { transform: rotate(4deg); }
 }
 
 @keyframes cat-breathe {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.03, 0.97); }
 }
 
-@keyframes cat-flip {
-  0% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(90deg) scale(1.2); }
-  50% { transform: rotate(180deg) scale(1); }
-  75% { transform: rotate(270deg) scale(1.2); }
-  100% { transform: rotate(360deg) scale(1); }
+@keyframes head-bob-groom {
+  0% { transform: translateY(2px) rotate(10deg); }
+  100% { transform: translateY(4px) rotate(14deg); }
+}
+
+@keyframes zzz-float {
+  0% { transform: translate(0, 0) scale(0.8); opacity: 0; }
+  25% { opacity: 0.95; }
+  75% { opacity: 0.75; }
+  100% { transform: translate(14px, -20px) scale(1.25); opacity: 0; }
+}
+
+@keyframes cat-happy-bounce {
+  0% { transform: translateY(0) scale(1); }
+  30% { transform: translateY(-12px) scale(1.1) rotate(-5deg); }
+  50% { transform: translateY(0) scale(0.95); }
+  75% { transform: translateY(-5px) scale(1.03) rotate(3deg); }
+  100% { transform: translateY(0) scale(1); }
 }
 
 @keyframes pawprint-fade {
-  0% { opacity: 0.25; }
-  70% { opacity: 0.15; }
+  0% { opacity: 0.28; }
+  70% { opacity: 0.18; }
   100% { opacity: 0; }
 }
 
@@ -122,7 +258,8 @@
     animation: none;
   }
 
-  .cat.walking .leg {
+  .cat .tail-path,
+  .cat .leg {
     animation: none;
   }
 
@@ -134,8 +271,8 @@
 
 @media (max-width: 480px) {
   .cat {
-    width: 45px;
-    height: 32px;
+    width: 46px;
+    height: 33px;
   }
 
   .pawprint {

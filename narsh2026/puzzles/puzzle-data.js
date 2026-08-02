@@ -45,7 +45,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "lion",
       name: "Amritpal",
       emoji: "🦁",
-      hint: "Where are the bride and groom? Seems supicious to me ...",
+      hint: "Where are the bride and groom? Seems suspicious to me...",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {

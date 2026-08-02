@@ -30,7 +30,7 @@ IMG: narsh2026/images/story/arash Ludhiana/
 Born and raised in the Cayman Islands (Grand Cayman). It has warm weather and lots of fun animals. Loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes (that I caught), and frogs. Loved climbing all sorts of things and exploring. Loved making people laugh and joked around a lot.
 Completed her highschool and IB diploma at Cayman International School (CIS) in 2016.
 
-IMG: narsh2026/images/story/Natalie — Grand Cayman (1999 - 2016)/
+IMG: narsh2026/images/story/natalie gc/
 
 ---
 
@@ -80,7 +80,7 @@ IMG:
 Arash convinced Natalie that computer science was a promising career so she took his word for it and switched plans from doing something medical eg. veterinary medicine to instead study Computer Science at Waterloo. Best decision ever! He was right, plus they got to be together.
 They made some amazing friends for life. They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for our future home!
 
-IMG: narsh2026/images/story/Waterloo, Ontario, Canada (2016)/
+IMG: narsh2026/images/story/waterloo/
 
 ---
 

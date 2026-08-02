@@ -6,15 +6,25 @@ const NARSH_STORY_DATA = (() => {
 
   const STOPS = [
     {
-      id: "arash-amritsar",
+      id: "arash-ludhiana",
       owner: "arash",
-      location: "Amritsar, Punjab, India",
-      coords: [74.8723, 31.6340],
+      location: "Ludhiana, Punjab, India",
+      coords: [75.8573, 30.9010],
       zoom: 5,
       year: 1997,
-      narrative: "Where it all begins. Arash was born in Amritsar, in the heart of Punjab. The first four years of his life were spent here, before the family set off for the far side of the world.",
+      narrative: "Where it all begins. Arash was born in Ludhiana, in the heart of Punjab. The first four years of his life were spent here, before the family set off for the far side of the world.",
       photos: [
-        { src: "/narsh2026/images/story/arash%20baby.jpg", alt: "Baby Arash in Punjab" }
+        { src: "/narsh2026/images/story/arash%20Ludhiana/arash%20baby.jpg", alt: "Baby Arash in Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/FB_IMG_1785467190317.jpg", alt: "Arash's family in Ludhiana, Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_024039471.jpg", alt: "A family photograph from Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_024104942.jpg", alt: "Arash's family in Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_025040763.jpg", alt: "Arash's early years in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_025658389.jpg", alt: "A family photograph from Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_030047039.jpg", alt: "Arash's family in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_031525991.jpg", alt: "Family in Ludhiana, Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_033020945.jpg", alt: "Arash's first years in Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_033116840.jpg", alt: "A family photograph from Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_033426092.MP.jpg", alt: "Arash's family in Punjab" }
       ],
       isConvergence: false
     },
@@ -27,16 +37,16 @@ const NARSH_STORY_DATA = (() => {
       year: "1999 – 2016",
       narrative: "Born and raised on a small island nation with warm weather and incredible wildlife. Natalie was the kid who kept bunnies, cats, chickens, snakes she caught herself, frogs, and iguanas. She climbed every tree she could find and explored every corner of the island. A natural joker who lived to make people laugh. She completed her high school diploma and IB at Cayman International School in 2016.",
       photos: [
-        { src: "/narsh2026/images/story/gc/family-1999.jpg", alt: "Baby Natalie with mom and sister, 1999" },
-        { src: "/narsh2026/images/story/gc/grown-up-quote.jpg", alt: "Young Natalie's school quote: When I grow up I want to be a grown-up" },
-        { src: "/narsh2026/images/story/gc/boat-2003.jpg", alt: "Natalie steering a boat, 2003" },
-        { src: "/narsh2026/images/story/gc/childhood-6.jpg", alt: "Natalie and friend with pet bunny" },
-        { src: "/narsh2026/images/story/gc/childhood-5.jpg", alt: "Natalie climbing a dock post by the Caribbean Sea" },
-        { src: "/narsh2026/images/story/gc/beach-lobster.jpg", alt: "Natalie and sister on the beach with a lobster" },
-        { src: "/narsh2026/images/story/gc/childhood-7.jpg", alt: "Natalie growing up in Grand Cayman" },
-        { src: "/narsh2026/images/story/gc/childhood-8.jpg", alt: "Natalie in the Cayman Islands" },
-        { src: "/narsh2026/images/story/gc/childhood-9.jpg", alt: "Natalie's island childhood" },
-        { src: "/narsh2026/images/story/gc/childhood-10.jpg", alt: "Natalie as a teenager in Grand Cayman" }
+        { src: "/narsh2026/images/story/natalie%20gc/Mom__Nic___Nat___May_1999.JPG", alt: "Baby Natalie with her mom and sister Nicole, May 1999" },
+        { src: "/narsh2026/images/story/natalie%20gc/May_2003___Natalie_steering_.JPG", alt: "Natalie steering a boat, May 2003" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20200609-WA0000.jpg", alt: "Natalie's childhood in Grand Cayman" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20200620-WA0000.jpg", alt: "Growing up in the Cayman Islands" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20200704-WA0001.jpg", alt: "Natalie's island childhood" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20201006-WA0006.jpg", alt: "Natalie exploring Grand Cayman" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20210611-WA0002.jpg", alt: "Natalie in the Cayman Islands" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20210611-WA0012.jpg", alt: "Natalie's years in Grand Cayman" },
+        { src: "/narsh2026/images/story/natalie%20gc/IMG-20210611-WA0015.jpg", alt: "Natalie growing up on the island" },
+        { src: "/narsh2026/images/story/natalie%20gc/PXL_20260323_232606563.jpg", alt: "Natalie as a teenager in Grand Cayman" }
       ],
       isConvergence: false
     },
@@ -49,7 +59,11 @@ const NARSH_STORY_DATA = (() => {
       year: 2001,
       narrative: "Auckland, from ages four to eleven — the most formative years, and Arash still wishes the Kiwi accent had stuck. A brief chapter in Australia followed before the family pointed the compass toward Canada.",
       photos: [
-        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Arash in Auckland" }
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_025847714.jpg", alt: "Arash's years in Auckland, New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_025915910.jpg", alt: "Arash growing up in New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_031953167.jpg", alt: "Arash's childhood in Auckland" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260731_035112051.jpg", alt: "A family photograph from New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260731_035518528.jpg", alt: "Arash's New Zealand years" }
       ],
       isConvergence: false
     },
@@ -62,7 +76,10 @@ const NARSH_STORY_DATA = (() => {
       year: 2010,
       narrative: "At twelve, another new country: Canada. Abbotsford, British Columbia became home, and it's where Arash finished high school — three continents lived on before he'd even graduated.",
       photos: [
-        { src: "/narsh2026/images/story/arash%20BC.jpg", alt: "Arash in British Columbia" }
+        { src: "/narsh2026/images/story/arash%20BC/1.jpg", alt: "Arash in British Columbia" },
+        { src: "/narsh2026/images/story/arash%20BC/2.jpg", alt: "Arash's high school years in Abbotsford" },
+        { src: "/narsh2026/images/story/arash%20BC/3.jpg", alt: "Arash in Abbotsford, British Columbia" },
+        { src: "/narsh2026/images/story/arash%20BC/4.jpg", alt: "Arash's years in British Columbia" }
       ],
       isConvergence: false
     },
@@ -74,9 +91,9 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6,
       year: 2016,
       narrative: "Where we met! We were both a little disheartened to have drawn the short straw of SHAD campuses — Saskatchewan, of all places — but it turned out to be the best thing we could have asked for. SHAD is a summer enrichment program for high schoolers, and it landed a boy who'd grown up across three continents in the same place as an island girl: the summer after Arash finished high school on his way to Waterloo, and the summer between Natalie's grades 11 and 12. It was enough to make Natalie rethink her whole plan and follow him to Waterloo. They dated long-distance until she graduated. So worth it.",
-      photos: [
-        { src: "/narsh2026/images/story/placeholder-3.svg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
-      ],
+      // No SHAD photos yet -- CONTENT.md leaves this section's IMG blank.
+      // An empty array is safe: carousel.loadPhotos() hides the container.
+      photos: [],
       isConvergence: true
     },
     {

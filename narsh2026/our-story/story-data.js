@@ -141,7 +141,7 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "proposal",
       owner: "both",
-      location: "Ucluelet, Vancouver Island",
+      location: "Ucluelet, Vancouver Island, BC, Canada",
       coords: [-125.5462, 48.9420],
       zoom: 9,
       year: 2025,

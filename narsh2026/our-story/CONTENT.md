@@ -98,7 +98,7 @@ IMG: narsh2026/images/story/seattle/
 
 ## 12. The Proposal (2025)
 **Who:** both
-**Location:** Uclulet, Vancouver Island, BC, Canada
+**Location:** Ucluelet, Vancouver Island, BC, Canada
 **Year:** 2025
 
 Arash took Natalie on a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses running right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too. 

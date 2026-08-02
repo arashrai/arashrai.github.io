@@ -14,17 +14,16 @@ const NARSH_STORY_DATA = (() => {
       year: 1997,
       narrative: "Born in Punjab, moved away at age 4 to New Zealand.",
       photos: [
-        { src: "/narsh2026/images/story/arash%20Ludhiana/arash%20baby.jpg", alt: "Baby Arash in Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/FB_IMG_1785467190317.jpg", alt: "Arash's family in Ludhiana, Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_024039471.jpg", alt: "A family photograph from Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_024104942.jpg", alt: "Arash's family in Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_025040763.jpg", alt: "Arash's early years in Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_025658389.jpg", alt: "A family photograph from Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_030047039.jpg", alt: "Arash's family in Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_031525991.jpg", alt: "Family in Ludhiana, Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_033020945.jpg", alt: "Arash's first years in Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_033116840.jpg", alt: "A family photograph from Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/PXL_20260717_033426092.MP.jpg", alt: "Arash's family in Punjab" }
+        // Filenames are numbered so the carousel runs in Natalie's chosen order.
+        { src: "/narsh2026/images/story/arash%20Ludhiana/0.jpg", alt: "Arash's family in Ludhiana, Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/1.jpg", alt: "A family photograph from Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/2.jpg", alt: "Baby Arash in Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/3.jpg", alt: "Arash's family in Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/4.jpg", alt: "Arash's early years in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/5.jpg", alt: "A family photograph from Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/6.jpg", alt: "Arash's family in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/7.jpg", alt: "Family in Ludhiana, Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/8.jpg", alt: "Arash's first years in Punjab" }
       ],
       isConvergence: false
     },
@@ -59,11 +58,13 @@ const NARSH_STORY_DATA = (() => {
       year: 2001,
       narrative: "Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada.",
       photos: [
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_025847714.jpg", alt: "Arash's years in Auckland, New Zealand" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_025915910.jpg", alt: "Arash growing up in New Zealand" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_031953167.jpg", alt: "Arash's childhood in Auckland" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260731_035112051.jpg", alt: "A family photograph from New Zealand" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260731_035518528.jpg", alt: "Arash's New Zealand years" }
+        // Numbered for carousel order, same as the Ludhiana set.
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/1.jpg", alt: "Arash's years in Auckland, New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/2.jpg", alt: "Arash growing up in New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/3.jpg", alt: "Arash's childhood in Auckland" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/4.jpg", alt: "A family photograph from New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/5.jpg", alt: "Arash's New Zealand years" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/6.jpg", alt: "Arash in Auckland, New Zealand" }
       ],
       isConvergence: false
     },

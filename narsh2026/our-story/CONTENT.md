@@ -11,15 +11,14 @@ Fill in each section below. I'll use this to update the timeline.
 
 ---
 
-## 1. Arash — Amritsar, Punjab, India (1997)
+## 1. Arash — Ludhiana, Punjab, India (1997)
 **Who:** Arash
-**Location:** Amritsar, Punjab, India
+**Location:** Ludhiana, Punjab, India
 **Year:** 1997
 
 Born in Punjab, moved away at age 4 to New Zealand.
 
-
-narsh2026/images/story/arash baby.jpg
+IMG: narsh2026/images/story/arash Ludhiana/
 
 ---
 
@@ -40,10 +39,9 @@ IMG: narsh2026/images/story/Natalie — Grand Cayman (1999 - 2016)/
 **Location:** Auckland, New Zealand
 **Year:** 2001
 
-Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada. 
+Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada.
 
-
-IMG:
+IMG: narsh2026/images/story/arash New Zealand/
 
 ---
 

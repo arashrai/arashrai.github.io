@@ -2,12 +2,13 @@
 // Character definitions, hint sequence, profession emoji map, daily puzzle links,
 // and clue template resolver for the Clues-style logic puzzle on the Puzzles page.
 // Logic ported from a Clues by Sam puzzle (id 5e87f220d3d9).
-// NOTE: names/emojis are placeholders — to be replaced with family members later.
 
 const NARSH_PUZZLE_DATA = (() => {
   "use strict";
 
-  const DATA_VERSION = "4";
+  // Bumped for the wedding-guest cast reskin. Old saves are keyed to a cast that
+  // no longer exists, so discarding any in-progress game is intended here.
+  const DATA_VERSION = "5";
 
   // 4x5 grid layout (column A-D, row 1-5):
   //   A1(0)  B1(1)  C1(2)  D1(3)
@@ -16,170 +17,170 @@ const NARSH_PUZZLE_DATA = (() => {
   //   A4(12) B4(13) C4(14) D4(15)
   //   A5(16) B5(17) C5(18) D5(19)
   //
-  // Starter (auto-revealed): Tina (15).
+  // Starter (auto-revealed): Aman (15).
   // paths[] lists the full prerequisite chain that must be revealed before a
   // card becomes deducible (character.paths.some(p => p.every(flipped))).
 
-  const IDENTITY_CLUE = "The criminals stole something cuddly";
+  const IDENTITY_CLUE = "The criminals stole something meant to be thrown";
 
   const CHARACTERS = [
     {
       criminal: true,
-      profession: "doctor",
-      name: "Amy",
-      emoji: "👩‍⚕️",
+      profession: "yapper",
+      name: "Gurpreet",
+      emoji: "💬",
       hint: "There's an odd number of innocents neighboring #NAME:13",
       paths: [[15,14,18,12,13,5,6,11,7,4,19]]
     },
     {
       criminal: false,
-      profession: "doctor",
-      name: "Bunty",
-      emoji: "👩‍⚕️",
-      hint: "Oh, no! I think I know what it is... You're horrible!",
+      profession: "yapper",
+      name: "William",
+      emoji: "💬",
+      hint: "Give it back! She spent months choosing that.",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
       criminal: false,
-      profession: "farmer",
-      name: "Chris",
-      emoji: "👨‍🌾",
-      hint: "Give it back now! I can't sleep without it!",
+      profession: "lion",
+      name: "Amritpal",
+      emoji: "🦁",
+      hint: "But the bride and groom stole my heart first -- go after them!",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
       criminal: false,
-      profession: "farmer",
-      name: "Donna",
-      emoji: "👩‍🌾",
-      hint: "Wait... It's not a hoover, is it?",
+      profession: "lion",
+      name: "Jatinder",
+      emoji: "🦁",
+      hint: "Wait... it's not the centrepieces, is it?",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
       criminal: false,
-      profession: "cook",
-      name: "Erwin",
-      emoji: "👨‍🍳",
-      hint: "There are as many criminal #PROFS:builder as there are criminal #PROFS:coder",
+      profession: "sweetie",
+      name: "Shawna",
+      emoji: "🍬",
+      hint: "There are as many criminal #PROFS:flower girl as there are criminal #PROFS:coder",
       paths: [[15,14,18,12,13,5,6,11,7]]
     },
     {
       criminal: false,
-      profession: "painter",
-      name: "Frida",
-      emoji: "👩‍🎨",
+      profession: "maid of honor",
+      name: "Nicole",
+      emoji: "🧚‍♀️",
       hint: "#NAME:6 is a criminal",
       paths: [[15,14,18,12,13]]
     },
     {
       criminal: true,
-      profession: "guard",
-      name: "Hal",
-      emoji: "💂‍♂️",
-      hint: "2 #PROFS:mech have a criminal directly below them",
+      profession: "muscle",
+      name: "Sidney",
+      emoji: "💪",
+      hint: "2 #PROFS:dancer have a criminal directly below them",
       paths: [[15,14,18,12,13,5]]
     },
     {
       criminal: false,
-      profession: "mech",
-      name: "Igor",
-      emoji: "👨‍🔧",
+      profession: "dancer",
+      name: "Gurnoor",
+      emoji: "💃",
       hint: "Only one row has exactly 2 criminals",
       paths: [[15,14,18,12,13,5,6,11]]
     },
     {
       criminal: true,
-      profession: "cook",
-      name: "Keith",
-      emoji: "👨‍🍳",
-      hint: "We stole it from your bedroom...",
+      profession: "sweetie",
+      name: "Amrit",
+      emoji: "🍬",
+      hint: "We took it right out of her hands during the photos...",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
       criminal: true,
-      profession: "painter",
-      name: "Martin",
-      emoji: "👨‍🎨",
-      hint: "If you want a replacement, you might find one at Paddington Station",
+      profession: "joker",
+      name: "Kyle",
+      emoji: "🃏",
+      hint: "I was thinking about going for the rings, but this had better odds.",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
       criminal: true,
-      profession: "mech",
-      name: "Nancy",
-      emoji: "👩‍🔧",
-      hint: "What we stole was inspired by a certain president",
+      profession: "dancer",
+      name: "Sabrina",
+      emoji: "💃",
+      hint: "Whoever catches it is next, you know. We've simply improved our chances.",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
       criminal: true,
-      profession: "mech",
-      name: "Oscar",
-      emoji: "👨‍🔧",
+      profession: "dancer",
+      name: "Stacey",
+      emoji: "💃",
       hint: "There are exactly 2 innocents #BETWEEN:pair(5,7)",
       paths: [[15,14,18,12,13,5,6]]
     },
     {
       criminal: true,
-      profession: "cook",
-      name: "Penny",
-      emoji: "👩‍🍳",
-      hint: "Row 4 is the only row with exactly one innocent",
+      profession: "sweetie",
+      name: "Kiran",
+      emoji: "🍬",
+      hint: "Row 4 is the only row with exactly one innocent",
       paths: [[15,14,18]]
     },
     {
       criminal: true,
-      profession: "builder",
-      name: "Quita",
-      emoji: "👷‍♀️",
+      profession: "flower girl",
+      name: "Nemo",
+      emoji: "🌸",
       hint: "Both innocents #BETWEEN:pair(1,13) are connected",
       paths: [[15,14,18,12]]
     },
     {
       criminal: true,
-      profession: "builder",
-      name: "Shaun",
-      emoji: "👷‍♂️",
+      profession: "flower girl",
+      name: "Mahi",
+      emoji: "🌸",
       hint: "#NAME:18 is one of 2 criminals #BETWEEN:pair(16,19)",
       paths: [[15]]
     },
     {
       criminal: false,
-      profession: "guard",
-      name: "Tina",
-      emoji: "💂‍♀️",
+      profession: "muscle",
+      name: "Aman",
+      emoji: "💪",
       hint: "I'm the only innocent #BETWEEN:pair(14,15)",
       paths: [[]]
     },
     {
       criminal: true,
       profession: "coder",
-      name: "Umar",
+      name: "Matt",
       emoji: "👨‍💻",
-      hint: "We stole something soft...",
+      hint: "We stole something that smells wonderful...",
       paths: [[15,14,18,12,13,5,6,11,7,4]]
     },
     {
       criminal: false,
       profession: "coder",
-      name: "Wanda",
-      emoji: "👩‍💻",
+      name: "David",
+      emoji: "👨‍💻",
       hint: "I hear the criminals stole something... But what?",
       paths: [[15,14,18,12]]
     },
     {
       criminal: true,
       profession: "coder",
-      name: "Xia",
-      emoji: "👩‍💻",
+      name: "Spencer",
+      emoji: "👨‍💻",
       hint: "Only 1 of the 2 criminals neighboring #NAME:16 is #NAMES:12 neighbor",
       paths: [[15,14]]
     },
     {
       criminal: false,
-      profession: "guard",
-      name: "Zed",
-      emoji: "💂‍♂️",
+      profession: "muscle",
+      name: "Svetomir",
+      emoji: "💪",
       hint: "There is only one innocent #BETWEEN:pair(0,4)",
       paths: [[15,14,18,12,13,5,6,11,7,4]]
     }
@@ -209,15 +210,19 @@ const NARSH_PUZZLE_DATA = (() => {
     { requires: [15,14,18,12,13,5,6,11,7,4,19,0], sources: [15,14,18,12,13,5,6,11,7,4,19,0], reveals: [10] }
   ];
 
+  // Dead code today: this map is defined and exported (via getEmoji) but never
+  // rendered, because both card faces read character.emoji directly. It is kept
+  // in sync with the cast anyway so a future consumer does not inherit stale data.
   const PROFESSION_EMOJI = {
-    doctor: "🩺",
-    farmer: "🌾",
-    cook: "🍳",
-    painter: "🎨",
-    guard: "💂",
-    mech: "🔧",
-    builder: "👷",
-    coder: "💻"
+    yapper: "💬",
+    lion: "🦁",
+    sweetie: "🍬",
+    "maid of honor": "🧚‍♀️",
+    muscle: "💪",
+    dancer: "💃",
+    joker: "🃏",
+    "flower girl": "🌸",
+    coder: "👨‍💻"
   };
 
   const DAILY_PUZZLES = [
@@ -233,6 +238,21 @@ const NARSH_PUZZLE_DATA = (() => {
   const GRID_WIDTH = 4;
   const GRID_HEIGHT = 5;
   const COLS = ["A", "B", "C", "D", "E", "F", "G"];
+
+  // Matcher for the #PROF(S):label template token. The label alternation is
+  // derived from CHARACTERS rather than PROFESSION_EMOJI so the two cannot
+  // drift, sorted longest-first so a label that prefixes another cannot shadow
+  // it, and regex-escaped. A blind /[a-z]+/ run would stop at the space and
+  // render "#PROFS:flower girl" as "flowers girl".
+  const PROFESSION_TOKEN = new RegExp(
+    "#PROF(S?):(" +
+      Array.from(new Set(CHARACTERS.map((c) => c.profession)))
+        .sort((a, b) => b.length - a.length)
+        .map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join("|") +
+      ")",
+    "gi"
+  );
 
   const capitalize = (str) =>
     str.length === 0 ? str : str.charAt(0).toUpperCase() + str.slice(1);
@@ -283,11 +303,11 @@ const NARSH_PUZZLE_DATA = (() => {
       const ve = le == fe;
       const Se = Q - (ve ? 1 : f.width), V = I + (ve ? 1 : f.width);
       if (ve) {
-        if (ce == 0 && de == f.width - 1) return (x || "") + "in row " + (le + 1);
+        if (ce == 0 && de == f.width - 1) return (x || "") + "in row " + (le + 1);
         if (ce == 0) return (x ? "is " : "") + "to the left of " + (u == V ? "me" : "#NAME:" + V);
         if (de == f.width - 1) return (x ? "is " : "") + "to the right of " + (u == Se ? "me" : "#NAME:" + Se);
       } else {
-        if (le == 0 && fe == f.height - 1) return (x || "") + "in column " + COLS[ce];
+        if (le == 0 && fe == f.height - 1) return (x || "") + "in column " + COLS[ce];
         if (le == 0) return (x ? "is " : "") + "above " + (u == V ? "me" : "#NAME:" + V);
         if (fe == f.height - 1) return (x ? "is " : "") + "below " + (u == Se ? "me" : "#NAME:" + Se);
       }
@@ -296,9 +316,12 @@ const NARSH_PUZZLE_DATA = (() => {
       return (x ? "is " : "") + "in between #NAME:" + Se + " and #NAME:" + V;
     });
 
-    // #PROF(S):prof -> profession, pluralized when the S is present
-    s = s.replace(/#PROF(S?):([a-z]+)/gi, (M, x, v) =>
-      v == "witch" ? "witches" : v + (x ? "s" : ""));
+    // #PROF(S):prof -> profession, pluralized when the S is present. Matching is
+    // restricted to the known profession set (see PROFESSION_TOKEN), so
+    // multi-word labels survive intact: "flower girl" -> "flower girls". The old
+    // "witch" -> "witches" special case is gone -- it is unreachable once only
+    // professions that actually exist in CHARACTERS can match.
+    s = s.replace(PROFESSION_TOKEN, (M, x, v) => v + (x ? "s" : ""));
 
     // "neighboring #NAME:x" -> "neighboring me" when the speaker
     s = s.replace(/neighboring #NAME:([0-9]+)/gi, (M, x) =>

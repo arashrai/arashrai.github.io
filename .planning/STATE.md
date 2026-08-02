@@ -51,6 +51,7 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 |---|-------------|------|--------|-----------|
 | 260731-pa8 | Puzzle page: corner-click color marker, Clues by Sam credit link, accuracy-based share grid | 2026-07-31 | a315bdb | [260731-pa8-puzzle-page-click-top-right-corner-of-a-](./quick/260731-pa8-puzzle-page-click-top-right-corner-of-a-/) |
 | fast | Puzzle page: keep the open guess dialog above adjacent cards on hover | 2026-08-01 | a414920 | — (inline, no plan) |
+| 260802-fac | Reskin puzzle cast to wedding guests; retheme riddle as stolen bouquet; multi-word professions in clue resolver | 2026-08-02 | 3c98a42 | [260802-fac-reskin-puzzle-cast-to-wedding-guests-ret](./quick/260802-fac-reskin-puzzle-cast-to-wedding-guests-ret/) |
 
 ---
 *Last activity: 2026-07-31 - Completed quick task 260731-pa8: puzzle page corner-click color marker, Clues by Sam credit, accuracy-based share grid (browser verification outstanding)*

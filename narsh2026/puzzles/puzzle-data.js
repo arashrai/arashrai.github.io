@@ -21,7 +21,7 @@ const NARSH_PUZZLE_DATA = (() => {
   // paths[] lists the full prerequisite chain that must be revealed before a
   // card becomes deducible (character.paths.some(p => p.every(flipped))).
 
-  const IDENTITY_CLUE = "The criminals stole something meant to be thrown";
+  const IDENTITY_CLUE = "The criminals stole something from the bride and groom!";
 
   const CHARACTERS = [
     {
@@ -37,7 +37,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "yapper",
       name: "William",
       emoji: "💬",
-      hint: "Give it back! She spent months choosing that.",
+      hint: "Give it back! At least let her throw it first...",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
@@ -45,7 +45,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "lion",
       name: "Amritpal",
       emoji: "🦁",
-      hint: "But the bride and groom stole my heart first -- go after them!",
+      hint: "Where are the bride and groom? Seems supicious to me ...",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
@@ -93,7 +93,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "sweetie",
       name: "Amrit",
       emoji: "🍬",
-      hint: "We took it right out of her hands during the photos...",
+      hint: "I love my little flowers",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
@@ -101,7 +101,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "joker",
       name: "Kyle",
       emoji: "🃏",
-      hint: "I was thinking about going for the rings, but this had better odds.",
+      hint: "I was thinking about going for the rings, but this place has no service",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
@@ -109,7 +109,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "dancer",
       name: "Sabrina",
       emoji: "💃",
-      hint: "Whoever catches it is next, you know. We've simply improved our chances.",
+      hint: "Sashay away",
       paths: [[15,14,18,12,13,5,6,11,7,4,19,0]]
     },
     {
@@ -157,7 +157,7 @@ const NARSH_PUZZLE_DATA = (() => {
       profession: "coder",
       name: "Matt",
       emoji: "👨‍💻",
-      hint: "We stole something that smells wonderful...",
+      hint: "It was the flower girls' idea!",
       paths: [[15,14,18,12,13,5,6,11,7,4]]
     },
     {

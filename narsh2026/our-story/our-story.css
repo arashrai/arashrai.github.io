@@ -274,6 +274,10 @@
   line-height: 1.6;
   color: var(--color-text-primary);
   margin: 0;
+  /* Narratives are transcribed verbatim from CONTENT.md, where several stops
+     are written as multiple paragraphs. The text is set via textContent, so
+     pre-line is what keeps those line breaks instead of collapsing them. */
+  white-space: pre-line;
 }
 
 /* Timeline bar — fixed at bottom */

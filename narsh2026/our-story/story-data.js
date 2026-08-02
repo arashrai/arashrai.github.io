@@ -12,7 +12,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [75.8573, 30.9010],
       zoom: 5,
       year: 1997,
-      narrative: "Where it all begins. Arash was born in Ludhiana, in the heart of Punjab. The first four years of his life were spent here, before the family set off for the far side of the world.",
+      narrative: "Born in Punjab, moved away at age 4 to New Zealand.",
       photos: [
         { src: "/narsh2026/images/story/arash%20Ludhiana/arash%20baby.jpg", alt: "Baby Arash in Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/FB_IMG_1785467190317.jpg", alt: "Arash's family in Ludhiana, Punjab" },
@@ -35,7 +35,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-81.2546, 19.3133],
       zoom: 7,
       year: "1999 – 2016",
-      narrative: "Born and raised on a small island nation with warm weather and incredible wildlife. Natalie was the kid who kept bunnies, cats, chickens, snakes she caught herself, frogs, and iguanas. She climbed every tree she could find and explored every corner of the island. A natural joker who lived to make people laugh. She completed her high school diploma and IB at Cayman International School in 2016.",
+      narrative: "Born and raised in the Cayman Islands (Grand Cayman). It has warm weather and lots of fun animals. Loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes (that I caught), and frogs. Loved climbing all sorts of things and exploring. Loved making people laugh and joked around a lot.\nCompleted her highschool and IB diploma at Cayman International School (CIS) in 2016.",
       photos: [
         { src: "/narsh2026/images/story/natalie%20gc/Mom__Nic___Nat___May_1999.JPG", alt: "Baby Natalie with her mom and sister Nicole, May 1999" },
         { src: "/narsh2026/images/story/natalie%20gc/May_2003___Natalie_steering_.JPG", alt: "Natalie steering a boat, May 2003" },
@@ -57,7 +57,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [174.7633, -36.8485],
       zoom: 5,
       year: 2001,
-      narrative: "Auckland, from ages four to eleven — the most formative years, and Arash still wishes the Kiwi accent had stuck. A brief chapter in Australia followed before the family pointed the compass toward Canada.",
+      narrative: "Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada.",
       photos: [
         { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_025847714.jpg", alt: "Arash's years in Auckland, New Zealand" },
         { src: "/narsh2026/images/story/arash%20New%20Zealand/PXL_20260717_025915910.jpg", alt: "Arash growing up in New Zealand" },
@@ -74,7 +74,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-122.3045, 49.0504],
       zoom: 5,
       year: 2010,
-      narrative: "At twelve, another new country: Canada. Abbotsford, British Columbia became home, and it's where Arash finished high school — three continents lived on before he'd even graduated.",
+      narrative: "Moved from Aukland/Austtralia to BC at age 12. Completed his highschool degree.",
       photos: [
         { src: "/narsh2026/images/story/arash%20BC/1.jpg", alt: "Arash in British Columbia" },
         { src: "/narsh2026/images/story/arash%20BC/2.jpg", alt: "Arash's high school years in Abbotsford" },
@@ -90,10 +90,10 @@ const NARSH_STORY_DATA = (() => {
       coords: [-106.6330, 52.1332],
       zoom: 6,
       year: 2016,
-      narrative: "Where we met! We were both a little disheartened to have drawn the short straw of SHAD campuses — Saskatchewan, of all places — but it turned out to be the best thing we could have asked for. SHAD is a summer enrichment program for high schoolers, and it landed a boy who'd grown up across three continents in the same place as an island girl: the summer after Arash finished high school on his way to Waterloo, and the summer between Natalie's grades 11 and 12. It was enough to make Natalie rethink her whole plan and follow him to Waterloo. They dated long-distance until she graduated. So worth it.",
-      // No SHAD photos yet -- CONTENT.md leaves this section's IMG blank.
-      // An empty array is safe: carousel.loadPhotos() hides the container.
-      photos: [],
+      narrative: "Where we met!\nWe were both a little disheartened that we pulled the short straw of SHAD campuses, being in Saskatchewan of all places, but it was the best thing we could have asked for.\nIt was the summer after Arash completed his highschool degree, on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades – the perfect time to completely change her career plans to follow Arash to Waterloo. So worth it!!\nThey were seeing each other long-distance after camp until Natalie completed highschool.",
+      photos: [
+        { src: "/narsh2026/images/story/shad/WhatsApp%20Image%202026-07-31%20at%2017.44.08.jpeg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
+      ],
       isConvergence: true
     },
     {
@@ -103,14 +103,17 @@ const NARSH_STORY_DATA = (() => {
       coords: [-80.5204, 43.4643],
       zoom: 8,
       year: "2016 – 2020",
-      narrative: "Arash convinced Natalie that computer science was a promising career, so she took his word for it and switched from studying veterinary medicine to Computer Science at Waterloo. Best decision ever — he was right, plus they got to be together. They made lifelong friends and landed incredible co-op internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for their future home.",
+      narrative: "Arash convinced Natalie that computer science was a promising career so she took his word for it and switched plans from doing something medical eg. veterinary medicine to instead study Computer Science at Waterloo. Best decision ever! He was right, plus they got to be together.\nThey made some amazing friends for life. They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for our future home!",
       photos: [
-        { src: "/narsh2026/images/story/uw/early-days.jpg", alt: "Natalie and Arash in their early university days" },
-        { src: "/narsh2026/images/story/uw/friends-selfie.jpg", alt: "Natalie and Arash with friends at Waterloo" },
-        { src: "/narsh2026/images/story/uw/friends-outing.jpg", alt: "Natalie and friends on an outing" },
-        { src: "/narsh2026/images/story/uw/bridge-foggy.jpg", alt: "Natalie and Arash at a misty bridge during a co-op adventure" },
-        { src: "/narsh2026/images/story/uw/haystack-rock.jpg", alt: "Arash at Haystack Rock on the Oregon coast" },
-        { src: "/narsh2026/images/story/uw/drone-aerial.jpg", alt: "Aerial view from one of their adventures" }
+        { src: "/narsh2026/images/story/waterloo/20180831_194553.jpg", alt: "Natalie and Arash during their Waterloo years" },
+        { src: "/narsh2026/images/story/waterloo/20190324_145534.jpg", alt: "Natalie and Arash in Waterloo, Ontario" },
+        { src: "/narsh2026/images/story/waterloo/Snapchat-1579637764.jpg", alt: "Natalie and Arash with friends at Waterloo" },
+        { src: "/narsh2026/images/story/waterloo/IMG_5605.JPG", alt: "University days in Waterloo" },
+        { src: "/narsh2026/images/story/waterloo/DSC_7410.JPG", alt: "Natalie and Arash during university" },
+        { src: "/narsh2026/images/story/waterloo/DSC_7470.JPG", alt: "Friends made for life at Waterloo" },
+        { src: "/narsh2026/images/story/waterloo/DSC_7651.JPG", alt: "Natalie and Arash in their Waterloo years" },
+        { src: "/narsh2026/images/story/waterloo/DJI_0120.JPG", alt: "Aerial view from one of their adventures" },
+        { src: "/narsh2026/images/story/waterloo/DJI_0218.JPG", alt: "An aerial shot from the Waterloo years" }
       ],
       isConvergence: false
     },
@@ -121,7 +124,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-122.3421, 47.6097],
       zoom: 7,
       year: "2021 – present",
-      narrative: "Their careers took them to the US, and Seattle is where they chose to put down roots — drawn by the mountains and the water, the mild Pacific Northwest climate, and being close to Canada and Arash's family. It came with two cats, Presto and Trino, and the quiet certainty that this was home.",
+      narrative: "Our careers took us to the US and we decided to setup some roots in Seattle. We love the beautiful mountains and water, the climate, and the proximity to Canada and Arash's family.",
       photos: [
         { src: "/narsh2026/images/story/seattle/20200620_144808.jpg", alt: "Natalie and Arash in Seattle" },
         { src: "/narsh2026/images/story/seattle/PXL_20220206_210856198.jpg", alt: "Natalie and Arash in Seattle, 2022" },
@@ -142,7 +145,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-125.5462, 48.9420],
       zoom: 9,
       year: 2025,
-      narrative: "Arash whisked Natalie on a road trip around Vancouver Island — geodesic domes, a petting farm full of baby goats, horses grazing right outside the window, jaw-dropping views, incredible meals, a private spa... and, oh yeah, a proposal too. She said yes. Two lives that started oceans apart, now writing the same story. The next chapter begins in September 2026.",
+      narrative: "Arash took Natalie on a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses running right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too.",
       photos: [
         { src: "/narsh2026/images/story/proposal/PXL_20250605_171039942.jpg", alt: "The proposal trip on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/PXL_20250605_171242893.jpg", alt: "Natalie and Arash on Vancouver Island" },

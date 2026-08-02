@@ -66,9 +66,9 @@ IMG: narsh2026/images/story/arash BC.jpg
 Where we met!
 We were both a little disheartened that we pulled the short straw of SHAD campuses, being in Saskatchewan of all places, but it was the best thing we could have asked for.
 It was the summer after Arash completed his highschool degree, on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades – the perfect time to completely change her career plans to follow Arash to Waterloo. So worth it!!
-They were seeing each other long-distance after camp until Natalie completed highschool. 
+They were seeing each other long-distance after camp until Natalie completed highschool.
 
-IMG:
+IMG: narsh2026/images/story/shad/
 
 ---
 

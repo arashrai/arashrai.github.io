@@ -102,23 +102,49 @@ const NARSH_CAROUSEL = (() => {
       photos.forEach((photo, i) => {
         const img = document.createElement("img");
         img.className = "carousel-photo";
-        img.src = photo.src;
         img.alt = photo.alt;
         // Eager + async decode: only the current stop's (now web-sized) photos
         // are in the DOM at once, and lazy-loading is unreliable for the
         // horizontally-translated off-screen carousel slides.
         img.loading = "eager";
         img.decoding = "async";
-        // Resize the box to the photo once it loads, if it's the one on screen.
-        img.addEventListener("load", () => {
-          if (i === currentIndex) resizeToCurrent();
-        });
+        // The visible photo competes with every other slide for bandwidth, and
+        // some stops carry 9+ multi-megabyte images. Let the first one win.
+        img.fetchPriority = i === 0 ? "high" : "low";
+        img.src = photo.src;
+        sizeWhenReady(img);
         trackEl.appendChild(img);
       });
     }
 
     updateUI();
-    resizeToCurrent();
+    sizeWhenReady(trackEl ? trackEl.children[currentIndex] : null);
+  };
+
+  // Size the box to `img` as soon as it can be measured.
+  //
+  // A cached image is already `complete` by the time we attach a listener --
+  // its load event fired during `img.src = ...` -- so a listener-only approach
+  // silently never runs and the box keeps the PREVIOUS stop's dimensions,
+  // leaving the first photo of each new city invisible until some other event
+  // (clicking next, then back) happens to re-measure it. Check `complete`
+  // first, and only fall back to the event when the image really is in flight.
+  const sizeWhenReady = (img) => {
+    if (!img) return;
+
+    if (img.complete && img.naturalWidth) {
+      resizeToCurrent();
+      return;
+    }
+
+    // Compare element identity rather than a captured index: the user can
+    // navigate away mid-load, and `trackEl.children` is rebuilt per stop.
+    const onSettled = () => {
+      if (trackEl && trackEl.children[currentIndex] === img) resizeToCurrent();
+    };
+    img.addEventListener("load", onSettled, { once: true });
+    // A failed image must not wedge the box at a stale size either.
+    img.addEventListener("error", onSettled, { once: true });
   };
 
   // Size the carousel box to the current photo so the whole image is shown
@@ -165,7 +191,9 @@ const NARSH_CAROUSEL = (() => {
       trackEl.style.transform = "translateX(-" + (currentIndex * 100) + "%)";
     }
 
-    resizeToCurrent();
+    // Same cached-vs-in-flight problem as loadPhotos: a slide the user reaches
+    // before it has decoded needs to re-measure when it arrives.
+    sizeWhenReady(trackEl ? trackEl.children[currentIndex] : null);
     updateUI();
   };
 

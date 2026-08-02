@@ -53,7 +53,7 @@ IMG: narsh2026/images/story/arash New Zealand/
 Moved from Aukland/Austtralia to BC at age 12. Completed his highschool degree.
 
 
-IMG: narsh2026/images/story/arash BC.jpg
+IMG: narsh2026/images/story/arash BC/
 
 ---
 
@@ -86,7 +86,7 @@ IMG: narsh2026/images/story/waterloo/
 
 ## 11. Seattle, Washington (2021)
 **Who:** both
-**Location:** Pike Place Market, Seattle, Washington
+**Location:** Seattle, Washington
 **Year:** 2021 - present day
 
 Our careers took us to the US and we decided to setup some roots in Seattle. We love the beautiful mountains and water, the climate, and the proximity to Canada and Arash's family.

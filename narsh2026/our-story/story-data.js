@@ -99,7 +99,7 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "waterloo",
       owner: "both",
-      location: "Waterloo, Ontario",
+      location: "Waterloo, Ontario, Canada",
       coords: [-80.5204, 43.4643],
       zoom: 8,
       year: "2016 – 2020",
@@ -120,7 +120,7 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "seattle",
       owner: "both",
-      location: "Pike Place Market, Seattle, Washington",
+      location: "Seattle, Washington",
       coords: [-122.3421, 47.6097],
       zoom: 7,
       year: "2021 – present",

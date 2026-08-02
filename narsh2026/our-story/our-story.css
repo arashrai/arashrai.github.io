@@ -354,6 +354,42 @@
   z-index: 20;
 }
 
+/* Peeking nav.
+   This page hijacks window scroll to drive the timeline, so the header
+   scrolls out of view at the first stop and there is no natural way back to
+   it -- guests had to scroll to the beginning or reload to navigate away.
+   Pin it instead and tuck it up out of the way, sliding it back down when
+   the pointer reaches for the top of the viewport.
+   Pointer proximity is tracked in nav-peek.js rather than with a fixed hover
+   strip, because a strip would sit over the map and swallow drags along its
+   top edge. Restricted to fine pointers: there is no hover on touch, and a
+   header that can never be summoned is worse than one that just scrolls. */
+@media (hover: hover) and (pointer: fine) {
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    transform: translateY(-100%);
+    transition: transform var(--transition-normal);
+  }
+
+  /* .peek is set by nav-peek.js; :focus-within keeps the header reachable by
+     keyboard, since tabbing into a link cannot move the pointer. */
+  .site-header.peek,
+  .site-header:focus-within,
+  .nav-open .site-header {
+    transform: translateY(0);
+    box-shadow: var(--shadow-soft);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+}
+
 /* Mobile cross-fade between map and content views */
 @media (max-width: 767px) {
   .map-container {

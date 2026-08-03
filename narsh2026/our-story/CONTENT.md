@@ -16,7 +16,7 @@ Fill in each section below. I'll use this to update the timeline.
 **Location:** Ludhiana, Punjab, India
 **Year:** 1997
 
-Born in Punjab, moved away at age 4 to New Zealand.
+Arash was born in Ludhiana, Punjab, and moved away at age 4 to New Zealand.
 
 IMG: narsh2026/images/story/arash Ludhiana/
 
@@ -27,7 +27,7 @@ IMG: narsh2026/images/story/arash Ludhiana/
 **Location:** Grand Cayman, Cayman Islands
 **Year:** 1999 - 2016
 
-Born and raised in the Cayman Islands (Grand Cayman). It has warm weather and lots of fun animals. Loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes (that I caught), and frogs. Loved climbing all sorts of things and exploring. Loved making people laugh and joked around a lot.
+Natalie was born in the Cayman Islands. She loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes, and frogs. She loved climbing and exploring. Loved making people laugh and joked around a lot.
 Completed her highschool and IB diploma at Cayman International School (CIS) in 2016.
 
 IMG: narsh2026/images/story/natalie gc/
@@ -39,7 +39,7 @@ IMG: narsh2026/images/story/natalie gc/
 **Location:** Auckland, New Zealand
 **Year:** 2001
 
-Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada.
+Arash lived in Aukland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.
 
 IMG: narsh2026/images/story/arash New Zealand/
 
@@ -50,8 +50,7 @@ IMG: narsh2026/images/story/arash New Zealand/
 **Location:** Abbotsford, BC, Canada
 **Year:** 2010
 
-Moved from Aukland/Austtralia to BC at age 12. Completed his highschool degree.
-
+Arash and his family moved from New Zealand/Australia to Abbotsford, BC at age 12. Arash completed his highschool degree before heading across the country to university. But first, a quick summer camp.
 
 IMG: narsh2026/images/story/arash BC/
 
@@ -63,10 +62,9 @@ IMG: narsh2026/images/story/arash BC/
 **Year:** 2016
 **Convergence:** yes
 
-Where we met!
-We were both a little disheartened that we pulled the short straw of SHAD campuses, being in Saskatchewan of all places, but it was the best thing we could have asked for.
-It was the summer after Arash completed his highschool degree, on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades – the perfect time to completely change her career plans to follow Arash to Waterloo. So worth it!!
-They were seeing each other long-distance after camp until Natalie completed highschool.
+Where the two met!
+Both a little disheartened that they pulled the short straw of campuses (Saskatchewan), but it turned out so much better than anyone hoped.
+Arash completed his highschool degree, and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades. He opened her eyes to the world of tech and she decided she would follow him to Waterloo after finishing her final year of highschool.
 
 IMG: narsh2026/images/story/shad/
 
@@ -77,8 +75,9 @@ IMG: narsh2026/images/story/shad/
 **Location:** Waterloo, Ontario, Canada
 **Year:** 2016 - 2020
 
-Arash convinced Natalie that computer science was a promising career so she took his word for it and switched plans from doing something medical eg. veterinary medicine to instead study Computer Science at Waterloo. Best decision ever! He was right, plus they got to be together.
-They made some amazing friends for life. They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for our future home!
+Arash studied Software Engineering, and Natalie studied Computer Science. They got to be together, and support each other.
+They made some amazing friends for life.
+They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a haitus due to the pandemic,they were able to take their next step, and decided they'd come back to Seattle.
 
 IMG: narsh2026/images/story/waterloo/
 
@@ -89,8 +88,7 @@ IMG: narsh2026/images/story/waterloo/
 **Location:** Seattle, Washington
 **Year:** 2021 - present day
 
-Our careers took us to the US and we decided to setup some roots in Seattle. We love the beautiful mountains and water, the climate, and the proximity to Canada and Arash's family.
-
+They setup roots in Seattle, and really enjoy the beautiful mountains, water, the climate, and the proximity to Arash's family.
 
 IMG: narsh2026/images/story/seattle/
 
@@ -101,8 +99,7 @@ IMG: narsh2026/images/story/seattle/
 **Location:** Ucluelet, Vancouver Island, BC, Canada
 **Year:** 2025
 
-Arash took Natalie on a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses running right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too. 
-
+Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too.
 
 IMG: narsh2026/images/story/proposal/
 

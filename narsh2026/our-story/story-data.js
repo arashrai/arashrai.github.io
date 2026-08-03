@@ -12,7 +12,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [75.8573, 30.9010],
       zoom: 5,
       year: 1997,
-      narrative: "Born in Punjab, moved away at age 4 to New Zealand.",
+      narrative: "Arash was born in Ludhiana, Punjab, and moved away at age 4 to New Zealand.",
       photos: [
         // Filenames are numbered so the carousel runs in Natalie's chosen order.
         { src: "/narsh2026/images/story/arash%20Ludhiana/010.jpg", alt: "Arash's family in Ludhiana, Punjab" },
@@ -34,7 +34,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-81.2546, 19.3133],
       zoom: 7,
       year: "1999 – 2016",
-      narrative: "Born and raised in the Cayman Islands (Grand Cayman). It has warm weather and lots of fun animals. Loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes (that I caught), and frogs. Loved climbing all sorts of things and exploring. Loved making people laugh and joked around a lot.\nCompleted her highschool and IB diploma at Cayman International School (CIS) in 2016.",
+      narrative: "Natalie was born in the Cayman Islands. She loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes, and frogs. She loved climbing and exploring. Loved making people laugh and joked around a lot.\nCompleted her highschool and IB diploma at Cayman International School (CIS) in 2016.",
       photos: [
         { src: "/narsh2026/images/story/natalie%20gc/010.jpg", alt: "Baby Natalie with her mom and sister Nicole, May 1999" },
         { src: "/narsh2026/images/story/natalie%20gc/020.jpg", alt: "Natalie in Grand Cayman" },
@@ -56,7 +56,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [174.7633, -36.8485],
       zoom: 5,
       year: 2001,
-      narrative: "Lived in Aukland from age 4-11, very formative. Wishes the accent stuck. Briefly lived in Australia before moving to Canada.",
+      narrative: "Arash lived in Aukland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.",
       photos: [
         // Numbered for carousel order, same as the Ludhiana set.
         { src: "/narsh2026/images/story/arash%20New%20Zealand/010.jpg", alt: "Arash's years in Auckland, New Zealand" },
@@ -75,7 +75,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-122.3045, 49.0504],
       zoom: 5,
       year: 2010,
-      narrative: "Moved from Aukland/Austtralia to BC at age 12. Completed his highschool degree.",
+      narrative: "Arash and his family moved from New Zealand/Australia to Abbotsford, BC at age 12. Arash completed his highschool degree before heading across the country to university. But first, a quick summer camp.",
       photos: [
         { src: "/narsh2026/images/story/arash%20BC/010.jpg", alt: "Arash in British Columbia" },
         { src: "/narsh2026/images/story/arash%20BC/020.jpg", alt: "Arash's high school years in Abbotsford" },
@@ -91,7 +91,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-106.6330, 52.1332],
       zoom: 6,
       year: 2016,
-      narrative: "Where we met!\nWe were both a little disheartened that we pulled the short straw of SHAD campuses, being in Saskatchewan of all places, but it was the best thing we could have asked for.\nIt was the summer after Arash completed his highschool degree, on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades – the perfect time to completely change her career plans to follow Arash to Waterloo. So worth it!!\nThey were seeing each other long-distance after camp until Natalie completed highschool.",
+      narrative: "Where the two met!\nBoth a little disheartened that they pulled the short straw of campuses (Saskatchewan), but it turned out so much better than anyone hoped.\nArash completed his highschool degree, and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades. He opened her eyes to the world of tech and she decided she would follow him to Waterloo after finishing her final year of highschool.",
       photos: [
         { src: "/narsh2026/images/story/shad/010.jpeg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
       ],
@@ -104,7 +104,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-80.5204, 43.4643],
       zoom: 8,
       year: "2016 – 2020",
-      narrative: "Arash convinced Natalie that computer science was a promising career so she took his word for it and switched plans from doing something medical eg. veterinary medicine to instead study Computer Science at Waterloo. Best decision ever! He was right, plus they got to be together.\nThey made some amazing friends for life. They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. What a great way to window-shop for our future home!",
+      narrative: "Arash studied Software Engineering, and Natalie studied Computer Science. They got to be together, and support each other.\nThey made some amazing friends for life.\nThey got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a haitus due to the pandemic,they were able to take their next step, and decided they'd come back to Seattle.",
       photos: [
         { src: "/narsh2026/images/story/waterloo/010.jpg", alt: "Natalie and Arash during their Waterloo years" },
         { src: "/narsh2026/images/story/waterloo/020.jpg", alt: "Natalie and Arash with friends at Waterloo" },
@@ -123,7 +123,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-122.3421, 47.6097],
       zoom: 7,
       year: "2021 – present",
-      narrative: "Our careers took us to the US and we decided to setup some roots in Seattle. We love the beautiful mountains and water, the climate, and the proximity to Canada and Arash's family.",
+      narrative: "They setup roots in Seattle, and really enjoy the beautiful mountains, water, the climate, and the proximity to Arash's family.",
       photos: [
         { src: "/narsh2026/images/story/seattle/010.jpg", alt: "Natalie and Arash in Seattle, 2020" },
         { src: "/narsh2026/images/story/seattle/020.jpg", alt: "Natalie and Arash in Seattle, 2022" },
@@ -149,7 +149,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-125.5462, 48.9420],
       zoom: 9,
       year: 2025,
-      narrative: "Arash took Natalie on a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses running right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too.",
+      narrative: "Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too.",
       photos: [
         { src: "/narsh2026/images/story/proposal/010.jpg", alt: "The proposal trip on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/020.jpg", alt: "Natalie and Arash on Vancouver Island" },

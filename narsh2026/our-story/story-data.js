@@ -56,7 +56,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [174.7633, -36.8485],
       zoom: 5,
       year: 2001,
-      narrative: "Arash lived in Aukland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.",
+      narrative: "Arash lived in Auckland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.",
       photos: [
         // Numbered for carousel order, same as the Ludhiana set.
         { src: "/narsh2026/images/story/arash%20New%20Zealand/010.jpg", alt: "Arash's years in Auckland, New Zealand" },
@@ -104,7 +104,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-80.5204, 43.4643],
       zoom: 8,
       year: "2016 – 2020",
-      narrative: "Arash studied Software Engineering, and Natalie studied Computer Science. They got to be together, and support each other.\nThey made some amazing friends for life.\nThey got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a haitus due to the pandemic,they were able to take their next step, and decided they'd come back to Seattle.",
+      narrative: "Arash studied Software Engineering, and Natalie studied Computer Science. They got to be together, and support each other.\nThey made some amazing friends for life.\nThey got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a hiatus due to the pandemic, they were able to take their next step, and decided they'd come back to Seattle.",
       photos: [
         { src: "/narsh2026/images/story/waterloo/010.jpg", alt: "Natalie and Arash during their Waterloo years" },
         { src: "/narsh2026/images/story/waterloo/020.jpg", alt: "Natalie and Arash with friends at Waterloo" },
@@ -149,7 +149,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-125.5462, 48.9420],
       zoom: 9,
       year: 2025,
-      narrative: "Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too.",
+      narrative: "Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside their bed, stunning views and meals plus personal spa, and yeah, he asked the big question too.",
       photos: [
         { src: "/narsh2026/images/story/proposal/010.jpg", alt: "The proposal trip on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/020.jpg", alt: "Natalie and Arash on Vancouver Island" },

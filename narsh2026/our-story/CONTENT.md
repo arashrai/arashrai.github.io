@@ -39,7 +39,7 @@ IMG: narsh2026/images/story/natalie gc/
 **Location:** Auckland, New Zealand
 **Year:** 2001
 
-Arash lived in Aukland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.
+Arash lived in Auckland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.
 
 IMG: narsh2026/images/story/arash New Zealand/
 
@@ -77,7 +77,7 @@ IMG: narsh2026/images/story/shad/
 
 Arash studied Software Engineering, and Natalie studied Computer Science. They got to be together, and support each other.
 They made some amazing friends for life.
-They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a haitus due to the pandemic,they were able to take their next step, and decided they'd come back to Seattle.
+They got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a hiatus due to the pandemic, they were able to take their next step, and decided they'd come back to Seattle.
 
 IMG: narsh2026/images/story/waterloo/
 
@@ -99,7 +99,7 @@ IMG: narsh2026/images/story/seattle/
 **Location:** Ucluelet, Vancouver Island, BC, Canada
 **Year:** 2025
 
-Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside our bed, stunning views and meals plus personal spa, and yeah I guess he threw a proposal in too.
+Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside their bed, stunning views and meals plus personal spa, and yeah, he asked the big question too.
 
 IMG: narsh2026/images/story/proposal/
 

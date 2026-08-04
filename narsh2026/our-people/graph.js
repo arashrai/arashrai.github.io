@@ -1114,11 +1114,16 @@ const NARSH_GRAPH = (() => {
 
     const posById = new Map();
     const allNodes = [];
-    layouts.forEach((L) => L.nodes.forEach((n) => {
-      n.px += centerShift;
-      allNodes.push(n);
-      posById.set(n.id, n);
-    }));
+    // Person pairs joined only by a layout-only in-law nesting — never parentage.
+    const suppressedPairs = new Set();
+    layouts.forEach((L) => {
+      (L.suppressedPairs || []).forEach((k) => suppressedPairs.add(k));
+      L.nodes.forEach((n) => {
+        n.px += centerShift;
+        allNodes.push(n);
+        posById.set(n.id, n);
+      });
+    });
 
     // Order the two people in a couple so the one whose own parent sits further
     // left takes the left slot (shortens/uncrosses that parent line). Only fires
@@ -1156,10 +1161,21 @@ const NARSH_GRAPH = (() => {
         .attr("stroke-linecap", "round")
         .attr("opacity", 0.65);
     };
+    // Belt and braces: today every parentage line comes from `guest.parents`, and
+    // nothing at all is drawn from the unit hierarchy, so this guard removes no
+    // line that currently appears. It exists because `layoutSide` can nest an
+    // in-law lineage under an unrelated ancestor purely for positioning — if
+    // anyone later draws links from that hierarchy, this is what stops a false
+    // parent/child connector (e.g. Balbir Rai -> Amrit's mom) from appearing.
+    // Keep it.
+    const isSuppressedPair = (a, b) => suppressedPairs.has([a, b].sort().join("|"));
     allNodes.forEach((n) => {
       const guest = NARSH_GUESTS.getGuestById(n.id);
       if (!guest) return;
-      const parentPos = guest.parents.map((pid) => posById.get(pid)).filter(Boolean);
+      const parentPos = guest.parents
+        .map((pid) => posById.get(pid))
+        .filter(Boolean)
+        .filter((p) => !isSuppressedPair(p.id, n.id));
 
       // If two of the child's parents are married, drop one line from their midpoint.
       let unionDrawn = false;
@@ -1285,7 +1301,7 @@ const NARSH_GRAPH = (() => {
   // of them end up next to each other. Returns positioned nodes + total width.
   const layoutSide = (side, originX, topY) => {
     const members = NARSH_GUESTS.GUESTS.filter((g) => g.side === side);
-    if (!members.length) return { nodes: [], width: 0 };
+    if (!members.length) return { nodes: [], width: 0, suppressedPairs: new Set() };
     const idSet = new Set(members.map((m) => m.id));
     const guestById = (id) => NARSH_GUESTS.getGuestById(id);
     const inSideParents = (id) => guestById(id).parents.filter((p) => idSet.has(p));
@@ -1423,6 +1439,124 @@ const NARSH_GRAPH = (() => {
     });
     const topAncestor = (u) => { const r = rootAncestor(u); return virtualOfUnit[r] || r; };
 
+    // --- Generation depth + owning top-level node, per real unit ---
+    // A virtual sibling-group node is seeded at depth -1 and a real top node at
+    // depth 0, mirroring the `yShift` the render loop applies below. That way a
+    // real root hanging off a virtual node still reads depth 0, and a depth here
+    // always means the same rendered generation row across the whole side.
+    const WALK_STEP_CAP = 1000;
+    const unitDepth = {};
+    const unitTop = {};
+    const recomputeDepths = () => {
+      Object.keys(unitDepth).forEach((u) => { delete unitDepth[u]; });
+      Object.keys(unitTop).forEach((u) => { delete unitTop[u]; });
+      topRoots.forEach((r) => {
+        const stack = [{ u: r, d: isVirtual(r) ? -1 : 0 }];
+        let steps = 0;
+        while (stack.length && steps++ < WALK_STEP_CAP) {
+          const cur = stack.pop();
+          if (!isVirtual(cur.u)) { unitDepth[cur.u] = cur.d; unitTop[cur.u] = r; }
+          childrenOfNode(cur.u).forEach((c) => stack.push({ u: c, d: cur.d + 1 }));
+        }
+      });
+    };
+    recomputeDepths();
+
+    // --- Nest an in-law root lineage inside the tree it married into ---
+    // Someone's parents can be a whole separate parentless lineage (e.g. Amrit's
+    // mom + dad) that only touches the family through their child, who lives in
+    // another tree because of their own marriage. That lineage would otherwise
+    // render as a disconnected top-level tree parked beside the family. Hang it
+    // off the right ancestor instead, at the generation the link implies:
+    //   d = d_child - 1 - d_parent   (the child's would-be row in the in-law tree)
+    // This is LAYOUT ONLY — see `layoutOnlyLinks` / `suppressedPairs` below; no
+    // parentage line is ever drawn for the hierarchy edge it creates.
+    const attachCandidates = [];
+    members.forEach((g) => inSideParents(g.id).forEach((p) => {
+      const uC = unitOf[g.id];
+      const uP = unitOf[p];
+      if (!uC || !uP || uC === uP) return;
+      const R = unitTop[uP];
+      const T = unitTop[uC];
+      if (!R || !T || R === T) return;
+      // The bloodline lineage is the spine — it never gets nested inside another
+      // tree. Skipping it also keeps `containsTarget` valid without recomputing.
+      if (nodeContainsTarget(R)) return;
+      // A virtual sibling-group node only ever works as a TOP node: the render
+      // loop's yShift is keyed on the top node being virtual, so nesting one
+      // would drop all of its children a generation. Silent internal limit.
+      if (isVirtual(R)) return;
+      attachCandidates.push({
+        R: R,
+        T: T,
+        d: unitDepth[uC] - 1 - unitDepth[uP],
+        anchorFrom: uC,
+        viaParent: p,
+        viaChild: g.id,
+        order: guestIndex.has(g.id) ? guestIndex.get(g.id) : 1e9
+      });
+    }));
+
+    // One attachment per root, picked deterministically: shallowest link first,
+    // ties broken by CSV row order so the result never depends on object order.
+    const unitLabel = (u) => (isVirtual(u)
+      ? virtualChildren[u].map(unitLabel).join(" / ")
+      : unitMembers[u].map((mid) => { const g = guestById(mid); return g ? g.name : mid; }).join(" + "));
+    const candidatesByRoot = {};
+    attachCandidates.forEach((c) => { (candidatesByRoot[c.R] = candidatesByRoot[c.R] || []).push(c); });
+    const layoutOnlyLinks = [];
+    const fallbackCandidates = [];
+    Object.keys(candidatesByRoot).forEach((R) => {
+      const group = candidatesByRoot[R].slice().sort((a, b) => (a.d !== b.d ? a.d - b.d : a.order - b.order));
+      const chosen = group[0];
+      if (group.length > 1) {
+        const parentG = guestById(chosen.viaParent);
+        const childG = guestById(chosen.viaChild);
+        console.info("Family tree: \"" + unitLabel(R) + "\" had " + group.length
+          + " possible places to nest; used the link from \"" + (parentG ? parentG.name : chosen.viaParent)
+          + "\" to \"" + (childG ? childG.name : chosen.viaChild) + "\".");
+      }
+      // d < 1 means there is no ancestor row to hang off — handled by the
+      // guarded top-level reorder further down instead.
+      if (chosen.d < 1) { fallbackCandidates.push(chosen); return; }
+
+      // Anchor = the ancestor of the linking child that sits one row above `d`.
+      let anchor = chosen.anchorFrom;
+      let up = 0;
+      while (anchor && unitDepth[anchor] > chosen.d - 1 && up++ < WALK_STEP_CAP) {
+        anchor = primaryParentUnit[anchor];
+      }
+      if (!anchor || unitDepth[anchor] !== chosen.d - 1) return; // ran out or overshot
+
+      // Cycle guard: R must not already be an ancestor of the anchor.
+      let probe = anchor;
+      let steps = 0;
+      let cyclic = false;
+      while (probe && steps++ < WALK_STEP_CAP) {
+        if (probe === R) { cyclic = true; break; }
+        probe = primaryParentUnit[probe];
+      }
+      if (cyclic) return;
+
+      primaryParentUnit[R] = anchor;
+      childUnits[anchor].push(R);
+      childUnits[anchor].sort((a, b) => unitSortKey(a) - unitSortKey(b));
+      childUnits[anchor] = orderEdge(childUnits[anchor]);
+      layoutOnlyLinks.push({ parentUnit: anchor, childUnit: R });
+    });
+
+    if (layoutOnlyLinks.length) {
+      rootUnits.splice(0, rootUnits.length);
+      Object.keys(unitMembers).forEach((u) => { if (!primaryParentUnit[u]) rootUnits.push(u); });
+      topRoots.splice(0, topRoots.length);
+      rootUnits.forEach((u) => {
+        const vid = virtualOfUnit[u];
+        if (!vid) { topRoots.push(u); return; }
+        if (topRoots.indexOf(vid) < 0) topRoots.push(vid);
+      });
+      recomputeDepths();
+    }
+
     // --- Order roots: cluster the target root's connected lineages next to it ---
     const radj = {};
     topRoots.forEach((r) => { radj[r] = new Set(); });
@@ -1448,6 +1582,33 @@ const NARSH_GRAPH = (() => {
     // Natalie: isolated roots on the left, target lineage on the right (target last).
     // Arash: target lineage on the left (target first), isolated roots on the right.
     const orderedRoots = toInnerEnd ? [...rest, ...comp.reverse()] : [...comp, ...rest];
+
+    // Fallback for an in-law root that could not nest (d < 1 — the link points at
+    // the very top row, so there is no ancestor to hang off). Park it immediately
+    // to the right of the tree it married into instead. GUARDED: the move is
+    // rejected if it would change which lineage occupies the inner-edge terminal
+    // slot, because that slot is what keeps Natalie and Arash adjacent.
+    const innerTerminal = (arr) => (toInnerEnd ? arr[arr.length - 1] : arr[0]);
+    fallbackCandidates.forEach((c) => {
+      if (c.R === c.T) return;
+      if (orderedRoots.indexOf(c.R) < 0 || orderedRoots.indexOf(c.T) < 0) return;
+      const without = orderedRoots.filter((x) => x !== c.R);
+      const at = without.indexOf(c.T);
+      if (at < 0) return;
+      const moved = [...without.slice(0, at + 1), c.R, ...without.slice(at + 1)];
+      if (innerTerminal(moved) !== innerTerminal(orderedRoots)) return;
+      orderedRoots.splice(0, orderedRoots.length, ...moved);
+    });
+
+    // The layout-only hierarchy edges, expanded to every person pair they span.
+    // renderFamilyTree consults this before drawing a parentage line so a nested
+    // in-law lineage can never sprout a false parent/child connector.
+    const suppressedPairs = new Set();
+    layoutOnlyLinks.forEach((l) => {
+      unitMembers[l.parentUnit].forEach((a) => unitMembers[l.childUnit].forEach((b) => {
+        suppressedPairs.add([a, b].sort().join("|"));
+      }));
+    });
 
     // --- Lay out unit hierarchy with d3.tree; expand each unit to its people ---
     const nodes = [];
@@ -1493,7 +1654,7 @@ const NARSH_GRAPH = (() => {
       cursorX = shift + maxX + TREE_MEMBER_OFFSET + TREE_ROOT_GAP;
     });
 
-    return { nodes: nodes, width: cursorX - originX };
+    return { nodes: nodes, width: cursorX - originX, suppressedPairs: suppressedPairs };
   };
 
   const expandTreeNode = (nodeId, nodeEl, px, py, radius) => {

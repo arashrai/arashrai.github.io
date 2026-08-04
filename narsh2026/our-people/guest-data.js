@@ -166,7 +166,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-katelyn-henry",
       "side": "natalie",
-      "parents": [],
+      "parents": [
+        "guest"
+      ],
       "inferredParents": []
     },
     {
@@ -182,7 +184,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-katelyn-henry",
       "side": "natalie",
-      "parents": [],
+      "parents": [
+        "guest"
+      ],
       "inferredParents": []
     },
     {
@@ -1778,6 +1782,24 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
+      "id": "guest",
+      "name": "...",
+      "photo": null,
+      "groups": [
+        "natalies-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "natalie",
+      "parents": [
+        "rene-fleury"
+      ],
+      "inferredParents": []
+    },
+    {
       "id": "aman-rai",
       "name": "Aman Rai",
       "photo": null,
@@ -2606,6 +2628,16 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "katelyn-henry",
+      "target": "guest",
+      "type": "parent"
+    },
+    {
+      "source": "natreisha-henry",
+      "target": "guest",
+      "type": "parent"
+    },
+    {
       "source": "kyle-francis",
       "target": "rosanne-fleury",
       "type": "parent"
@@ -2738,6 +2770,11 @@ const NARSH_GUESTS = (() => {
     {
       "source": "janessa-reimer",
       "target": "jennifer-reimer",
+      "type": "parent"
+    },
+    {
+      "source": "guest",
+      "target": "rene-fleury",
       "type": "parent"
     },
     {
@@ -2976,6 +3013,11 @@ const NARSH_GUESTS = (() => {
       "type": "sibling"
     },
     {
+      "source": "katelyn-henry",
+      "target": "natreisha-henry",
+      "type": "sibling"
+    },
+    {
       "source": "kyle-francis",
       "target": "gabrielle-blumer",
       "type": "sibling"
@@ -2993,6 +3035,11 @@ const NARSH_GUESTS = (() => {
     {
       "source": "ben-blumer",
       "target": "serenity-blumer",
+      "type": "sibling"
+    },
+    {
+      "source": "jennifer-reimer",
+      "target": "guest",
       "type": "sibling"
     },
     {
@@ -3582,11 +3629,6 @@ const NARSH_GUESTS = (() => {
     {
       "a": "cindy-fleury",
       "b": "rene-fleury",
-      "side": "natalie"
-    },
-    {
-      "a": "katelyn-henry",
-      "b": "natreisha-henry",
       "side": "natalie"
     },
     {

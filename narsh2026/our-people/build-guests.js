@@ -101,17 +101,36 @@ const warnings = [];
 const people = [];
 const idCounts = {};
 const nameToId = new Map();
-const skippedRows = [];
+const unnamedRows = [];
+
+// Every row that names `key` in one of its relationship columns.
+const rowsReferencing = (key, colName) => rows.filter((r) =>
+  splitMulti(col(r, colName)).some((n) => clean(n).toLowerCase() === key));
 
 rows.forEach((r) => {
   const name = clean(col(r, "name"));
   if (!name) return;
-  // Junk row guard: a "name" with no letters or numbers (e.g. "...") is a
-  // leftover placeholder, not a person. Skip it so it never becomes a guest.
+  // A "name" with no letters or numbers (e.g. "...") is a placeholder Natalie
+  // hasn't filled in yet. If that person participates in the family tree — they
+  // have a parent, a spouse, a sibling, or someone names them as one — KEEP the
+  // row: dropping it would delete a real family member and sever the lineage
+  // running through them. Only a placeholder with no links at all is inert.
   if (!/[A-Za-z0-9]/.test(name)) {
-    warnings.push(`Skipped a row whose name is "${name}" — it has no letters or numbers, so it isn't a real person. Delete that row from guests.csv.`);
-    skippedRows.push({ name, parentsRaw: splitMulti(col(r, "parent")) });
-    return;
+    const key = name.toLowerCase();
+    const ties = {
+      parentsRaw: splitMulti(col(r, "parent")),
+      spousesRaw: splitMulti(col(r, "comes_with")),
+      siblingsRaw: splitMulti(col(r, "sibling")),
+      childNames: rowsReferencing(key, "parent").map((o) => clean(col(o, "name"))),
+      spouseNames: rowsReferencing(key, "comes_with").map((o) => clean(col(o, "name"))),
+      siblingNames: rowsReferencing(key, "sibling").map((o) => clean(col(o, "name")))
+    };
+    const linked = Object.keys(ties).some((k) => ties[k].length);
+    if (!linked) {
+      warnings.push(`Skipped a row whose name is "${name}" — it has no letters or numbers and no family links, so it isn't a real person. Delete that row from guests.csv.`);
+      return;
+    }
+    unnamedRows.push({ name, ties });
   }
   let id = FORCED_IDS[name] || toId(name) || "guest";
   if (!FORCED_IDS[name]) {
@@ -135,20 +154,20 @@ rows.forEach((r) => {
   nameToId.set(name.toLowerCase(), id);
 });
 
-// A skipped placeholder row can be load-bearing: other rows may name it as
-// their parent, so skipping it silently detaches them from the family tree.
-// Spell out exactly who broke and what to type instead.
-skippedRows.forEach((sk) => {
-  const key = sk.name.toLowerCase();
-  const mentions = (r, colName) => splitMulti(col(r, colName)).some((n) => clean(n).toLowerCase() === key);
-  const dependents = rows
-    .filter((r) => clean(col(r, "name")) && (mentions(r, "parent") || mentions(r, "sibling") || mentions(r, "comes_with")))
-    .map((r) => `"${clean(col(r, "name"))}"`);
-  if (!dependents.length) return;
-  const via = sk.parentsRaw.length
-    ? ` That row's own parent was "${sk.parentsRaw.join(", ")}".`
-    : "";
-  warnings.push(`The skipped "${sk.name}" row was a family link for ${dependents.join(", ")} — they are now detached in the family tree.${via} Give that row a real name, or put the correct parent name directly on ${dependents.join(" / ")}.`);
+// A kept placeholder still needs a real name to read properly in the tree.
+// Spell out exactly where they sit so Natalie knows who she's naming.
+unnamedRows.forEach((u) => {
+  const t = u.ties;
+  const bits = [];
+  if (t.parentsRaw.length) bits.push(`${t.parentsRaw.join(" and ")}'s child`);
+  if (t.childNames.length) bits.push(`${t.childNames.join(" / ")}'s parent`);
+  if (t.spousesRaw.length || t.spouseNames.length) {
+    bits.push(`${[...new Set([...t.spousesRaw, ...t.spouseNames])].join(" / ")}'s spouse`);
+  }
+  if (t.siblingsRaw.length || t.siblingNames.length) {
+    bits.push(`${[...new Set([...t.siblingsRaw, ...t.siblingNames])].join(" / ")}'s sibling`);
+  }
+  warnings.push(`Row "${u.name}" has no real name — they are ${bits.join(" and ")}. They're kept so that lineage stays connected; give them a name in guests.csv so the tree reads properly.`);
 });
 
 const resolveName = (name, context) => {

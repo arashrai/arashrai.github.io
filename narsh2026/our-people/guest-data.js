@@ -92,7 +92,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "shawna-morehouse",
         "william-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "arash",
@@ -115,7 +116,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "jatinder-kaur",
         "amritpal-rai"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "cindy-fleury",
@@ -130,7 +132,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-cindy-fleury",
       "side": "natalie",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "rene-fleury",
@@ -147,7 +150,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "mary-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "katelyn-henry",
@@ -162,9 +166,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-katelyn-henry",
       "side": "natalie",
-      "parents": [
-        "guest"
-      ]
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "natreisha-henry",
@@ -179,9 +182,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-katelyn-henry",
       "side": "natalie",
-      "parents": [
-        "guest"
-      ]
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "kyle-francis",
@@ -198,7 +200,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "rosanne-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "gabrielle-blumer",
@@ -216,7 +219,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "steve-blumer",
         "rosanne-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "ben-blumer",
@@ -233,7 +237,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "steve-blumer"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "jennifer-reimer",
@@ -250,7 +255,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "rene-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "glen-antle",
@@ -265,7 +271,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-glen-antle",
       "side": "natalie",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jillian-reimer",
@@ -283,7 +290,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "glen-antle",
         "jennifer-reimer"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "shiloh-riddell",
@@ -300,7 +308,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "serenity-blumer"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "taliah-riddell",
@@ -317,7 +326,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "serenity-blumer"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "serenity-blumer",
@@ -334,7 +344,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "steve-blumer"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "isaiah-riddell",
@@ -351,7 +362,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "serenity-blumer"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "sumita-barahmand",
@@ -364,7 +376,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-farzad-sangi",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "farzad-sangi",
@@ -380,7 +393,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-farzad-sangi",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "susan-macrae",
@@ -393,7 +407,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jerry-liu",
@@ -408,7 +423,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-georgia-hong",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "georgia-hong",
@@ -423,7 +439,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-georgia-hong",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "kendra-kusick",
@@ -438,7 +455,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-kendra-kusick",
       "side": "natalie",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "amy-qiu",
@@ -453,7 +471,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-amy-qiu",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "phillip-vo",
@@ -468,7 +487,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-amy-qiu",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "shawna-morehouse",
@@ -485,7 +505,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "sidney-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "greg-bennett",
@@ -500,7 +521,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-greg-bennett",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "leighanne-bennett",
@@ -515,7 +537,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-greg-bennett",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "gaurav-sandhar",
@@ -530,7 +553,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "bill-chen",
@@ -545,7 +569,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-angela-gu",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "fannette-hsin",
@@ -558,7 +583,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "james-hageman",
@@ -573,7 +599,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-james-hageman",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "sarah-baird",
@@ -588,7 +615,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-james-hageman",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "sidney-morehouse",
@@ -603,7 +631,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "natalie",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "shannon-noble",
@@ -620,7 +649,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "heather-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "heather-morehouse",
@@ -637,7 +667,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "sidney-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "james-noble",
@@ -654,7 +685,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "heather-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "karen-morehouse",
@@ -671,7 +703,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "sidney-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "rosanne-fleury",
@@ -688,7 +721,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "mary-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "steve-blumer",
@@ -703,7 +737,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-gabrielle-blumer",
       "side": "natalie",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "matt-dsouza",
@@ -718,7 +753,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-grace-jean",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "grace-jean",
@@ -731,7 +767,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-grace-jean",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "gaea-turman",
@@ -746,7 +783,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-gaea-turman",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "daniel-prilik",
@@ -761,7 +799,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "logan-howard",
@@ -776,7 +815,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-annie-huang",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "annie-huang",
@@ -789,7 +829,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-annie-huang",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "teresa-solomon",
@@ -804,7 +845,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-geoffrey-solomon",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "geoffrey-solomon",
@@ -819,7 +861,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-geoffrey-solomon",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "emma-park",
@@ -834,7 +877,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-ayush-kapur",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "ayush-kapur",
@@ -850,7 +894,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-ayush-kapur",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jason-lee",
@@ -866,7 +911,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "danielle-lavigne",
@@ -881,7 +927,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-brandon-lavigne",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "julia-lavigne",
@@ -896,7 +943,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-brandon-lavigne",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "angela-gu",
@@ -911,7 +959,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-angela-gu",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "rae-bennett",
@@ -926,7 +975,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jasper-chapman-black",
@@ -941,7 +991,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-jasper-chapman-black",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "stacey-chapman-black",
@@ -956,7 +1007,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-jasper-chapman-black",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "brandon-lavigne",
@@ -972,7 +1024,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-brandon-lavigne",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "chelsi-manhas",
@@ -987,7 +1040,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-chelsi-manhas",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "svetomir-milanovic",
@@ -1002,7 +1056,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-nicole-fleury",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "william-fleury",
@@ -1020,7 +1075,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "mary-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "nicole-fleury",
@@ -1039,7 +1095,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "shawna-morehouse",
         "william-fleury"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "kyle-katchaluba",
@@ -1054,7 +1111,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-chelsi-manhas",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "bradley-ramunas",
@@ -1070,7 +1128,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "natalie-tchokreff",
@@ -1083,7 +1142,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-george-utsin",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "george-utsin",
@@ -1098,7 +1158,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-george-utsin",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jonah-dlin",
@@ -1113,7 +1174,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-dina-dlin",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "hannah-dobrik",
@@ -1126,7 +1188,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-hannah-dobrik",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "nariyan-krsnadas",
@@ -1139,7 +1202,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-gaea-turman",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "ryan-drapeau",
@@ -1155,7 +1219,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "manjot-nagra",
@@ -1170,7 +1235,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "spencer-dobrik",
@@ -1185,7 +1251,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-hannah-dobrik",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "sabrina-wasserman",
@@ -1201,7 +1268,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "dina-dlin",
@@ -1214,7 +1282,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-dina-dlin",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "stephen-melinyshyn",
@@ -1229,7 +1298,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-ashley-darton",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "ashley-darton",
@@ -1242,7 +1312,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-ashley-darton",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "claire-hsu",
@@ -1257,7 +1328,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "shawna-huang",
@@ -1272,7 +1344,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "isaac-madwed",
@@ -1288,7 +1361,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-celine-rosak",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "brenda-morehouse",
@@ -1305,7 +1379,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "sidney-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "alexandre-bondoux",
@@ -1321,7 +1396,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "evan-morehouse",
@@ -1338,7 +1414,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie",
       "parents": [
         "brenda-morehouse"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "celine-rosak",
@@ -1353,7 +1430,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-celine-rosak",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "sam-showalter",
@@ -1369,7 +1447,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-sam-showalter",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "david-mediati",
@@ -1384,7 +1463,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-christina-antinora",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "christina-antinora",
@@ -1397,7 +1477,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-christina-antinora",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "sarah-zhou",
@@ -1412,7 +1493,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-sam-showalter",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "amy-hung",
@@ -1428,7 +1510,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "maddie-hayman",
@@ -1441,7 +1524,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "giao-nguyen",
@@ -1456,7 +1540,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-giao-nguyen",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "tom-yang",
@@ -1472,7 +1557,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-giao-nguyen",
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "alex-hayman",
@@ -1485,7 +1571,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "shannan-young",
@@ -1500,7 +1587,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "chantal-cossette",
@@ -1513,7 +1601,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "david-lu",
@@ -1530,7 +1619,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "anmol-mago",
@@ -1547,7 +1637,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "tiffany-yeung",
@@ -1563,7 +1654,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "seth-hendrickson",
@@ -1578,7 +1670,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "josh-jhinger",
@@ -1593,7 +1686,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "nimret-malhi",
@@ -1608,7 +1702,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": null,
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "mary-fleury",
@@ -1623,7 +1718,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "natalie",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jatinder-kaur",
@@ -1641,7 +1737,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "jatinders-mom",
         "jatinders-dad"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "amritpal-rai",
@@ -1658,7 +1755,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "balbir-rai"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "janessa-reimer",
@@ -1676,24 +1774,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "glen-antle",
         "jennifer-reimer"
-      ]
-    },
-    {
-      "id": "guest",
-      "name": "...",
-      "photo": null,
-      "groups": [
-        "natalies-family"
       ],
-      "cities": [],
-      "isCouple": false,
-      "funFact": null,
-      "connectionToCouple": null,
-      "householdId": null,
-      "side": "natalie",
-      "parents": [
-        "rene-fleury"
-      ]
+      "inferredParents": []
     },
     {
       "id": "aman-rai",
@@ -1711,7 +1793,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "gurpreet-rai",
         "kiran-kaur"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "amrit-kaur",
@@ -1729,7 +1812,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "amrits-mom",
         "amrits-dad"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "gurpreet-rai",
@@ -1746,7 +1830,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "balbir-rai"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "kiran-kaur",
@@ -1761,7 +1846,11 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": "Tai",
       "householdId": "household-gurpreet-rai",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": [
+        "jasans-grandma",
+        "jasans-grandpa"
+      ]
     },
     {
       "id": "balbir-rai",
@@ -1776,7 +1865,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "mehreen-rai",
@@ -1794,7 +1884,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "aman-rai",
         "amrit-kaur"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "nehmat-rai",
@@ -1812,7 +1903,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "aman-rai",
         "amrit-kaur"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "rani-kaur",
@@ -1829,7 +1921,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "balbir-rai"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "harkanwal-rai",
@@ -1846,7 +1939,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "rani-kaur"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "upneet-bala",
@@ -1864,7 +1958,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "upneets-mom",
         "gurpreet-bala"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "upneets-mom",
@@ -1879,7 +1974,11 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-gurpreet-bala",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": [
+        "jasans-grandma",
+        "jasans-grandpa"
+      ]
     },
     {
       "id": "gurpreet-bala",
@@ -1896,7 +1995,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "upneets-grandpa"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "jasjot-bala",
@@ -1914,7 +2014,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "upneets-mom",
         "gurpreet-bala"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "upneets-grandpa",
@@ -1929,7 +2030,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "navi-rai",
@@ -1947,7 +2049,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "cookie-kaur",
         "kulwant-rai"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "gagan-rai",
@@ -1965,7 +2068,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "cookie-kaur",
         "kulwant-rai"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "cookie-kaur",
@@ -1980,7 +2084,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-cookie-kaur",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "kulwant-rai",
@@ -1998,7 +2103,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "navis-grandpa",
         "navis-grandma"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "navis-grandpa",
@@ -2013,7 +2119,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-navis-grandma",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "navis-grandma",
@@ -2028,7 +2135,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-navis-grandma",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "sira-auntie",
@@ -2046,7 +2154,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "ishas-grandpa",
         "ishas-grandma"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "isha-brar",
@@ -2063,7 +2172,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "sira-auntie"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "ishas-grandpa",
@@ -2078,7 +2188,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-ishas-grandma",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "ishas-grandma",
@@ -2093,7 +2204,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-ishas-grandma",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "shawn-brar",
@@ -2110,7 +2222,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "sira-auntie"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "shinday",
@@ -2128,7 +2241,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "ishas-grandpa",
         "ishas-grandma"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "shinday-kid-1",
@@ -2145,7 +2259,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "shinday"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "shinday-kid-2",
@@ -2162,7 +2277,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "shinday"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "shinday-kid-3",
@@ -2179,7 +2295,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash",
       "parents": [
         "shinday"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "shindays-husband",
@@ -2194,7 +2311,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-shinday",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "gurinder-khangura",
@@ -2212,7 +2330,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "jasans-grandma",
         "jasans-grandpa"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "gurinders-wife",
@@ -2227,7 +2346,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-gurinder-khangura",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jasan-khangura",
@@ -2245,7 +2365,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "gurinder-khangura",
         "gurinders-wife"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "millen-khangura",
@@ -2263,7 +2384,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "gurinder-khangura",
         "gurinders-wife"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "jasans-grandma",
@@ -2278,7 +2400,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-jasans-grandma",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jasans-grandpa",
@@ -2293,7 +2416,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-jasans-grandma",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "aman",
@@ -2311,7 +2435,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "amrits-mom",
         "amrits-dad"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "gurleen",
@@ -2329,7 +2454,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "amrits-mom",
         "amrits-dad"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "amrits-mom",
@@ -2344,7 +2470,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-amrits-dad",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "amrits-dad",
@@ -2359,7 +2486,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-amrits-dad",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "harkanwals-wife",
@@ -2374,7 +2502,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-harkanwal-rai",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "gurnoor-boparai",
@@ -2389,7 +2518,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "bhinda-boparai",
@@ -2407,7 +2537,8 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "jatinders-mom",
         "jatinders-dad"
-      ]
+      ],
+      "inferredParents": []
     },
     {
       "id": "jatinders-mom",
@@ -2422,7 +2553,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-jatinders-dad",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     },
     {
       "id": "jatinders-dad",
@@ -2437,7 +2569,8 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": "household-jatinders-dad",
       "side": "arash",
-      "parents": []
+      "parents": [],
+      "inferredParents": []
     }
   ];
 
@@ -2470,16 +2603,6 @@ const NARSH_GUESTS = (() => {
     {
       "source": "rene-fleury",
       "target": "mary-fleury",
-      "type": "parent"
-    },
-    {
-      "source": "katelyn-henry",
-      "target": "guest",
-      "type": "parent"
-    },
-    {
-      "source": "natreisha-henry",
-      "target": "guest",
       "type": "parent"
     },
     {
@@ -2615,11 +2738,6 @@ const NARSH_GUESTS = (() => {
     {
       "source": "janessa-reimer",
       "target": "jennifer-reimer",
-      "type": "parent"
-    },
-    {
-      "source": "guest",
-      "target": "rene-fleury",
       "type": "parent"
     },
     {
@@ -2858,11 +2976,6 @@ const NARSH_GUESTS = (() => {
       "type": "sibling"
     },
     {
-      "source": "katelyn-henry",
-      "target": "natreisha-henry",
-      "type": "sibling"
-    },
-    {
       "source": "kyle-francis",
       "target": "gabrielle-blumer",
       "type": "sibling"
@@ -2880,11 +2993,6 @@ const NARSH_GUESTS = (() => {
     {
       "source": "ben-blumer",
       "target": "serenity-blumer",
-      "type": "sibling"
-    },
-    {
-      "source": "jennifer-reimer",
-      "target": "guest",
       "type": "sibling"
     },
     {
@@ -3020,6 +3128,36 @@ const NARSH_GUESTS = (() => {
     {
       "source": "jasan-khangura",
       "target": "millen-khangura",
+      "type": "sibling"
+    },
+    {
+      "source": "kiran-kaur",
+      "target": "upneets-mom",
+      "type": "sibling"
+    },
+    {
+      "source": "kiran-kaur",
+      "target": "gurinder-khangura",
+      "type": "sibling"
+    },
+    {
+      "source": "upneets-mom",
+      "target": "gurinder-khangura",
+      "type": "sibling"
+    },
+    {
+      "source": "balbir-rai",
+      "target": "navis-grandpa",
+      "type": "sibling"
+    },
+    {
+      "source": "balbir-rai",
+      "target": "ishas-grandpa",
+      "type": "sibling"
+    },
+    {
+      "source": "navis-grandpa",
+      "target": "ishas-grandpa",
       "type": "sibling"
     }
   ];
@@ -3447,6 +3585,11 @@ const NARSH_GUESTS = (() => {
       "side": "natalie"
     },
     {
+      "a": "katelyn-henry",
+      "b": "natreisha-henry",
+      "side": "natalie"
+    },
+    {
       "a": "farzad-sangi",
       "b": "sumita-barahmand",
       "side": null
@@ -3583,6 +3726,19 @@ const NARSH_GUESTS = (() => {
     }
   ];
 
+  const SIBLING_GROUPS = [
+    [
+      "kiran-kaur",
+      "upneets-mom",
+      "gurinder-khangura"
+    ],
+    [
+      "balbir-rai",
+      "navis-grandpa",
+      "ishas-grandpa"
+    ]
+  ];
+
   const getGuestById = (id) => GUESTS.find(g => g.id === id) || null;
   const getGuestsByGroup = (groupId) => GUESTS.filter(g => g.groups.includes(groupId));
   const getGuestsByCity = (cityId) => GUESTS.filter(g => g.cities.includes(cityId));
@@ -3649,7 +3805,7 @@ const NARSH_GUESTS = (() => {
   };
 
   return {
-    GROUPS, CITIES, GUESTS, EDGES, HOUSEHOLDS, MARRIAGES,
+    GROUPS, CITIES, GUESTS, EDGES, HOUSEHOLDS, MARRIAGES, SIBLING_GROUPS,
     getGuestById, getGuestsByGroup, getGuestsByCity, searchGuests,
     getSocialNodes, getSocialEdges
   };

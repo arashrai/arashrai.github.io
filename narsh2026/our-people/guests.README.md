@@ -17,6 +17,7 @@ are the old **placeholder** people — edit or delete them and add your real gue
 | **relationship** | ✅ | The line on their card describing their tie to you two. | `Natalie's mom` |
 | **comes_with** | optional | Name of the spouse/partner they attend as a unit with → merges into one bubble. Only one of the pair needs it. | `Marc Fleury` |
 | **parent** | optional | *Family only.* Name their parent (who is also a row). This one link is all Claude needs to build the whole tree. | `Rose Fleury` |
+| **sibling** | optional | *Family only.* Name a brother or sister when their shared parents aren't rows in this file. | `Navi's grandpa` |
 | **fun_fact** | optional | One playful sentence for their card. | `Makes the best rum cake in the Caribbean.` |
 | **cities** | optional | Places they've lived, comma-separated *inside quotes*. Powers the future map feature. | `"Grand Cayman, Waterloo"` |
 | **photo** | optional | Filename you'll drop into `images/people/`. Blank = nice initials placeholder. | `claire.jpg` |
@@ -24,7 +25,8 @@ are the old **placeholder** people — edit or delete them and add your real gue
 
 ## What you DON'T need to fill in (Claude derives it)
 
-- **Siblings** — anyone sharing the same `parent` becomes siblings automatically.
+- **Siblings** — anyone sharing the same `parent` becomes siblings automatically. The
+  `sibling` column is only the fallback for when those shared parents aren't rows here.
 - **Generations / tree layout** — computed from the `parent` chain + `group`.
 - **Which family tree** they belong to — inferred from `group`.
 - **Stable ids, relationship edges, household wiring** — all generated.
@@ -62,6 +64,14 @@ These already exist (each has a color in the graph):
   their side's color.
 - **Solid lines = parentage** — drawn only from the `parent` column. Someone with
   two parents (like you: Shawna + William) gets a solid line to each.
+- **Sibling links** — the `sibling` column is for siblings whose shared parents
+  aren't in the data (great-aunts and great-uncles, mostly). It is **transitive**:
+  A↔B plus B↔C makes all three siblings. **One direction is enough** — you only
+  need to name the sibling on one of the two rows. If any member of a sibling set
+  has a known `parent`, that parent is **inferred** for the whole set, and the
+  build prints exactly what it deduced so you can check it. A sibling set with no
+  parents at all anywhere is drawn as one adjacent block in the tree instead of
+  scattered across the row.
 - **Dashed lines = marriage** — drawn only when corroborated, so no one gets
   married to their parent by accident:
   - two people listed as parents of the **same child** (this is how Shawna⟷William

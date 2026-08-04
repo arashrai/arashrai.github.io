@@ -101,10 +101,37 @@ const warnings = [];
 const people = [];
 const idCounts = {};
 const nameToId = new Map();
+const unnamedRows = [];
+
+// Every row that names `key` in one of its relationship columns.
+const rowsReferencing = (key, colName) => rows.filter((r) =>
+  splitMulti(col(r, colName)).some((n) => clean(n).toLowerCase() === key));
 
 rows.forEach((r) => {
   const name = clean(col(r, "name"));
   if (!name) return;
+  // A "name" with no letters or numbers (e.g. "...") is a placeholder Natalie
+  // hasn't filled in yet. If that person participates in the family tree — they
+  // have a parent, a spouse, a sibling, or someone names them as one — KEEP the
+  // row: dropping it would delete a real family member and sever the lineage
+  // running through them. Only a placeholder with no links at all is inert.
+  if (!/[A-Za-z0-9]/.test(name)) {
+    const key = name.toLowerCase();
+    const ties = {
+      parentsRaw: splitMulti(col(r, "parent")),
+      spousesRaw: splitMulti(col(r, "comes_with")),
+      siblingsRaw: splitMulti(col(r, "sibling")),
+      childNames: rowsReferencing(key, "parent").map((o) => clean(col(o, "name"))),
+      spouseNames: rowsReferencing(key, "comes_with").map((o) => clean(col(o, "name"))),
+      siblingNames: rowsReferencing(key, "sibling").map((o) => clean(col(o, "name")))
+    };
+    const linked = Object.keys(ties).some((k) => ties[k].length);
+    if (!linked) {
+      warnings.push(`Skipped a row whose name is "${name}" — it has no letters or numbers and no family links, so it isn't a real person. Delete that row from guests.csv.`);
+      return;
+    }
+    unnamedRows.push({ name, ties });
+  }
   let id = FORCED_IDS[name] || toId(name) || "guest";
   if (!FORCED_IDS[name]) {
     if (idCounts[id]) { idCounts[id]++; id = id + "-" + idCounts[id]; }
@@ -117,6 +144,7 @@ rows.forEach((r) => {
     relationship: clean(col(r, "relationship")),
     comesWithRaw: splitMulti(col(r, "comes_with")),
     parentsRaw: splitMulti(col(r, "parent")),
+    siblingsRaw: splitMulti(col(r, "sibling")),
     funFact: clean(col(r, "fun_fact")),
     citiesRaw: splitMulti(col(r, "cities")),
     photo: clean(col(r, "photo")),
@@ -124,6 +152,22 @@ rows.forEach((r) => {
   };
   people.push(p);
   nameToId.set(name.toLowerCase(), id);
+});
+
+// A kept placeholder still needs a real name to read properly in the tree.
+// Spell out exactly where they sit so Natalie knows who she's naming.
+unnamedRows.forEach((u) => {
+  const t = u.ties;
+  const bits = [];
+  if (t.parentsRaw.length) bits.push(`${t.parentsRaw.join(" and ")}'s child`);
+  if (t.childNames.length) bits.push(`${t.childNames.join(" / ")}'s parent`);
+  if (t.spousesRaw.length || t.spouseNames.length) {
+    bits.push(`${[...new Set([...t.spousesRaw, ...t.spouseNames])].join(" / ")}'s spouse`);
+  }
+  if (t.siblingsRaw.length || t.siblingNames.length) {
+    bits.push(`${[...new Set([...t.siblingsRaw, ...t.siblingNames])].join(" / ")}'s sibling`);
+  }
+  warnings.push(`Row "${u.name}" has no real name — they are ${bits.join(" and ")}. They're kept so that lineage stays connected; give them a name in guests.csv so the tree reads properly.`);
 });
 
 const resolveName = (name, context) => {
@@ -171,6 +215,12 @@ people.forEach((p) => {
   p.parentIds = p.parentsRaw
     .map((n) => resolveName(n, `parent of "${p.name}"`))
     .filter((pid) => pid && pid !== p.id);
+  // Sibling links come from the `sibling` column — for siblings whose shared
+  // parents aren't rows in the CSV. One direction is enough; see the union-find
+  // below, which makes them bidirectional and transitive.
+  p.siblingIds = p.siblingsRaw
+    .map((n) => resolveName(n, `sibling of "${p.name}"`))
+    .filter((sid) => sid && sid !== p.id);
   // Flag names that appear in BOTH parent and comes_with — ambiguous whether
   // they're a parent or a spouse. Treated as a parent here.
   const spouseSet = new Set(p.comesWithIds);
@@ -178,6 +228,13 @@ people.forEach((p) => {
     warnings.push(`"${idToName.get(pid) || pid}" is listed as both a parent AND a "comes_with" of "${p.name}" — treating as a parent. Remove it from one column to disambiguate.`);
   });
 });
+
+// One summary line for every row with an empty `group` cell (they still render,
+// just without a cluster color) instead of one warning per person.
+const ungrouped = people.filter((p) => !p.groupsRaw.length);
+if (ungrouped.length) {
+  warnings.push(`${ungrouped.length} row(s) have an empty "group" column — they still appear, just without a cluster color: ${ungrouped.map((p) => p.name).join(", ")}.`);
+}
 
 // ---------------------------------------------------------------------------
 // Households: union-find over comes_with pairs
@@ -212,6 +269,86 @@ Object.values(compMembers).forEach((members) => {
 });
 
 // ---------------------------------------------------------------------------
+// Sibling sets: union-find over the `sibling` column. Independent of the
+// household union-find above (that one is keyed to comes_with). Links are
+// treated as bidirectional and transitive, so A↔B plus B↔C makes all three
+// siblings and naming one sibling per person is enough.
+// ---------------------------------------------------------------------------
+const sibUF = {};
+const sibFind = (x) => { while (sibUF[x] !== x) { sibUF[x] = sibUF[sibUF[x]]; x = sibUF[x]; } return x; };
+const sibUnion = (a, b) => { sibUF[sibFind(a)] = sibFind(b); };
+people.forEach((p) => { sibUF[p.id] = p.id; });
+people.forEach((p) => p.siblingIds.forEach((sid) => sibUnion(p.id, sid)));
+
+// CSV row order keeps the emitted groups deterministic.
+const rowIndex = new Map(people.map((p, i) => [p.id, i]));
+const sibComponents = {};
+people.forEach((p) => {
+  const root = sibFind(p.id);
+  (sibComponents[root] = sibComponents[root] || []).push(p.id);
+});
+const SIBLING_GROUPS = Object.values(sibComponents)
+  .filter((g) => g.length > 1)
+  .map((g) => g.slice().sort((a, b) => rowIndex.get(a) - rowIndex.get(b)))
+  .sort((a, b) => rowIndex.get(a[0]) - rowIndex.get(b[0]));
+
+// Parents known for ANY member of a sibling set apply to the whole set. These
+// go on `inferredParents`, NOT `parentIds`: `parents` stays exactly what the
+// CSV says, so the drawn parentage lines and the tree hierarchy don't change.
+// `inferredParents` feeds side flooding and the cycle guard only.
+people.forEach((p) => { p.inferredParents = []; });
+
+const ANCESTOR_STEP_CAP = 10000;
+// Walk up from `startId` over parent + inferred-parent links; true if we can
+// reach `targetId`, i.e. targetId is already an ancestor of startId.
+const reachesAncestor = (startId, targetId) => {
+  const stack = [startId];
+  const visited = new Set();
+  let steps = 0;
+  while (stack.length && steps++ < ANCESTOR_STEP_CAP) {
+    const x = stack.pop();
+    if (x === targetId) return true;
+    if (visited.has(x)) continue;
+    visited.add(x);
+    const px = byId.get(x);
+    if (!px) continue;
+    [...px.parentIds, ...px.inferredParents].forEach((pid) => {
+      if (!visited.has(pid)) stack.push(pid);
+    });
+  }
+  return false;
+};
+
+SIBLING_GROUPS.forEach((group) => {
+  const groupSet = new Set(group);
+  const pooled = [];
+  group.forEach((mid) => byId.get(mid).parentIds.forEach((pid) => {
+    if (!groupSet.has(pid) && pooled.indexOf(pid) < 0) pooled.push(pid);
+  }));
+  if (!pooled.length) return; // no parents anywhere in the set — nothing to infer
+  group.forEach((mid) => {
+    const member = byId.get(mid);
+    const gained = [];
+    pooled.forEach((pid) => {
+      if (member.parentIds.includes(pid) || member.inferredParents.includes(pid)) return;
+      if (reachesAncestor(pid, mid)) {
+        warnings.push(`Sibling link would make "${member.name}" their own ancestor through "${idToName.get(pid) || pid}" — skipping that inferred parent. Check the sibling and parent columns for those two.`);
+        return;
+      }
+      member.inferredParents.push(pid);
+      gained.push(pid);
+    });
+    if (!gained.length) return;
+    const via = group
+      .filter((g) => g !== mid && byId.get(g).parentIds.some((pid) => gained.includes(pid)))
+      .map((g) => idToName.get(g) || g)
+      .join(", ");
+    const gainedNames = gained.map((pid) => `"${idToName.get(pid) || pid}"`).join(", ");
+    warnings.push(`FYI — inferred parent(s) ${gainedNames} for "${member.name}" from the sibling link to ${via}. Nothing to fix unless that's wrong.`);
+  });
+});
+
+// ---------------------------------------------------------------------------
 // Edges: couple, parent, sibling
 // ---------------------------------------------------------------------------
 const EDGES = [];
@@ -241,6 +378,14 @@ Object.values(childrenByParent).forEach((kids) => {
       addEdge(kids[i], kids[j], "sibling");
 });
 
+// Sibling edges from the `sibling` column — every unordered pair inside a set.
+// addEdge dedupes, so a pair found both ways only emits once.
+SIBLING_GROUPS.forEach((group) => {
+  for (let i = 0; i < group.length; i++)
+    for (let j = i + 1; j < group.length; j++)
+      addEdge(group[i], group[j], "sibling");
+});
+
 // ---------------------------------------------------------------------------
 // Family SIDES — assigned by walking real parentage links (parent<->child)
 // outward from Natalie and from Arash. This auto-includes blood relatives even
@@ -248,8 +393,15 @@ Object.values(childrenByParent).forEach((kids) => {
 // falls back to their family-group tag.
 // ---------------------------------------------------------------------------
 const childrenOf = {};
-people.forEach((p) => p.parentIds.forEach((pid) => {
+people.forEach((p) => [...p.parentIds, ...p.inferredParents].forEach((pid) => {
   (childrenOf[pid] = childrenOf[pid] || []).push(p.id);
+}));
+
+// Mirrored sibling adjacency so a one-directional CSV entry traverses both ways.
+const siblingsOf = {};
+people.forEach((p) => p.siblingIds.forEach((sid) => {
+  (siblingsOf[p.id] = siblingsOf[p.id] || []).push(sid);
+  (siblingsOf[sid] = siblingsOf[sid] || []).push(p.id);
 }));
 
 const sideOf = {};
@@ -261,7 +413,13 @@ const floodSide = (startId, side) => {
     const x = queue.shift();
     if (sideOf[x]) continue; // first side to claim wins (natalie flooded first)
     sideOf[x] = side;
-    const neighbors = [...(byId.get(x).parentIds || []), ...(childrenOf[x] || [])];
+    const px = byId.get(x);
+    const neighbors = [
+      ...(px.parentIds || []),
+      ...(px.inferredParents || []),
+      ...(childrenOf[x] || []),
+      ...(siblingsOf[x] || [])
+    ];
     neighbors.forEach((n) => { if (!seen.has(n)) { seen.add(n); queue.push(n); } });
   }
 };
@@ -342,7 +500,9 @@ const GUESTS = people.map((p) => ({
   connectionToCouple: p.relationship || null,
   householdId: householdOf.get(p.id) || null,
   side: sideOf[p.id] || null,
-  parents: p.parentIds
+  parents: p.parentIds,
+  // Derived from the `sibling` column — never drawn as a parentage line.
+  inferredParents: p.inferredParents
 }));
 
 // ---------------------------------------------------------------------------
@@ -367,6 +527,8 @@ const NARSH_GUESTS = (() => {
   const HOUSEHOLDS = ${j(HOUSEHOLDS)};
 
   const MARRIAGES = ${j(MARRIAGES)};
+
+  const SIBLING_GROUPS = ${j(SIBLING_GROUPS)};
 
   const getGuestById = (id) => GUESTS.find(g => g.id === id) || null;
   const getGuestsByGroup = (groupId) => GUESTS.filter(g => g.groups.includes(groupId));
@@ -434,7 +596,7 @@ const NARSH_GUESTS = (() => {
   };
 
   return {
-    GROUPS, CITIES, GUESTS, EDGES, HOUSEHOLDS, MARRIAGES,
+    GROUPS, CITIES, GUESTS, EDGES, HOUSEHOLDS, MARRIAGES, SIBLING_GROUPS,
     getGuestById, getGuestsByGroup, getGuestsByCity, searchGuests,
     getSocialNodes, getSocialEdges
   };
@@ -470,6 +632,7 @@ console.error("  guests:     " + GUESTS.length);
 console.error("  groups:     " + GROUPS.map((g) => g.label).join(", "));
 console.error("  households: " + HOUSEHOLDS.length);
 console.error("  edges:      " + EDGES.length + " (couple/parent/sibling)");
+console.error("  sibling sets: " + SIBLING_GROUPS.length);
 console.error("  sides:      natalie=" + sideCount("natalie") + " arash=" + sideCount("arash"));
 console.error("  marriages:  " + MARRIAGES.length + " (" + MARRIAGES.map((m) => byId.get(m.a).name.split(" ")[0] + "↔" + byId.get(m.b).name.split(" ")[0]).join(", ") + ")");
 if (warnings.length) {

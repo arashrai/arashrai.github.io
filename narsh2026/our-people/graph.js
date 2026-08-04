@@ -1305,17 +1305,50 @@ const NARSH_GRAPH = (() => {
     const unitOf = {};
     Object.keys(unitMembers).forEach((u) => unitMembers[u].forEach((id) => { unitOf[id] = u; }));
 
+    // --- Blood distance: hops from the couple member over in-side parentage ---
+    // Lets the spine follow the bloodline instead of whichever parent happened
+    // to be found first, so a married-in branch can never steal the trunk.
+    const target = side === "natalie" ? "natalie" : "arash";
+    const childrenOfId = {};
+    members.forEach((g) => inSideParents(g.id).forEach((p) => {
+      (childrenOfId[p] = childrenOfId[p] || []).push(g.id);
+    }));
+    const bloodDist = new Map();
+    if (idSet.has(target)) {
+      bloodDist.set(target, 0);
+      const bq = [target];
+      while (bq.length) {
+        const x = bq.shift();
+        const d = bloodDist.get(x);
+        [...inSideParents(x), ...(childrenOfId[x] || [])].forEach((n) => {
+          if (!bloodDist.has(n)) { bloodDist.set(n, d + 1); bq.push(n); }
+        });
+      }
+    }
+    const bloodDistOf = (id) => (bloodDist.has(id) ? bloodDist.get(id) : Infinity);
+
     // --- Primary parent unit per unit (keeps the hierarchy a tree) + roots ---
+    // Among every member's in-side parents, take the one whose child is closest
+    // to the couple member by blood. Ties (and the no-blood-signal case) fall
+    // back to member iteration order, so today's layout is preserved.
     const primaryParentUnit = {};
     Object.keys(unitMembers).forEach((u) => {
-      let ppu = null;
-      for (const mid of unitMembers[u]) {
-        for (const p of inSideParents(mid)) {
-          if (unitOf[p] && unitOf[p] !== u) { ppu = unitOf[p]; break; }
-        }
-        if (ppu) break;
-      }
-      primaryParentUnit[u] = ppu;
+      const candidates = [];
+      unitMembers[u].forEach((mid) => {
+        inSideParents(mid).forEach((p) => {
+          if (unitOf[p] && unitOf[p] !== u) candidates.push({ memberId: mid, parentUnit: unitOf[p] });
+        });
+      });
+      if (!candidates.length) { primaryParentUnit[u] = null; return; }
+      const ranked = candidates
+        .map((c, i) => ({ c: c, i: i }))
+        .sort((a, b) => {
+          const da = bloodDistOf(a.c.memberId);
+          const db = bloodDistOf(b.c.memberId);
+          if (da !== db) return da < db ? -1 : 1;
+          return a.i - b.i;
+        });
+      primaryParentUnit[u] = ranked[0].c.parentUnit;
     });
     const childUnits = {};
     Object.keys(unitMembers).forEach((u) => { childUnits[u] = []; });
@@ -1326,7 +1359,6 @@ const NARSH_GRAPH = (() => {
     const rootAncestor = (u) => { let c = u, g = 0; while (primaryParentUnit[c] && g++ < 1000) c = primaryParentUnit[c]; return c; };
 
     // --- Which units lead to the couple member? (for edge-pulling) ---
-    const target = side === "natalie" ? "natalie" : "arash";
     const toInnerEnd = side === "natalie"; // Natalie -> right edge; Arash -> left edge
     const containsTarget = {};
     const dfsContains = (u) => {
@@ -1355,15 +1387,51 @@ const NARSH_GRAPH = (() => {
     };
     Object.keys(childUnits).forEach((u) => { childUnits[u] = orderEdge(childUnits[u]); });
 
+    // --- Nest parentless sibling root units under one unrendered virtual node ---
+    // A sibling set whose members have no parents anywhere in the data would
+    // otherwise render as several disconnected lineages spread across the row.
+    // Hanging them off a virtual (never-drawn) node makes them one contiguous
+    // block and drops the side's root-lineage count.
+    const siblingGroups = (NARSH_GUESTS.SIBLING_GROUPS || []);
+    const virtualChildren = {};
+    const virtualOfUnit = {};
+    siblingGroups.forEach((group, gi) => {
+      const groupRoots = [];
+      group.forEach((mid) => {
+        if (!idSet.has(mid) || inSideParents(mid).length) return;
+        const u = unitOf[mid];
+        if (!u || primaryParentUnit[u] || virtualOfUnit[u]) return;
+        if (groupRoots.indexOf(u) < 0) groupRoots.push(u);
+      });
+      if (groupRoots.length < 2) return;
+      const vid = "__sibgroup-" + gi;
+      groupRoots.sort((a, b) => unitSortKey(a) - unitSortKey(b));
+      virtualChildren[vid] = orderEdge(groupRoots);
+      groupRoots.forEach((u) => { virtualOfUnit[u] = vid; });
+    });
+    const isVirtual = (u) => !unitMembers[u];
+    const childrenOfNode = (u) => (isVirtual(u) ? virtualChildren[u] : childUnits[u]);
+    const nodeContainsTarget = (u) => (isVirtual(u)
+      ? virtualChildren[u].some((c) => containsTarget[c])
+      : containsTarget[u]);
+    // Top-level lineages: grouped roots collapse into their virtual node, in place.
+    const topRoots = [];
+    rootUnits.forEach((u) => {
+      const vid = virtualOfUnit[u];
+      if (!vid) { topRoots.push(u); return; }
+      if (topRoots.indexOf(vid) < 0) topRoots.push(vid);
+    });
+    const topAncestor = (u) => { const r = rootAncestor(u); return virtualOfUnit[r] || r; };
+
     // --- Order roots: cluster the target root's connected lineages next to it ---
     const radj = {};
-    rootUnits.forEach((r) => { radj[r] = new Set(); });
+    topRoots.forEach((r) => { radj[r] = new Set(); });
     members.forEach((g) => inSideParents(g.id).forEach((p) => {
-      const ra = rootAncestor(unitOf[g.id]);
-      const rb = rootAncestor(unitOf[p]);
+      const ra = topAncestor(unitOf[g.id]);
+      const rb = topAncestor(unitOf[p]);
       if (ra !== rb && radj[ra] && radj[rb]) { radj[ra].add(rb); radj[rb].add(ra); }
     }));
-    const targetRoot = rootUnits.find((r) => containsTarget[r]);
+    const targetRoot = topRoots.find((r) => nodeContainsTarget(r));
     const comp = [];
     const seen = new Set();
     if (targetRoot) {
@@ -1376,7 +1444,7 @@ const NARSH_GRAPH = (() => {
         [...radj[x]].forEach((n) => { if (!seen.has(n)) st.push(n); });
       }
     }
-    const rest = rootUnits.filter((r) => !seen.has(r));
+    const rest = topRoots.filter((r) => !seen.has(r));
     // Natalie: isolated roots on the left, target lineage on the right (target last).
     // Arash: target lineage on the left (target first), isolated roots on the right.
     const orderedRoots = toInnerEnd ? [...rest, ...comp.reverse()] : [...comp, ...rest];
@@ -1386,10 +1454,14 @@ const NARSH_GRAPH = (() => {
     let cursorX = originX;
     orderedRoots.forEach((rootU) => {
       const hierData = (function build(u) {
-        return { u: u, children: childUnits[u].map(build) };
+        return { u: u, children: childrenOfNode(u).map(build) };
       })(rootU);
       const root = d3.hierarchy(hierData);
       d3.tree().nodeSize([TREE_H_SPACING, TREE_V_SPACING])(root);
+
+      // A virtual root occupies y=0 and pushes real people down one generation;
+      // pull the whole subtree back up so generations stay aligned side-wide.
+      const yShift = isVirtual(rootU) ? -TREE_V_SPACING : 0;
 
       let minX = Infinity;
       let maxX = -Infinity;
@@ -1398,8 +1470,9 @@ const NARSH_GRAPH = (() => {
 
       root.each((d) => {
         const mem = unitMembers[d.data.u];
+        if (!mem) return; // virtual grouping node — never drawn
         const ux = d.x + shift;
-        const uy = topY + d.y;
+        const uy = topY + d.y + yShift;
         mem.forEach((mid, i) => {
           const guest = guestById(mid);
           const isCouple = guest ? guest.isCouple : false;

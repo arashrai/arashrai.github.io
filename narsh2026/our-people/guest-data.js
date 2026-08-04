@@ -2540,7 +2540,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
-      "parents": [],
+      "parents": [
+        "bhinda-boparai"
+      ],
       "inferredParents": []
     },
     {
@@ -2980,6 +2982,11 @@ const NARSH_GUESTS = (() => {
     {
       "source": "gurleen",
       "target": "amrits-dad",
+      "type": "parent"
+    },
+    {
+      "source": "gurnoor-boparai",
+      "target": "bhinda-boparai",
       "type": "parent"
     },
     {

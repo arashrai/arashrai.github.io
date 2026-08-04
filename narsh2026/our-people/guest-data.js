@@ -1059,7 +1059,7 @@ const NARSH_GUESTS = (() => {
       "funFact": null,
       "connectionToCouple": null,
       "householdId": "household-nicole-fleury",
-      "side": null,
+      "side": "natalie",
       "parents": [],
       "inferredParents": []
     },
@@ -3721,7 +3721,7 @@ const NARSH_GUESTS = (() => {
     {
       "a": "nicole-fleury",
       "b": "svetomir-milanovic",
-      "side": null
+      "side": "natalie"
     },
     {
       "a": "george-utsin",

@@ -1,105 +1,150 @@
-name,group,relationship,comes_with,parent,fun_fact,cities,photo,special
-Natalie Fleury,Natalie's Family,The couple (you two!),,"Shawna Morehouse,William Fleury",Can name every iguana species native to the Cayman Islands.,"Seattle, Grand Cayman, Waterloo",natalie.jpg,
-Arash Rai,Arash's Family,The couple (you two!),,"Jatinder Kaur,Amritpal Rai",Has lived on four continents before turning twenty.,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
-Cindy Fleury,Natalie's Family,,Rene Fleury
-Rene Fleury,Natalie's Family,,,Mary Fleury
-Katelyn Henry,Natalie's Family,,Natreisha Henry,...
-Natreisha Henry,Natalie's Family,,,...
-Kyle Francis,Natalie's Family,,,Rosanne Fleury
-Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,gabrielle.jpg
-Ben Blumer,Natalie's Family,,,Steve Blumer
-Jennifer Reimer,Natalie's Family,,Glen Antle,Rene Fleury,
-Glen Antle,Natalie's Family
-Jillian Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer"
-Shiloh Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer
-Taliah Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer
-Serenity Blumer,Natalie's Family,,,Steve Blumer
-Isaiah Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer
-Sumita Barahmand,,,Farzad Sangi
-Farzad Sangi,"Meta Coworkers,Seattleite"
-Susan MacRae
-Jerry Liu,Waterloo
-Georgia Hong,Waterloo,,Jerry Liu
-Kendra Kusick,Natalie's Family,,Kyle Francis
-Amy Qiu,Waterloo,,Phillip Vo
-Phillip Vo,Waterloo
-"Shawna Morehouse ",Natalie's Family,,,Sidney Morehouse,,,shawna.jpg
-Greg Bennett,Cayman Crew
-Leighanne Bennett,Cayman Crew,,Greg Bennett
-Gaurav Sandhar,Abby Friends
-Bill Chen,Waterloo
-Fannette Hsin
-James Hageman,Waterloo
-Sarah Baird,Waterloo,,James Hageman
-Sidney Morehouse,Natalie's Family,,,,,,sid.jpg
-Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,shannon.jpg
-Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,heather.jpg
-James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,james.jpg
-Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,karen.jpg
-Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,rosanne.jpg
-Steve Blumer,Natalie's Family
-Matt D'Souza,Waterloo
-Grace Jean,,,Matt D'Souza
-Gaea Turman,Seattleite,,Nariyan Krsnadas
-Daniel Prilik,Waterloo
-Logan Howard,Stripe Coworkers
-Annie Huang,,,Logan Howard
-"Teresa Solomon ",Cayman Crew,,Geoffrey Solomon
-"Geoffrey Solomon ",Cayman Crew
-Emma Park,Seattleite,,Ayush Kapur
-Ayush Kapur,"Waterloo,Seattleite"
-Jason Lee,"Meta Coworkers,Seattleite"
-Danielle Lavigne,Seattleite,,Brandon Lavigne
-Julia Lavigne,Seattleite,,Brandon Lavigne
-Angela Gu,Waterloo,,Bill Chen
-Rae Bennett,Abby Friends
-Jasper Chapman-Black,Waterloo
-Stacey Chapman-Black,Waterloo,,Jasper Chapman-Black
-Brandon Lavigne,"Meta Coworkers,Seattleite"
-"Chelsi Manhas ",Abby Friends,,Kyle Katchaluba
-Svetomir Milanovic,Cayman Crew,,,,,,svetomir.jpeg
-William Fleury,"Natalie's Family,Cayman Crew",,,Mary Fleury,,,william.jpg
-Nicole Fleury,"Natalie's Family,Cayman Crew",,Svetomir Milanovic,"Shawna Morehouse,William Fleury",,,nicole.jpg
-Kyle Katchaluba,Abby Friends
-Bradley Ramunas,"Stripe Coworkers,Seattleite"
-Natalie Tchokreff,,,George Utsin
-George Utsin,Waterloo
-Jonah Dlin,Waterloo
-Hannah Dobrik,,,Spencer Dobrik
-Nariyan Krsnadas
-Ryan Drapeau,"Stripe Coworkers,Seattleite"
-Manjot Nagra,Abby Friends
-Spencer Dobrik,Waterloo
-Sabrina Wasserman,"Meta Coworkers,Waterloo"
-Dina Dlin,,,Jonah Dlin
-Stephen Melinyshyn,Waterloo
-Ashley Darton,,,Stephen Melinyshyn
-Claire Hsu,Stripe Coworkers
-Shawna Huang,Stripe Coworkers
-Isaac Madwed,"Stripe Coworkers,Seattleite",,Celine Rosak
-"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,brenda.jpg
-Alexandre Bondoux,"Stripe Coworkers,Seattleite"
-Evan Morehouse,Natalie's Family,,,Brenda Morehouse,,,evan.jpg
-Celine Rosak,Seattleite
-Sam Showalter,"Stripe Coworkers,Seattleite",,
-"David Mediati ",Waterloo
-"Christina Antinora ",,,David Mediati
-Sarah Zhou,Seattleite,,Sam Showalter
-Amy Hung,"Stripe Coworkers,Seattleite"
-Maddie Hayman
-Giao Nguyen,Seattleite,,Tom Yang
-Tom Yang,"Waterloo,Seattleite"
-Alex Hayman
-Shannan Young,Seattleite
-Chantal Cossette
-David Lu,"Meta Coworkers,Waterloo,Seattleite"
-Anmol Mago,"Meta Coworkers,Waterloo,Seattleite"
-Tiffany Yeung,"Waterloo,Seattleite"
-Seth Hendrickson,Stripe Coworkers
-Josh Jhinger,Abby Friends
-Nimret Malhi,Abby Friends
-Mary Fleury,Natalie's Family,,,,,,mary.jpg
-Jatinder Kaur,Arash's Family,,,,,,jatinder.jpg
-Amritpal Rai,Arash's Family,,,,,,amritpal.jpg
-Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",
-...,Natalie's Family,,,Rene Fleury
+name,group,relationship,comes_with,parent,sibling,fun_fact,cities,photo,special
+Natalie Fleury,Natalie's Family,The couple (you two!),,"Shawna Morehouse,William Fleury",,Can name every iguana species native to the Cayman Islands.,"Seattle, Grand Cayman, Waterloo",natalie.jpg,
+Arash Rai,Arash's Family,The couple (you two!),,"Jatinder Kaur,Amritpal Rai",,Has lived on four continents before turning twenty.,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
+Cindy Fleury,Natalie's Family,,Rene Fleury,,
+Rene Fleury,Natalie's Family,,,Mary Fleury,
+Katelyn Henry,Natalie's Family,,Natreisha Henry,...,
+Natreisha Henry,Natalie's Family,,,...,
+Kyle Francis,Natalie's Family,,,Rosanne Fleury,
+Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,,gabrielle.jpg
+Ben Blumer,Natalie's Family,,,Steve Blumer,
+Jennifer Reimer,Natalie's Family,,Glen Antle,Rene Fleury,,
+Glen Antle,Natalie's Family,,,,
+Jillian Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",
+Shiloh Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer,
+Taliah Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer,
+Serenity Blumer,Natalie's Family,,,Steve Blumer,
+Isaiah Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer,
+Sumita Barahmand,,,Farzad Sangi,,
+Farzad Sangi,"Meta Coworkers,Seattleite",,,,
+Susan MacRae,,,,,
+Jerry Liu,Waterloo,,,,
+Georgia Hong,Waterloo,,Jerry Liu,,
+Kendra Kusick,Natalie's Family,,Kyle Francis,,
+Amy Qiu,Waterloo,,Phillip Vo,,
+Phillip Vo,Waterloo,,,,
+"Shawna Morehouse ",Natalie's Family,,,Sidney Morehouse,,,,shawna.jpg
+Greg Bennett,Cayman Crew,,,,
+Leighanne Bennett,Cayman Crew,,Greg Bennett,,
+Gaurav Sandhar,Abby Friends,,,,
+Bill Chen,Waterloo,,,,
+Fannette Hsin,,,,,
+James Hageman,Waterloo,,,,
+Sarah Baird,Waterloo,,James Hageman,,
+Sidney Morehouse,Natalie's Family,,,,,,,sid.jpg
+Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,,shannon.jpg
+Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,,heather.jpg
+James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,,james.jpg
+Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,,karen.jpg
+Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,,rosanne.jpg
+Steve Blumer,Natalie's Family,,,,
+Matt D'Souza,Waterloo,,,,
+Grace Jean,,,Matt D'Souza,,
+Gaea Turman,Seattleite,,Nariyan Krsnadas,,
+Daniel Prilik,Waterloo,,,,
+Logan Howard,Stripe Coworkers,,,,
+Annie Huang,,,Logan Howard,,
+"Teresa Solomon ",Cayman Crew,,Geoffrey Solomon,,
+"Geoffrey Solomon ",Cayman Crew,,,,
+Emma Park,Seattleite,,Ayush Kapur,,
+Ayush Kapur,"Waterloo,Seattleite",,,,
+Jason Lee,"Meta Coworkers,Seattleite",,,,
+Danielle Lavigne,Seattleite,,Brandon Lavigne,,
+Julia Lavigne,Seattleite,,Brandon Lavigne,,
+Angela Gu,Waterloo,,Bill Chen,,
+Rae Bennett,Abby Friends,,,,
+Jasper Chapman-Black,Waterloo,,,,
+Stacey Chapman-Black,Waterloo,,Jasper Chapman-Black,,
+Brandon Lavigne,"Meta Coworkers,Seattleite",,,,
+"Chelsi Manhas ",Abby Friends,,Kyle Katchaluba,,
+Svetomir Milanovic,Cayman Crew,,Nicole Fleury,,,,,svetomir.jpeg
+William Fleury,"Natalie's Family,Cayman Crew",,,Mary Fleury,,,,william.jpg
+Nicole Fleury,"Natalie's Family,Cayman Crew",,Svetomir Milanovic,"Shawna Morehouse,William Fleury",,,,nicole.jpg
+Kyle Katchaluba,Abby Friends,,,,
+Bradley Ramunas,"Stripe Coworkers,Seattleite",,,,
+Natalie Tchokreff,,,George Utsin,,
+George Utsin,Waterloo,,,,
+Jonah Dlin,Waterloo,,,,
+Hannah Dobrik,,,Spencer Dobrik,,
+Nariyan Krsnadas,,,,,
+Ryan Drapeau,"Stripe Coworkers,Seattleite",,,,
+Manjot Nagra,Abby Friends,,,,
+Spencer Dobrik,Waterloo,,,,
+Sabrina Wasserman,"Meta Coworkers,Waterloo",,,,
+Dina Dlin,,,Jonah Dlin,,
+Stephen Melinyshyn,Waterloo,,,,
+Ashley Darton,,,Stephen Melinyshyn,,
+Claire Hsu,Stripe Coworkers,,,,
+Shawna Huang,Stripe Coworkers,,,,
+Isaac Madwed,"Stripe Coworkers,Seattleite",,Celine Rosak,,
+"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,,brenda.jpg
+Alexandre Bondoux,"Stripe Coworkers,Seattleite",,,,
+Evan Morehouse,Natalie's Family,,,Brenda Morehouse,,,,evan.jpg
+Celine Rosak,Seattleite,,,,
+Sam Showalter,"Stripe Coworkers,Seattleite",,,,
+"David Mediati ",Waterloo,,,,
+"Christina Antinora ",,,David Mediati,,
+Sarah Zhou,Seattleite,,Sam Showalter,,
+Amy Hung,"Stripe Coworkers,Seattleite",,,,
+Maddie Hayman,,,,,
+Giao Nguyen,Seattleite,,Tom Yang,,
+Tom Yang,"Waterloo,Seattleite",,,,
+Alex Hayman,,,,,
+Shannan Young,Seattleite,,,,
+Chantal Cossette,,,,,
+David Lu,"Meta Coworkers,Waterloo,Seattleite",,,,
+Anmol Mago,"Meta Coworkers,Waterloo,Seattleite",,,,
+Tiffany Yeung,"Waterloo,Seattleite",,,,
+Seth Hendrickson,Stripe Coworkers,,,,
+Josh Jhinger,Abby Friends,,,,
+Nimret Malhi,Abby Friends,,,,
+Mary Fleury,Natalie's Family,,,,,,,mary.jpg
+Jatinder Kaur,Arash's Family,,,"Jatinder's mom,Jatinder's dad",,,,jatinder.jpg
+Amritpal Rai,Arash's Family,,,Balbir Rai,,,,amritpal.jpg
+Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",,
+...,Natalie's Family,,,Rene Fleury,
+Aman Rai,Arash's Family,,,"Gurpreet Rai,Kiran Kaur",
+Amrit Kaur,Arash's Family,,Aman Rai,"Amrit's mom,Amrit's dad",
+Gurpreet Rai,Arash's Family,Taia,,Balbir Rai,
+Kiran Kaur,Arash's Family,Tai,Gurpreet Rai,,Upneet's mom
+Balbir Rai,Arash's Family,,,,Navi's grandpa
+Mehreen Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
+Nehmat Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
+Rani Kaur,Arash's Family,,,Balbir Rai,
+Harkanwal Rai,Arash's Family,,,Rani Kaur,
+Upneet Bala,Arash's Family,,,"Upneet's mom,Gurpreet Bala",
+Upneet's mom,Arash's Family,,Gurpreet Bala,,Kiran Kaur
+Gurpreet Bala,Arash's Family,,,Upneet's grandpa (?),
+Jasjot Bala,Arash's Family,,,"Upneet's mom,Gurpreet Bala",
+Upneet's grandpa (?),Arash's Family,,,,
+Navi Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",
+Gagan Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",
+Cookie Kaur,Arash's Family,,Kulwant Rai
+Kulwant Rai,Arash's Family,,,"Navi's grandpa,Navi's grandma"
+Navi's grandpa,Arash's Family,,,,Balbir Rai
+Navi's grandma,Arash's Family,,Navi's grandpa
+Sira Auntie,Arash's Family,,,"Isha's grandpa,Isha's grandma"
+Isha Brar,Arash's Family,,,Sira Auntie
+Isha's grandpa,Arash's Family,,,,Balbir Rai
+Isha's grandma,Arash's Family,,Isha's grandpa
+Shawn Brar,Arash's Family,,,Sira Auntie
+Shinday,Arash's Family,,,"Isha's grandpa,Isha's grandma",
+Shinday kid 1,Arash's Family,,,Shinday
+Shinday kid 2,Arash's Family,,,Shinday
+Shinday kid 3,Arash's Family,,,Shinday
+Shinday's husband,Arash's Family,,Shinday
+Gurinder Khangura,Arash's Family,,,"Jasan's grandma,Jasan's grandpa",Kiran Kaur
+Gurinder's wife,Arash's Family,,Gurinder Khangura
+Jasan Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife"
+Millen Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife"
+Jasan's grandma,Arash's Family,,Jasan's grandpa
+Jasan's grandpa,Arash's Family
+Aman,Arash's Family,,,"Amrit's mom,Amrit's dad"
+Gurleen,Arash's Family,,,"Amrit's mom,Amrit's dad"
+Amrit's mom,Arash's Family,,Amrit's dad
+Amrit's dad,Arash's Family
+Harkanwal's wife,Arash's Family,,Harkanwal Rai
+Gurnoor Boparai,Arash's Family,,,Bhupinder Boparai
+Bhinda Boparai,Arash's Family,,,"Jatinder's mom,Jatinder's dad",
+Jatinder's mom,Arash's Family,,Jatinder's dad
+Jatinder's dad,Arash's Family

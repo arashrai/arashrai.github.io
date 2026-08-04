@@ -1638,7 +1638,10 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
-      "parents": []
+      "parents": [
+        "jatinders-mom",
+        "jatinders-dad"
+      ]
     },
     {
       "id": "amritpal-rai",
@@ -1653,7 +1656,9 @@ const NARSH_GUESTS = (() => {
       "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
-      "parents": []
+      "parents": [
+        "balbir-rai"
+      ]
     },
     {
       "id": "janessa-reimer",
@@ -1689,6 +1694,750 @@ const NARSH_GUESTS = (() => {
       "parents": [
         "rene-fleury"
       ]
+    },
+    {
+      "id": "aman-rai",
+      "name": "Aman Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-aman-rai",
+      "side": "arash",
+      "parents": [
+        "gurpreet-rai",
+        "kiran-kaur"
+      ]
+    },
+    {
+      "id": "amrit-kaur",
+      "name": "Amrit Kaur",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-aman-rai",
+      "side": "arash",
+      "parents": [
+        "amrits-mom",
+        "amrits-dad"
+      ]
+    },
+    {
+      "id": "gurpreet-rai",
+      "name": "Gurpreet Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": "Taia",
+      "householdId": "household-gurpreet-rai",
+      "side": "arash",
+      "parents": [
+        "balbir-rai"
+      ]
+    },
+    {
+      "id": "kiran-kaur",
+      "name": "Kiran Kaur",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": "Tai",
+      "householdId": "household-gurpreet-rai",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "balbir-rai",
+      "name": "Balbir Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "mehreen-rai",
+      "name": "Mehreen Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "aman-rai",
+        "amrit-kaur"
+      ]
+    },
+    {
+      "id": "nehmat-rai",
+      "name": "Nehmat Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "aman-rai",
+        "amrit-kaur"
+      ]
+    },
+    {
+      "id": "rani-kaur",
+      "name": "Rani Kaur",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "balbir-rai"
+      ]
+    },
+    {
+      "id": "harkanwal-rai",
+      "name": "Harkanwal Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-harkanwal-rai",
+      "side": "arash",
+      "parents": [
+        "rani-kaur"
+      ]
+    },
+    {
+      "id": "upneet-bala",
+      "name": "Upneet Bala",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "upneets-mom",
+        "gurpreet-bala"
+      ]
+    },
+    {
+      "id": "upneets-mom",
+      "name": "Upneet's mom",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-gurpreet-bala",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "gurpreet-bala",
+      "name": "Gurpreet Bala",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-gurpreet-bala",
+      "side": "arash",
+      "parents": [
+        "upneets-grandpa"
+      ]
+    },
+    {
+      "id": "jasjot-bala",
+      "name": "Jasjot Bala",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "upneets-mom",
+        "gurpreet-bala"
+      ]
+    },
+    {
+      "id": "upneets-grandpa",
+      "name": "Upneet's grandpa (?)",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "navi-rai",
+      "name": "Navi Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "cookie-kaur",
+        "kulwant-rai"
+      ]
+    },
+    {
+      "id": "gagan-rai",
+      "name": "Gagan Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "cookie-kaur",
+        "kulwant-rai"
+      ]
+    },
+    {
+      "id": "cookie-kaur",
+      "name": "Cookie Kaur",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-cookie-kaur",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "kulwant-rai",
+      "name": "Kulwant Rai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-cookie-kaur",
+      "side": "arash",
+      "parents": [
+        "navis-grandpa",
+        "navis-grandma"
+      ]
+    },
+    {
+      "id": "navis-grandpa",
+      "name": "Navi's grandpa",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-navis-grandma",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "navis-grandma",
+      "name": "Navi's grandma",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-navis-grandma",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "sira-auntie",
+      "name": "Sira Auntie",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "ishas-grandpa",
+        "ishas-grandma"
+      ]
+    },
+    {
+      "id": "isha-brar",
+      "name": "Isha Brar",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "sira-auntie"
+      ]
+    },
+    {
+      "id": "ishas-grandpa",
+      "name": "Isha's grandpa",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-ishas-grandma",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "ishas-grandma",
+      "name": "Isha's grandma",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-ishas-grandma",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "shawn-brar",
+      "name": "Shawn Brar",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "sira-auntie"
+      ]
+    },
+    {
+      "id": "shinday",
+      "name": "Shinday",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-shinday",
+      "side": "arash",
+      "parents": [
+        "ishas-grandpa",
+        "ishas-grandma"
+      ]
+    },
+    {
+      "id": "shinday-kid-1",
+      "name": "Shinday kid 1",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "shinday"
+      ]
+    },
+    {
+      "id": "shinday-kid-2",
+      "name": "Shinday kid 2",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "shinday"
+      ]
+    },
+    {
+      "id": "shinday-kid-3",
+      "name": "Shinday kid 3",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "shinday"
+      ]
+    },
+    {
+      "id": "shindays-husband",
+      "name": "Shinday's husband",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-shinday",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "gurinder-khangura",
+      "name": "Gurinder Khangura",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-gurinder-khangura",
+      "side": "arash",
+      "parents": [
+        "jasans-grandma",
+        "jasans-grandpa"
+      ]
+    },
+    {
+      "id": "gurinders-wife",
+      "name": "Gurinder's wife",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-gurinder-khangura",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "jasan-khangura",
+      "name": "Jasan Khangura",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "gurinder-khangura",
+        "gurinders-wife"
+      ]
+    },
+    {
+      "id": "millen-khangura",
+      "name": "Millen Khangura",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "gurinder-khangura",
+        "gurinders-wife"
+      ]
+    },
+    {
+      "id": "jasans-grandma",
+      "name": "Jasan's grandma",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-jasans-grandma",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "jasans-grandpa",
+      "name": "Jasan's grandpa",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-jasans-grandma",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "aman",
+      "name": "Aman",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "amrits-mom",
+        "amrits-dad"
+      ]
+    },
+    {
+      "id": "gurleen",
+      "name": "Gurleen",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "amrits-mom",
+        "amrits-dad"
+      ]
+    },
+    {
+      "id": "amrits-mom",
+      "name": "Amrit's mom",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-amrits-dad",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "amrits-dad",
+      "name": "Amrit's dad",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-amrits-dad",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "harkanwals-wife",
+      "name": "Harkanwal's wife",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-harkanwal-rai",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "gurnoor-boparai",
+      "name": "Gurnoor Boparai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "bhinda-boparai",
+      "name": "Bhinda Boparai",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": null,
+      "side": "arash",
+      "parents": [
+        "jatinders-mom",
+        "jatinders-dad"
+      ]
+    },
+    {
+      "id": "jatinders-mom",
+      "name": "Jatinder's mom",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-jatinders-dad",
+      "side": "arash",
+      "parents": []
+    },
+    {
+      "id": "jatinders-dad",
+      "name": "Jatinder's dad",
+      "photo": null,
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-jatinders-dad",
+      "side": "arash",
+      "parents": []
     }
   ];
 
@@ -1844,6 +2593,21 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "jatinder-kaur",
+      "target": "jatinders-mom",
+      "type": "parent"
+    },
+    {
+      "source": "jatinder-kaur",
+      "target": "jatinders-dad",
+      "type": "parent"
+    },
+    {
+      "source": "amritpal-rai",
+      "target": "balbir-rai",
+      "type": "parent"
+    },
+    {
       "source": "janessa-reimer",
       "target": "glen-antle",
       "type": "parent"
@@ -1856,6 +2620,221 @@ const NARSH_GUESTS = (() => {
     {
       "source": "guest",
       "target": "rene-fleury",
+      "type": "parent"
+    },
+    {
+      "source": "aman-rai",
+      "target": "gurpreet-rai",
+      "type": "parent"
+    },
+    {
+      "source": "aman-rai",
+      "target": "kiran-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "amrit-kaur",
+      "target": "amrits-mom",
+      "type": "parent"
+    },
+    {
+      "source": "amrit-kaur",
+      "target": "amrits-dad",
+      "type": "parent"
+    },
+    {
+      "source": "gurpreet-rai",
+      "target": "balbir-rai",
+      "type": "parent"
+    },
+    {
+      "source": "mehreen-rai",
+      "target": "aman-rai",
+      "type": "parent"
+    },
+    {
+      "source": "mehreen-rai",
+      "target": "amrit-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "nehmat-rai",
+      "target": "aman-rai",
+      "type": "parent"
+    },
+    {
+      "source": "nehmat-rai",
+      "target": "amrit-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "rani-kaur",
+      "target": "balbir-rai",
+      "type": "parent"
+    },
+    {
+      "source": "harkanwal-rai",
+      "target": "rani-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "upneet-bala",
+      "target": "upneets-mom",
+      "type": "parent"
+    },
+    {
+      "source": "upneet-bala",
+      "target": "gurpreet-bala",
+      "type": "parent"
+    },
+    {
+      "source": "gurpreet-bala",
+      "target": "upneets-grandpa",
+      "type": "parent"
+    },
+    {
+      "source": "jasjot-bala",
+      "target": "upneets-mom",
+      "type": "parent"
+    },
+    {
+      "source": "jasjot-bala",
+      "target": "gurpreet-bala",
+      "type": "parent"
+    },
+    {
+      "source": "navi-rai",
+      "target": "cookie-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "navi-rai",
+      "target": "kulwant-rai",
+      "type": "parent"
+    },
+    {
+      "source": "gagan-rai",
+      "target": "cookie-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "gagan-rai",
+      "target": "kulwant-rai",
+      "type": "parent"
+    },
+    {
+      "source": "kulwant-rai",
+      "target": "navis-grandpa",
+      "type": "parent"
+    },
+    {
+      "source": "kulwant-rai",
+      "target": "navis-grandma",
+      "type": "parent"
+    },
+    {
+      "source": "sira-auntie",
+      "target": "ishas-grandpa",
+      "type": "parent"
+    },
+    {
+      "source": "sira-auntie",
+      "target": "ishas-grandma",
+      "type": "parent"
+    },
+    {
+      "source": "isha-brar",
+      "target": "sira-auntie",
+      "type": "parent"
+    },
+    {
+      "source": "shawn-brar",
+      "target": "sira-auntie",
+      "type": "parent"
+    },
+    {
+      "source": "shinday",
+      "target": "ishas-grandpa",
+      "type": "parent"
+    },
+    {
+      "source": "shinday",
+      "target": "ishas-grandma",
+      "type": "parent"
+    },
+    {
+      "source": "shinday-kid-1",
+      "target": "shinday",
+      "type": "parent"
+    },
+    {
+      "source": "shinday-kid-2",
+      "target": "shinday",
+      "type": "parent"
+    },
+    {
+      "source": "shinday-kid-3",
+      "target": "shinday",
+      "type": "parent"
+    },
+    {
+      "source": "gurinder-khangura",
+      "target": "jasans-grandma",
+      "type": "parent"
+    },
+    {
+      "source": "gurinder-khangura",
+      "target": "jasans-grandpa",
+      "type": "parent"
+    },
+    {
+      "source": "jasan-khangura",
+      "target": "gurinder-khangura",
+      "type": "parent"
+    },
+    {
+      "source": "jasan-khangura",
+      "target": "gurinders-wife",
+      "type": "parent"
+    },
+    {
+      "source": "millen-khangura",
+      "target": "gurinder-khangura",
+      "type": "parent"
+    },
+    {
+      "source": "millen-khangura",
+      "target": "gurinders-wife",
+      "type": "parent"
+    },
+    {
+      "source": "aman",
+      "target": "amrits-mom",
+      "type": "parent"
+    },
+    {
+      "source": "aman",
+      "target": "amrits-dad",
+      "type": "parent"
+    },
+    {
+      "source": "gurleen",
+      "target": "amrits-mom",
+      "type": "parent"
+    },
+    {
+      "source": "gurleen",
+      "target": "amrits-dad",
+      "type": "parent"
+    },
+    {
+      "source": "bhinda-boparai",
+      "target": "jatinders-mom",
+      "type": "parent"
+    },
+    {
+      "source": "bhinda-boparai",
+      "target": "jatinders-dad",
       "type": "parent"
     },
     {
@@ -1961,6 +2940,86 @@ const NARSH_GUESTS = (() => {
     {
       "source": "shannon-noble",
       "target": "james-noble",
+      "type": "sibling"
+    },
+    {
+      "source": "jatinder-kaur",
+      "target": "bhinda-boparai",
+      "type": "sibling"
+    },
+    {
+      "source": "amritpal-rai",
+      "target": "gurpreet-rai",
+      "type": "sibling"
+    },
+    {
+      "source": "amritpal-rai",
+      "target": "rani-kaur",
+      "type": "sibling"
+    },
+    {
+      "source": "gurpreet-rai",
+      "target": "rani-kaur",
+      "type": "sibling"
+    },
+    {
+      "source": "amrit-kaur",
+      "target": "aman",
+      "type": "sibling"
+    },
+    {
+      "source": "amrit-kaur",
+      "target": "gurleen",
+      "type": "sibling"
+    },
+    {
+      "source": "aman",
+      "target": "gurleen",
+      "type": "sibling"
+    },
+    {
+      "source": "mehreen-rai",
+      "target": "nehmat-rai",
+      "type": "sibling"
+    },
+    {
+      "source": "upneet-bala",
+      "target": "jasjot-bala",
+      "type": "sibling"
+    },
+    {
+      "source": "navi-rai",
+      "target": "gagan-rai",
+      "type": "sibling"
+    },
+    {
+      "source": "sira-auntie",
+      "target": "shinday",
+      "type": "sibling"
+    },
+    {
+      "source": "isha-brar",
+      "target": "shawn-brar",
+      "type": "sibling"
+    },
+    {
+      "source": "shinday-kid-1",
+      "target": "shinday-kid-2",
+      "type": "sibling"
+    },
+    {
+      "source": "shinday-kid-1",
+      "target": "shinday-kid-3",
+      "type": "sibling"
+    },
+    {
+      "source": "shinday-kid-2",
+      "target": "shinday-kid-3",
+      "type": "sibling"
+    },
+    {
+      "source": "jasan-khangura",
+      "target": "millen-khangura",
       "type": "sibling"
     }
   ];
@@ -2212,6 +3271,102 @@ const NARSH_GUESTS = (() => {
         "tom-yang"
       ],
       "displayName": "Giao & Tom"
+    },
+    {
+      "id": "household-aman-rai",
+      "members": [
+        "aman-rai",
+        "amrit-kaur"
+      ],
+      "displayName": "Aman & Amrit"
+    },
+    {
+      "id": "household-gurpreet-rai",
+      "members": [
+        "gurpreet-rai",
+        "kiran-kaur"
+      ],
+      "displayName": "Gurpreet & Kiran"
+    },
+    {
+      "id": "household-harkanwal-rai",
+      "members": [
+        "harkanwal-rai",
+        "harkanwals-wife"
+      ],
+      "displayName": "Harkanwal & Harkanwal's"
+    },
+    {
+      "id": "household-gurpreet-bala",
+      "members": [
+        "upneets-mom",
+        "gurpreet-bala"
+      ],
+      "displayName": "Upneet's & Gurpreet"
+    },
+    {
+      "id": "household-cookie-kaur",
+      "members": [
+        "cookie-kaur",
+        "kulwant-rai"
+      ],
+      "displayName": "Cookie & Kulwant"
+    },
+    {
+      "id": "household-navis-grandma",
+      "members": [
+        "navis-grandpa",
+        "navis-grandma"
+      ],
+      "displayName": "Navi's & Navi's"
+    },
+    {
+      "id": "household-ishas-grandma",
+      "members": [
+        "ishas-grandpa",
+        "ishas-grandma"
+      ],
+      "displayName": "Isha's & Isha's"
+    },
+    {
+      "id": "household-shinday",
+      "members": [
+        "shinday",
+        "shindays-husband"
+      ],
+      "displayName": "Shinday & Shinday's"
+    },
+    {
+      "id": "household-gurinder-khangura",
+      "members": [
+        "gurinder-khangura",
+        "gurinders-wife"
+      ],
+      "displayName": "Gurinder & Gurinder's"
+    },
+    {
+      "id": "household-jasans-grandma",
+      "members": [
+        "jasans-grandma",
+        "jasans-grandpa"
+      ],
+      "displayName": "Jasan's & Jasan's"
+    },
+    {
+      "id": "household-amrits-dad",
+      "members": [
+        "amrits-mom",
+        "amrits-dad"
+      ],
+      "displayName": "Amrit's & Amrit's"
+    },
+    {
+      "id": "household-jatinders-dad",
+      "members": [
+        "jatinders-mom",
+        "jatinders-dad"
+      ],
+      "displayName": "Jatinder's & Jatinder's"
     }
   ];
 
@@ -2235,6 +3390,56 @@ const NARSH_GUESTS = (() => {
       "a": "glen-antle",
       "b": "jennifer-reimer",
       "side": "natalie"
+    },
+    {
+      "a": "jatinders-dad",
+      "b": "jatinders-mom",
+      "side": "arash"
+    },
+    {
+      "a": "gurpreet-rai",
+      "b": "kiran-kaur",
+      "side": "arash"
+    },
+    {
+      "a": "amrits-dad",
+      "b": "amrits-mom",
+      "side": "arash"
+    },
+    {
+      "a": "aman-rai",
+      "b": "amrit-kaur",
+      "side": "arash"
+    },
+    {
+      "a": "gurpreet-bala",
+      "b": "upneets-mom",
+      "side": "arash"
+    },
+    {
+      "a": "cookie-kaur",
+      "b": "kulwant-rai",
+      "side": "arash"
+    },
+    {
+      "a": "navis-grandma",
+      "b": "navis-grandpa",
+      "side": "arash"
+    },
+    {
+      "a": "ishas-grandma",
+      "b": "ishas-grandpa",
+      "side": "arash"
+    },
+    {
+      "a": "jasans-grandma",
+      "b": "jasans-grandpa",
+      "side": "arash"
+    },
+    {
+      "a": "gurinder-khangura",
+      "b": "gurinders-wife",
+      "side": "arash"
     },
     {
       "a": "cindy-fleury",
@@ -2365,6 +3570,16 @@ const NARSH_GUESTS = (() => {
       "a": "giao-nguyen",
       "b": "tom-yang",
       "side": null
+    },
+    {
+      "a": "shinday",
+      "b": "shindays-husband",
+      "side": "arash"
+    },
+    {
+      "a": "harkanwal-rai",
+      "b": "harkanwals-wife",
+      "side": "arash"
     }
   ];
 

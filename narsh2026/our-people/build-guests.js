@@ -459,9 +459,48 @@ people.forEach((p) => p.comesWithIds.forEach((s) => addMarriage(p.id, s)));
 const isParentChild = (a, b) => byId.get(a).parentIds.includes(b) || byId.get(b).parentIds.includes(a);
 const shareParent = (a, b) => byId.get(a).parentIds.some((x) => byId.get(b).parentIds.includes(x));
 
-const MARRIAGES = [...marriageSet]
+const marriagePairs = [...marriageSet]
   .map((k) => k.split("+"))
-  .filter(([a, b]) => byId.has(a) && byId.has(b) && !isParentChild(a, b) && !shareParent(a, b))
+  .filter(([a, b]) => byId.has(a) && byId.has(b) && !isParentChild(a, b) && !shareParent(a, b));
+
+// ---------------------------------------------------------------------------
+// Spouse side inheritance. Someone who married into the family has no parentage
+// link, so floodSide never reaches them and they end up with no side at all.
+// The family tree filters on `side`, so without this they vanish from the tree
+// entirely. Give a sideless partner their spouse's side.
+//
+// This is a fixpoint loop rather than a single pass so it works transitively
+// (a spouse-of-a-spouse), with a hard round cap so a pathological marriage
+// graph can never hang the build.
+// ---------------------------------------------------------------------------
+const SIDE_INHERIT_MAX_ROUNDS = 100;
+const inherited = [];
+const conflictSeen = new Set();
+let sideRounds = 0;
+let sideChanged = true;
+while (sideChanged && sideRounds < SIDE_INHERIT_MAX_ROUNDS) {
+  sideChanged = false;
+  sideRounds++;
+  marriagePairs.forEach(([a, b]) => {
+    const sa = sideOf[a];
+    const sb = sideOf[b];
+    if (sa && sb) {
+      if (sa === sb) return;
+      const key = [a, b].sort().join("+");
+      if (conflictSeen.has(key)) return;
+      conflictSeen.add(key);
+      warnings.push(`"${byId.get(a).name}" is on ${sa}'s side but their spouse "${byId.get(b).name}" is on ${sb}'s side — that marriage spans both families, so the tree can't put them on one side. Leaving both where they are; fix the parent/comes_with columns if one of them is on the wrong side.`);
+      return;
+    }
+    if (sa && !sb) { sideOf[b] = sa; inherited.push({ id: b, side: sa, viaId: a }); sideChanged = true; return; }
+    if (sb && !sa) { sideOf[a] = sb; inherited.push({ id: a, side: sb, viaId: b }); sideChanged = true; }
+  });
+}
+inherited.forEach((x) => {
+  warnings.push(`FYI — placed "${byId.get(x.id).name}" on ${x.side}'s side of the family tree because they're married to "${byId.get(x.viaId).name}". Nothing to fix unless that's wrong.`);
+});
+
+const MARRIAGES = marriagePairs
   .map(([a, b]) => ({ a, b, side: sideOf[a] && sideOf[a] === sideOf[b] ? sideOf[a] : null }));
 
 // Flags: family members left unconnected by a one-directional comes_with that
@@ -633,6 +672,7 @@ console.error("  groups:     " + GROUPS.map((g) => g.label).join(", "));
 console.error("  households: " + HOUSEHOLDS.length);
 console.error("  edges:      " + EDGES.length + " (couple/parent/sibling)");
 console.error("  sibling sets: " + SIBLING_GROUPS.length);
+console.error("  sides inherited: " + inherited.length);
 console.error("  sides:      natalie=" + sideCount("natalie") + " arash=" + sideCount("arash"));
 console.error("  marriages:  " + MARRIAGES.length + " (" + MARRIAGES.map((m) => byId.get(m.a).name.split(" ")[0] + "↔" + byId.get(m.b).name.split(" ")[0]).join(", ") + ")");
 if (warnings.length) {

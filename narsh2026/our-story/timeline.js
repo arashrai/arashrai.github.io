@@ -6,12 +6,25 @@ const NARSH_TIMELINE = (() => {
 
   let dotElements = [];
   let currentIndex = -1;
+  let prevBtnEl = null;
+  let nextBtnEl = null;
+  let dotClickHandler = null;
 
   const init = (stops, onDotClick) => {
     const barEl = document.getElementById("timeline-bar");
     if (!barEl) return;
 
     dotElements = [];
+    dotClickHandler = onDotClick;
+
+    // Prev button sits to the left of the dots. It steps back one stop.
+    prevBtnEl = document.createElement("button");
+    prevBtnEl.className = "timeline-nav timeline-nav-prev";
+    prevBtnEl.setAttribute("aria-label", "Previous moment");
+    prevBtnEl.addEventListener("click", () => {
+      if (dotClickHandler) dotClickHandler(Math.max(0, currentIndex - 1));
+    });
+    barEl.appendChild(prevBtnEl);
 
     stops.forEach((stop, index) => {
       const dotEl = document.createElement("button");
@@ -42,6 +55,20 @@ const NARSH_TIMELINE = (() => {
 
       dotElements.push(dotEl);
     });
+
+    // Next button sits to the right of the dots. It advances one stop.
+    nextBtnEl = document.createElement("button");
+    nextBtnEl.className = "timeline-nav timeline-nav-next";
+    nextBtnEl.setAttribute("aria-label", "Next moment");
+    nextBtnEl.addEventListener("click", () => {
+      if (dotClickHandler) dotClickHandler(Math.min(dotElements.length - 1, currentIndex + 1));
+    });
+    barEl.appendChild(nextBtnEl);
+  };
+
+  const updateNav = () => {
+    if (prevBtnEl) prevBtnEl.disabled = currentIndex <= 0;
+    if (nextBtnEl) nextBtnEl.disabled = currentIndex >= dotElements.length - 1;
   };
 
   const setActive = (index) => {
@@ -55,6 +82,7 @@ const NARSH_TIMELINE = (() => {
       }
     });
     currentIndex = index;
+    updateNav();
   };
 
   const setVisited = (upToIndex) => {

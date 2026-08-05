@@ -90,8 +90,8 @@ const NARSH_STORY_DATA = (() => {
       location: "University of Saskatchewan, Canada",
       coords: [-106.6330, 52.1332],
       zoom: 6,
-      year: 2016,
-      narrative: "Where the two met!\nBoth a little disheartened that they pulled the short straw of campuses (Saskatchewan), but it turned out so much better than anyone hoped.\nArash completed his highschool degree, and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades. He opened her eyes to the world of tech and she decided she would follow him to Waterloo after finishing her final year of highschool.",
+      year: 2015,
+      narrative: "Where the two met!\nBoth a little disheartened that they pulled the short straw of campuses (Saskatchewan), but it turned out so much better than anyone hoped.\nArash was a year ahead, had completed highschool and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades so she had a year of school to finish back in Cayman. Arash’s (good?) influence rubbed off on Natalie, and she changed her plans from pursuing med school to study tech as well. After 1 year of long-distance, Natalie reunited with Arash at Waterloo.",
       photos: [
         { src: "/narsh2026/images/story/shad/010.jpeg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
       ],
@@ -156,6 +156,18 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/proposal/030.jpg", alt: "Newly engaged on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/040.jpg", alt: "Celebrating the engagement" }
       ],
+      isConvergence: false
+    },
+    {
+      id: "wedding",
+      owner: "both",
+      location: "Kelowna, BC, Canada",
+      coords: [-119.4960, 49.8880],
+      zoom: 9,
+      year: 2026,
+      narrative: "On their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie are so excited that you all will be joining them to take their next step. Thank you all for being a part of it.",
+      // Photos coming soon — the carousel hides itself when a stop has none.
+      photos: [],
       isConvergence: false
     }
   ];

@@ -348,46 +348,66 @@
   white-space: nowrap;
 }
 
-/* Site header z-index override for map page */
+/* Prev/next arrows flanking the dots — a second way to step through the story
+   alongside scrolling, the dots, and arrow keys. */
+.timeline-nav {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-terracotta);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.timeline-nav::before {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+}
+
+.timeline-nav-prev::before {
+  transform: rotate(-45deg);
+  margin-left: 3px;
+}
+
+.timeline-nav-next::before {
+  transform: rotate(135deg);
+  margin-right: 3px;
+}
+
+.timeline-nav:disabled {
+  color: var(--color-dusty-rose);
+  opacity: 0.4;
+  cursor: default;
+}
+
+.timeline-nav:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 2px;
+}
+
+/* Pinned nav.
+   This page hijacks window scroll to drive the timeline, so a normal header
+   would scroll out of view at the first stop with no natural way back to it --
+   guests had to scroll to the beginning or reload to navigate away. Pin it to
+   the top of the viewport on every device so the menu is always reachable. It
+   carries its own cream background, so it reads cleanly over the map behind it.
+   (nav-peek.js still runs but its .peek toggle is now a no-op here.) */
 .site-header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 20;
-}
-
-/* Peeking nav.
-   This page hijacks window scroll to drive the timeline, so the header
-   scrolls out of view at the first stop and there is no natural way back to
-   it -- guests had to scroll to the beginning or reload to navigate away.
-   Pin it instead and tuck it up out of the way, sliding it back down when
-   the pointer reaches for the top of the viewport.
-   Pointer proximity is tracked in nav-peek.js rather than with a fixed hover
-   strip, because a strip would sit over the map and swallow drags along its
-   top edge. Restricted to fine pointers: there is no hover on touch, and a
-   header that can never be summoned is worse than one that just scrolls. */
-@media (hover: hover) and (pointer: fine) {
-  .site-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    transform: translateY(-100%);
-    transition: transform var(--transition-normal);
-  }
-
-  /* .peek is set by nav-peek.js; :focus-within keeps the header reachable by
-     keyboard, since tabbing into a link cannot move the pointer. */
-  .site-header.peek,
-  .site-header:focus-within,
-  .nav-open .site-header {
-    transform: translateY(0);
-    box-shadow: var(--shadow-soft);
-  }
-}
-
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
-  .site-header {
-    transition: none;
-  }
+  box-shadow: var(--shadow-soft);
 }
 
 /* Mobile cross-fade between map and content views */

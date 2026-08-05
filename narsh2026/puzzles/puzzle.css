@@ -152,6 +152,11 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  /* On small screens a long clue is taller than the fixed-ratio card and would
+     otherwise be clipped. Let the back face scroll so the whole hint is
+     readable; on wider screens the clue fits and no scrollbar appears. */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .puzzle-card-back.criminal {

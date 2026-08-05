@@ -239,16 +239,23 @@ const NARSH_GRAPH_UI = (() => {
     // Clear previous content
     contentEl.textContent = "";
 
-    // Photo or initials
+    // Photo(s) or initials. A household node carries every member's distinct
+    // photo, so show them all (e.g. Svetomir & Nicole) rather than just the first.
     const photoWrapEl = document.createElement("div");
     photoWrapEl.className = "bottom-sheet-photo";
 
-    if (guestData.photo) {
-      const imgEl = document.createElement("img");
-      imgEl.src = guestData.photo;
-      imgEl.alt = guestData.name;
-      imgEl.className = "bottom-sheet-img";
-      photoWrapEl.appendChild(imgEl);
+    const photos = (guestData.photos && guestData.photos.length)
+      ? guestData.photos
+      : (guestData.photo ? [guestData.photo] : []);
+
+    if (photos.length > 0) {
+      photos.forEach((src) => {
+        const imgEl = document.createElement("img");
+        imgEl.src = src;
+        imgEl.alt = guestData.name;
+        imgEl.className = "bottom-sheet-img";
+        photoWrapEl.appendChild(imgEl);
+      });
     } else {
       const initialsEl = document.createElement("div");
       initialsEl.className = "bottom-sheet-initials";

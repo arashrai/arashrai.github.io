@@ -895,6 +895,9 @@ const NARSH_GRAPH = (() => {
         id: nodeId,
         name: node.name,
         photo: node.photo,
+        // The whole household's distinct photos, so the mobile bottom sheet can
+        // show everyone (e.g. Svetomir & Nicole), matching the split-photo node.
+        photos: node.photos || (node.photo ? [node.photo] : []),
         groups: node.groups,
         funFact: firstMember ? firstMember.funFact : null,
         connectionToCouple: firstMember ? firstMember.connectionToCouple : null
@@ -907,13 +910,14 @@ const NARSH_GRAPH = (() => {
         id: nodeId,
         name: guest.name,
         photo: guest.photo,
+        photos: guest.photo ? [guest.photo] : [],
         groups: guest.groups,
         funFact: guest.funFact,
         connectionToCouple: guest.connectionToCouple
       };
     }
 
-    return { id: nodeId, name: node.name, groups: node.groups, photo: node.photo, funFact: null, connectionToCouple: null };
+    return { id: nodeId, name: node.name, groups: node.groups, photo: node.photo, photos: node.photos || (node.photo ? [node.photo] : []), funFact: null, connectionToCouple: null };
   };
 
   const collapseNode = () => {

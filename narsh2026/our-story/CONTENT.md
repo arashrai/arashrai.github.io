@@ -56,15 +56,15 @@ IMG: narsh2026/images/story/arash BC/
 
 ---
 
-## 6. SHAD Valley, Canada (2016)
+## 6. SHAD Valley, Canada (2015)
 **Who:** both
 **Location:** University of Saskatchewan, Canada
-**Year:** 2016
+**Year:** 2015
 **Convergence:** yes
 
 Where the two met!
 Both a little disheartened that they pulled the short straw of campuses (Saskatchewan), but it turned out so much better than anyone hoped.
-Arash completed his highschool degree, and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades. He opened her eyes to the world of tech and she decided she would follow him to Waterloo after finishing her final year of highschool.
+Arash was a year ahead, had completed highschool and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades so she had a year of school to finish back in Cayman. Arash’s (good?) influence rubbed off on Natalie, and she changed her plans from pursuing med school to study tech as well. After 1 year of long-distance, Natalie reunited with Arash at Waterloo.
 
 IMG: narsh2026/images/story/shad/
 
@@ -102,6 +102,17 @@ IMG: narsh2026/images/story/seattle/
 Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside their bed, stunning views and meals plus personal spa, and yeah, he asked the big question too.
 
 IMG: narsh2026/images/story/proposal/
+
+---
+
+## 13. The Wedding! (2026)
+**Who:** both
+**Location:** Kelowna, BC, Canada
+**Year:** 2026
+
+On their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie are so excited that you all will be joining them to take their next step. Thank you all for being a part of it.
+
+IMG: 
 
 ---
 

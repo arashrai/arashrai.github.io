@@ -110,7 +110,7 @@ narsh2026/
 ├── schedule/             # Event Schedule Page
 │   └── index.html        # Gated schedule (Sept 24 pre-wedding vs Sept 26 main day)
 │
-├── venue-travel/         # Locations & Accommodation Information
+├── travel-accommodations/         # Locations & Accommodation Information
 │   └── index.html        # Gurdwara, Hillcrest Farm, hotel block booking links
 │
 ├── dress-code/           # Dress Code & Guidelines

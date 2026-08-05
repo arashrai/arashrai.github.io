@@ -10,6 +10,50 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
     <link rel="stylesheet" href="/narsh2026/cats.css">
+    <style>
+      /* Welcome page -- quick links to every subpage (in addition to the nav) */
+      .page-links {
+        list-style: none;
+        margin: var(--space-lg) 0 0 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-sm);
+      }
+
+      .page-links a {
+        display: block;
+        padding: var(--space-md) var(--space-lg);
+        background: var(--color-warm-white);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-soft);
+        color: var(--color-text-primary);
+        text-decoration: none;
+        font-family: var(--font-heading);
+        font-size: var(--font-size-lg);
+        font-weight: 700;
+        transition: transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+      }
+
+      .page-links a:hover,
+      .page-links a:focus {
+        color: var(--color-terracotta);
+        box-shadow: var(--shadow-medium);
+        transform: translateY(-2px);
+      }
+
+      .page-links a:focus-visible {
+        outline: 2px solid var(--color-terracotta);
+        outline-offset: 2px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .page-links a:hover,
+        .page-links a:focus {
+          transform: none;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="gate">
@@ -35,16 +79,24 @@
         </button>
         <nav class="site-nav" id="site-nav">
           <a href="/narsh2026/schedule/">Schedule</a>
-          <a href="/narsh2026/venue-travel/">Travel & Accommodations</a>
+          <a href="/narsh2026/travel-accommodations/">Travel & Accommodations</a>
+          <a href="/narsh2026/dress-code/">Dress Code</a>
           <a href="/narsh2026/our-story/">Our Story</a>
           <a href="/narsh2026/our-people/">Our People</a>
-          <a href="/narsh2026/dress-code/">Dress Code</a>
           <a href="/narsh2026/puzzles/">Puzzles</a>
         </nav>
       </header>
       <main class="page-content">
         <h1>Welcome!</h1>
         <p>We're so glad you're here. Explore our story, meet our people, and get all the details for the big day.</p>
+        <ul class="page-links">
+          <li><a href="/narsh2026/schedule/">Schedule</a></li>
+          <li><a href="/narsh2026/travel-accommodations/">Travel &amp; Accommodations</a></li>
+          <li><a href="/narsh2026/dress-code/">Dress Code</a></li>
+          <li><a href="/narsh2026/our-story/">Our Story</a></li>
+          <li><a href="/narsh2026/our-people/">Our People</a></li>
+          <li><a href="/narsh2026/puzzles/">Puzzles</a></li>
+        </ul>
       </main>
     </div>
 

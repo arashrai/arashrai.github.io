@@ -693,9 +693,9 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "karen-morehouse",
-      "name": "Karen Morehouse",
-      "photo": "/narsh2026/images/people/karen.jpg",
+      "id": "brenda-morehouse",
+      "name": "Brenda Morehouse",
+      "photo": "/narsh2026/images/people/brenda.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -1369,9 +1369,9 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "brenda-morehouse",
-      "name": "Brenda Morehouse",
-      "photo": "/narsh2026/images/people/brenda.jpg",
+      "id": "karen-morehouse",
+      "name": "Karen Morehouse",
+      "photo": "/narsh2026/images/people/karen.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -1929,8 +1929,8 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "rani-kaur",
-      "name": "Rani Kaur",
+      "id": "amrits-mom",
+      "name": "Amrit's mom",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -1939,11 +1939,25 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": null,
+      "householdId": "household-amrits-dad",
       "side": "arash",
-      "parents": [
-        "balbir-rai"
+      "parents": [],
+      "inferredParents": []
+    },
+    {
+      "id": "amrits-dad",
+      "name": "Amrit's dad",
+      "photo": null,
+      "groups": [
+        "arashs-family"
       ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-amrits-dad",
+      "side": "arash",
+      "parents": [],
       "inferredParents": []
     },
     {
@@ -2480,8 +2494,8 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "amrits-mom",
-      "name": "Amrit's mom",
+      "id": "rani-kaur",
+      "name": "Rani Kaur",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -2490,25 +2504,11 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": "household-amrits-dad",
+      "householdId": null,
       "side": "arash",
-      "parents": [],
-      "inferredParents": []
-    },
-    {
-      "id": "amrits-dad",
-      "name": "Amrit's dad",
-      "photo": null,
-      "groups": [
-        "arashs-family"
+      "parents": [
+        "balbir-rai"
       ],
-      "cities": [],
-      "isCouple": false,
-      "funFact": null,
-      "connectionToCouple": null,
-      "householdId": "household-amrits-dad",
-      "side": "arash",
-      "parents": [],
       "inferredParents": []
     },
     {
@@ -2715,7 +2715,7 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
-      "source": "karen-morehouse",
+      "source": "brenda-morehouse",
       "target": "sidney-morehouse",
       "type": "parent"
     },
@@ -2740,7 +2740,7 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
-      "source": "brenda-morehouse",
+      "source": "karen-morehouse",
       "target": "sidney-morehouse",
       "type": "parent"
     },
@@ -2822,11 +2822,6 @@ const NARSH_GUESTS = (() => {
     {
       "source": "nehmat-rai",
       "target": "amrit-kaur",
-      "type": "parent"
-    },
-    {
-      "source": "rani-kaur",
-      "target": "balbir-rai",
       "type": "parent"
     },
     {
@@ -2985,6 +2980,11 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
+      "source": "rani-kaur",
+      "target": "balbir-rai",
+      "type": "parent"
+    },
+    {
       "source": "gurnoor-boparai",
       "target": "bhinda-boparai",
       "type": "parent"
@@ -3076,16 +3076,11 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "shawna-morehouse",
-      "target": "karen-morehouse",
+      "target": "brenda-morehouse",
       "type": "sibling"
     },
     {
       "source": "shawna-morehouse",
-      "target": "brenda-morehouse",
-      "type": "sibling"
-    },
-    {
-      "source": "heather-morehouse",
       "target": "karen-morehouse",
       "type": "sibling"
     },
@@ -3095,8 +3090,13 @@ const NARSH_GUESTS = (() => {
       "type": "sibling"
     },
     {
-      "source": "karen-morehouse",
-      "target": "brenda-morehouse",
+      "source": "heather-morehouse",
+      "target": "karen-morehouse",
+      "type": "sibling"
+    },
+    {
+      "source": "brenda-morehouse",
+      "target": "karen-morehouse",
       "type": "sibling"
     },
     {
@@ -3481,6 +3481,14 @@ const NARSH_GUESTS = (() => {
       "displayName": "Gurpreet & Kiran"
     },
     {
+      "id": "household-amrits-dad",
+      "members": [
+        "amrits-mom",
+        "amrits-dad"
+      ],
+      "displayName": "Amrit's & Amrit's"
+    },
+    {
       "id": "household-harkanwal-rai",
       "members": [
         "harkanwal-rai",
@@ -3543,14 +3551,6 @@ const NARSH_GUESTS = (() => {
         "jasans-grandpa"
       ],
       "displayName": "Jasan's & Jasan's"
-    },
-    {
-      "id": "household-amrits-dad",
-      "members": [
-        "amrits-mom",
-        "amrits-dad"
-      ],
-      "displayName": "Amrit's & Amrit's"
     },
     {
       "id": "household-jatinders-dad",

@@ -4,11 +4,25 @@
 const NARSH_SCROLL = (() => {
   "use strict";
 
-  let scrollPerStop = window.innerHeight;
+  let perStop = window.innerHeight;
+  let stopCount = 0;
   let currentStopIndex = -1;
   let onStopChange = null;
   let scrollContainerEl = null;
   let reducedMotion = false;
+
+  // Size the scroll track to the LIVE viewport height. This is deliberately
+  // driven off the current innerHeight (not a value cached at init): on mobile
+  // the URL bar collapses as you scroll, growing innerHeight without always
+  // firing a resize event. If the track kept its original (shorter) height, the
+  // document wouldn't be tall enough to scroll to the final stop — which is why
+  // the last stop (the wedding) was unreachable on phones.
+  const syncHeight = () => {
+    perStop = window.innerHeight;
+    if (scrollContainerEl) {
+      scrollContainerEl.style.height = (stopCount * perStop) + "px";
+    }
+  };
 
   const init = (stops, callback) => {
     onStopChange = callback;
@@ -17,8 +31,8 @@ const NARSH_SCROLL = (() => {
     scrollContainerEl = document.getElementById("scroll-container");
     if (!scrollContainerEl) return;
 
-    // Set scroll container height to create scroll distance
-    scrollContainerEl.style.height = (stops.length * scrollPerStop) + "px";
+    stopCount = stops.length;
+    syncHeight();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
@@ -28,10 +42,13 @@ const NARSH_SCROLL = (() => {
   };
 
   const handleScroll = () => {
+    // Keep the track in sync if the viewport height changed (mobile URL bar).
+    if (window.innerHeight !== perStop) syncHeight();
+
     const scrollY = window.scrollY;
     const newIndex = Math.max(0, Math.min(
-      Math.floor(scrollY / scrollPerStop),
-      (scrollContainerEl ? Math.floor(parseInt(scrollContainerEl.style.height, 10) / scrollPerStop) : 1) - 1
+      Math.floor(scrollY / perStop),
+      stopCount - 1
     ));
 
     if (newIndex !== currentStopIndex) {
@@ -44,16 +61,12 @@ const NARSH_SCROLL = (() => {
   };
 
   const handleResize = () => {
-    scrollPerStop = window.innerHeight;
-    if (scrollContainerEl) {
-      const stopCount = Math.round(parseInt(scrollContainerEl.style.height, 10) / scrollPerStop) || 1;
-      scrollContainerEl.style.height = (stopCount * scrollPerStop) + "px";
-    }
+    syncHeight();
   };
 
   const scrollToStop = (index) => {
     window.scrollTo({
-      top: index * scrollPerStop,
+      top: index * perStop,
       behavior: reducedMotion ? "auto" : "smooth"
     });
   };

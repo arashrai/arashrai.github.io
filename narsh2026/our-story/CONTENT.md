@@ -110,7 +110,9 @@ IMG: narsh2026/images/story/proposal/
 **Location:** Kelowna, BC, Canada
 **Year:** 2026
 
-On their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie are so excited that you all will be joining them to take their next step. Thank you all for being a part of it.
+The wedding!!!
+On their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie will be wed.
+They are so excited that you all will be part of their next step. Thank you all for coming.
 
 IMG: 
 

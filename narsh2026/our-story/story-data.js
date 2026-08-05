@@ -165,7 +165,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-119.4960, 49.8880],
       zoom: 9,
       year: 2026,
-      narrative: "On their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie are so excited that you all will be joining them to take their next step. Thank you all for being a part of it.",
+      narrative: "The wedding!!!\nOn their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie will be wed.\nThey are so excited that you all will be part of their next step. Thank you all for coming.",
       // Photos coming soon — the carousel hides itself when a stop has none.
       photos: [],
       isConvergence: false

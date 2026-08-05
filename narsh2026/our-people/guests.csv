@@ -35,7 +35,7 @@ Sidney Morehouse,Natalie's Family,,,,,,,sid.jpg
 Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,,shannon.jpg
 Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,,heather.jpg
 James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,,james.jpg
-Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,,karen.jpg
+"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,,brenda.jpg
 Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,,rosanne.jpg
 Steve Blumer,Natalie's Family,,,,
 Matt D'Souza,Waterloo,,,,
@@ -77,7 +77,7 @@ Ashley Darton,,,Stephen Melinyshyn,,
 Claire Hsu,Stripe Coworkers,,,,
 Shawna Huang,Stripe Coworkers,,,,
 Isaac Madwed,"Stripe Coworkers,Seattleite",,Celine Rosak,,
-"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,,brenda.jpg
+Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,,karen.jpg
 Alexandre Bondoux,"Stripe Coworkers,Seattleite",,,,
 Evan Morehouse,Natalie's Family,,,Brenda Morehouse,,,,evan.jpg
 Celine Rosak,Seattleite,,,,
@@ -110,7 +110,8 @@ Kiran Kaur,Arash's Family,Tai,Gurpreet Rai,,Upneet's mom
 Balbir Rai,Arash's Family,,,,Navi's grandpa
 Mehreen Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
 Nehmat Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
-Rani Kaur,Arash's Family,,,Balbir Rai,
+Amrit's mom,Arash's Family,,Amrit's dad
+Amrit's dad,Arash's Family
 Harkanwal Rai,Arash's Family,,,Rani Kaur,
 Upneet Bala,Arash's Family,,,"Upneet's mom,Gurpreet Bala",
 Upneet's mom,Arash's Family,,Gurpreet Bala,,Kiran Kaur
@@ -141,8 +142,7 @@ Jasan's grandma,Arash's Family,,Jasan's grandpa
 Jasan's grandpa,Arash's Family
 Aman,Arash's Family,,,"Amrit's mom,Amrit's dad"
 Gurleen,Arash's Family,,,"Amrit's mom,Amrit's dad"
-Amrit's mom,Arash's Family,,Amrit's dad
-Amrit's dad,Arash's Family
+Rani Kaur,Arash's Family,,,Balbir Rai,
 Harkanwal's wife,Arash's Family,,Harkanwal Rai
 Gurnoor Boparai,Arash's Family,,,Bhinda Boparai
 Bhinda Boparai,Arash's Family,,,"Jatinder's mom,Jatinder's dad",

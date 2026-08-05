@@ -90,28 +90,39 @@ const NARSH_CAROUSEL = (() => {
     photos = newPhotos || [];
     currentIndex = 0;
 
+    if (trackEl) {
+      // Rewind AND empty the track before anything else. currentIndex goes back
+      // to 0 above, but the inline transform that goTo()/touchmove left on the
+      // PREVIOUS stop survives the innerHTML swap -- so the new city opens
+      // still translated to the old photo's offset. That shows a later photo
+      // from the new set, or, when the new set is shorter, scrolls past the
+      // end to a blank box that reads as "the first photo didn't load".
+      // Clearing here (not only in the has-photos branch below) also means a
+      // photo-less stop can't keep the previous stop's slides in the DOM.
+      // Suppress the transition so this rewind doesn't animate as a slide.
+      trackEl.style.transition = "none";
+      trackEl.style.transform = "translateX(0)";
+      trackEl.innerHTML = "";
+      // Commit the reset now, so the next goTo() animates from 0 rather than
+      // coalescing with it and sliding from the stale offset.
+      void trackEl.offsetWidth;
+    }
+
     if (photos.length === 0) {
+      // No photos (e.g. the wedding stop before its gallery is added): hide the
+      // photo box AND the control bar. updateUI() alone isn't enough here --
+      // loadPhotos used to return before calling it, so the previous stop's
+      // prev/next arrows and dots lingered as clickable ghost navigation until
+      // the first click. Hide them up front so it's correct from the start.
       if (containerEl) containerEl.style.display = "none";
+      if (controlsEl) controlsEl.style.display = "none";
+      if (announceEl) announceEl.textContent = "";
       return;
     }
 
     if (containerEl) containerEl.style.display = "";
 
     if (trackEl) {
-      // Rewind the track before rebuilding it. currentIndex goes back to 0
-      // above, but the inline transform that goTo()/touchmove left on the
-      // PREVIOUS stop survives the innerHTML swap -- so the new city opens
-      // still translated to the old photo's offset. That shows a later photo
-      // from the new set, or, when the new set is shorter, scrolls past the
-      // end to a blank box that reads as "the first photo didn't load".
-      // Suppress the transition so this rewind doesn't animate as a slide.
-      trackEl.style.transition = "none";
-      trackEl.style.transform = "translateX(0)";
-      // Commit the reset now, so the next goTo() animates from 0 rather than
-      // coalescing with it and sliding from the stale offset.
-      void trackEl.offsetWidth;
-
-      trackEl.innerHTML = "";
       photos.forEach((photo, i) => {
         const img = document.createElement("img");
         img.className = "carousel-photo";

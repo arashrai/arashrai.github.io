@@ -433,6 +433,48 @@
   .mobile-show-content .story-panel.visible {
     opacity: 1;
   }
+
+  /* Anchor the title + photo and scroll only the narrative. The panel used to
+     be bottom-anchored and grow upward, so on small screens (or with large
+     accessibility text / zoom) the photo gallery and heading drifted off the
+     top of the viewport. Pin the panel between the header and the timeline bar
+     instead, keep the heading/photo/controls fixed, and let the text scroll.
+     --story-header-h is set from the live header height in the page script, so
+     the panel clears the pinned header even when text scaling makes it taller. */
+  .story-panel {
+    top: calc(var(--story-header-h, 56px) + var(--space-sm));
+    bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+    padding-top: var(--space-md);
+    padding-bottom: var(--space-md);
+  }
+
+  .story-panel #story-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .story-panel .stop-heading,
+  .story-panel .stop-year,
+  .story-panel .stop-carousel,
+  .story-panel .carousel-controls {
+    flex-shrink: 0;
+  }
+
+  /* Cap the photo so the title + photo + text always fit; width:auto overrides
+     the carousel's inline sizing so a capped box still centers the image. */
+  .story-panel .stop-carousel {
+    max-height: 38vh;
+    width: auto !important;
+  }
+
+  .story-panel .stop-narrative {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Desktop styles */

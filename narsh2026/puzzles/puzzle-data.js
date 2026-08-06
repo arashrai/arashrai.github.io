@@ -229,7 +229,6 @@ const NARSH_PUZZLE_DATA = (() => {
     { name: "Clues by Sam", url: "https://cluesbysam.com/", emoji: "🔍", description: "Social deduction logic puzzle" },
     { name: "Minute Cryptic", url: "https://www.minutecryptic.com/", emoji: "📝", description: "Quick cryptic crossword clue" },
     { name: "Globle", url: "https://globle-game.com/", emoji: "🌎", description: "Guess the country by proximity" },
-    { name: "Wordle", url: "https://www.nytimes.com/games/wordle/index.html", emoji: "🟩", description: "The classic word game" },
     { name: "FoodGuessr", url: "https://www.foodguessr.com/", emoji: "🍕", description: "Guess the food origin" },
     { name: "City Angle", url: "https://visitwhale.com/city-angle/", emoji: "🏙️", description: "Guess the city from a street view angle" }
   ];

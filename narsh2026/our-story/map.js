@@ -30,6 +30,11 @@ const NARSH_MAP = (() => {
   let reducedMotion = false;
   let lineAnimationId = null;
   const lastCoords = { "line-arash": [], "line-natalie": [] };
+  // Unwrapped-longitude convergence point per line, so the bow flourish is drawn
+  // in the same longitude domain as the line (a path that crossed the antimeridian
+  // — e.g. Arash via New Zealand — ends at lng+360, not the raw value).
+  let bowCenterArash = null;
+  let bowCenterNatalie = null;
 
   const init = (containerId) => {
     reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -288,10 +293,22 @@ const NARSH_MAP = (() => {
       }
     }
 
+    // Unwrap longitudes so every segment takes the SHORT way around, matching the
+    // camera's flyTo (which always animates the shorter direction). Without this,
+    // New Zealand -> BC draws the line west across Asia while the camera flies
+    // east across the Pacific.
+    const arashUnwrapped = unwrapLongitudes(arashNodes);
+    const natalieUnwrapped = unwrapLongitudes(natalieNodes);
+
+    // Remember the convergence point in the unwrapped domain so the bow flourish
+    // is drawn where the line actually ends (not the raw wrapped coordinate).
+    if (convArashIdx >= 0) bowCenterArash = arashUnwrapped[convArashIdx];
+    if (convNatalieIdx >= 0) bowCenterNatalie = natalieUnwrapped[convNatalieIdx];
+
     // Post-convergence shared segments bow to opposite sides (a weave) but pass
     // exactly through every node, so both lines meet at each shared stop.
-    const arashCoords = buildLine(arashNodes, woven ? convArashIdx : -1, 1);
-    const natalieCoords = buildLine(natalieNodes, woven ? convNatalieIdx : -1, -1);
+    const arashCoords = buildLine(arashUnwrapped, woven ? convArashIdx : -1, 1);
+    const natalieCoords = buildLine(natalieUnwrapped, woven ? convNatalieIdx : -1, -1);
 
     if (reducedMotion) {
       // Instant update
@@ -310,6 +327,22 @@ const NARSH_MAP = (() => {
   // endpoints, so the line still passes through the actual stop coordinates
   // (the two lines therefore cross exactly at each shared stop).
   const SEGMENT_STEPS = 24;
+
+  // Shift each node's longitude by whole turns so consecutive stops are within
+  // 180° of each other — i.e. every segment goes the short way. Longitudes may
+  // exceed ±180 as a result; Mapbox renders them mod 360 at the right place.
+  const unwrapLongitudes = (nodes) => {
+    if (nodes.length === 0) return [];
+    const out = [nodes[0].slice()];
+    for (let i = 1; i < nodes.length; i++) {
+      let lng = nodes[i][0];
+      const prevLng = out[i - 1][0];
+      while (lng - prevLng > 180) lng -= 360;
+      while (lng - prevLng < -180) lng += 360;
+      out.push([lng, nodes[i][1]]);
+    }
+    return out;
+  };
 
   const buildLine = (nodes, weaveFromIndex, sign) => {
     if (nodes.length === 0) return [];
@@ -421,7 +454,10 @@ const NARSH_MAP = (() => {
   const playBowAnimation = (convergenceCoords) => {
     if (!mapInstance || reducedMotion) return;
 
-    const cx = convergenceCoords[0];
+    // Center each person's bow on THEIR line's end in the unwrapped domain, so a
+    // path that crossed the antimeridian doesn't make the flourish jump a turn.
+    const arashC = bowCenterArash || convergenceCoords;
+    const natalieC = bowCenterNatalie || convergenceCoords;
     const cy = convergenceCoords[1];
     const loopRadius = 0.8;
     const startTime = performance.now();
@@ -442,12 +478,12 @@ const NARSH_MAP = (() => {
         const t = (i / 40) * Math.PI * 2;
 
         // Arash loop: figure-eight pattern (phase 0)
-        const ax = cx + Math.sin(t) * loopRadius;
+        const ax = arashC[0] + Math.sin(t) * loopRadius;
         const ay = cy + Math.sin(t * 2) * loopRadius * 0.5;
         arashBow.push([ax, ay]);
 
         // Natalie loop: figure-eight pattern (phase offset)
-        const nx = cx + Math.sin(t + Math.PI) * loopRadius;
+        const nx = natalieC[0] + Math.sin(t + Math.PI) * loopRadius;
         const ny = cy + Math.sin(t * 2 + Math.PI) * loopRadius * 0.5;
         natalieBow.push([nx, ny]);
       }

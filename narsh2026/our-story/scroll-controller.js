@@ -62,17 +62,25 @@ const NARSH_SCROLL = (() => {
   };
 
   const handleScroll = () => {
+    const scrollY = window.scrollY;
+
     // During a programmatic navigation the intermediate scroll positions are
     // transient — let the target own the active stop until we actually arrive,
     // so mid-flight positions (and mobile URL-bar resizes) can't yank it around.
     if (targetIndex >= 0) {
-      if (Math.round(window.scrollY / perStop) === targetIndex) {
+      // Release the lock only once we've SETTLED on the target (within 10% of a
+      // stop), NOT at the midpoint. Clearing at the midpoint let the tail of the
+      // animation (still below the stop boundary) read as the previous stop and
+      // bounce the view back — every other click.
+      if (Math.abs(scrollY - targetIndex * perStop) < perStop * 0.1) {
         targetIndex = -1; // arrived — free scrolling resumes
       }
       return;
     }
 
-    const newIndex = clampIndex(Math.floor(window.scrollY / perStop));
+    // Nearest stop (round, not floor) so a scroll that settles a hair short of a
+    // stop boundary isn't read as the previous stop.
+    const newIndex = clampIndex(Math.round(scrollY / perStop));
     setStop(newIndex);
   };
 

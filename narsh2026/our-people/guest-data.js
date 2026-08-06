@@ -17,8 +17,8 @@ const NARSH_GUESTS = (() => {
       "color": "#2A9D8F"
     },
     {
-      "id": "meta-coworkers",
-      "label": "Meta Coworkers",
+      "id": "metamate",
+      "label": "Metamate",
       "color": "#C2704F"
     },
     {
@@ -42,8 +42,8 @@ const NARSH_GUESTS = (() => {
       "color": "#B07D62"
     },
     {
-      "id": "stripe-coworkers",
-      "label": "Stripe Coworkers",
+      "id": "stripe",
+      "label": "Stripe",
       "color": "#8E7CC3"
     }
   ];
@@ -86,7 +86,7 @@ const NARSH_GUESTS = (() => {
       ],
       "isCouple": true,
       "funFact": null,
-      "connectionToCouple": "The couple (you two!)",
+      "connectionToCouple": null,
       "householdId": null,
       "side": "natalie",
       "treeHidden": false,
@@ -111,7 +111,7 @@ const NARSH_GUESTS = (() => {
       ],
       "isCouple": true,
       "funFact": null,
-      "connectionToCouple": "The couple (you two!)",
+      "connectionToCouple": null,
       "householdId": null,
       "side": "arash",
       "treeHidden": false,
@@ -405,7 +405,7 @@ const NARSH_GUESTS = (() => {
       "name": "Farzad Sangi",
       "photo": null,
       "groups": [
-        "meta-coworkers",
+        "metamate",
         "seattleite"
       ],
       "cities": [],
@@ -854,7 +854,7 @@ const NARSH_GUESTS = (() => {
       "name": "Logan Howard",
       "photo": null,
       "groups": [
-        "stripe-coworkers"
+        "stripe"
       ],
       "cities": [],
       "isCouple": false,
@@ -955,7 +955,7 @@ const NARSH_GUESTS = (() => {
       "name": "Jason Lee",
       "photo": null,
       "groups": [
-        "meta-coworkers",
+        "metamate",
         "seattleite"
       ],
       "cities": [],
@@ -1075,7 +1075,7 @@ const NARSH_GUESTS = (() => {
       "name": "Brandon Lavigne",
       "photo": null,
       "groups": [
-        "meta-coworkers",
+        "metamate",
         "seattleite"
       ],
       "cities": [],
@@ -1185,7 +1185,7 @@ const NARSH_GUESTS = (() => {
       "name": "Bradley Ramunas",
       "photo": null,
       "groups": [
-        "stripe-coworkers",
+        "stripe",
         "seattleite"
       ],
       "cities": [],
@@ -1282,7 +1282,7 @@ const NARSH_GUESTS = (() => {
       "name": "Ryan Drapeau",
       "photo": null,
       "groups": [
-        "stripe-coworkers",
+        "stripe",
         "seattleite"
       ],
       "cities": [],
@@ -1334,7 +1334,7 @@ const NARSH_GUESTS = (() => {
       "name": "Sabrina Wasserman",
       "photo": null,
       "groups": [
-        "meta-coworkers",
+        "metamate",
         "waterloo"
       ],
       "cities": [],
@@ -1399,7 +1399,7 @@ const NARSH_GUESTS = (() => {
       "name": "Claire Hsu",
       "photo": null,
       "groups": [
-        "stripe-coworkers"
+        "stripe"
       ],
       "cities": [],
       "isCouple": false,
@@ -1416,7 +1416,7 @@ const NARSH_GUESTS = (() => {
       "name": "Shawna Huang",
       "photo": null,
       "groups": [
-        "stripe-coworkers"
+        "stripe"
       ],
       "cities": [],
       "isCouple": false,
@@ -1433,7 +1433,7 @@ const NARSH_GUESTS = (() => {
       "name": "Isaac Madwed",
       "photo": null,
       "groups": [
-        "stripe-coworkers",
+        "stripe",
         "seattleite"
       ],
       "cities": [],
@@ -1470,7 +1470,7 @@ const NARSH_GUESTS = (() => {
       "name": "Alexandre Bondoux",
       "photo": null,
       "groups": [
-        "stripe-coworkers",
+        "stripe",
         "seattleite"
       ],
       "cities": [],
@@ -1524,7 +1524,7 @@ const NARSH_GUESTS = (() => {
       "name": "Sam Showalter",
       "photo": null,
       "groups": [
-        "stripe-coworkers",
+        "stripe",
         "seattleite"
       ],
       "cities": [],
@@ -1591,7 +1591,7 @@ const NARSH_GUESTS = (() => {
       "name": "Amy Hung",
       "photo": null,
       "groups": [
-        "stripe-coworkers",
+        "stripe",
         "seattleite"
       ],
       "cities": [],
@@ -1706,7 +1706,7 @@ const NARSH_GUESTS = (() => {
       "name": "David Lu",
       "photo": null,
       "groups": [
-        "meta-coworkers",
+        "metamate",
         "waterloo",
         "seattleite"
       ],
@@ -1725,7 +1725,7 @@ const NARSH_GUESTS = (() => {
       "name": "Anmol Mago",
       "photo": null,
       "groups": [
-        "meta-coworkers",
+        "metamate",
         "waterloo",
         "seattleite"
       ],
@@ -1762,7 +1762,7 @@ const NARSH_GUESTS = (() => {
       "name": "Seth Hendrickson",
       "photo": null,
       "groups": [
-        "stripe-coworkers"
+        "stripe"
       ],
       "cities": [],
       "isCouple": false,
@@ -1953,7 +1953,7 @@ const NARSH_GUESTS = (() => {
       "cities": [],
       "isCouple": false,
       "funFact": null,
-      "connectionToCouple": "Taia",
+      "connectionToCouple": null,
       "householdId": "household-gurpreet-rai",
       "side": "arash",
       "treeHidden": false,
@@ -1972,7 +1972,7 @@ const NARSH_GUESTS = (() => {
       "cities": [],
       "isCouple": false,
       "funFact": null,
-      "connectionToCouple": "Tai",
+      "connectionToCouple": null,
       "householdId": "household-gurpreet-rai",
       "side": "arash",
       "treeHidden": false,

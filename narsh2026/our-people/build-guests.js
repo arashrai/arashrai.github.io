@@ -23,12 +23,12 @@ const OUT_PATH = path.join(DIR, "guest-data.js");
 const GROUP_COLORS = {
   "Natalie's Family": "#D4A843",
   "Arash's Family": "#2A9D8F",
-  "Meta Coworkers": "#C2704F",
+  "Metamate": "#C2704F",
   "Seattleite": "#6B8E9E",
   "Waterloo": "#A8763E",
   "Cayman Crew": "#C9928E",
   "Abby Friends": "#B07D62",
-  "Stripe Coworkers": "#8E7CC3"
+  "Stripe": "#8E7CC3"
 };
 const FALLBACK_PALETTE = ["#7D9D8F", "#A87CA0", "#9E8E6B", "#6B9E8E", "#B5651D", "#8896C9"];
 

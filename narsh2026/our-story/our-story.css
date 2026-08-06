@@ -414,12 +414,12 @@
 @media (max-width: 767px) {
   .map-container {
     opacity: 1;
-    transition: opacity 300ms ease;
+    transition: opacity 600ms ease;
   }
 
   .story-panel {
     opacity: 0;
-    transition: opacity 300ms ease, visibility 300ms ease;
+    transition: opacity 600ms ease, visibility 600ms ease;
   }
 
   .story-panel.visible {

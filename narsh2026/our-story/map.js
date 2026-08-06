@@ -9,8 +9,8 @@ const NARSH_MAP = (() => {
   // Restricted to arashrai.com in the Mapbox dashboard. Free tier: 50k loads/month.
   const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
 
-  const FLY_DURATION = 2000;
-  const LINE_DRAW_DURATION = 1200;
+  const FLY_DURATION = 3000;
+  const LINE_DRAW_DURATION = 2000;
   const BOW_DURATION = 1500;
   const INTERTWINE_AMPLITUDE = 0.3;
 

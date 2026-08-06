@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
-    <link rel="stylesheet" href="/narsh2026/our-story/our-story.css?v=202608051200">
+    <link rel="stylesheet" href="/narsh2026/our-story/our-story.css?v=202608052300">
   </head>
   <body class="auth-pending">
     <a href="#story-content" class="skip-map">Skip to story content</a>
@@ -59,7 +59,7 @@
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>
     <script src="/narsh2026/our-story/story-data.js?v=202608051400"></script>
-    <script src="/narsh2026/our-story/map.js?v=202608052200"></script>
+    <script src="/narsh2026/our-story/map.js?v=202608052300"></script>
     <script src="/narsh2026/our-story/scroll-controller.js?v=202608052200"></script>
     <script src="/narsh2026/our-story/carousel.js?v=202608051200"></script>
     <script src="/narsh2026/our-story/timeline.js?v=202608051200"></script>
@@ -118,6 +118,30 @@
               NARSH_SCROLL.scrollToStop(index);
             });
 
+            // Sets the panel's heading / year / narrative / photos for a stop.
+            // Kept separate so mobile can DEFER it until the content card is
+            // hidden — updating it while the card is still visible causes a brief
+            // flash of the next stop before the cross-fade.
+            const applyStopContent = (stop) => {
+              if (headingEl) headingEl.textContent = stop.location;
+              if (yearEl) {
+                const people = stop.owner === "both"
+                  ? "Arash & Natalie"
+                  : (stop.owner === "arash" ? "Arash" : "Natalie");
+                yearEl.textContent = "";
+                yearEl.append(document.createTextNode(stop.year + " · "));
+                const peopleEl = document.createElement("span");
+                peopleEl.className = "stop-people";
+                peopleEl.textContent = people;
+                yearEl.appendChild(peopleEl);
+              }
+              if (narrativeEl) narrativeEl.textContent = stop.narrative;
+              NARSH_CAROUSEL.loadPhotos(stop.photos);
+            };
+
+            const prefersReducedMotion =
+              window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
             const onStopChange = (newIndex, previousIndex) => {
               const stop = STOPS[newIndex];
               if (!stop) return;
@@ -134,30 +158,10 @@
                 panelEl.classList.add("visible");
               }
 
-              // Update map
+              // Map + timeline update immediately (they play during the map view).
               NARSH_MAP.flyToStop(stop.coords, stop.zoom);
               NARSH_MAP.updateLines(newIndex, STOPS);
               NARSH_MAP.updatePins(newIndex, STOPS);
-
-              // Update content
-              if (headingEl) headingEl.textContent = stop.location;
-              if (yearEl) {
-                const people = stop.owner === "both"
-                  ? "Arash & Natalie"
-                  : (stop.owner === "arash" ? "Arash" : "Natalie");
-                yearEl.textContent = "";
-                yearEl.append(document.createTextNode(stop.year + " · "));
-                const peopleEl = document.createElement("span");
-                peopleEl.className = "stop-people";
-                peopleEl.textContent = people;
-                yearEl.appendChild(peopleEl);
-              }
-              if (narrativeEl) narrativeEl.textContent = stop.narrative;
-
-              // Update carousel
-              NARSH_CAROUSEL.loadPhotos(stop.photos);
-
-              // Update timeline
               NARSH_TIMELINE.setActive(newIndex);
               NARSH_TIMELINE.setVisited(newIndex);
 
@@ -166,16 +170,24 @@
                 NARSH_MAP.playBowAnimation(stop.coords);
               }
 
-              // Mobile cross-fade: keep the map visible for the WHOLE camera
-              // flight (FLY_DURATION ~2000ms) plus a short beat at the
-              // destination, so guests can follow where we're going and see
-              // where we land before the content card fades over the map.
-              if (isMobile.matches && wrapperEl) {
+              if (isMobile.matches && !prefersReducedMotion && wrapperEl) {
+                // Mobile: hide the content card and show the map for the whole
+                // camera flight. Swap in the new heading/photo/text only once the
+                // card is hidden (right before fading it back in) so there's no
+                // flash of the next stop, and hold the map a beat after arrival.
                 wrapperEl.classList.remove("mobile-show-content");
                 if (mobileFadeTimer) clearTimeout(mobileFadeTimer);
                 mobileFadeTimer = setTimeout(() => {
+                  applyStopContent(stop);
                   wrapperEl.classList.add("mobile-show-content");
-                }, 2400);
+                }, 3400);
+              } else {
+                // Desktop (map + card side by side) and reduced-motion: content
+                // updates immediately.
+                applyStopContent(stop);
+                if (isMobile.matches && wrapperEl) {
+                  wrapperEl.classList.add("mobile-show-content");
+                }
               }
             };
 

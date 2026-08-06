@@ -111,7 +111,7 @@ IMG: narsh2026/images/story/proposal/
 **Year:** 2026
 
 The wedding!!!
-On their 10 year dating (officially – 11 if we're counting unofficially), Arash and Natalie will be wed.
+On their 10th year dating (officially – 11 if we're counting unofficially), Arash and Natalie will be wed.
 They are so excited that you all will be part of their next step. Thank you all for coming.
 
 IMG: 

@@ -1739,8 +1739,8 @@ const NARSH_GUESTS = (() => {
       "householdId": null,
       "side": "arash",
       "parents": [
-        "jatinders-mom",
-        "jatinders-dad"
+        "mohinder-kaur",
+        "bachittar-boparai"
       ],
       "inferredParents": []
     },
@@ -1961,8 +1961,8 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "harkanwal-rai",
-      "name": "Harkanwal Rai",
+      "id": "harkanwal",
+      "name": "Harkanwal",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -1971,7 +1971,7 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": "household-harkanwal-rai",
+      "householdId": "household-harkanwal",
       "side": "arash",
       "parents": [
         "rani-kaur"
@@ -2512,8 +2512,8 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "harkanwals-wife",
-      "name": "Harkanwal's wife",
+      "id": "jashan-rai",
+      "name": "Jashan Rai",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -2522,7 +2522,7 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": "household-harkanwal-rai",
+      "householdId": "household-harkanwal",
       "side": "arash",
       "parents": [],
       "inferredParents": []
@@ -2541,13 +2541,14 @@ const NARSH_GUESTS = (() => {
       "householdId": null,
       "side": "arash",
       "parents": [
-        "bhinda-boparai"
+        "bhupinder-boparai",
+        "karamjit-kaur"
       ],
       "inferredParents": []
     },
     {
-      "id": "bhinda-boparai",
-      "name": "Bhinda Boparai",
+      "id": "bhupinder-boparai",
+      "name": "Bhupinder Boparai",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -2556,17 +2557,17 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": null,
+      "householdId": "household-bhupinder-boparai",
       "side": "arash",
       "parents": [
-        "jatinders-mom",
-        "jatinders-dad"
+        "mohinder-kaur",
+        "bachittar-boparai"
       ],
       "inferredParents": []
     },
     {
-      "id": "jatinders-mom",
-      "name": "Jatinder's mom",
+      "id": "mohinder-kaur",
+      "name": "Mohinder Kaur",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -2575,14 +2576,14 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": "household-jatinders-dad",
+      "householdId": "household-bachittar-boparai",
       "side": "arash",
       "parents": [],
       "inferredParents": []
     },
     {
-      "id": "jatinders-dad",
-      "name": "Jatinder's dad",
+      "id": "bachittar-boparai",
+      "name": "Bachittar Boparai",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -2591,7 +2592,21 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": "household-jatinders-dad",
+      "householdId": "household-bachittar-boparai",
+      "side": "arash",
+      "parents": [],
+      "inferredParents": []
+    },
+    {
+      "id": "karamjit-kaur",
+      "name": "Karamjit Kaur",
+      "photo": null,
+      "groups": [],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-bhupinder-boparai",
       "side": "arash",
       "parents": [],
       "inferredParents": []
@@ -2751,12 +2766,12 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "jatinder-kaur",
-      "target": "jatinders-mom",
+      "target": "mohinder-kaur",
       "type": "parent"
     },
     {
       "source": "jatinder-kaur",
-      "target": "jatinders-dad",
+      "target": "bachittar-boparai",
       "type": "parent"
     },
     {
@@ -2825,7 +2840,7 @@ const NARSH_GUESTS = (() => {
       "type": "parent"
     },
     {
-      "source": "harkanwal-rai",
+      "source": "harkanwal",
       "target": "rani-kaur",
       "type": "parent"
     },
@@ -2986,17 +3001,22 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "gurnoor-boparai",
-      "target": "bhinda-boparai",
+      "target": "bhupinder-boparai",
       "type": "parent"
     },
     {
-      "source": "bhinda-boparai",
-      "target": "jatinders-mom",
+      "source": "gurnoor-boparai",
+      "target": "karamjit-kaur",
       "type": "parent"
     },
     {
-      "source": "bhinda-boparai",
-      "target": "jatinders-dad",
+      "source": "bhupinder-boparai",
+      "target": "mohinder-kaur",
+      "type": "parent"
+    },
+    {
+      "source": "bhupinder-boparai",
+      "target": "bachittar-boparai",
       "type": "parent"
     },
     {
@@ -3106,7 +3126,7 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "jatinder-kaur",
-      "target": "bhinda-boparai",
+      "target": "bhupinder-boparai",
       "type": "sibling"
     },
     {
@@ -3489,12 +3509,12 @@ const NARSH_GUESTS = (() => {
       "displayName": "Amrit's & Amrit's"
     },
     {
-      "id": "household-harkanwal-rai",
+      "id": "household-harkanwal",
       "members": [
-        "harkanwal-rai",
-        "harkanwals-wife"
+        "harkanwal",
+        "jashan-rai"
       ],
-      "displayName": "Harkanwal & Harkanwal's"
+      "displayName": "Harkanwal & Jashan"
     },
     {
       "id": "household-gurpreet-bala",
@@ -3553,12 +3573,20 @@ const NARSH_GUESTS = (() => {
       "displayName": "Jasan's & Jasan's"
     },
     {
-      "id": "household-jatinders-dad",
+      "id": "household-bhupinder-boparai",
       "members": [
-        "jatinders-mom",
-        "jatinders-dad"
+        "bhupinder-boparai",
+        "karamjit-kaur"
       ],
-      "displayName": "Jatinder's & Jatinder's"
+      "displayName": "Bhupinder & Karamjit"
+    },
+    {
+      "id": "household-bachittar-boparai",
+      "members": [
+        "mohinder-kaur",
+        "bachittar-boparai"
+      ],
+      "displayName": "Mohinder & Bachittar"
     }
   ];
 
@@ -3584,8 +3612,8 @@ const NARSH_GUESTS = (() => {
       "side": "natalie"
     },
     {
-      "a": "jatinders-dad",
-      "b": "jatinders-mom",
+      "a": "bachittar-boparai",
+      "b": "mohinder-kaur",
       "side": "arash"
     },
     {
@@ -3631,6 +3659,11 @@ const NARSH_GUESTS = (() => {
     {
       "a": "gurinder-khangura",
       "b": "gurinders-wife",
+      "side": "arash"
+    },
+    {
+      "a": "bhupinder-boparai",
+      "b": "karamjit-kaur",
       "side": "arash"
     },
     {
@@ -3769,8 +3802,8 @@ const NARSH_GUESTS = (() => {
       "side": "arash"
     },
     {
-      "a": "harkanwal-rai",
-      "b": "harkanwals-wife",
+      "a": "harkanwal",
+      "b": "jashan-rai",
       "side": "arash"
     }
   ];

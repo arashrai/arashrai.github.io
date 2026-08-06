@@ -166,13 +166,16 @@
                 NARSH_MAP.playBowAnimation(stop.coords);
               }
 
-              // Mobile cross-fade: show map during flyTo, then fade to content
+              // Mobile cross-fade: keep the map visible for the WHOLE camera
+              // flight (FLY_DURATION ~2000ms) plus a short beat at the
+              // destination, so guests can follow where we're going and see
+              // where we land before the content card fades over the map.
               if (isMobile.matches && wrapperEl) {
                 wrapperEl.classList.remove("mobile-show-content");
                 if (mobileFadeTimer) clearTimeout(mobileFadeTimer);
                 mobileFadeTimer = setTimeout(() => {
                   wrapperEl.classList.add("mobile-show-content");
-                }, 800);
+                }, 2400);
               }
             };
 

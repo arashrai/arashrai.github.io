@@ -14,7 +14,6 @@ const NARSH_PUZZLE_UI = (() => {
   let hintsDisplayEl = null;
   let timerDisplayEl = null;
   let hintBtnEl = null;
-  let inspectBtnEl = null;
   let shareBtnEl = null;
   let timerIntervalId = null;
   let timerAriaCounter = 0;
@@ -796,17 +795,8 @@ const NARSH_PUZZLE_UI = (() => {
     hintBtnEl.addEventListener("click", handleHintClick);
     controlsEl.appendChild(hintBtnEl);
 
-    // Inspect button
-    inspectBtnEl = document.createElement("button");
-    inspectBtnEl.className = "btn-inspect";
-    inspectBtnEl.addEventListener("click", handleInspectClick);
-    controlsEl.appendChild(inspectBtnEl);
-
-    // Reflect current dim mode (on by default)
-    const inspectOn = NARSH_PUZZLE.isInspectMode();
-    inspectBtnEl.textContent = inspectOn ? "Dimming On" : "Dim Read Cards";
-    inspectBtnEl.classList.toggle("active", inspectOn);
-    inspectBtnEl.setAttribute("aria-pressed", inspectOn ? "true" : "false");
+    // Read-card dimming stays on by default (see NARSH_PUZZLE inspectMode); the
+    // on/off toggle button was removed, so it's no longer switchable.
 
     // Share button
     shareBtnEl = document.createElement("button");
@@ -929,21 +919,6 @@ const NARSH_PUZZLE_UI = (() => {
       hintBtnEl.textContent = "Show Hint";
       hintBtnEl.classList.remove("active");
       hintBtnEl.setAttribute("aria-pressed", "false");
-    }
-  };
-
-  // --- Inspect handling ---
-
-  const handleInspectClick = () => {
-    const isOn = NARSH_PUZZLE.toggleInspectMode();
-    if (isOn) {
-      inspectBtnEl.textContent = "Dimming On";
-      inspectBtnEl.classList.add("active");
-      inspectBtnEl.setAttribute("aria-pressed", "true");
-    } else {
-      inspectBtnEl.textContent = "Dim Read Cards";
-      inspectBtnEl.classList.remove("active");
-      inspectBtnEl.setAttribute("aria-pressed", "false");
     }
   };
 

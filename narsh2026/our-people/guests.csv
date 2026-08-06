@@ -106,18 +106,17 @@ Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",,
 Aman Rai,Arash's Family,,,"Gurpreet Rai,Kiran Kaur",
 Amrit Kaur,Arash's Family,,Aman Rai,"Amrit's mom,Amrit's dad",
 Gurpreet Rai,Arash's Family,Taia,,Balbir Rai,
-Kiran Kaur,Arash's Family,Tai,Gurpreet Rai,,Upneet's mom
+Kiran Kaur,Arash's Family,Tai,Gurpreet Rai,,Manpreet Bala
 Balbir Rai,Arash's Family,,,,Navi's grandpa
 Mehreen Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
 Nehmat Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
 Amrit's mom,Arash's Family,,Amrit's dad,,,,,,,hide
 Amrit's dad,Arash's Family,,,,,,,,,hide
-"Harkanwal ",Arash's Family,,,Rani Kaur,
-Upneet Bala,Arash's Family,,,"Upneet's mom,Gurpreet Bala",,,,,,hide
-Upneet's mom,Arash's Family,,Gurpreet Bala,,Kiran Kaur,,,,,hide
-Gurpreet Bala,Arash's Family,,,Upneet's grandpa (?),,,,,,hide
-Jasjot Bala,Arash's Family,,,"Upneet's mom,Gurpreet Bala",,,,,,hide
-Upneet's grandpa (?),Arash's Family,,,,,,,,,hide
+Harkanwal Grewal,Arash's Family,,,Satwinder Kaur,
+Upneet Bala,Arash's Family,,,"Manpreet Bala,Gurpreet Bala",,,,,,hide
+Manpreet Bala,Arash's Family,,Gurpreet Bala,,Kiran Kaur,,,,,hide
+Gurpreet Bala,Arash's Family,,,,,,,,,hide
+Jas Bala,Arash's Family,,,"Manpreet Bala,Gurpreet Bala",,,,,,hide
 Navi Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",,,,,,hide
 Gagan Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",,,,,,hide
 Cookie Kaur,Arash's Family,,Kulwant Rai,,,,,,,hide
@@ -129,23 +128,38 @@ Isha Brar,Arash's Family,,,Sira Auntie,,,,,,hide
 Isha's grandpa,Arash's Family,,,,Balbir Rai,,,,,hide
 Isha's grandma,Arash's Family,,Isha's grandpa,,,,,,,hide
 Shawn Brar,Arash's Family,,,Sira Auntie,,,,,,hide
-Shinday,Arash's Family,,,"Isha's grandpa,Isha's grandma",,,,,,hide
-Shinday kid 1,Arash's Family,,,Shinday,,,,,,hide
-Shinday kid 2,Arash's Family,,,Shinday,,,,,,hide
-Shinday kid 3,Arash's Family,,,Shinday,,,,,,hide
-Shinday's husband,Arash's Family,,Shinday,,,,,,,hide
-Gurinder Khangura,Arash's Family,,,"Jasan's grandma,Jasan's grandpa",Kiran Kaur,,,,,hide
+Shinday and family,Arash's Family,,,"Isha's grandpa,Isha's grandma",,,,,,hide
+Gurinder Khangura,Arash's Family,,,,Kiran Kaur,,,,,hide
 Gurinder's wife,Arash's Family,,Gurinder Khangura,,,,,,,hide
 Jasan Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife",,,,,,hide
 Millen Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife",,,,,,hide
-Jasan's grandma,Arash's Family,,Jasan's grandpa,,,,,,,hide
-Jasan's grandpa,Arash's Family,,,,,,,,,hide
 Aman,Arash's Family,,,"Amrit's mom,Amrit's dad",,,,,,hide
 Gurleen,Arash's Family,,,"Amrit's mom,Amrit's dad",,,,,,hide
-Rani Kaur,Arash's Family,,,Balbir Rai,
-Jashan,Arash's Family,,Harkanwal
+Satwinder Kaur,Arash's Family,,,Balbir Rai,
+Jasan Grewal,Arash's Family,,Harkanwal Grewal
 Gurnoor Boparai,Arash's Family,,,"Bhupinder Boparai,Karamjit Kaur"
 Bhupinder Boparai,Arash's Family,,,"Mohinder Kaur,Bachittar Boparai",
 Mohinder Kaur,Arash's Family,,Bachittar Boparai
 Bachittar Boparai,Arash's Family
-Karamjit Kaur,,,Bhupinder Boparai
+Karamjit Kaur,Arash's Family,,Bhupinder Boparai
+Santokh Rai,Arash's Family,,,,,,,,,hide
+Ujjagar Rai,Arash's Family,,,,,,,,,hide
+Shaminder Kaur,Arash's Family,,,,,,,,,hide
+Poonam Rai,Arash's Family,,,,,,,,,hide
+Amar pal Rai,Arash's Family,,,,,,,,,hide
+Jasvir Kaur,Arash's Family,,,,,,,,,hide
+Bunny Brar,Arash's Family,,,,,,,,,hide
+Sukhwinder Kaur,Arash's Family,,,,,,,,,hide
+Kamaldeep Hans,Arash's Family,,,,,,,,,hide
+Rya Hans,Arash's Family,,,,,,,,,hide
+Balwinder Buttar,Arash's Family,,,,,,,,,hide
+Baljinder Kang,Arash's Family,,,,,,,,,hide
+Satveer Kang,Arash's Family,,,,,,,,,hide
+Shally Kang,Arash's Family,,,,,,,,,hide
+Gurtesh Kang,Arash's Family,,,,,,,,,hide
+Manjot Sidhu,Arash's Family,,,,,,,,,hide
+Prabhleen Sidhu,Arash's Family,,,,,,,,,hide
+Jaswinder Billing,Arash's Family,,,,,,,,,hide
+Harkanwal Billing,Arash's Family,,,,,,,,,hide
+Jagraj Boparai and family,Arash's Family,,,,,,,,,hide
+Vicky Chahal and family,Arash's Family,,,,,,,,,hide

@@ -1304,7 +1304,9 @@ const NARSH_GRAPH = (() => {
   // The couple member (Natalie / Arash) is pulled to the inner edge so the two
   // of them end up next to each other. Returns positioned nodes + total width.
   const layoutSide = (side, originX, topY) => {
-    const members = NARSH_GUESTS.GUESTS.filter((g) => g.side === side);
+    // treeHidden people are trimmed from the family-tree view here; they remain
+    // in the graph/everyone view (which is built from getSocialNodes, not this).
+    const members = NARSH_GUESTS.GUESTS.filter((g) => g.side === side && !g.treeHidden);
     if (!members.length) return { nodes: [], width: 0, suppressedPairs: new Set() };
     const idSet = new Set(members.map((m) => m.id));
     const guestById = (id) => NARSH_GUESTS.getGuestById(id);

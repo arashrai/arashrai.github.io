@@ -148,7 +148,10 @@ rows.forEach((r) => {
     funFact: clean(col(r, "fun_fact")),
     citiesRaw: splitMulti(col(r, "cities")),
     photo: clean(col(r, "photo")),
-    special: clean(col(r, "special"))
+    special: clean(col(r, "special")),
+    // `tree` column: "hide" keeps this person OUT of the family-tree view while
+    // leaving them fully in the graph/everyone view. Used to trim large branches.
+    treeHidden: clean(col(r, "tree")).toLowerCase() === "hide"
   };
   people.push(p);
   nameToId.set(name.toLowerCase(), id);
@@ -539,6 +542,8 @@ const GUESTS = people.map((p) => ({
   connectionToCouple: p.relationship || null,
   householdId: householdOf.get(p.id) || null,
   side: sideOf[p.id] || null,
+  // Hidden from the family-tree view only (still present in the graph view).
+  treeHidden: p.treeHidden,
   parents: p.parentIds,
   // Derived from the `sibling` column — never drawn as a parentage line.
   inferredParents: p.inferredParents

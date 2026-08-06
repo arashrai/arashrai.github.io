@@ -11,12 +11,15 @@ const NARSH_SCROLL = (() => {
   let scrollContainerEl = null;
   let reducedMotion = false;
 
-  // Size the scroll track to the LIVE viewport height. This is deliberately
-  // driven off the current innerHeight (not a value cached at init): on mobile
-  // the URL bar collapses as you scroll, growing innerHeight without always
-  // firing a resize event. If the track kept its original (shorter) height, the
-  // document wouldn't be tall enough to scroll to the final stop — which is why
-  // the last stop (the wedding) was unreachable on phones.
+  // Size the scroll track to the LIVE viewport height so the document is always
+  // tall enough to reach the final stop (on mobile the URL bar collapses as you
+  // scroll, growing innerHeight).
+  //
+  // IMPORTANT: only ever call this on a viewport CHANGE (resize / visualViewport),
+  // never from the scroll handler. Mutating the track's height mid-scroll aborts
+  // an in-flight programmatic smooth scroll — which is what made the prev/next
+  // timeline buttons "sometimes do nothing" on mobile while swiping still worked
+  // (a finger swipe is a user scroll and isn't cancelled the same way).
   const syncHeight = () => {
     perStop = window.innerHeight;
     if (scrollContainerEl) {
@@ -36,15 +39,18 @@ const NARSH_SCROLL = (() => {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
+    // The mobile URL bar showing/hiding changes innerHeight without always firing
+    // a window resize; visualViewport's resize does fire, so keep the track sized
+    // through this instead of resizing on every scroll.
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", handleResize, { passive: true });
+    }
 
     // Trigger initial state
     handleScroll();
   };
 
   const handleScroll = () => {
-    // Keep the track in sync if the viewport height changed (mobile URL bar).
-    if (window.innerHeight !== perStop) syncHeight();
-
     const scrollY = window.scrollY;
     const newIndex = Math.max(0, Math.min(
       Math.floor(scrollY / perStop),

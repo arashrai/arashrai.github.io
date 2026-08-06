@@ -833,6 +833,30 @@ const NARSH_GRAPH = (() => {
       .style("font-family", "var(--font-body)")
       .style("color", "var(--color-text-primary)");
 
+    // Photo(s) at the top, larger than the node so you can get a good look at
+    // the face. A household (e.g. Svetomir & Nicole) shows every member's photo.
+    const cardPhotos = (guestData.photos && guestData.photos.length)
+      ? guestData.photos
+      : (guestData.photo ? [guestData.photo] : []);
+    if (cardPhotos.length > 0) {
+      const photoWrap = cardDiv.append("xhtml:div")
+        .style("display", "flex")
+        .style("flex-wrap", "wrap")
+        .style("justify-content", "center")
+        .style("gap", "var(--space-sm)")
+        .style("margin-bottom", "var(--space-sm)");
+      const photoSize = cardPhotos.length > 1 ? 76 : 120;
+      cardPhotos.forEach((src) => {
+        photoWrap.append("xhtml:img")
+          .attr("src", src)
+          .attr("alt", guestData.name)
+          .style("width", photoSize + "px")
+          .style("height", photoSize + "px")
+          .style("border-radius", "50%")
+          .style("object-fit", "cover");
+      });
+    }
+
     // Name
     const nameDiv = cardDiv.append("xhtml:div")
       .style("font-size", "17px")

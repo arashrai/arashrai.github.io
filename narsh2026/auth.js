@@ -10,13 +10,14 @@ const NARSH_AUTH = (() => {
   const STORAGE_KEY = "narsh-tier";
   const GATE_URL = "/narsh2026/";
 
-  // Pre-computed SHA-256 hashes of tier passwords (placeholder values per D-13).
-  // IMPORTANT: Replace these with real password hashes before production deploy.
-  // These placeholder passwords ("day2guest" and "fullaccess") will be effectively
-  // public once deployed — do not reuse personal passwords.
+  // Pre-computed SHA-256 hashes of tier passwords (hashed lowercased+trimmed).
+  // day2 password: "fleurai" (Sep 26 only — Anand Karaj + reception)
+  // full password: "fleurai2026" (everything, incl. Mehndi & Jaggo)
+  // Note: this is a light client-side gate, not real security — the hashes here
+  // are reversible from the page source, so don't reuse personal passwords.
   const TIER_HASHES = {
-    "day2": "a8e11207989a2ab9fe956ce183139683e10e135007873faa6b824bc49a8d6c2d",
-    "full": "44ffde91067d45353ee3b6ec012580e30fea73b60654a905013269cb092b7b8d"
+    "day2": "7406eaf847fce84e0b5d4280918612562e1c32c2ed082adeb6c0cc5c02138798",
+    "full": "33d4a113b07ddb18a6135210cab4f07c06c0c3859307692bb635a3e3a8c9d295"
   };
 
   const hashPassword = async (password) => {

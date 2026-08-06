@@ -955,11 +955,6 @@ const NARSH_PUZZLE_UI = (() => {
       titleEl.textContent = puzzle.name;
       infoEl.appendChild(titleEl);
 
-      const descEl = document.createElement("div");
-      descEl.className = "daily-desc";
-      descEl.textContent = puzzle.description;
-      infoEl.appendChild(descEl);
-
       linkEl.appendChild(infoEl);
       gridContainerEl.appendChild(linkEl);
     });

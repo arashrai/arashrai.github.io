@@ -226,11 +226,11 @@ const NARSH_PUZZLE_DATA = (() => {
   };
 
   const DAILY_PUZZLES = [
-    { name: "Clues by Sam", url: "https://cluesbysam.com/", emoji: "🔍", description: "Social deduction logic puzzle" },
-    { name: "Minute Cryptic", url: "https://www.minutecryptic.com/", emoji: "📝", description: "Quick cryptic crossword clue" },
-    { name: "Globle", url: "https://globle-game.com/", emoji: "🌎", description: "Guess the country by proximity" },
-    { name: "FoodGuessr", url: "https://www.foodguessr.com/", emoji: "🍕", description: "Guess the food origin" },
-    { name: "City Angle", url: "https://visitwhale.com/city-angle/", emoji: "🏙️", description: "Guess the city from a street view angle" }
+    { name: "Clues by Sam", url: "https://cluesbysam.com/", emoji: "🔍" },
+    { name: "Minute Cryptic", url: "https://www.minutecryptic.com/", emoji: "📝" },
+    { name: "Globle", url: "https://globle-game.com/", emoji: "🌎" },
+    { name: "FoodGuessr", url: "https://www.foodguessr.com/", emoji: "🍕" },
+    { name: "City Angle", url: "https://visitwhale.com/city-angle/", emoji: "🏙️" }
   ];
 
   // Grid dimensions (used by the clue resolver's positional phrasing).

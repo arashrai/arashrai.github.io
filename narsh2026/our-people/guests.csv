@@ -1,14 +1,14 @@
-name,group,relationship,comes_with,parent,sibling,fun_fact,cities,photo,special,tree
-Natalie Fleury,Natalie's Family,The couple (you two!),,"Shawna Morehouse,William Fleury",,Can name every iguana species native to the Cayman Islands.,"Seattle, Grand Cayman, Waterloo",natalie.jpg,
-Arash Rai,Arash's Family,The couple (you two!),,"Jatinder Kaur,Amritpal Rai",,Has lived on four continents before turning twenty.,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
+name,group,relationship,comes_with,parent,sibling,cities,photo,special,tree
+Natalie Fleury,Natalie's Family,The couple (you two!),,"Shawna Morehouse,William Fleury",,"Seattle, Grand Cayman, Waterloo",natalie.jpg,
+Arash Rai,Arash's Family,The couple (you two!),,"Jatinder Kaur,Amritpal Rai",,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
 Cindy Fleury,Natalie's Family,,Rene Fleury,,
 Rene Fleury,Natalie's Family,,,Mary Fleury,
 Katelyn Henry,Natalie's Family,,Natreisha Henry,...,
 Natreisha Henry,Natalie's Family,,,...,
 Kyle Francis,Natalie's Family,,,Rosanne Fleury,
-Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,,gabrielle.jpg
+Gabrielle Blumer,Natalie's Family,,Steve Blumer,"Steve Blumer,Rosanne Fleury",,,gabrielle.jpg
 Ben Blumer,Natalie's Family,,,Steve Blumer,
-Jennifer Reimer,Natalie's Family,,Glen Antle,Rene Fleury,,
+Jennifer Reimer,Natalie's Family,,Glen Antle,Rene Fleury,
 Glen Antle,Natalie's Family,,,,
 Jillian Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",
 Shiloh Riddell,Natalie's Family,,Serenity Blumer,Serenity Blumer,
@@ -23,7 +23,7 @@ Georgia Hong,Waterloo,,Jerry Liu,,
 Kendra Kusick,Natalie's Family,,Kyle Francis,,
 Amy Qiu,Waterloo,,Phillip Vo,,
 Phillip Vo,Waterloo,,,,
-"Shawna Morehouse ",Natalie's Family,,,Sidney Morehouse,,,,shawna.jpg
+"Shawna Morehouse ",Natalie's Family,,,Sidney Morehouse,,,shawna.jpg
 Greg Bennett,Cayman Crew,,,,
 Leighanne Bennett,Cayman Crew,,Greg Bennett,,
 Gaurav Sandhar,Abby Friends,,,,
@@ -31,12 +31,12 @@ Bill Chen,Waterloo,,,,
 Fannette Hsin,,,,,
 James Hageman,Waterloo,,,,
 Sarah Baird,Waterloo,,James Hageman,,
-Sidney Morehouse,Natalie's Family,,,,,,,sid.jpg
-Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,,shannon.jpg
-Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,,heather.jpg
-James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,,james.jpg
-"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,,brenda.jpg
-Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,,rosanne.jpg
+Sidney Morehouse,Natalie's Family,,,,,,sid.jpg
+Shannon Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,shannon.jpg
+Heather Morehouse,Natalie's Family,,,Sidney Morehouse,,,heather.jpg
+James Noble,Natalie's Family,,Heather Morehouse,Heather Morehouse,,,james.jpg
+"Brenda Morehouse ",Natalie's Family,,,Sidney Morehouse,,,brenda.jpg
+Rosanne Fleury,Natalie's Family,,Steve Blumer,Mary Fleury,,,rosanne.jpg
 Steve Blumer,Natalie's Family,,,,
 Matt D'Souza,Waterloo,,,,
 Grace Jean,,,Matt D'Souza,,
@@ -57,9 +57,9 @@ Jasper Chapman-Black,Waterloo,,,,
 Stacey Chapman-Black,Waterloo,,Jasper Chapman-Black,,
 Brandon Lavigne,"Meta Coworkers,Seattleite",,,,
 "Chelsi Manhas ",Abby Friends,,Kyle Katchaluba,,
-Svetomir Milanovic,Cayman Crew,,Nicole Fleury,,,,,svetomir.jpeg
-William Fleury,"Natalie's Family,Cayman Crew",,,Mary Fleury,,,,william.jpg
-Nicole Fleury,"Natalie's Family,Cayman Crew",,Svetomir Milanovic,"Shawna Morehouse,William Fleury",,,,nicole.jpg
+Svetomir Milanovic,Cayman Crew,,Nicole Fleury,,,,svetomir.jpeg
+William Fleury,"Natalie's Family,Cayman Crew",,,Mary Fleury,,,william.jpg
+Nicole Fleury,"Natalie's Family,Cayman Crew",,Svetomir Milanovic,"Shawna Morehouse,William Fleury",,,nicole.jpg
 Kyle Katchaluba,Abby Friends,,,,
 Bradley Ramunas,"Stripe Coworkers,Seattleite",,,,
 Natalie Tchokreff,,,George Utsin,,
@@ -77,9 +77,9 @@ Ashley Darton,,,Stephen Melinyshyn,,
 Claire Hsu,Stripe Coworkers,,,,
 Shawna Huang,Stripe Coworkers,,,,
 Isaac Madwed,"Stripe Coworkers,Seattleite",,Celine Rosak,,
-Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,,karen.jpg
+Karen Morehouse,Natalie's Family,,,Sidney Morehouse,,,karen.jpg
 Alexandre Bondoux,"Stripe Coworkers,Seattleite",,,,
-Evan Morehouse,Natalie's Family,,,Brenda Morehouse,,,,evan.jpg
+Evan Morehouse,Natalie's Family,,,Brenda Morehouse,,,evan.jpg
 Celine Rosak,Seattleite,,,,
 Sam Showalter,"Stripe Coworkers,Seattleite",,,,
 "David Mediati ",Waterloo,,,,
@@ -98,10 +98,10 @@ Tiffany Yeung,"Waterloo,Seattleite",,,,
 Seth Hendrickson,Stripe Coworkers,,,,
 Josh Jhinger,Abby Friends,,,,
 Nimret Malhi,Abby Friends,,,,
-Mary Fleury,Natalie's Family,,,,,,,mary.jpg
-Jatinder Kaur,Arash's Family,,,"Mohinder Kaur,Bachittar Boparai",,,,jatinder.jpg
-Amritpal Rai,Arash's Family,,,Balbir Rai,,,,amritpal.jpg
-Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",,
+Mary Fleury,Natalie's Family,,,,,,mary.jpg
+Jatinder Kaur,Arash's Family,,,"Mohinder Kaur,Bachittar Boparai",,,jatinder.jpg
+Amritpal Rai,Arash's Family,,,Balbir Rai,,,amritpal.jpg
+Janessa Reimer,Natalie's Family,,Glen Antle,"Glen Antle,Jennifer Reimer",
 ...,Natalie's Family,,,Rene Fleury,
 Aman Rai,Arash's Family,,,"Gurpreet Rai,Kiran Kaur",
 Amrit Kaur,Arash's Family,,Aman Rai,"Amrit's mom,Amrit's dad",
@@ -110,31 +110,31 @@ Kiran Kaur,Arash's Family,Tai,Gurpreet Rai,,Manpreet Bala
 Balbir Rai,Arash's Family,,,,Navi's grandpa
 Mehreen Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
 Nehmat Rai,Arash's Family,,,"Aman Rai,Amrit Kaur",
-Amrit's mom,Arash's Family,,Amrit's dad,,,,,,,hide
-Amrit's dad,Arash's Family,,,,,,,,,hide
+Amrit's mom,Arash's Family,,Amrit's dad,,,,,,hide
+Amrit's dad,Arash's Family,,,,,,,,hide
 Harkanwal Grewal,Arash's Family,,,Satwinder Kaur,
-Upneet Bala,Arash's Family,,,"Manpreet Bala,Gurpreet Bala",,,,,,hide
-Manpreet Bala,Arash's Family,,Gurpreet Bala,,Kiran Kaur,,,,,hide
-Gurpreet Bala,Arash's Family,,,,,,,,,hide
-Jas Bala,Arash's Family,,,"Manpreet Bala,Gurpreet Bala",,,,,,hide
-Navi Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",,,,,,hide
-Gagan Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",,,,,,hide
-Cookie Kaur,Arash's Family,,Kulwant Rai,,,,,,,hide
-Kulwant Rai,Arash's Family,,,"Navi's grandpa,Navi's grandma",,,,,,hide
-Navi's grandpa,Arash's Family,,,,Balbir Rai,,,,,hide
-Navi's grandma,Arash's Family,,Navi's grandpa,,,,,,,hide
-Sira Auntie,Arash's Family,,,"Isha's grandpa,Isha's grandma",,,,,,hide
-Isha Brar,Arash's Family,,,Sira Auntie,,,,,,hide
-Isha's grandpa,Arash's Family,,,,Balbir Rai,,,,,hide
-Isha's grandma,Arash's Family,,Isha's grandpa,,,,,,,hide
-Shawn Brar,Arash's Family,,,Sira Auntie,,,,,,hide
-Shinday and family,Arash's Family,,,"Isha's grandpa,Isha's grandma",,,,,,hide
-Gurinder Khangura,Arash's Family,,,,Kiran Kaur,,,,,hide
-Gurinder's wife,Arash's Family,,Gurinder Khangura,,,,,,,hide
-Jasan Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife",,,,,,hide
-Millen Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife",,,,,,hide
-Aman,Arash's Family,,,"Amrit's mom,Amrit's dad",,,,,,hide
-Gurleen,Arash's Family,,,"Amrit's mom,Amrit's dad",,,,,,hide
+Upneet Bala,Arash's Family,,,"Manpreet Bala,Gurpreet Bala",,,,,hide
+Manpreet Bala,Arash's Family,,Gurpreet Bala,,Kiran Kaur,,,,hide
+Gurpreet Bala,Arash's Family,,,,,,,,hide
+Jas Bala,Arash's Family,,,"Manpreet Bala,Gurpreet Bala",,,,,hide
+Navi Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",,,,,hide
+Gagan Rai,Arash's Family,,,"Cookie Kaur,Kulwant Rai",,,,,hide
+Cookie Kaur,Arash's Family,,Kulwant Rai,,,,,,hide
+Kulwant Rai,Arash's Family,,,"Navi's grandpa,Navi's grandma",,,,,hide
+Navi's grandpa,Arash's Family,,,,Balbir Rai,,,,hide
+Navi's grandma,Arash's Family,,Navi's grandpa,,,,,,hide
+Sira Auntie,Arash's Family,,,"Isha's grandpa,Isha's grandma",,,,,hide
+Isha Brar,Arash's Family,,,Sira Auntie,,,,,hide
+Isha's grandpa,Arash's Family,,,,Balbir Rai,,,,hide
+Isha's grandma,Arash's Family,,Isha's grandpa,,,,,,hide
+Shawn Brar,Arash's Family,,,Sira Auntie,,,,,hide
+Shinday and family,Arash's Family,,,"Isha's grandpa,Isha's grandma",,,,,hide
+Gurinder Khangura,Arash's Family,,,,Kiran Kaur,,,,hide
+Gurinder's wife,Arash's Family,,Gurinder Khangura,,,,,,hide
+Jasan Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife",,,,,hide
+Millen Khangura,Arash's Family,,,"Gurinder Khangura,Gurinder's wife",,,,,hide
+Aman,Arash's Family,,,"Amrit's mom,Amrit's dad",,,,,hide
+Gurleen,Arash's Family,,,"Amrit's mom,Amrit's dad",,,,,hide
 Satwinder Kaur,Arash's Family,,,Balbir Rai,
 Jasan Grewal,Arash's Family,,Harkanwal Grewal
 Gurnoor Boparai,Arash's Family,,,"Bhupinder Boparai,Karamjit Kaur"
@@ -142,24 +142,24 @@ Bhupinder Boparai,Arash's Family,,,"Mohinder Kaur,Bachittar Boparai",
 Mohinder Kaur,Arash's Family,,Bachittar Boparai
 Bachittar Boparai,Arash's Family
 Karamjit Kaur,Arash's Family,,Bhupinder Boparai
-Santokh Rai,Arash's Family,,,,,,,,,hide
-Ujjagar Rai,Arash's Family,,,,,,,,,hide
-Shaminder Kaur,Arash's Family,,,,,,,,,hide
-Poonam Rai,Arash's Family,,,,,,,,,hide
-Amar pal Rai,Arash's Family,,,,,,,,,hide
-Jasvir Kaur,Arash's Family,,,,,,,,,hide
-Bunny Brar,Arash's Family,,,,,,,,,hide
-Sukhwinder Kaur,Arash's Family,,,,,,,,,hide
-Kamaldeep Hans,Arash's Family,,,,,,,,,hide
-Rya Hans,Arash's Family,,,,,,,,,hide
-Balwinder Buttar,Arash's Family,,,,,,,,,hide
-Baljinder Kang,Arash's Family,,,,,,,,,hide
-Satveer Kang,Arash's Family,,,,,,,,,hide
-Shally Kang,Arash's Family,,,,,,,,,hide
-Gurtesh Kang,Arash's Family,,,,,,,,,hide
-Manjot Sidhu,Arash's Family,,,,,,,,,hide
-Prabhleen Sidhu,Arash's Family,,,,,,,,,hide
-Jaswinder Billing,Arash's Family,,,,,,,,,hide
-Harkanwal Billing,Arash's Family,,,,,,,,,hide
-Jagraj Boparai and family,Arash's Family,,,,,,,,,hide
-Vicky Chahal and family,Arash's Family,,,,,,,,,hide
+Santokh Rai,Arash's Family,,,,,,,,hide
+Ujjagar Rai,Arash's Family,,,,,,,,hide
+Shaminder Kaur,Arash's Family,,,,,,,,hide
+Poonam Rai,Arash's Family,,,,,,,,hide
+Amar pal Rai,Arash's Family,,,,,,,,hide
+Jasvir Kaur,Arash's Family,,,,,,,,hide
+Bunny Brar,Arash's Family,,,,,,,,hide
+Sukhwinder Kaur,Arash's Family,,,,,,,,hide
+Kamaldeep Hans,Arash's Family,,,,,,,,hide
+Rya Hans,Arash's Family,,,,,,,,hide
+Balwinder Buttar,Arash's Family,,,,,,,,hide
+Baljinder Kang,Arash's Family,,,,,,,,hide
+Satveer Kang,Arash's Family,,,,,,,,hide
+Shally Kang,Arash's Family,,,,,,,,hide
+Gurtesh Kang,Arash's Family,,,,,,,,hide
+Manjot Sidhu,Arash's Family,,,,,,,,hide
+Prabhleen Sidhu,Arash's Family,,,,,,,,hide
+Jaswinder Billing,Arash's Family,,,,,,,,hide
+Harkanwal Billing,Arash's Family,,,,,,,,hide
+Jagraj Boparai and family,Arash's Family,,,,,,,,hide
+Vicky Chahal and family,Arash's Family,,,,,,,,hide

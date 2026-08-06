@@ -85,7 +85,7 @@ const NARSH_GUESTS = (() => {
         "waterloo"
       ],
       "isCouple": true,
-      "funFact": "Can name every iguana species native to the Cayman Islands.",
+      "funFact": null,
       "connectionToCouple": "The couple (you two!)",
       "householdId": null,
       "side": "natalie",
@@ -110,7 +110,7 @@ const NARSH_GUESTS = (() => {
         "waterloo"
       ],
       "isCouple": true,
-      "funFact": "Has lived on four continents before turning twenty.",
+      "funFact": null,
       "connectionToCouple": "The couple (you two!)",
       "householdId": null,
       "side": "arash",

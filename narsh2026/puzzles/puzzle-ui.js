@@ -310,25 +310,39 @@ const NARSH_PUZZLE_UI = (() => {
     const roleClass = isCriminal ? "criminal" : "innocent";
     backEl.classList.add(roleClass);
 
-    // Character identity: emoji, name, profession
+    // Sticky header container for identity (Name, Profession, Role)
+    const headerEl = document.createElement("div");
+    headerEl.className = "card-back-header";
+
+    const identityRowEl = document.createElement("div");
+    identityRowEl.className = "card-back-identity";
+
     const emojiEl = renderEmoji(character.emoji, "card-back-emoji");
-    backEl.appendChild(emojiEl);
+    identityRowEl.appendChild(emojiEl);
+
+    const nameGroupEl = document.createElement("div");
+    nameGroupEl.className = "card-back-name-group";
 
     const nameEl = document.createElement("div");
     nameEl.className = "card-back-name";
     nameEl.textContent = character.name;
-    backEl.appendChild(nameEl);
+    nameGroupEl.appendChild(nameEl);
 
     const professionEl = document.createElement("div");
     professionEl.className = "card-back-profession";
     professionEl.textContent = character.profession;
-    backEl.appendChild(professionEl);
+    nameGroupEl.appendChild(professionEl);
 
-    // Role label
+    identityRowEl.appendChild(nameGroupEl);
+    headerEl.appendChild(identityRowEl);
+
+    // Role label badge
     const roleLabelEl = document.createElement("span");
     roleLabelEl.className = "role-label " + roleClass;
     roleLabelEl.textContent = isCriminal ? "CRIMINAL" : "INNOCENT";
-    backEl.appendChild(roleLabelEl);
+    headerEl.appendChild(roleLabelEl);
+
+    backEl.appendChild(headerEl);
 
     // Clue text
     const clueTextEl = document.createElement("p");
@@ -787,6 +801,27 @@ const NARSH_PUZZLE_UI = (() => {
     hintShowing = false;
     hintHighlightedCards = [];
 
+    // Presto cat companion (left)
+    const prestoCompanion = document.createElement("div");
+    prestoCompanion.className = "puzzle-cat-companion presto-companion";
+    prestoCompanion.setAttribute("aria-label", "Presto the tuxedo cat resting beside puzzle controls");
+    prestoCompanion.setAttribute("role", "img");
+    prestoCompanion.setAttribute("title", "Presto says: Meow!");
+    prestoCompanion.innerHTML = `
+      <img src="/narsh2026/puzzles/presto-emoji.svg" alt="" aria-hidden="true" class="cat-companion-avatar">
+      <span class="cat-companion-bubble">zZz</span>
+    `;
+    prestoCompanion.addEventListener("click", () => {
+      prestoCompanion.classList.add("purring");
+      const bubble = prestoCompanion.querySelector(".cat-companion-bubble");
+      if (bubble) bubble.textContent = "❤️ Meow!";
+      setTimeout(() => {
+        prestoCompanion.classList.remove("purring");
+        if (bubble) bubble.textContent = "zZz";
+      }, 1500);
+    });
+    controlsEl.appendChild(prestoCompanion);
+
     // Hint button
     hintBtnEl = document.createElement("button");
     hintBtnEl.className = "btn-hint";
@@ -794,9 +829,6 @@ const NARSH_PUZZLE_UI = (() => {
     hintBtnEl.setAttribute("aria-pressed", "false");
     hintBtnEl.addEventListener("click", handleHintClick);
     controlsEl.appendChild(hintBtnEl);
-
-    // Read-card dimming stays on by default (see NARSH_PUZZLE inspectMode); the
-    // on/off toggle button was removed, so it's no longer switchable.
 
     // Share button
     shareBtnEl = document.createElement("button");
@@ -806,6 +838,27 @@ const NARSH_PUZZLE_UI = (() => {
       copyShareText(shareBtnEl);
     });
     controlsEl.appendChild(shareBtnEl);
+
+    // Trino cat companion (right)
+    const trinoCompanion = document.createElement("div");
+    trinoCompanion.className = "puzzle-cat-companion trino-companion";
+    trinoCompanion.setAttribute("aria-label", "Trino the tortie cat sitting beside puzzle controls");
+    trinoCompanion.setAttribute("role", "img");
+    trinoCompanion.setAttribute("title", "Trino says: Purr!");
+    trinoCompanion.innerHTML = `
+      <img src="/narsh2026/puzzles/trino-emoji.svg" alt="" aria-hidden="true" class="cat-companion-avatar">
+      <span class="cat-companion-bubble">🐾</span>
+    `;
+    trinoCompanion.addEventListener("click", () => {
+      trinoCompanion.classList.add("purring");
+      const bubble = trinoCompanion.querySelector(".cat-companion-bubble");
+      if (bubble) bubble.textContent = "❤️ Purr!";
+      setTimeout(() => {
+        trinoCompanion.classList.remove("purring");
+        if (bubble) bubble.textContent = "🐾";
+      }, 1500);
+    });
+    controlsEl.appendChild(trinoCompanion);
   };
 
   // --- Auto-reveal starter card ---

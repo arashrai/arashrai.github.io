@@ -7,10 +7,9 @@
 const NARSH_PUZZLE = (() => {
   "use strict";
 
-  // Color tag palette: 7 colors cycled by clicking/tapping a card's top-right corner,
-  // with right-click (desktop) and long-press (mobile) as alternates
+  // Color tag palette: 3 colors (Red, Yellow, Green) cycled by clicking/tapping a card's top-right corner
   const COLOR_TAG_CYCLE = [
-    "transparent", "#E74C3C", "#E67E22", "#F1C40F", "#27AE60", "#3498DB", "#8E44AD"
+    "transparent", "#E74C3C", "#F1C40F", "#27AE60"
   ];
 
   const STORAGE_KEY = "narsh-puzzle-state";

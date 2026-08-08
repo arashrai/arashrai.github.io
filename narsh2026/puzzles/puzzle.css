@@ -251,34 +251,64 @@ img.card-back-emoji {
 }
 
 /* Card back content */
+.card-back-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  width: 100%;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+  border-bottom: 1px dashed rgba(61, 43, 31, 0.15);
+  background: inherit;
+}
+
+.card-back-identity {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.card-back-name-group {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .card-back-emoji {
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
+  flex-shrink: 0;
 }
 
 .card-back-name {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   font-family: var(--font-body);
   color: var(--color-text-primary);
   text-align: left;
-  line-height: 1.2;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .card-back-profession {
-  font-size: 10px;
+  font-size: 9.5px;
   font-family: var(--font-body);
   color: var(--color-text-secondary);
-  line-height: 1.2;
-  margin-bottom: var(--space-xs);
+  line-height: 1.1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .role-label {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
   font-family: var(--font-body);
   text-transform: uppercase;
-  margin-bottom: var(--space-xs);
+  display: inline-block;
+  margin-top: 2px;
 }
 
 .role-label.criminal {
@@ -290,8 +320,8 @@ img.card-back-emoji {
 }
 
 .clue-text {
-  font-size: 12px;
-  line-height: 1.4;
+  font-size: 11.5px;
+  line-height: 1.35;
   font-family: var(--font-body);
   color: var(--color-text-primary);
   margin: 0;
@@ -400,9 +430,50 @@ img.card-back-emoji {
 .puzzle-controls {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: var(--space-sm);
   max-width: 528px;
   margin: var(--space-md) auto 0;
+}
+
+/* Cat Companions beside controls */
+.puzzle-cat-companion {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+  user-select: none;
+}
+
+.puzzle-cat-companion:hover,
+.puzzle-cat-companion.purring {
+  transform: scale(1.15) translateY(-2px);
+}
+
+.cat-companion-avatar {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(61,43,31,0.15));
+}
+
+.cat-companion-bubble {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-warm-white);
+  border: 1px solid var(--color-dusty-rose);
+  border-radius: 8px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: var(--shadow-soft);
+  pointer-events: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
 }
 
 .puzzle-controls button {
@@ -757,6 +828,37 @@ img.card-back-emoji {
 
   /* Cards are ~71px wide at a 320px viewport -- 30px would claim too much of the face. */
   .color-tag-hit {
+    width: 28px;
+    height: 28px;
+  }
+
+  .puzzle-card-back {
+    padding: 3px 4px;
+  }
+
+  .card-back-header {
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+  }
+
+  .card-back-name {
+    font-size: 10px;
+  }
+
+  .card-back-profession {
+    font-size: 8.5px;
+  }
+
+  .role-label {
+    font-size: 9px;
+  }
+
+  .clue-text {
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .cat-companion-avatar {
     width: 28px;
     height: 28px;
   }

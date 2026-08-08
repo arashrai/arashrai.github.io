@@ -381,11 +381,51 @@ const NARSH_CATS = (() => {
     animationId = requestAnimationFrame(loop);
   };
 
+  const renderSleepingCat = (name, parentEl) => {
+    if (!parentEl) return null;
+    const catName = String(name || "Presto");
+    const el = document.createElement("div");
+    el.className = "cat sleeping puzzle-sleeping-cat " + catName.toLowerCase();
+    el.setAttribute("aria-label", catName + " sleeping cat");
+    el.setAttribute("role", "img");
+    el.setAttribute("title", catName + " is sleeping -- click to pet!");
+
+    const svg = (catName.toLowerCase() === "presto") ? createPrestoSvg() : createTrinoSvg();
+    el.appendChild(svg);
+
+    const zzz = document.createElement("span");
+    zzz.className = "cat-zzz";
+    zzz.textContent = "zZz";
+    el.appendChild(zzz);
+
+    const heart = document.createElement("span");
+    heart.className = "cat-heart";
+    heart.textContent = "❤️";
+    el.appendChild(heart);
+
+    const nameLabel = document.createElement("span");
+    nameLabel.className = "cat-name";
+    nameLabel.textContent = catName;
+    el.appendChild(nameLabel);
+
+    el.addEventListener("click", () => {
+      el.classList.remove("sleeping");
+      el.classList.add("clicked");
+      setTimeout(() => {
+        el.classList.remove("clicked");
+        el.classList.add("sleeping");
+      }, 700);
+    });
+
+    parentEl.appendChild(el);
+    return el;
+  };
+
   const init = () => {
     createCat("Presto", createPrestoSvg, "#242424");
     createCat("Trino", createTrinoSvg, "#5C3A1E");
     animationId = requestAnimationFrame(loop);
   };
 
-  return { init };
+  return { init, renderSleepingCat };
 })();

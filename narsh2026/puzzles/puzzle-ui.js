@@ -795,6 +795,11 @@ const NARSH_PUZZLE_UI = (() => {
     hintShowing = false;
     hintHighlightedCards = [];
 
+    // Presto sleeping companion (left)
+    if (typeof NARSH_CATS !== "undefined" && NARSH_CATS.renderSleepingCat) {
+      NARSH_CATS.renderSleepingCat("Presto", controlsEl);
+    }
+
     // Hint button
     hintBtnEl = document.createElement("button");
     hintBtnEl.className = "btn-hint";
@@ -811,6 +816,11 @@ const NARSH_PUZZLE_UI = (() => {
       copyShareText(shareBtnEl);
     });
     controlsEl.appendChild(shareBtnEl);
+
+    // Trino sleeping companion (right)
+    if (typeof NARSH_CATS !== "undefined" && NARSH_CATS.renderSleepingCat) {
+      NARSH_CATS.renderSleepingCat("Trino", controlsEl);
+    }
   };
 
   // --- Auto-reveal starter card ---

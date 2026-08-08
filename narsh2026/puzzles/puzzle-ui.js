@@ -795,27 +795,6 @@ const NARSH_PUZZLE_UI = (() => {
     hintShowing = false;
     hintHighlightedCards = [];
 
-    // Presto cat companion (left)
-    const prestoCompanion = document.createElement("div");
-    prestoCompanion.className = "puzzle-cat-companion presto-companion";
-    prestoCompanion.setAttribute("aria-label", "Presto the tuxedo cat resting beside puzzle controls");
-    prestoCompanion.setAttribute("role", "img");
-    prestoCompanion.setAttribute("title", "Presto says: Meow!");
-    prestoCompanion.innerHTML = `
-      <img src="/narsh2026/puzzles/presto-emoji.svg" alt="" aria-hidden="true" class="cat-companion-avatar">
-      <span class="cat-companion-bubble">zZz</span>
-    `;
-    prestoCompanion.addEventListener("click", () => {
-      prestoCompanion.classList.add("purring");
-      const bubble = prestoCompanion.querySelector(".cat-companion-bubble");
-      if (bubble) bubble.textContent = "❤️ Meow!";
-      setTimeout(() => {
-        prestoCompanion.classList.remove("purring");
-        if (bubble) bubble.textContent = "zZz";
-      }, 1500);
-    });
-    controlsEl.appendChild(prestoCompanion);
-
     // Hint button
     hintBtnEl = document.createElement("button");
     hintBtnEl.className = "btn-hint";
@@ -832,27 +811,6 @@ const NARSH_PUZZLE_UI = (() => {
       copyShareText(shareBtnEl);
     });
     controlsEl.appendChild(shareBtnEl);
-
-    // Trino cat companion (right)
-    const trinoCompanion = document.createElement("div");
-    trinoCompanion.className = "puzzle-cat-companion trino-companion";
-    trinoCompanion.setAttribute("aria-label", "Trino the tortie cat sitting beside puzzle controls");
-    trinoCompanion.setAttribute("role", "img");
-    trinoCompanion.setAttribute("title", "Trino says: Purr!");
-    trinoCompanion.innerHTML = `
-      <img src="/narsh2026/puzzles/trino-emoji.svg" alt="" aria-hidden="true" class="cat-companion-avatar">
-      <span class="cat-companion-bubble">🐾</span>
-    `;
-    trinoCompanion.addEventListener("click", () => {
-      trinoCompanion.classList.add("purring");
-      const bubble = trinoCompanion.querySelector(".cat-companion-bubble");
-      if (bubble) bubble.textContent = "❤️ Purr!";
-      setTimeout(() => {
-        trinoCompanion.classList.remove("purring");
-        if (bubble) bubble.textContent = "🐾";
-      }, 1500);
-    });
-    controlsEl.appendChild(trinoCompanion);
   };
 
   // --- Auto-reveal starter card ---

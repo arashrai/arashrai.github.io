@@ -162,6 +162,17 @@ const NARSH_CATS = (() => {
   };
 
   const pickTarget = () => {
+    const controls = document.getElementById("puzzle-controls");
+    if (controls && Math.random() < 0.6) {
+      const rect = controls.getBoundingClientRect();
+      const scrollX = window.scrollX || window.pageXOffset;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const side = Math.random() < 0.5 ? -60 : (rect.width + 10);
+      return {
+        x: Math.max(10, rect.left + scrollX + side),
+        y: rect.top + scrollY - 10 + (Math.random() * 15)
+      };
+    }
     const margin = 70;
     return {
       x: margin + Math.random() * (window.innerWidth - margin * 2),

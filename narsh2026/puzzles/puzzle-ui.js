@@ -336,12 +336,6 @@ const NARSH_PUZZLE_UI = (() => {
     identityRowEl.appendChild(nameGroupEl);
     headerEl.appendChild(identityRowEl);
 
-    // Role label badge
-    const roleLabelEl = document.createElement("span");
-    roleLabelEl.className = "role-label " + roleClass;
-    roleLabelEl.textContent = isCriminal ? "CRIMINAL" : "INNOCENT";
-    headerEl.appendChild(roleLabelEl);
-
     backEl.appendChild(headerEl);
 
     // Clue text

@@ -438,31 +438,20 @@ img.card-back-emoji {
   cursor: pointer;
 }
 
-/* Hint and Inspect buttons: outlined default */
+/* Outlined buttons (Hint, Start Over) */
 .btn-hint,
+.btn-reset,
 .btn-inspect {
   border: 1px solid var(--color-terracotta);
   color: var(--color-terracotta);
   background: transparent;
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
 
-/* Reset / Start Over button */
-.btn-reset {
-  border: 1px solid var(--color-dusty-rose);
-  color: var(--color-text-primary);
-  background: transparent;
-  transition: background var(--transition-fast), border-color var(--transition-fast);
-}
-
+.btn-hint:hover,
+.btn-hint:focus,
 .btn-reset:hover,
 .btn-reset:focus {
-  background: rgba(201, 146, 142, 0.18);
-  border-color: var(--color-terracotta);
-}
-
-/* Active state for Hint and Inspect */
-.btn-hint.active,
-.btn-inspect.active {
   background: var(--color-terracotta);
   color: white;
 }

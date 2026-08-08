@@ -800,13 +800,26 @@ const NARSH_PUZZLE_UI = (() => {
       NARSH_CATS.renderSleepingCat("Presto", controlsEl);
     }
 
-    // Hint button
+    const isDone = NARSH_PUZZLE.isComplete();
+
+    // Hint button (hidden when game is complete)
     hintBtnEl = document.createElement("button");
     hintBtnEl.className = "btn-hint";
     hintBtnEl.textContent = "Show Hint";
+    hintBtnEl.style.display = isDone ? "none" : "inline-block";
     hintBtnEl.setAttribute("aria-pressed", "false");
     hintBtnEl.addEventListener("click", handleHintClick);
     controlsEl.appendChild(hintBtnEl);
+
+    // Share button (replaces Show Hint when game is complete)
+    shareBtnEl = document.createElement("button");
+    shareBtnEl.className = "btn-share";
+    shareBtnEl.textContent = "Share Results";
+    shareBtnEl.style.display = isDone ? "inline-block" : "none";
+    shareBtnEl.addEventListener("click", () => {
+      copyShareText(shareBtnEl);
+    });
+    controlsEl.appendChild(shareBtnEl);
 
     // Reset / Start Over button
     const resetBtnEl = document.createElement("button");
@@ -816,16 +829,6 @@ const NARSH_PUZZLE_UI = (() => {
       showResetConfirmation();
     });
     controlsEl.appendChild(resetBtnEl);
-
-    // Share button (only visible when game is complete)
-    shareBtnEl = document.createElement("button");
-    shareBtnEl.className = "btn-share";
-    shareBtnEl.textContent = "Share Results";
-    shareBtnEl.style.display = NARSH_PUZZLE.isComplete() ? "inline-block" : "none";
-    shareBtnEl.addEventListener("click", () => {
-      copyShareText(shareBtnEl);
-    });
-    controlsEl.appendChild(shareBtnEl);
 
     // Trino sleeping companion (right)
     if (typeof NARSH_CATS !== "undefined" && NARSH_CATS.renderSleepingCat) {
@@ -999,6 +1002,9 @@ const NARSH_PUZZLE_UI = (() => {
 
   const handleGameComplete = (totalMistakes) => {
     stopTimerInterval();
+    if (hintBtnEl) {
+      hintBtnEl.style.display = "none";
+    }
     if (shareBtnEl) {
       shareBtnEl.style.display = "inline-block";
     }

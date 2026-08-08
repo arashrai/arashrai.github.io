@@ -86,7 +86,9 @@ narsh2026/
 │   ├── map.js            # Mapbox GL initialization, lines, markers, flight paths
 │   ├── scroll-controller.js # Scroll/intersection observer triggering map updates
 │   ├── carousel.js       # Photo carousel inside the story card
-│   └── timeline.js       # Bottom interactive timeline navigation bar
+│   ├── nav-peek.js       # Auto-revealing site header when hovering top of screen
+│   ├── timeline.js       # Bottom interactive timeline navigation bar
+│   └── CONTENT.md        # Written narrative content reference
 │
 ├── our-people/           # Guest Relationship Graph & Family Tree
 │   ├── index.html        # D3 graph container & view toggle header
@@ -118,12 +120,10 @@ narsh2026/
 │
 └── images/               # Image assets organized by section
     ├── couple-placeholder.svg
-    ├── gc/               # Grand Cayman childhood photos
+    ├── family_crest.png
+    ├── cats/             # Photos and media of Presto and Trino
     ├── people/           # Guest avatar photos
-    ├── proposal/         # Vancouver Island engagement photos
-    ├── seattle/          # Seattle life photos
-    ├── story/            # Life story photos
-    └── uw/               # University of Waterloo co-op & study photos
+    └── story/            # Life story photos organized by location/chapter
 ```
 
 ---
@@ -135,6 +135,7 @@ narsh2026/
 2. **Flight Paths & Pins**: [`map.js`](file:///Users/arashrai/projects/arashrai.github.io/narsh2026/our-story/map.js) draws separate colored curved arcs for Arash (teal `#2A9D8F`) and Natalie (gold `#D4A843`).
 3. **Convergence Moment**: At the `shad-valley` stop (where they met), a special bow animation joins both paths.
 4. **Scroll Sync**: [`scroll-controller.js`](file:///Users/arashrai/projects/arashrai.github.io/narsh2026/our-story/scroll-controller.js) observes scroll progress to invoke `NARSH_MAP.flyToStop()`.
+5. **Nav Peek**: [`nav-peek.js`](file:///Users/arashrai/projects/arashrai.github.io/narsh2026/our-story/nav-peek.js) reveals the site header when moving mouse pointer near top of viewport during scrollytelling.
 
 ### 🕸️ Guest Relationship Graph ([`our-people/`](file:///Users/arashrai/projects/arashrai.github.io/narsh2026/our-people/))
 1. **Workflow**:

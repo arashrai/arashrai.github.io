@@ -446,6 +446,20 @@ img.card-back-emoji {
   background: transparent;
 }
 
+/* Reset / Start Over button */
+.btn-reset {
+  border: 1px solid var(--color-dusty-rose);
+  color: var(--color-text-primary);
+  background: transparent;
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-reset:hover,
+.btn-reset:focus {
+  background: rgba(201, 146, 142, 0.18);
+  border-color: var(--color-terracotta);
+}
+
 /* Active state for Hint and Inspect */
 .btn-hint.active,
 .btn-inspect.active {

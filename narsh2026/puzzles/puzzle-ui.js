@@ -808,10 +808,20 @@ const NARSH_PUZZLE_UI = (() => {
     hintBtnEl.addEventListener("click", handleHintClick);
     controlsEl.appendChild(hintBtnEl);
 
-    // Share button
+    // Reset / Start Over button
+    const resetBtnEl = document.createElement("button");
+    resetBtnEl.className = "btn-reset";
+    resetBtnEl.textContent = "Start Over";
+    resetBtnEl.addEventListener("click", () => {
+      showResetConfirmation();
+    });
+    controlsEl.appendChild(resetBtnEl);
+
+    // Share button (only visible when game is complete)
     shareBtnEl = document.createElement("button");
     shareBtnEl.className = "btn-share";
     shareBtnEl.textContent = "Share Results";
+    shareBtnEl.style.display = NARSH_PUZZLE.isComplete() ? "inline-block" : "none";
     shareBtnEl.addEventListener("click", () => {
       copyShareText(shareBtnEl);
     });
@@ -989,6 +999,9 @@ const NARSH_PUZZLE_UI = (() => {
 
   const handleGameComplete = (totalMistakes) => {
     stopTimerInterval();
+    if (shareBtnEl) {
+      shareBtnEl.style.display = "inline-block";
+    }
     // Final timer update
     if (timerDisplayEl) {
       timerDisplayEl.textContent = NARSH_PUZZLE.formatTime(NARSH_PUZZLE.getElapsed());

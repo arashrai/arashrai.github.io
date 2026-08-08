@@ -256,16 +256,16 @@ img.card-back-emoji {
   top: 0;
   z-index: 2;
   width: 100%;
-  padding-bottom: 2px;
-  margin-bottom: 4px;
-  border-bottom: 1px dashed rgba(61, 43, 31, 0.15);
+  padding-bottom: 4px;
+  margin-bottom: 8px;
+  border-bottom: 1px dashed rgba(61, 43, 31, 0.18);
   background: inherit;
 }
 
 .card-back-identity {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .card-back-name-group {
@@ -275,53 +275,36 @@ img.card-back-emoji {
 }
 
 .card-back-emoji {
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1;
   flex-shrink: 0;
 }
 
 .card-back-name {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   font-family: var(--font-body);
   color: var(--color-text-primary);
   text-align: left;
-  line-height: 1.1;
+  line-height: 1.15;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
 .card-back-profession {
-  font-size: 9.5px;
+  font-size: 10.5px;
   font-family: var(--font-body);
   color: var(--color-text-secondary);
-  line-height: 1.1;
+  line-height: 1.15;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
-.role-label {
-  font-size: 10px;
-  font-weight: 700;
-  font-family: var(--font-body);
-  text-transform: uppercase;
-  display: inline-block;
-  margin-top: 2px;
-}
-
-.role-label.criminal {
-  color: var(--color-criminal);
-}
-
-.role-label.innocent {
-  color: var(--color-innocent);
-}
-
 .clue-text {
-  font-size: 11.5px;
-  line-height: 1.35;
+  font-size: 12.5px;
+  line-height: 1.4;
   font-family: var(--font-body);
   color: var(--color-text-primary);
   margin: 0;
@@ -833,29 +816,25 @@ img.card-back-emoji {
   }
 
   .puzzle-card-back {
-    padding: 3px 4px;
+    padding: 4px 6px;
   }
 
   .card-back-header {
-    margin-bottom: 2px;
-    padding-bottom: 2px;
+    margin-bottom: 6px;
+    padding-bottom: 3px;
   }
 
   .card-back-name {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .card-back-profession {
-    font-size: 8.5px;
-  }
-
-  .role-label {
-    font-size: 9px;
+    font-size: 9.5px;
   }
 
   .clue-text {
-    font-size: 10px;
-    line-height: 1.25;
+    font-size: 11px;
+    line-height: 1.3;
   }
 
   .cat-companion-avatar {

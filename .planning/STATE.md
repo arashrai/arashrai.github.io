@@ -55,6 +55,7 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 | 260803-uh9 | Nest in-law lineages at the right generation; a sideless spouse inherits their partner's side | 2026-08-03 | (merge) | [260803-uh9-inlaw-attach](./quick/260803-uh9-inlaw-attach/) |
 | 260803-tdv | Support the sibling column in guests.csv; cut Arash's family tree from 8 root lineages to 6 | 2026-08-03 | 2ae83e5 | [260803-tdv-support-the-sibling-column-in-guests-csv](./quick/260803-tdv-support-the-sibling-column-in-guests-csv/) |
 | 260808-odc | Our Story: one full swipe/wheel gesture advances exactly one story stop (device verification outstanding) | 2026-08-08 | 8cd4000, 1cbac56 | [260808-odc-our-story-page-one-full-swipe-advances-e](./quick/260808-odc-our-story-page-one-full-swipe-advances-e/) |
+| 260808-ojg | Family tree: frame the initial camera on Natalie + Arash instead of the combined-forest center (browser verification outstanding) | 2026-08-08 | 78f5497, 2e03c2b | [260808-ojg-family-tree-loads-centered-on-natalie-an](./quick/260808-ojg-family-tree-loads-centered-on-natalie-an/) |
 
 ---
-*Last activity: 2026-08-08 - Completed quick task 260808-odc (code): Our Story one-step-per-gesture layer + overscroll containment; 17-step real-device verification still outstanding*
+*Last activity: 2026-08-08 - Completed quick tasks 260808-odc (Our Story one-step-per-gesture) and 260808-ojg (family tree framed on the couple); both awaiting device/browser verification*

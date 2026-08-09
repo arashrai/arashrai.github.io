@@ -98,6 +98,19 @@ const NARSH_STORY_DATA = (() => {
       isConvergence: true
     },
     {
+      id: "long-distance",
+      owner: "both",
+      location: "BC & Cayman Islands",
+      coords: [-101.7795, 34.1818],
+      arashPos: [-122.3045, 49.0504],
+      nataliePos: [-81.2546, 19.3133],
+      zoom: 3.5,
+      year: "2015 – 2016",
+      narrative: "After an unforgettable summer at SHAD in Saskatchewan, Arash headed back to BC before starting at Waterloo, while Natalie returned to Cayman for her senior year. One year of long-distance calls, letters, and countdowns!",
+      photos: [],
+      isConvergence: false
+    },
+    {
       id: "waterloo",
       owner: "both",
       location: "Waterloo, Ontario, Canada",
@@ -140,6 +153,58 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/seattle/130.jpg", alt: "Natalie and Arash in Seattle, 2025" },
         { src: "/narsh2026/images/story/seattle/140.jpg", alt: "Home in Seattle, 2025" }
       ],
+      isConvergence: false
+    },
+    {
+      id: "travel-mexico",
+      owner: "both",
+      location: "Cancún & Tulum, Mexico",
+      coords: [-87.0469, 20.6296],
+      isHubTrip: true,
+      hubCoords: [-122.3421, 47.6097],
+      zoom: 6,
+      year: 2022,
+      narrative: "Exploring coastal Mexico together! From turquoise Caribbean waters and cenote swims to ancient Mayan ruins and delicious street tacos.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-jamaica",
+      owner: "both",
+      location: "Montego Bay, Jamaica",
+      coords: [-77.9188, 18.4762],
+      isHubTrip: true,
+      hubCoords: [-122.3421, 47.6097],
+      zoom: 7,
+      year: 2023,
+      narrative: "Island getaway to Jamaica! Soaking up sunny beach days, island music, vibrant culture, and unforgettable sunsets along the coast.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-switzerland",
+      owner: "both",
+      location: "Zermatt & The Alps, Switzerland",
+      coords: [7.7491, 46.0207],
+      isHubTrip: true,
+      hubCoords: [-122.3421, 47.6097],
+      zoom: 6,
+      year: 2024,
+      narrative: "A dream journey through Switzerland! Riding mountain railways, viewing the iconic Matterhorn, and taking in breathtaking alpine valleys.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-japan",
+      owner: "both",
+      location: "Tokyo & Kyoto, Japan",
+      coords: [139.6917, 35.6895],
+      isHubTrip: true,
+      hubCoords: [-122.3421, 47.6097],
+      zoom: 5,
+      year: 2024,
+      narrative: "Adventures in Japan! Exploring bustling streets in Tokyo, peaceful bamboo groves and historic shrines in Kyoto, and incredible food everywhere.",
+      photos: [],
       isConvergence: false
     },
     {

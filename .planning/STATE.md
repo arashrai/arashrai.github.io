@@ -54,6 +54,7 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 | 260802-fac | Reskin puzzle cast to wedding guests; retheme riddle as stolen bouquet; multi-word professions in clue resolver | 2026-08-02 | 3c98a42 | [260802-fac-reskin-puzzle-cast-to-wedding-guests-ret](./quick/260802-fac-reskin-puzzle-cast-to-wedding-guests-ret/) |
 | 260803-uh9 | Nest in-law lineages at the right generation; a sideless spouse inherits their partner's side | 2026-08-03 | (merge) | [260803-uh9-inlaw-attach](./quick/260803-uh9-inlaw-attach/) |
 | 260803-tdv | Support the sibling column in guests.csv; cut Arash's family tree from 8 root lineages to 6 | 2026-08-03 | 2ae83e5 | [260803-tdv-support-the-sibling-column-in-guests-csv](./quick/260803-tdv-support-the-sibling-column-in-guests-csv/) |
+| 260808-odc | Our Story: one full swipe/wheel gesture advances exactly one story stop (device verification outstanding) | 2026-08-08 | 8cd4000, 1cbac56 | [260808-odc-our-story-page-one-full-swipe-advances-e](./quick/260808-odc-our-story-page-one-full-swipe-advances-e/) |
 
 ---
-*Last activity: 2026-07-31 - Completed quick task 260731-pa8: puzzle page corner-click color marker, Clues by Sam credit, accuracy-based share grid (browser verification outstanding)*
+*Last activity: 2026-08-08 - Completed quick task 260808-odc (code): Our Story one-step-per-gesture layer + overscroll containment; 17-step real-device verification still outstanding*

@@ -1,14 +1,13 @@
 // Narsh 2026 — Our Story WIP Map Module
-// Great Circle geodesic arc engine & camera-synchronized flight renderer.
+// Camera-Synchronized Line Tracing Engine & 3D Globe Renderer.
 
 const NARSH_MAP_WIP = (() => {
   "use strict";
 
   const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
 
-  const CAMERA_SPEED = 0.65; // Stately, majestic camera pan
-  const CAMERA_CURVE = 1.2;  // Smooth zoom profile
-  const INTERTWINE_AMPLITUDE = 0.3;
+  const CAMERA_SPEED = 0.5;  // Smooth, stately camera motion
+  const CAMERA_CURVE = 1.2;  // Gentle trajectory height
 
   const COLOR_ARASH = "#2A9D8F";
   const COLOR_NATALIE = "#D4A843";
@@ -17,15 +16,24 @@ const NARSH_MAP_WIP = (() => {
 
   let mapInstance = null;
   let reducedMotion = false;
-  let activeFlightAnimationId = null;
+
   let targetArashCoords = [];
   let targetNatalieCoords = [];
-  const lastCoords = { "line-arash": [], "line-natalie": [] };
+
+  let startArashCount = 0;
+  let endArashCount = 0;
+  let startNatalieCount = 0;
+  let endNatalieCount = 0;
+
+  let flightActive = false;
+  let flightStartTime = 0;
+  let flightDurationMs = 3000;
+
   let bowCenterArash = null;
   let bowCenterNatalie = null;
 
   // Great Circle Geodesic Arc Interpolation
-  const getGreatCirclePoints = (start, end, numPoints = 30) => {
+  const getGreatCirclePoints = (start, end, numPoints = 24) => {
     if (!start || !end) return [];
     const rad = Math.PI / 180;
     const lat1 = start[1] * rad;
@@ -33,7 +41,6 @@ const NARSH_MAP_WIP = (() => {
     const lat2 = end[1] * rad;
     let lon2 = end[0] * rad;
 
-    // Unwrap longitudes for shortest turn
     let dLon = lon2 - lon1;
     while (dLon > Math.PI) { lon2 -= 2 * Math.PI; dLon = lon2 - lon1; }
     while (dLon < -Math.PI) { lon2 += 2 * Math.PI; dLon = lon2 - lon1; }
@@ -89,6 +96,9 @@ const NARSH_MAP_WIP = (() => {
       "bottom-left"
     );
 
+    // Synchronize line geometries on every frame the camera moves
+    mapInstance.on("move", onCameraMove);
+
     return new Promise((resolve, reject) => {
       let settled = false;
 
@@ -109,6 +119,26 @@ const NARSH_MAP_WIP = (() => {
         }
       });
     });
+  };
+
+  // Synchronized camera frame handler
+  const onCameraMove = () => {
+    if (!flightActive || reducedMotion) return;
+
+    const elapsed = performance.now() - flightStartTime;
+    const t = Math.min(1.0, Math.max(0, elapsed / flightDurationMs));
+    // Smooth camera-synced easing curve
+    const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+    const countArash = Math.round(startArashCount + (endArashCount - startArashCount) * eased);
+    const countNatalie = Math.round(startNatalieCount + (endNatalieCount - startNatalieCount) * eased);
+
+    setLineData("line-arash", targetArashCoords.slice(0, Math.max(0, countArash)));
+    setLineData("line-natalie", targetNatalieCoords.slice(0, Math.max(0, countNatalie)));
+
+    if (t >= 1.0) {
+      flightActive = false;
+    }
   };
 
   const applyWarmStyleOverrides = () => {
@@ -203,7 +233,7 @@ const NARSH_MAP_WIP = (() => {
     });
   };
 
-  const flyToStop = (coords, zoom, flyVia, wideCoords, wideZoom, isHubTrip, hubCoords) => {
+  const flyToStop = (coords, zoom, flyVia, wideCoords, wideZoom, isHubTrip, hubCoords, isBackward) => {
     if (!mapInstance) return;
     mapInstance.stop();
 
@@ -219,65 +249,24 @@ const NARSH_MAP_WIP = (() => {
       return;
     }
 
-    if (isHubTrip && hubCoords) {
-      // 2-Leg Vacation Trip Flight: Seattle ➔ Trip Destination ➔ Pause ➔ Seattle
-      const leg1Duration = 3200;
-      mapInstance.flyTo({
-        center: coords,
-        zoom: zoom || 5.0,
-        speed: CAMERA_SPEED,
-        curve: CAMERA_CURVE,
-        padding: padding,
-        essential: true
-      });
-      startCameraSyncedReveal(leg1Duration, 0, 0.5);
+    // Prepare line start & end counts for synchronized camera tracking
+    const currentArashLen = (lastCoords["line-arash"] || []).length;
+    const currentNatalieLen = (lastCoords["line-natalie"] || []).length;
 
-      mapInstance.once("moveend", () => {
-        if (!mapInstance) return;
-        // Hold 1500ms over destination, then return back to Seattle
-        setTimeout(() => {
-          if (!mapInstance) return;
-          mapInstance.flyTo({
-            center: hubCoords,
-            zoom: 5.5,
-            speed: CAMERA_SPEED,
-            curve: CAMERA_CURVE,
-            padding: padding,
-            essential: true
-          });
-          startCameraSyncedReveal(3000, 0.5, 1.0);
-        }, 1500);
-      });
-      return;
-    }
+    startArashCount = currentArashLen;
+    endArashCount = targetArashCoords.length;
+    startNatalieCount = currentNatalieLen;
+    endNatalieCount = targetNatalieCoords.length;
 
-    if (wideCoords) {
-      // Dual-travel wide zoom out: zoom out to see both lines travel simultaneously, then glide into pin
-      mapInstance.flyTo({
-        center: wideCoords,
-        zoom: wideZoom || 3.0,
-        speed: CAMERA_SPEED,
-        curve: CAMERA_CURVE,
-        padding: padding,
-        essential: true
-      });
-      mapInstance.once("moveend", () => {
-        if (!mapInstance) return;
-        mapInstance.flyTo({
-          center: coords,
-          zoom: zoom || 5.0,
-          speed: CAMERA_SPEED,
-          curve: CAMERA_CURVE,
-          padding: padding,
-          essential: true
-        });
-      });
-      startCameraSyncedReveal(4500, 0, 1.0);
-      return;
-    }
+    // Handle Waypoint Flight (ONLY when moving forward)
+    if (flyVia && !isBackward) {
+      const flight1Ms = 1800;
+      const flight2Ms = 3200;
 
-    if (flyVia) {
-      // Waypoint sweep flight
+      flightDurationMs = flight1Ms + flight2Ms;
+      flightStartTime = performance.now();
+      flightActive = true;
+
       mapInstance.flyTo({
         center: flyVia,
         zoom: Math.min(zoom || 4.5, 3.5),
@@ -286,24 +275,60 @@ const NARSH_MAP_WIP = (() => {
         padding: padding,
         essential: true
       });
+
       mapInstance.once("moveend", () => {
-        if (!mapInstance) return;
-        mapInstance.flyTo({
-          center: coords,
-          zoom: zoom || 4.5,
-          speed: CAMERA_SPEED,
-          curve: CAMERA_CURVE,
-          padding: padding,
-          essential: true
-        });
-        startCameraSyncedReveal(3200, 0.4, 1.0);
+        if (mapInstance) {
+          mapInstance.flyTo({
+            center: coords,
+            zoom: zoom || 4.5,
+            speed: CAMERA_SPEED,
+            curve: CAMERA_CURVE,
+            padding: padding,
+            essential: true
+          });
+        }
       });
-      startCameraSyncedReveal(2200, 0, 0.4);
       return;
     }
 
-    // Standard camera flight
-    const duration = 4000;
+    // Handle Dual Travel Wide Zoom Out
+    if (wideCoords) {
+      const flight1Ms = 2400;
+      const flight2Ms = 2400;
+
+      flightDurationMs = flight1Ms + flight2Ms;
+      flightStartTime = performance.now();
+      flightActive = true;
+
+      mapInstance.flyTo({
+        center: wideCoords,
+        zoom: wideZoom || 3.0,
+        speed: CAMERA_SPEED,
+        curve: CAMERA_CURVE,
+        padding: padding,
+        essential: true
+      });
+
+      mapInstance.once("moveend", () => {
+        if (mapInstance) {
+          mapInstance.flyTo({
+            center: coords,
+            zoom: zoom || 5.0,
+            speed: CAMERA_SPEED,
+            curve: CAMERA_CURVE,
+            padding: padding,
+            essential: true
+          });
+        }
+      });
+      return;
+    }
+
+    // Standard camera flight (forward or backward)
+    flightDurationMs = 3600;
+    flightStartTime = performance.now();
+    flightActive = true;
+
     mapInstance.flyTo({
       center: coords,
       zoom: zoom || 4.5,
@@ -312,48 +337,6 @@ const NARSH_MAP_WIP = (() => {
       padding: padding,
       essential: true
     });
-    startCameraSyncedReveal(duration, 0, 1.0);
-  };
-
-  const startCameraSyncedReveal = (durationMs, rangeStartFraction = 0, rangeEndFraction = 1.0) => {
-    if (activeFlightAnimationId) {
-      cancelAnimationFrame(activeFlightAnimationId);
-      activeFlightAnimationId = null;
-    }
-
-    const prevArash = lastCoords["line-arash"] || [];
-    const prevNatalie = lastCoords["line-natalie"] || [];
-
-    // If scrolling backwards (target shorter than previous), snap immediately to target
-    const startArashCount = (prevArash.length <= targetArashCoords.length) ? prevArash.length : targetArashCoords.length;
-    const startNatalieCount = (prevNatalie.length <= targetNatalieCoords.length) ? prevNatalie.length : targetNatalieCoords.length;
-
-    const totalArashRange = targetArashCoords.length - startArashCount;
-    const totalNatalieRange = targetNatalieCoords.length - startNatalieCount;
-
-    const startTime = performance.now();
-
-    const frameStep = (now) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(1, elapsed / durationMs);
-      const eased = 1 - Math.pow(1 - progress, 2.2);
-
-      const segmentFraction = rangeStartFraction + (rangeEndFraction - rangeStartFraction) * eased;
-
-      const countArash = startArashCount + Math.floor(totalArashRange * segmentFraction);
-      const countNatalie = startNatalieCount + Math.floor(totalNatalieRange * segmentFraction);
-
-      setLineData("line-arash", targetArashCoords.slice(0, Math.max(countArash, startArashCount)));
-      setLineData("line-natalie", targetNatalieCoords.slice(0, Math.max(countNatalie, startNatalieCount)));
-
-      if (progress < 1) {
-        activeFlightAnimationId = requestAnimationFrame(frameStep);
-      } else {
-        activeFlightAnimationId = null;
-      }
-    };
-
-    activeFlightAnimationId = requestAnimationFrame(frameStep);
   };
 
   const updateLines = (stopIndex, stops) => {
@@ -377,8 +360,7 @@ const NARSH_MAP_WIP = (() => {
         if (i === convergenceIndex) convArashIdx = arashNodes.length;
         arashNodes.push(stop.coords);
         if (stop.isHubTrip && stop.hubCoords) {
-          // Explicit return leg Great Circle points back to Seattle!
-          const returnPoints = getGreatCirclePoints(stop.coords, stop.hubCoords, 15);
+          const returnPoints = getGreatCirclePoints(stop.coords, stop.hubCoords, 16);
           returnPoints.forEach(p => arashNodes.push(p));
         }
       }
@@ -390,7 +372,7 @@ const NARSH_MAP_WIP = (() => {
         if (i === convergenceIndex) convNatalieIdx = natalieNodes.length;
         natalieNodes.push(stop.coords);
         if (stop.isHubTrip && stop.hubCoords) {
-          const returnPoints = getGreatCirclePoints(stop.coords, stop.hubCoords, 15);
+          const returnPoints = getGreatCirclePoints(stop.coords, stop.hubCoords, 16);
           returnPoints.forEach(p => natalieNodes.push(p));
         }
       }
@@ -436,7 +418,6 @@ const NARSH_MAP_WIP = (() => {
       const b = nodes[j + 1];
       const weave = weaveFromIndex >= 0 && j >= weaveFromIndex;
 
-      // Great Circle interpolation between consecutive nodes
       const gcArc = getGreatCirclePoints(a, b, SEGMENT_STEPS);
 
       for (let s = 1; s < gcArc.length; s++) {

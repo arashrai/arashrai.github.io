@@ -1,6 +1,6 @@
 name,group,comes_with,parent,sibling,cities,photo,special,tree
-Natalie Fleury,Natalie's Family,,"Shawna Morehouse,William Fleury",,"Seattle, Grand Cayman, Waterloo",natalie.jpg,
-Arash Rai,Arash's Family,,"Jatinder Kaur,Amritpal Rai",,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
+Natalie Fleury,"Natalie's Family,Waterloo,Metamate,Seattleite,Cayman Crew",,"Shawna Morehouse,William Fleury",,"Seattle, Grand Cayman, Waterloo",natalie.jpg,
+Arash Rai,"Arash's Family,Waterloo,Abby Friends,Stripe,Seattleite",,"Jatinder Kaur,Amritpal Rai",,"Seattle, Mumbai, Auckland, Waterloo",arash.jpg,
 Cindy Fleury,Natalie's Family,Rene Fleury,,
 Rene Fleury,Natalie's Family,,Mary Fleury,
 Katelyn Henry,Natalie's Family,Natreisha Henry,...,
@@ -23,7 +23,7 @@ Georgia Hong,Waterloo,Jerry Liu,,
 Kendra Kusick,Natalie's Family,Kyle Francis,,
 Amy Qiu,Waterloo,Phillip Vo,,
 Phillip Vo,Waterloo,,,
-"Shawna Morehouse ",Natalie's Family,,Sidney Morehouse,,,shawna.jpg
+Shawna Morehouse,Natalie's Family,,Sidney Morehouse,,,shawna.jpg
 Greg Bennett,Cayman Crew,,,
 Leighanne Bennett,Cayman Crew,Greg Bennett,,
 Gaurav Sandhar,Abby Friends,,,
@@ -102,7 +102,7 @@ Mary Fleury,Natalie's Family,,,,,mary.jpg
 Jatinder Kaur,Arash's Family,,"Mohinder Kaur,Bachittar Boparai",,,jatinder.jpg
 Amritpal Rai,Arash's Family,,Balbir Rai,,,amritpal.jpg
 Janessa Reimer,Natalie's Family,Glen Antle,"Glen Antle,Jennifer Reimer",
-...,Natalie's Family,,Rene Fleury,
+...,Natalie's Family,,Rene Fleury,,,,,
 Aman Rai,Arash's Family,,"Gurpreet Rai,Kiran Kaur",
 Amrit Kaur,Arash's Family,Aman Rai,"Amrit's mom,Amrit's dad",
 Gurpreet Rai,Arash's Family,,Balbir Rai,

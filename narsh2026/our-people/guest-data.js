@@ -12,9 +12,9 @@ const NARSH_GUESTS = (() => {
       "color": "#D4A843"
     },
     {
-      "id": "arashs-family",
-      "label": "Arash's Family",
-      "color": "#2A9D8F"
+      "id": "waterloo",
+      "label": "Waterloo",
+      "color": "#A8763E"
     },
     {
       "id": "metamate",
@@ -27,14 +27,14 @@ const NARSH_GUESTS = (() => {
       "color": "#6B8E9E"
     },
     {
-      "id": "waterloo",
-      "label": "Waterloo",
-      "color": "#A8763E"
-    },
-    {
       "id": "cayman-crew",
       "label": "Cayman Crew",
       "color": "#C9928E"
+    },
+    {
+      "id": "arashs-family",
+      "label": "Arash's Family",
+      "color": "#2A9D8F"
     },
     {
       "id": "abby-friends",
@@ -77,7 +77,11 @@ const NARSH_GUESTS = (() => {
       "name": "Natalie Fleury",
       "photo": "/narsh2026/images/people/natalie.jpg",
       "groups": [
-        "natalies-family"
+        "natalies-family",
+        "waterloo",
+        "metamate",
+        "seattleite",
+        "cayman-crew"
       ],
       "cities": [
         "seattle",
@@ -101,7 +105,11 @@ const NARSH_GUESTS = (() => {
       "name": "Arash Rai",
       "photo": "/narsh2026/images/people/arash.jpg",
       "groups": [
-        "arashs-family"
+        "arashs-family",
+        "waterloo",
+        "abby-friends",
+        "stripe",
+        "seattleite"
       ],
       "cities": [
         "seattle",

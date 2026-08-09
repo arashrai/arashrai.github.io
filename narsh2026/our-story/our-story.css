@@ -469,10 +469,16 @@
     width: auto !important;
   }
 
+  /* Contain the overscroll: when the narrative reaches its end mid-swipe the
+     browser would otherwise chain the leftover scroll to the document, jumping
+     raw scrollY past several stops at once — the exact skipping the gesture
+     layer in scroll-controller.js exists to remove. `contain` stops the chain
+     at the panel so the rest of the swipe simply does nothing. */
   .story-panel .stop-narrative {
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
   }
 }
@@ -486,6 +492,7 @@
     max-width: 440px;
     max-height: 82vh;
     overflow-y: auto;
+    overscroll-behavior: contain;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-medium);
     padding: var(--space-lg);

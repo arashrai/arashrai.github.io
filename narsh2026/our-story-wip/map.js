@@ -177,60 +177,68 @@ const NARSH_MAP_WIP = (() => {
   };
 
   const setupLayers = () => {
+    if (!mapInstance) return;
+
     // Arash line
-    mapInstance.addSource("line-arash", {
-      type: "geojson",
-      data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
-    });
-    mapInstance.addLayer({
-      id: "line-arash-glow",
-      type: "line",
-      source: "line-arash",
-      paint: { "line-color": COLOR_ARASH, "line-width": 6, "line-opacity": 0.35, "line-blur": 3 }
-    });
-    mapInstance.addLayer({
-      id: "line-arash",
-      type: "line",
-      source: "line-arash",
-      paint: { "line-color": COLOR_ARASH, "line-width": 3.5, "line-opacity": 1 },
-      layout: { "line-cap": "round", "line-join": "round" }
-    });
+    if (!mapInstance.getSource("line-arash")) {
+      mapInstance.addSource("line-arash", {
+        type: "geojson",
+        data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
+      });
+      mapInstance.addLayer({
+        id: "line-arash-glow",
+        type: "line",
+        source: "line-arash",
+        paint: { "line-color": COLOR_ARASH, "line-width": 6, "line-opacity": 0.35, "line-blur": 3 }
+      });
+      mapInstance.addLayer({
+        id: "line-arash",
+        type: "line",
+        source: "line-arash",
+        paint: { "line-color": COLOR_ARASH, "line-width": 3.5, "line-opacity": 1 },
+        layout: { "line-cap": "round", "line-join": "round" }
+      });
+    }
 
     // Natalie line
-    mapInstance.addSource("line-natalie", {
-      type: "geojson",
-      data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
-    });
-    mapInstance.addLayer({
-      id: "line-natalie-glow",
-      type: "line",
-      source: "line-natalie",
-      paint: { "line-color": COLOR_NATALIE, "line-width": 6, "line-opacity": 0.35, "line-blur": 3 }
-    });
-    mapInstance.addLayer({
-      id: "line-natalie",
-      type: "line",
-      source: "line-natalie",
-      paint: { "line-color": COLOR_NATALIE, "line-width": 3.5, "line-opacity": 1 },
-      layout: { "line-cap": "round", "line-join": "round" }
-    });
+    if (!mapInstance.getSource("line-natalie")) {
+      mapInstance.addSource("line-natalie", {
+        type: "geojson",
+        data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
+      });
+      mapInstance.addLayer({
+        id: "line-natalie-glow",
+        type: "line",
+        source: "line-natalie",
+        paint: { "line-color": COLOR_NATALIE, "line-width": 6, "line-opacity": 0.35, "line-blur": 3 }
+      });
+      mapInstance.addLayer({
+        id: "line-natalie",
+        type: "line",
+        source: "line-natalie",
+        paint: { "line-color": COLOR_NATALIE, "line-width": 3.5, "line-opacity": 1 },
+        layout: { "line-cap": "round", "line-join": "round" }
+      });
+    }
 
     // Pins
-    mapInstance.addSource("stops", {
-      type: "geojson",
-      data: { type: "FeatureCollection", features: [] }
-    });
-    mapInstance.addLayer({
-      id: "stop-pins",
-      type: "circle",
-      source: "stops",
-      paint: {
-        "circle-radius": ["case", ["get", "active"], 7, 5],
-        "circle-color": ["get", "color"],
-        "circle-stroke-width": 2,
-        "circle-stroke-color": COLOR_PIN_STROKE
-      }
-    });
+    if (!mapInstance.getSource("stops")) {
+      mapInstance.addSource("stops", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [] }
+      });
+      mapInstance.addLayer({
+        id: "stop-pins",
+        type: "circle",
+        source: "stops",
+        paint: {
+          "circle-radius": ["case", ["get", "active"], 7, 5],
+          "circle-color": ["get", "color"],
+          "circle-stroke-width": 2,
+          "circle-stroke-color": COLOR_PIN_STROKE
+        }
+      });
+    }
   };
 
   const flyToStop = (coords, zoom, flyVia, wideCoords, wideZoom, isHubTrip, hubCoords, isBackward) => {

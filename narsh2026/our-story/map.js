@@ -178,84 +178,92 @@ const NARSH_MAP = (() => {
   };
 
   const setupLayers = () => {
+    if (!mapInstance) return;
+
     // Arash journey line — glow
-    mapInstance.addSource("line-arash", {
-      type: "geojson",
-      data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
-    });
-    mapInstance.addLayer({
-      id: "line-arash-glow",
-      type: "line",
-      source: "line-arash",
-      paint: {
-        "line-color": COLOR_ARASH,
-        "line-width": 6,
-        "line-opacity": 0.3,
-        "line-blur": 3
-      }
-    });
-    mapInstance.addLayer({
-      id: "line-arash",
-      type: "line",
-      source: "line-arash",
-      paint: {
-        "line-color": COLOR_ARASH,
-        "line-width": 3,
-        "line-opacity": 1
-      },
-      layout: {
-        "line-cap": "round",
-        "line-join": "round"
-      }
-    });
+    if (!mapInstance.getSource("line-arash")) {
+      mapInstance.addSource("line-arash", {
+        type: "geojson",
+        data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
+      });
+      mapInstance.addLayer({
+        id: "line-arash-glow",
+        type: "line",
+        source: "line-arash",
+        paint: {
+          "line-color": COLOR_ARASH,
+          "line-width": 6,
+          "line-opacity": 0.3,
+          "line-blur": 3
+        }
+      });
+      mapInstance.addLayer({
+        id: "line-arash",
+        type: "line",
+        source: "line-arash",
+        paint: {
+          "line-color": COLOR_ARASH,
+          "line-width": 3,
+          "line-opacity": 1
+        },
+        layout: {
+          "line-cap": "round",
+          "line-join": "round"
+        }
+      });
+    }
 
     // Natalie journey line — glow
-    mapInstance.addSource("line-natalie", {
-      type: "geojson",
-      data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
-    });
-    mapInstance.addLayer({
-      id: "line-natalie-glow",
-      type: "line",
-      source: "line-natalie",
-      paint: {
-        "line-color": COLOR_NATALIE,
-        "line-width": 6,
-        "line-opacity": 0.3,
-        "line-blur": 3
-      }
-    });
-    mapInstance.addLayer({
-      id: "line-natalie",
-      type: "line",
-      source: "line-natalie",
-      paint: {
-        "line-color": COLOR_NATALIE,
-        "line-width": 3,
-        "line-opacity": 1
-      },
-      layout: {
-        "line-cap": "round",
-        "line-join": "round"
-      }
-    });
+    if (!mapInstance.getSource("line-natalie")) {
+      mapInstance.addSource("line-natalie", {
+        type: "geojson",
+        data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
+      });
+      mapInstance.addLayer({
+        id: "line-natalie-glow",
+        type: "line",
+        source: "line-natalie",
+        paint: {
+          "line-color": COLOR_NATALIE,
+          "line-width": 6,
+          "line-opacity": 0.3,
+          "line-blur": 3
+        }
+      });
+      mapInstance.addLayer({
+        id: "line-natalie",
+        type: "line",
+        source: "line-natalie",
+        paint: {
+          "line-color": COLOR_NATALIE,
+          "line-width": 3,
+          "line-opacity": 1
+        },
+        layout: {
+          "line-cap": "round",
+          "line-join": "round"
+        }
+      });
+    }
 
-    // Stop pins
-    mapInstance.addSource("stops", {
-      type: "geojson",
-      data: { type: "FeatureCollection", features: [] }
-    });
-    mapInstance.addLayer({
-      id: "stop-pins",
-      type: "circle",
-      source: "stops",
-      paint: {
-        "circle-radius": ["case", ["get", "active"], 6.5, 5],
-        "circle-color": ["get", "color"],
-        "circle-stroke-width": 2,
-        "circle-stroke-color": COLOR_PIN_STROKE
-      }
-    });
+    // Stop markers (circle layer for crisp vector rendering at any scale)
+    if (!mapInstance.getSource("stops")) {
+      mapInstance.addSource("stops", {
+        type: "geojson",
+        data: { type: "FeatureCollection", features: [] }
+      });
+      mapInstance.addLayer({
+        id: "stop-pins",
+        type: "circle",
+        source: "stops",
+        paint: {
+          "circle-radius": ["case", ["get", "active"], 8, 5],
+          "circle-color": ["get", "color"],
+          "circle-stroke-width": 2,
+          "circle-stroke-color": COLOR_PIN_STROKE
+        }
+      });
+    }
   };
 
   const flyToStop = (coords, zoom) => {

@@ -94,7 +94,51 @@ IMG: narsh2026/images/story/seattle/
 
 ---
 
-## 12. The Proposal (2025)
+## 12. Cancún & Tulum, Mexico (2022)
+**Who:** both
+**Location:** Cancún & Tulum, Mexico
+**Year:** 2022
+
+Exploring coastal Mexico together! From turquoise Caribbean waters and cenote swims to ancient Mayan ruins and delicious street tacos.
+
+IMG: narsh2026/images/story/mexico/
+
+---
+
+## 13. Montego Bay, Jamaica (2023)
+**Who:** both
+**Location:** Montego Bay, Jamaica
+**Year:** 2023
+
+Island getaway to Jamaica! Soaking up sunny beach days, island music, vibrant culture, and unforgettable sunsets along the coast.
+
+IMG: narsh2026/images/story/jamaica/
+
+---
+
+## 14. Zermatt & The Alps, Switzerland (2024)
+**Who:** both
+**Location:** Zermatt & The Alps, Switzerland
+**Year:** 2024
+
+A dream journey through Switzerland! Riding mountain railways, viewing the iconic Matterhorn, and taking in breathtaking alpine valleys.
+
+IMG: narsh2026/images/story/switzerland/
+
+---
+
+## 15. Tokyo & Kyoto, Japan (2024)
+**Who:** both
+**Location:** Tokyo & Kyoto, Japan
+**Year:** 2024
+
+Adventures in Japan! Exploring bustling streets in Tokyo, peaceful bamboo groves and historic shrines in Kyoto, and incredible food everywhere.
+
+IMG: narsh2026/images/story/japan/
+
+---
+
+## 16. The Proposal (2025)
 **Who:** both
 **Location:** Ucluelet, Vancouver Island, BC, Canada
 **Year:** 2025
@@ -105,7 +149,7 @@ IMG: narsh2026/images/story/proposal/
 
 ---
 
-## 13. The Wedding! (2026)
+## 17. The Wedding! (2026)
 **Who:** both
 **Location:** Kelowna, BC, Canada
 **Year:** 2026

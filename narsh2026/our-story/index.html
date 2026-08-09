@@ -25,6 +25,7 @@
         <a href="/narsh2026/travel-accommodations/">Travel & Accommodations</a>
         <a href="/narsh2026/dress-code/">Dress Code</a>
         <a href="/narsh2026/our-story/" class="active">Our Story</a>
+        <a href="/narsh2026/our-story-wip/">Our Story WIP</a>
         <a href="/narsh2026/our-people/">Our People</a>
         <a href="/narsh2026/puzzles/">Puzzles</a>
       </nav>
@@ -170,25 +171,7 @@
                 NARSH_MAP.playBowAnimation(stop.coords);
               }
 
-              if (isMobile.matches && !prefersReducedMotion && wrapperEl) {
-                // Mobile: hide the content card and show the map for the whole
-                // camera flight. Swap in the new heading/photo/text only once the
-                // card is hidden (right before fading it back in) so there's no
-                // flash of the next stop, and hold the map a beat after arrival.
-                wrapperEl.classList.remove("mobile-show-content");
-                if (mobileFadeTimer) clearTimeout(mobileFadeTimer);
-                mobileFadeTimer = setTimeout(() => {
-                  applyStopContent(stop);
-                  wrapperEl.classList.add("mobile-show-content");
-                }, 3400);
-              } else {
-                // Desktop (map + card side by side) and reduced-motion: content
-                // updates immediately.
-                applyStopContent(stop);
-                if (isMobile.matches && wrapperEl) {
-                  wrapperEl.classList.add("mobile-show-content");
-                }
-              }
+              applyStopContent(stop);
             };
 
             NARSH_SCROLL.init(STOPS, onStopChange);

@@ -1,10 +1,13 @@
 // Narsh 2026 — Our Story WIP Map Module
+// Great Circle geodesic arc engine & camera-synchronized flight renderer.
+
 const NARSH_MAP_WIP = (() => {
   "use strict";
 
   const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
 
-  const FLY_DURATION = 4200;
+  const CAMERA_SPEED = 0.65; // Stately, majestic camera pan
+  const CAMERA_CURVE = 1.2;  // Smooth zoom profile
   const INTERTWINE_AMPLITUDE = 0.3;
 
   const COLOR_ARASH = "#2A9D8F";
@@ -20,6 +23,45 @@ const NARSH_MAP_WIP = (() => {
   const lastCoords = { "line-arash": [], "line-natalie": [] };
   let bowCenterArash = null;
   let bowCenterNatalie = null;
+
+  // Great Circle Geodesic Arc Interpolation
+  const getGreatCirclePoints = (start, end, numPoints = 30) => {
+    if (!start || !end) return [];
+    const rad = Math.PI / 180;
+    const lat1 = start[1] * rad;
+    const lon1 = start[0] * rad;
+    const lat2 = end[1] * rad;
+    let lon2 = end[0] * rad;
+
+    // Unwrap longitudes for shortest turn
+    let dLon = lon2 - lon1;
+    while (dLon > Math.PI) { lon2 -= 2 * Math.PI; dLon = lon2 - lon1; }
+    while (dLon < -Math.PI) { lon2 += 2 * Math.PI; dLon = lon2 - lon1; }
+
+    const dLat = lat2 - lat1;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1) * Math.cos(lat2) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const d = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    if (d === 0) return [start.slice()];
+
+    const points = [];
+    for (let i = 0; i <= numPoints; i++) {
+      const f = i / numPoints;
+      const A = Math.sin((1 - f) * d) / Math.sin(d);
+      const B = Math.sin(f * d) / Math.sin(d);
+
+      const x = A * Math.cos(lat1) * Math.cos(lon1) + B * Math.cos(lat2) * Math.cos(lon2);
+      const y = A * Math.cos(lat1) * Math.sin(lon1) + B * Math.cos(lat2) * Math.sin(lon2);
+      const z = A * Math.sin(lat1) + B * Math.sin(lat2);
+
+      const lat = Math.atan2(z, Math.sqrt(x * x + y * y)) / rad;
+      const lon = Math.atan2(y, x) / rad;
+      points.push([lon, lat]);
+    }
+    return points;
+  };
 
   const init = (containerId) => {
     reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -161,7 +203,7 @@ const NARSH_MAP_WIP = (() => {
     });
   };
 
-  const flyToStop = (coords, zoom, flyVia, wideCoords, wideZoom) => {
+  const flyToStop = (coords, zoom, flyVia, wideCoords, wideZoom, isHubTrip, hubCoords) => {
     if (!mapInstance) return;
     mapInstance.stop();
 
@@ -170,67 +212,110 @@ const NARSH_MAP_WIP = (() => {
       ? { top: 70, bottom: 180, left: 16, right: 16 }
       : { top: 80, bottom: 80, left: 40, right: 420 };
 
-    if (wideCoords && !reducedMotion) {
-      // Dual-travel wide zoom out: first camera zooms out wide to show both origins & destination
-      mapInstance.flyTo({
-        center: wideCoords,
-        zoom: wideZoom || 3.0,
-        duration: 2600,
-        padding: padding,
-        essential: true
-      });
-      // As lines finish arriving, gently glide camera in to destination pin
-      mapInstance.once("moveend", () => {
-        if (mapInstance) {
-          mapInstance.flyTo({
-            center: coords,
-            zoom: zoom || 5.0,
-            duration: 2200,
-            padding: padding,
-            essential: true
-          });
-        }
-      });
-      startCameraSyncedReveal(4800);
-    } else if (flyVia && !reducedMotion) {
-      // Waypoint flight: slower sweep over via point, then destination
-      mapInstance.flyTo({
-        center: flyVia,
-        zoom: Math.min(zoom || 4.5, 3.5),
-        duration: 1800,
-        padding: padding,
-        essential: true
-      });
-      mapInstance.once("moveend", () => {
-        if (mapInstance) {
-          mapInstance.flyTo({
-            center: coords,
-            zoom: zoom || 4.5,
-            duration: 3600,
-            padding: padding,
-            essential: true
-          });
-          startCameraSyncedReveal(3600);
-        }
-      });
-      startCameraSyncedReveal(5400);
-    } else if (reducedMotion) {
+    if (reducedMotion) {
       mapInstance.jumpTo({ center: coords, zoom: zoom || 4.5, padding: padding });
       setLineData("line-arash", targetArashCoords);
       setLineData("line-natalie", targetNatalieCoords);
-    } else {
+      return;
+    }
+
+    if (isHubTrip && hubCoords) {
+      // 2-Leg Vacation Trip Flight: Seattle ➔ Trip Destination ➔ Pause ➔ Seattle
+      const leg1Duration = 3200;
       mapInstance.flyTo({
         center: coords,
-        zoom: zoom || 4.5,
-        duration: FLY_DURATION,
+        zoom: zoom || 5.0,
+        speed: CAMERA_SPEED,
+        curve: CAMERA_CURVE,
         padding: padding,
         essential: true
       });
-      startCameraSyncedReveal(FLY_DURATION);
+      startCameraSyncedReveal(leg1Duration, 0, 0.5);
+
+      mapInstance.once("moveend", () => {
+        if (!mapInstance) return;
+        // Hold 1500ms over destination, then return back to Seattle
+        setTimeout(() => {
+          if (!mapInstance) return;
+          mapInstance.flyTo({
+            center: hubCoords,
+            zoom: 5.5,
+            speed: CAMERA_SPEED,
+            curve: CAMERA_CURVE,
+            padding: padding,
+            essential: true
+          });
+          startCameraSyncedReveal(3000, 0.5, 1.0);
+        }, 1500);
+      });
+      return;
     }
+
+    if (wideCoords) {
+      // Dual-travel wide zoom out: zoom out to see both lines travel simultaneously, then glide into pin
+      mapInstance.flyTo({
+        center: wideCoords,
+        zoom: wideZoom || 3.0,
+        speed: CAMERA_SPEED,
+        curve: CAMERA_CURVE,
+        padding: padding,
+        essential: true
+      });
+      mapInstance.once("moveend", () => {
+        if (!mapInstance) return;
+        mapInstance.flyTo({
+          center: coords,
+          zoom: zoom || 5.0,
+          speed: CAMERA_SPEED,
+          curve: CAMERA_CURVE,
+          padding: padding,
+          essential: true
+        });
+      });
+      startCameraSyncedReveal(4500, 0, 1.0);
+      return;
+    }
+
+    if (flyVia) {
+      // Waypoint sweep flight
+      mapInstance.flyTo({
+        center: flyVia,
+        zoom: Math.min(zoom || 4.5, 3.5),
+        speed: CAMERA_SPEED,
+        curve: CAMERA_CURVE,
+        padding: padding,
+        essential: true
+      });
+      mapInstance.once("moveend", () => {
+        if (!mapInstance) return;
+        mapInstance.flyTo({
+          center: coords,
+          zoom: zoom || 4.5,
+          speed: CAMERA_SPEED,
+          curve: CAMERA_CURVE,
+          padding: padding,
+          essential: true
+        });
+        startCameraSyncedReveal(3200, 0.4, 1.0);
+      });
+      startCameraSyncedReveal(2200, 0, 0.4);
+      return;
+    }
+
+    // Standard camera flight
+    const duration = 4000;
+    mapInstance.flyTo({
+      center: coords,
+      zoom: zoom || 4.5,
+      speed: CAMERA_SPEED,
+      curve: CAMERA_CURVE,
+      padding: padding,
+      essential: true
+    });
+    startCameraSyncedReveal(duration, 0, 1.0);
   };
 
-  const startCameraSyncedReveal = (durationMs) => {
+  const startCameraSyncedReveal = (durationMs, rangeStartFraction = 0, rangeEndFraction = 1.0) => {
     if (activeFlightAnimationId) {
       cancelAnimationFrame(activeFlightAnimationId);
       activeFlightAnimationId = null;
@@ -243,16 +328,20 @@ const NARSH_MAP_WIP = (() => {
     const startArashCount = (prevArash.length <= targetArashCoords.length) ? prevArash.length : targetArashCoords.length;
     const startNatalieCount = (prevNatalie.length <= targetNatalieCoords.length) ? prevNatalie.length : targetNatalieCoords.length;
 
+    const totalArashRange = targetArashCoords.length - startArashCount;
+    const totalNatalieRange = targetNatalieCoords.length - startNatalieCount;
+
     const startTime = performance.now();
 
     const frameStep = (now) => {
       const elapsed = now - startTime;
       const progress = Math.min(1, elapsed / durationMs);
-      // Smooth camera-synced easing curve
-      const eased = 1 - Math.pow(1 - progress, 2.5);
+      const eased = 1 - Math.pow(1 - progress, 2.2);
 
-      const countArash = startArashCount + Math.floor((targetArashCoords.length - startArashCount) * eased);
-      const countNatalie = startNatalieCount + Math.floor((targetNatalieCoords.length - startNatalieCount) * eased);
+      const segmentFraction = rangeStartFraction + (rangeEndFraction - rangeStartFraction) * eased;
+
+      const countArash = startArashCount + Math.floor(totalArashRange * segmentFraction);
+      const countNatalie = startNatalieCount + Math.floor(totalNatalieRange * segmentFraction);
 
       setLineData("line-arash", targetArashCoords.slice(0, Math.max(countArash, startArashCount)));
       setLineData("line-natalie", targetNatalieCoords.slice(0, Math.max(countNatalie, startNatalieCount)));
@@ -260,8 +349,6 @@ const NARSH_MAP_WIP = (() => {
       if (progress < 1) {
         activeFlightAnimationId = requestAnimationFrame(frameStep);
       } else {
-        setLineData("line-arash", targetArashCoords);
-        setLineData("line-natalie", targetNatalieCoords);
         activeFlightAnimationId = null;
       }
     };
@@ -290,7 +377,9 @@ const NARSH_MAP_WIP = (() => {
         if (i === convergenceIndex) convArashIdx = arashNodes.length;
         arashNodes.push(stop.coords);
         if (stop.isHubTrip && stop.hubCoords) {
-          arashNodes.push(stop.hubCoords);
+          // Explicit return leg Great Circle points back to Seattle!
+          const returnPoints = getGreatCirclePoints(stop.coords, stop.hubCoords, 15);
+          returnPoints.forEach(p => arashNodes.push(p));
         }
       }
 
@@ -301,7 +390,8 @@ const NARSH_MAP_WIP = (() => {
         if (i === convergenceIndex) convNatalieIdx = natalieNodes.length;
         natalieNodes.push(stop.coords);
         if (stop.isHubTrip && stop.hubCoords) {
-          natalieNodes.push(stop.hubCoords);
+          const returnPoints = getGreatCirclePoints(stop.coords, stop.hubCoords, 15);
+          returnPoints.forEach(p => natalieNodes.push(p));
         }
       }
     }
@@ -321,7 +411,7 @@ const NARSH_MAP_WIP = (() => {
     }
   };
 
-  const SEGMENT_STEPS = 24;
+  const SEGMENT_STEPS = 20;
 
   const unwrapLongitudes = (nodes) => {
     if (nodes.length === 0) return [];
@@ -346,48 +436,17 @@ const NARSH_MAP_WIP = (() => {
       const b = nodes[j + 1];
       const weave = weaveFromIndex >= 0 && j >= weaveFromIndex;
 
-      const dx = b[0] - a[0];
-      const dy = b[1] - a[1];
-      const len = Math.hypot(dx, dy) || 1;
-      const px = -dy / len;
-      const py = dx / len;
+      // Great Circle interpolation between consecutive nodes
+      const gcArc = getGreatCirclePoints(a, b, SEGMENT_STEPS);
 
-      for (let s = 1; s <= SEGMENT_STEPS; s++) {
+      for (let s = 1; s < gcArc.length; s++) {
+        const pt = gcArc[s];
         const t = s / SEGMENT_STEPS;
         const bow = weave ? Math.sin(Math.PI * t) * INTERTWINE_AMPLITUDE * sign : 0;
-        out.push([a[0] + dx * t + px * bow, a[1] + dy * t + py * bow]);
+        out.push([pt[0] + bow, pt[1]]);
       }
     }
     return out;
-  };
-
-  const animateReveal = (sourceId, coords) => {
-    if (coords.length < 2) {
-      setLineData(sourceId, coords);
-      return;
-    }
-    const prev = lastCoords[sourceId] || [];
-    const startCount = (prev.length >= 1 && prev.length < coords.length) ? prev.length : 1;
-    if (coords.length <= startCount) {
-      setLineData(sourceId, coords);
-      return;
-    }
-
-    const startTime = performance.now();
-    const step = (currentTime) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / LINE_DRAW_DURATION, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const count = startCount + Math.floor((coords.length - startCount) * eased);
-      setLineData(sourceId, coords.slice(0, Math.max(count, startCount)));
-
-      if (progress < 1) {
-        lineAnimationId = requestAnimationFrame(step);
-      } else {
-        setLineData(sourceId, coords);
-      }
-    };
-    lineAnimationId = requestAnimationFrame(step);
   };
 
   const setLineData = (sourceId, coords) => {
@@ -450,7 +509,7 @@ const NARSH_MAP_WIP = (() => {
 
     const step = (currentTime) => {
       const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / BOW_DURATION, 1);
+      const progress = Math.min(elapsed / 1400, 1);
       const eased = 1 - Math.pow(1 - progress, 2);
       const pointCount = Math.floor(eased * 40);
 

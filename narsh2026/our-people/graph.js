@@ -40,6 +40,20 @@ const NARSH_GRAPH = (() => {
   const TREE_SIDE_GAP = 180;  // gap between Natalie's and Arash's forests
   const TREE_MEMBER_OFFSET = 58; // half-distance between the two people in a couple
 
+  // Family-tree camera framing: the forest is centered on its own geometric
+  // middle, which lands deep inside the wider side's extended family. These
+  // frame the viewport on the Natalie + Arash pair instead.
+  const TREE_FOCUS_SCALE_MAX = 1;   // never zoom IN past the default scale
+  const TREE_FOCUS_PAD_X = 60;      // breathing room either side of the pair
+  const TREE_FOCUS_PAD_TOP = TREE_V_SPACING * 1.2; // keep the parents' row in frame
+  const TREE_FOCUS_PAD_BOTTOM = 80; // room for the node name label
+  // Where the couple's midpoint lands vertically, as a fraction of canvas height.
+  // Deliberately below center: the tree grows upward from the couple, so exact
+  // centering wastes the bottom half. This is the single knob to tweak if the
+  // framing feels off — lower toward 0.5 moves them up, higher toward 0.7 moves
+  // them down.
+  const TREE_FOCUS_Y_FRAC = 0.58;
+
   let svgEl = null;
   let simulation = null;
   let currentView = "social";
@@ -1067,8 +1081,10 @@ const NARSH_GRAPH = (() => {
         currentFamilyFilter = familyFilter || "both";
         renderFamilyTree(currentFamilyFilter);
       }
-      // Restore zoom transform
-      if (currentTransform && zoomBehavior) {
+      // Restore zoom transform. Tree view is exempt: renderFamilyTree has just
+      // framed the camera on the couple, and restoring the social transform
+      // would immediately undo it.
+      if (view === "social" && currentTransform && zoomBehavior) {
         svgEl.call(zoomBehavior.transform, currentTransform);
       }
     } else {
@@ -1084,8 +1100,10 @@ const NARSH_GRAPH = (() => {
             currentFamilyFilter = familyFilter || "both";
             renderFamilyTree(currentFamilyFilter);
           }
-          // Restore zoom transform
-          if (currentTransform && zoomBehavior) {
+          // Restore zoom transform. Tree view is exempt: renderFamilyTree has
+          // just framed the camera on the couple, and restoring the social
+          // transform would immediately undo it.
+          if (view === "social" && currentTransform && zoomBehavior) {
             svgEl.call(zoomBehavior.transform, currentTransform);
           }
           innerGroupEl.transition()
@@ -1101,6 +1119,54 @@ const NARSH_GRAPH = (() => {
     innerGroupEl.select(".nodes").selectAll("*").remove();
     // Remove any tree-specific elements (couple connector, defs for tree clips)
     innerGroupEl.selectAll(".couple-connector").remove();
+  };
+
+  // Point the tree-view camera at the Natalie + Arash pair. The forest layout
+  // centers itself on its own geometric middle, so with one side much wider than
+  // the other the couple ends up pushed off-screen. Called at the end of
+  // renderFamilyTree, where every px/py is already final.
+  const frameOnCouple = () => {
+    if (!svgEl || !zoomBehavior || !treeNodeData.length) return;
+
+    // "natalie" / "arash" are the established literal ids in this file (see the
+    // couple connector below). With a family filter set, only one is present.
+    const focusNodes = ["natalie", "arash"]
+      .map((id) => treeNodeData.find((d) => d.id === id))
+      .filter(Boolean);
+    if (!focusNodes.length) return;
+
+    const focusX = focusNodes.reduce((sum, d) => sum + d.px, 0) / focusNodes.length;
+    const focusY = focusNodes.reduce((sum, d) => sum + d.py, 0) / focusNodes.length;
+
+    const xs = focusNodes.map((d) => d.px);
+    const spanX = Math.max(...xs) - Math.min(...xs);
+    const maxRadius = Math.max(...focusNodes.map((d) => d.radius));
+
+    const requiredWidth = spanX + maxRadius * 2 + TREE_FOCUS_PAD_X * 2;
+    const requiredHeight = TREE_FOCUS_PAD_TOP + maxRadius * 2 + TREE_FOCUS_PAD_BOTTOM;
+
+    const fitScale = Math.min(
+      width / requiredWidth,
+      height / requiredHeight,
+      TREE_FOCUS_SCALE_MAX
+    );
+    // Stay inside the zoom behavior's scaleExtent so d3 does not fight the value,
+    // and fall back to 1 for a degenerate canvas size (zero width/height, NaN).
+    const scale = (Number.isFinite(fitScale) && fitScale > 0)
+      ? Math.max(0.3, Math.min(3, fitScale))
+      : 1;
+
+    const transform = d3.zoomIdentity
+      .translate(width / 2, height * TREE_FOCUS_Y_FRAC)
+      .scale(scale)
+      .translate(-focusX, -focusY);
+
+    // Applied through zoomBehavior.transform (not innerGroupEl.attr) so d3's
+    // internal zoom state stays in sync and later pan/pinch continues from here.
+    // No .transition() — this runs mid-crossfade, where an animated zoom on top
+    // of a fade looks broken, and instant application is already correct for
+    // prefers-reduced-motion.
+    svgEl.call(zoomBehavior.transform, transform);
   };
 
   const renderFamilyTree = (familyFilter) => {
@@ -1320,6 +1386,8 @@ const NARSH_GRAPH = (() => {
     if (descEl) {
       descEl.textContent = treeNodeData.length + " family members shown in family tree view";
     }
+
+    frameOnCouple();
   };
 
   // Lay out one family side as a genealogy chart: married pairs are grouped

@@ -4,9 +4,7 @@ const NARSH_MAP_WIP = (() => {
 
   const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
 
-  const FLY_DURATION = 2600;
-  const LINE_DRAW_DURATION = 1800;
-  const BOW_DURATION = 1400;
+  const FLY_DURATION = 4200;
   const INTERTWINE_AMPLITUDE = 0.3;
 
   const COLOR_ARASH = "#2A9D8F";
@@ -16,7 +14,9 @@ const NARSH_MAP_WIP = (() => {
 
   let mapInstance = null;
   let reducedMotion = false;
-  let lineAnimationId = null;
+  let activeFlightAnimationId = null;
+  let targetArashCoords = [];
+  let targetNatalieCoords = [];
   const lastCoords = { "line-arash": [], "line-natalie": [] };
   let bowCenterArash = null;
   let bowCenterNatalie = null;
@@ -37,7 +37,7 @@ const NARSH_MAP_WIP = (() => {
       center: [50, 25],
       zoom: 1.8,
       attributionControl: false,
-      interactive: true, // Allow pan/zoom to inspect lines!
+      interactive: true,
       dragPan: true,
       scrollZoom: true
     });
@@ -171,10 +171,11 @@ const NARSH_MAP_WIP = (() => {
       : { top: 80, bottom: 80, left: 40, right: 420 };
 
     if (flyVia && !reducedMotion) {
+      // Waypoint flight: slower sweep over via point, then destination
       mapInstance.flyTo({
         center: flyVia,
         zoom: Math.min(zoom || 4.5, 3.5),
-        duration: 1300,
+        duration: 1800,
         padding: padding,
         essential: true
       });
@@ -183,14 +184,18 @@ const NARSH_MAP_WIP = (() => {
           mapInstance.flyTo({
             center: coords,
             zoom: zoom || 4.5,
-            duration: 2200,
+            duration: 3600,
             padding: padding,
             essential: true
           });
+          startCameraSyncedReveal(3600);
         }
       });
+      startCameraSyncedReveal(5400);
     } else if (reducedMotion) {
       mapInstance.jumpTo({ center: coords, zoom: zoom || 4.5, padding: padding });
+      setLineData("line-arash", targetArashCoords);
+      setLineData("line-natalie", targetNatalieCoords);
     } else {
       mapInstance.flyTo({
         center: coords,
@@ -199,16 +204,51 @@ const NARSH_MAP_WIP = (() => {
         padding: padding,
         essential: true
       });
+      startCameraSyncedReveal(FLY_DURATION);
     }
+  };
+
+  const startCameraSyncedReveal = (durationMs) => {
+    if (activeFlightAnimationId) {
+      cancelAnimationFrame(activeFlightAnimationId);
+      activeFlightAnimationId = null;
+    }
+
+    const prevArash = lastCoords["line-arash"] || [];
+    const prevNatalie = lastCoords["line-natalie"] || [];
+
+    // If scrolling backwards (target shorter than previous), snap immediately to target
+    const startArashCount = (prevArash.length <= targetArashCoords.length) ? prevArash.length : targetArashCoords.length;
+    const startNatalieCount = (prevNatalie.length <= targetNatalieCoords.length) ? prevNatalie.length : targetNatalieCoords.length;
+
+    const startTime = performance.now();
+
+    const frameStep = (now) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(1, elapsed / durationMs);
+      // Smooth camera-synced easing curve
+      const eased = 1 - Math.pow(1 - progress, 2.5);
+
+      const countArash = startArashCount + Math.floor((targetArashCoords.length - startArashCount) * eased);
+      const countNatalie = startNatalieCount + Math.floor((targetNatalieCoords.length - startNatalieCount) * eased);
+
+      setLineData("line-arash", targetArashCoords.slice(0, Math.max(countArash, startArashCount)));
+      setLineData("line-natalie", targetNatalieCoords.slice(0, Math.max(countNatalie, startNatalieCount)));
+
+      if (progress < 1) {
+        activeFlightAnimationId = requestAnimationFrame(frameStep);
+      } else {
+        setLineData("line-arash", targetArashCoords);
+        setLineData("line-natalie", targetNatalieCoords);
+        activeFlightAnimationId = null;
+      }
+    };
+
+    activeFlightAnimationId = requestAnimationFrame(frameStep);
   };
 
   const updateLines = (stopIndex, stops) => {
     if (!mapInstance) return;
-
-    if (lineAnimationId) {
-      cancelAnimationFrame(lineAnimationId);
-      lineAnimationId = null;
-    }
 
     const convergenceIndex = stops.findIndex(s => s.isConvergence);
     const woven = convergenceIndex >= 0 && stopIndex > convergenceIndex;
@@ -250,15 +290,12 @@ const NARSH_MAP_WIP = (() => {
     if (convArashIdx >= 0) bowCenterArash = arashUnwrapped[convArashIdx];
     if (convNatalieIdx >= 0) bowCenterNatalie = natalieUnwrapped[convNatalieIdx];
 
-    const arashCoords = buildLine(arashUnwrapped, woven ? convArashIdx : -1, 1);
-    const natalieCoords = buildLine(natalieUnwrapped, woven ? convNatalieIdx : -1, -1);
+    targetArashCoords = buildLine(arashUnwrapped, woven ? convArashIdx : -1, 1);
+    targetNatalieCoords = buildLine(natalieUnwrapped, woven ? convNatalieIdx : -1, -1);
 
     if (reducedMotion) {
-      setLineData("line-arash", arashCoords);
-      setLineData("line-natalie", natalieCoords);
-    } else {
-      animateReveal("line-arash", arashCoords);
-      animateReveal("line-natalie", natalieCoords);
+      setLineData("line-arash", targetArashCoords);
+      setLineData("line-natalie", targetNatalieCoords);
     }
   };
 

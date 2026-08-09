@@ -110,7 +110,7 @@
                 panelEl.classList.add("visible");
               }
 
-              NARSH_MAP_WIP.flyToStop(stop.coords, stop.zoom);
+              NARSH_MAP_WIP.flyToStop(stop.coords, stop.zoom, stop.flyVia);
               NARSH_MAP_WIP.updateLines(newIndex, STOPS);
               NARSH_MAP_WIP.updatePins(newIndex, STOPS);
               NARSH_TIMELINE_WIP.setActive(newIndex);

@@ -161,7 +161,7 @@ const NARSH_MAP_WIP = (() => {
     });
   };
 
-  const flyToStop = (coords, zoom) => {
+  const flyToStop = (coords, zoom, flyVia) => {
     if (!mapInstance) return;
     mapInstance.stop();
 
@@ -170,7 +170,26 @@ const NARSH_MAP_WIP = (() => {
       ? { top: 70, bottom: 180, left: 16, right: 16 }
       : { top: 80, bottom: 80, left: 40, right: 420 };
 
-    if (reducedMotion) {
+    if (flyVia && !reducedMotion) {
+      mapInstance.flyTo({
+        center: flyVia,
+        zoom: Math.min(zoom || 4.5, 3.5),
+        duration: 1300,
+        padding: padding,
+        essential: true
+      });
+      mapInstance.once("moveend", () => {
+        if (mapInstance) {
+          mapInstance.flyTo({
+            center: coords,
+            zoom: zoom || 4.5,
+            duration: 2200,
+            padding: padding,
+            essential: true
+          });
+        }
+      });
+    } else if (reducedMotion) {
       mapInstance.jumpTo({ center: coords, zoom: zoom || 4.5, padding: padding });
     } else {
       mapInstance.flyTo({

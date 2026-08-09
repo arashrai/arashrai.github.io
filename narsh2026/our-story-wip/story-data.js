@@ -28,6 +28,7 @@ const NARSH_STORY_WIP_DATA = (() => {
       owner: "arash",
       location: "Auckland, New Zealand",
       coords: [174.7633, -36.8485],
+      flyVia: [75.8573, 30.9010],
       zoom: 5,
       year: 2001,
       narrative: "Arash lived in Auckland from age 4-11 before moving to Canada.",

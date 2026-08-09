@@ -161,7 +161,7 @@ const NARSH_MAP_WIP = (() => {
     });
   };
 
-  const flyToStop = (coords, zoom, flyVia) => {
+  const flyToStop = (coords, zoom, flyVia, wideCoords, wideZoom) => {
     if (!mapInstance) return;
     mapInstance.stop();
 
@@ -170,7 +170,29 @@ const NARSH_MAP_WIP = (() => {
       ? { top: 70, bottom: 180, left: 16, right: 16 }
       : { top: 80, bottom: 80, left: 40, right: 420 };
 
-    if (flyVia && !reducedMotion) {
+    if (wideCoords && !reducedMotion) {
+      // Dual-travel wide zoom out: first camera zooms out wide to show both origins & destination
+      mapInstance.flyTo({
+        center: wideCoords,
+        zoom: wideZoom || 3.0,
+        duration: 2600,
+        padding: padding,
+        essential: true
+      });
+      // As lines finish arriving, gently glide camera in to destination pin
+      mapInstance.once("moveend", () => {
+        if (mapInstance) {
+          mapInstance.flyTo({
+            center: coords,
+            zoom: zoom || 5.0,
+            duration: 2200,
+            padding: padding,
+            essential: true
+          });
+        }
+      });
+      startCameraSyncedReveal(4800);
+    } else if (flyVia && !reducedMotion) {
       // Waypoint flight: slower sweep over via point, then destination
       mapInstance.flyTo({
         center: flyVia,

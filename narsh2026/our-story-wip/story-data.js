@@ -49,9 +49,11 @@ const NARSH_STORY_WIP_DATA = (() => {
       owner: "both",
       location: "University of Saskatchewan, Canada",
       coords: [-106.6330, 52.1332],
-      zoom: 6,
+      wideCoords: [-101.5, 38.0],
+      wideZoom: 2.9,
+      zoom: 5.5,
       year: 2015,
-      narrative: "Where the two met! SHAD summer camp in Saskatchewan.",
+      narrative: "Where the two met! Lines travel simultaneously from BC & Cayman to meet in Saskatchewan.",
       isConvergence: true
     },
     {
@@ -61,7 +63,7 @@ const NARSH_STORY_WIP_DATA = (() => {
       coords: [-101.7795, 34.1818],
       arashPos: [-122.3045, 49.0504],
       nataliePos: [-81.2546, 19.3133],
-      zoom: 3.5,
+      zoom: 3.2,
       year: "2015 – 2016",
       narrative: "After SHAD, Arash headed back to BC and Natalie returned to Cayman for her senior year.",
       isConvergence: false
@@ -71,7 +73,9 @@ const NARSH_STORY_WIP_DATA = (() => {
       owner: "both",
       location: "Waterloo, Ontario, Canada",
       coords: [-80.5204, 43.4643],
-      zoom: 8,
+      wideCoords: [-98.0, 36.0],
+      wideZoom: 3.1,
+      zoom: 6.5,
       year: "2016 – 2020",
       narrative: "Reunited at the University of Waterloo! Software Engineering & Computer Science.",
       isConvergence: false

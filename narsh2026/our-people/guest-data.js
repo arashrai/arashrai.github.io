@@ -206,7 +206,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "kyle-francis",
       "name": "Kyle Francis",
-      "photo": null,
+      "photo": "/narsh2026/images/people/kyle.jpg",
       "groups": [
         "natalies-family"
       ],
@@ -478,7 +478,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "kendra-kusick",
       "name": "Kendra Kusick",
-      "photo": null,
+      "photo": "/narsh2026/images/people/kendra.jpg",
       "groups": [
         "natalies-family"
       ],

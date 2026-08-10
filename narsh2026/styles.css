@@ -174,27 +174,18 @@ p {
   min-height: 20px;
 }
 
-/* Site Header & Navigation — Frozen Sticky Navigation across all pages */
+/* Site Header & Navigation */
 
 .site-header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  background: rgba(255, 248, 240, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(61, 43, 31, 0.08);
-  box-sizing: border-box;
+  background: var(--color-cream);
 }
 
 .site-logo {
-  font-family: var(--font-heading);
+  font-family: "Playfair Display", Georgia, serif;
   font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--color-text-primary);
@@ -270,7 +261,7 @@ p {
   padding-bottom: 2px;
 }
 
-/* Mobile Nav Overlay */
+/* Mobile Nav Overlay — Takes over the whole page on mobile */
 
 .nav-open .site-nav {
   display: flex;

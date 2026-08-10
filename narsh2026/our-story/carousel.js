@@ -128,6 +128,7 @@ const NARSH_CAROUSEL = (() => {
     img.addEventListener("error", onSettled, { once: true });
   };
 
+  // Resizes photo container dynamically to display full photo generously
   const resizeToCurrent = () => {
     if (!containerEl || !trackEl) return;
     const img = trackEl.children[currentIndex];
@@ -138,8 +139,9 @@ const NARSH_CAROUSEL = (() => {
     if (!maxWidth) return;
 
     const isDesktop = window.innerWidth >= 768;
-    const budget = window.innerHeight * (isDesktop ? 0.45 : 0.35);
-    const maxHeight = Math.max(160, Math.min(220, budget));
+    const budget = window.innerHeight * (isDesktop ? 0.45 : 0.32);
+    // Increased mobile photo height cap to 230px so photos look large and prominent
+    const maxHeight = Math.max(180, Math.min(230, budget));
 
     const ratio = img.naturalHeight / img.naturalWidth;
     let w = maxWidth;

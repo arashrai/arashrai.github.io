@@ -14,16 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const openNav = () => {
     document.body.classList.add("nav-open");
     toggleEl.setAttribute("aria-expanded", "true");
-    const firstLinkEl = navEl.querySelector("a");
-    if (firstLinkEl) {
-      firstLinkEl.focus();
-    }
   };
 
   const closeNav = () => {
     document.body.classList.remove("nav-open");
     toggleEl.setAttribute("aria-expanded", "false");
-    toggleEl.focus();
   };
 
   toggleEl.addEventListener("click", () => {
@@ -40,12 +35,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Only close overlay on internal page hash links. For cross-page navigation,
+  // keep the overlay visible until the new page finishes loading to avoid page flash/jitter.
   const navLinksEl = navEl.querySelectorAll("a");
   navLinksEl.forEach((linkEl) => {
-    linkEl.addEventListener("click", () => {
-      if (document.body.classList.contains("nav-open")) {
-        document.body.classList.remove("nav-open");
-        toggleEl.setAttribute("aria-expanded", "false");
+    linkEl.addEventListener("click", (e) => {
+      const targetHref = linkEl.getAttribute("href") || "";
+      if (targetHref.startsWith("#") || targetHref === window.location.pathname) {
+        if (document.body.classList.contains("nav-open")) {
+          closeNav();
+        }
       }
     });
   });

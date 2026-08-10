@@ -1,9 +1,12 @@
 // Narsh 2026 — Our Story Map Module
-// Clean Architecture: Deterministic Stop-Based Trajectory Engine.
-// - 100% Camera-Locked Line Growth (Leg 2 only).
-// - Zero line growth or disappearance during Leg 1 camera sweeps.
-// - Clean outward-only Hub & Spoke lines from Seattle (zero return line clutter).
-// - Unbraided single Teal/Gold lines early; Braided helix from Waterloo onward.
+// Senior Cartography Design Engine: Explicit Stop-Based Trajectory Mapping.
+// - Stop 0 (Ludhiana): Arash born in Punjab (0 lines).
+// - Stop 1 (Cayman): Natalie born in Cayman (0 lines, no cross-ocean line between babies!).
+// - Stop 2 (Auckland): Arash travels Ludhiana -> Auckland (Teal line).
+// - Stop 3 (Abbotsford): Arash travels Auckland -> Abbotsford (Teal line).
+// - Stop 4 (Saskatchewan): Convergence (Abbotsford -> Saskatchewan Teal, Cayman -> Saskatchewan Gold).
+// - Stop 6 (Waterloo): Weave braided ribbon helix from Waterloo onward!
+// - Stops 8..19 (Vacation Trips): Outward-only single spokes from Seattle (zero return line clutter).
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -13,6 +16,7 @@ const NARSH_MAP = (() => {
   const CAMERA_CURVE = 1.2;
   const ROPE_AMPLITUDE = 0.12;
   const KM_PER_TWIST = 250;
+  const SEATTLE_HUB = [-122.3421, 47.6097];
 
   const COLOR_ARASH = "#2A9D8F";
   const COLOR_NATALIE = "#D4A843";
@@ -124,7 +128,7 @@ const NARSH_MAP = (() => {
     return out;
   };
 
-  // Braided Rope Engine (Weaves only when weaveFromIdx >= 0)
+  // Braided Rope Engine
   const buildBraidedRope = (arashNodes, natalieNodes, weaveArashFromIdx, weaveNatalieFromIdx) => {
     const buildSingleLine = (nodes, weaveFromIdx, phaseSign) => {
       if (!nodes || nodes.length === 0) return [];
@@ -476,9 +480,7 @@ const NARSH_MAP = (() => {
       return;
     }
 
-    // Handle Waypoint Flight (2-Leg Sweep)
-    // Leg 1: Sweeps camera to Hub/Origin. In-flight progress is 0.0 (ZERO line growth). Completed lines stay 100% solid!
-    // Leg 2: Flies camera to Destination. Line grows dynamically under camera lens from 0% to 100%!
+    // Waypoint Flight (2-Leg Sweep)
     if (flyVia && !isBackward) {
       const flight1Ms = 600;
       const flight2Ms = dynamicDurationMs;
@@ -488,7 +490,7 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: Sweep camera to Hub/Origin. Progress = 0.0. Completed lines stay 100% intact.
+      // LEG 1: Sweep camera to Hub. Progress = 0.0 (ZERO line growth).
       activeStartCoords = null;
       activeTargetCoords = null;
       currentInFlightProgress = 0.0;
@@ -530,7 +532,6 @@ const NARSH_MAP = (() => {
         mapInstance.once("moveend", () => {
           if (flightId !== currentFlightId) return;
 
-          // Commit in-flight spoke into completed spokes list on arrival
           if (currentInFlightArash) currentCompletedArash.push(currentInFlightArash);
           if (currentInFlightNatalie) currentCompletedNatalie.push(currentInFlightNatalie);
           currentInFlightArash = null;
@@ -666,7 +667,7 @@ const NARSH_MAP = (() => {
     } catch (e) {}
   };
 
-  // Deterministic Trajectory Generator for Stop targetIndex
+  // Explicit Deterministic Trajectory Generator for Stop targetIndex
   const updateLines = (stopIndex, stops) => {
     if (!mapInstance) return;
 
@@ -676,94 +677,92 @@ const NARSH_MAP = (() => {
     currentInFlightNatalie = null;
     currentInFlightProgress = 1.0;
 
-    const waterlooIdx = stops.findIndex(s => s.id === "waterloo");
-    const seattleIdx = stops.findIndex(s => s.id === "seattle");
+    const LUDHIANA = [75.8573, 30.9010];
+    const CAYMAN = [-81.2546, 19.3133];
+    const AUCKLAND = [174.7633, -36.8485];
+    const ABBOTSFORD = [-122.3045, 49.0504];
+    const SASKATCHEWAN = [-106.6330, 52.1332];
+    const WATERLOO = [-80.5204, 43.4643];
 
-    // helper to get Arash/Natalie coordinates array up to a given stop index
-    const getArashCoordsUpTo = (maxIdx) => {
-      const pts = [];
-      for (let i = 0; i <= maxIdx; i++) {
-        const s = stops[i];
-        if (!s) continue;
-        if (s.arashPos) pts.push(s.arashPos.slice());
-        else if (s.owner === "arash" || s.owner === "both") pts.push(s.coords.slice());
-      }
-      return pts;
-    };
-
-    const getNatalieCoordsUpTo = (maxIdx) => {
-      const pts = [];
-      for (let i = 0; i <= maxIdx; i++) {
-        const s = stops[i];
-        if (!s) continue;
-        if (s.nataliePos) pts.push(s.nataliePos.slice());
-        else if (s.owner === "natalie" || s.owner === "both") pts.push(s.coords.slice());
-      }
-      return pts;
-    };
-
-    // Case A: Early Journey (stops 0 .. seattleIdx)
-    if (stopIndex <= seattleIdx) {
-      // 1. Completed lines up to stopIndex - 1
-      if (stopIndex > 1) {
-        const prevArash = getArashCoordsUpTo(stopIndex - 1);
-        const prevNatalie = getNatalieCoordsUpTo(stopIndex - 1);
-        const prevArashUnwrapped = unwrapLongitudes(prevArash);
-        const prevNatalieUnwrapped = unwrapLongitudes(prevNatalie);
-        const prevBraided = buildBraidedRope(prevArashUnwrapped, prevNatalieUnwrapped, waterlooIdx, waterlooIdx);
-        if (prevBraided.arash.length > 0) currentCompletedArash.push(prevBraided.arash);
-        if (prevBraided.natalie.length > 0) currentCompletedNatalie.push(prevBraided.natalie);
-      }
-
-      // 2. In-flight segment for stopIndex
-      if (stopIndex > 0) {
-        const curStop = stops[stopIndex];
-        const prevStop = stops[stopIndex - 1];
-        const startPt = curStop.flyVia || (prevStop ? prevStop.coords : null);
-        const endPt = curStop.coords;
-
-        if (startPt && endPt) {
-          const segUnwrapped = unwrapLongitudes([startPt, endPt]);
-          const segBraid = buildBraidedRope(segUnwrapped, segUnwrapped, (stopIndex >= waterlooIdx ? 0 : -1), (stopIndex >= waterlooIdx ? 0 : -1));
-          if (curStop.owner === "arash" || curStop.owner === "both") currentInFlightArash = segBraid.arash;
-          if (curStop.owner === "natalie" || curStop.owner === "both") currentInFlightNatalie = segBraid.natalie;
-        }
-      }
+    // Stop 0 (Ludhiana) & Stop 1 (Cayman): Birthplace pins only, ZERO lines!
+    if (stopIndex < 2) {
       renderCurrentState();
       return;
     }
 
-    // Case B: Vacation Hub & Spoke Era (stops > seattleIdx)
-    // 1. Base Journey up to Seattle is 100% completed & fixed
-    const baseArash = getArashCoordsUpTo(seattleIdx);
-    const baseNatalie = getNatalieCoordsUpTo(seattleIdx);
-    const baseArashUnwrapped = unwrapLongitudes(baseArash);
-    const baseNatalieUnwrapped = unwrapLongitudes(baseNatalie);
-    const braidedBase = buildBraidedRope(baseArashUnwrapped, baseNatalieUnwrapped, waterlooIdx, waterlooIdx);
-    if (braidedBase.arash.length > 0) currentCompletedArash.push(braidedBase.arash);
-    if (braidedBase.natalie.length > 0) currentCompletedNatalie.push(braidedBase.natalie);
-
-    // 2. Previously completed vacation spokes (seattleIdx+1 .. stopIndex-1)
-    for (let i = seattleIdx + 1; i <= stopIndex - 1; i++) {
-      const s = stops[i];
-      if (!s) continue;
-      const hub = s.flyVia || [-122.3421, 47.6097];
-      const dest = s.coords;
-      const spokeUnwrapped = unwrapLongitudes([hub, dest]);
-      const spokeBraid = buildBraidedRope(spokeUnwrapped, spokeUnwrapped, 0, 0);
-      if (spokeBraid.arash.length > 0) currentCompletedArash.push(spokeBraid.arash);
-      if (spokeBraid.natalie.length > 0) currentCompletedNatalie.push(spokeBraid.natalie);
+    // Stop 2 (Auckland): Arash travels Ludhiana -> Auckland
+    if (stopIndex >= 2) {
+      const seg = getGreatCirclePoints(LUDHIANA, AUCKLAND);
+      if (stopIndex === 2) currentInFlightArash = seg;
+      else currentCompletedArash.push(seg);
     }
 
-    // 3. Active in-flight spoke for stopIndex (Leg 2 growth)
-    const curStop = stops[stopIndex];
-    if (curStop && curStop.flyVia) {
-      const hub = curStop.flyVia;
-      const dest = curStop.coords;
-      const spokeUnwrapped = unwrapLongitudes([hub, dest]);
-      const spokeBraid = buildBraidedRope(spokeUnwrapped, spokeUnwrapped, 0, 0);
-      currentInFlightArash = spokeBraid.arash;
-      currentInFlightNatalie = spokeBraid.natalie;
+    // Stop 3 (Abbotsford): Arash travels Auckland -> Abbotsford
+    if (stopIndex >= 3) {
+      const seg = getGreatCirclePoints(AUCKLAND, ABBOTSFORD);
+      if (stopIndex === 3) currentInFlightArash = seg;
+      else currentCompletedArash.push(seg);
+    }
+
+    // Stop 4 (Saskatchewan - SHAD): Convergence!
+    // Arash: Abbotsford -> Saskatchewan (Teal)
+    // Natalie: Cayman -> Saskatchewan (Gold)
+    if (stopIndex >= 4) {
+      const arashSeg = getGreatCirclePoints(ABBOTSFORD, SASKATCHEWAN);
+      const natalieSeg = getGreatCirclePoints(CAYMAN, SASKATCHEWAN);
+      if (stopIndex === 4) {
+        currentInFlightArash = arashSeg;
+        currentInFlightNatalie = natalieSeg;
+      } else {
+        currentCompletedArash.push(arashSeg);
+        currentCompletedNatalie.push(natalieSeg);
+      }
+    }
+
+    // Stop 5 (Long Distance): Arash returned to BC, Natalie to Cayman.
+    // Base lines up to Saskatchewan remain completed. No new line segment is drawn.
+
+    // Stop 6 (Waterloo): Both travel to Waterloo.
+    // Braided Rope Helix begins from Waterloo onward!
+    if (stopIndex >= 6) {
+      const braided = buildBraidedRope(unwrapLongitudes([SASKATCHEWAN, WATERLOO]), unwrapLongitudes([SASKATCHEWAN, WATERLOO]), 0, 0);
+      if (stopIndex === 6) {
+        currentInFlightArash = braided.arash;
+        currentInFlightNatalie = braided.natalie;
+      } else {
+        currentCompletedArash.push(braided.arash);
+        currentCompletedNatalie.push(braided.natalie);
+      }
+    }
+
+    // Stop 7 (Seattle): Both travel Waterloo -> Seattle.
+    if (stopIndex >= 7) {
+      const braided = buildBraidedRope(unwrapLongitudes([WATERLOO, SEATTLE_HUB]), unwrapLongitudes([WATERLOO, SEATTLE_HUB]), 0, 0);
+      if (stopIndex === 7) {
+        currentInFlightArash = braided.arash;
+        currentInFlightNatalie = braided.natalie;
+      } else {
+        currentCompletedArash.push(braided.arash);
+        currentCompletedNatalie.push(braided.natalie);
+      }
+    }
+
+    // Stops 8..19 (Vacation Trips from Seattle): Outward spokes!
+    if (stopIndex >= 8) {
+      for (let i = 8; i <= stopIndex; i++) {
+        const s = stops[i];
+        if (!s || !s.coords) continue;
+        const hub = s.flyVia || SEATTLE_HUB;
+        const dest = s.coords;
+        const spokeBraid = buildBraidedRope(unwrapLongitudes([hub, dest]), unwrapLongitudes([hub, dest]), 0, 0);
+        if (i === stopIndex) {
+          currentInFlightArash = spokeBraid.arash;
+          currentInFlightNatalie = spokeBraid.natalie;
+        } else {
+          if (spokeBraid.arash.length > 0) currentCompletedArash.push(spokeBraid.arash);
+          if (spokeBraid.natalie.length > 0) currentCompletedNatalie.push(spokeBraid.natalie);
+        }
+      }
     }
 
     if (reducedMotion) {

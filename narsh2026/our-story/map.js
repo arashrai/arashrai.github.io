@@ -1,5 +1,5 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Precise Separate Early Lines (Arash Teal, Natalie Gold), 2-Leg Sweeps (Leg 1 = Zero Line Growth, Leg 2 = Camera-Locked Growth), Braided Helix from Waterloo Onward.
+// Senior Cartography Design Engine: Persistent Early Lines (Zero Disappearing Lines on Waypoint Sweeps), Camera-Locked Line Growth & Braided Helix.
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -19,11 +19,11 @@ const NARSH_MAP = (() => {
   let mapInstance = null;
   let reducedMotion = false;
 
-  // Fully completed line arrays (stops 0 .. current-1)
+  // Fully completed line arrays (prior stops)
   let completedArashSpokes = [];
   let completedNatalieSpokes = [];
 
-  // Active in-flight spoke currently being drawn (ONLY during Leg 2)
+  // Active in-flight line segment currently being drawn (ONLY during Leg 2)
   let activeArashSpoke = null;
   let activeNatalieSpoke = null;
 
@@ -422,14 +422,13 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: ZERO line growth during sweep to Hub! Active spokes are null.
+      // LEG 1: Keep active spokes NULL during Leg 1 so completed lines stay 100% visible and NO line draws while sweeping!
       activeStartCoords = null;
       activeTargetCoords = null;
       flightDurationMs = flight1Ms;
       flightStartTime = performance.now();
       flightActive = true;
 
-      // Keep active spokes null during Leg 1 so no new line segment draws while sweeping!
       const pendingArashSpoke = activeArashSpoke;
       const pendingNatalieSpoke = activeNatalieSpoke;
       activeArashSpoke = null;
@@ -613,39 +612,33 @@ const NARSH_MAP = (() => {
 
     // 1. EARLY STOPS BEFORE SEATTLE (stops 0 .. seattleIndex)
     if (stopIndex <= seattleIndex) {
-      // Arash nodes up to stopIndex
-      const arashNodes = [];
-      const natalieNodes = [];
-
-      for (let i = 0; i <= stopIndex; i++) {
-        const s = stops[i];
-        if (s.arashPos) pushUniqueNode(arashNodes, s.arashPos);
-        else if (s.owner === "arash" || s.owner === "both") pushUniqueNode(arashNodes, s.coords);
-
-        if (s.nataliePos) pushUniqueNode(natalieNodes, s.nataliePos);
-        else if (s.owner === "natalie" || s.owner === "both") pushUniqueNode(natalieNodes, s.coords);
+      // Build completed segments up to stopIndex - 1
+      for (let i = 1; i <= stopIndex - 1; i++) {
+        const prevS = stops[i - 1];
+        const curS = stops[i];
+        if (prevS && curS && curS.flyVia) {
+          const hubUnwrapped = unwrapLongitudes([curS.flyVia, curS.coords]);
+          const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, waterlooIndex, waterlooIndex);
+          if (spokeBraid.arash.length > 0) completedArashSpokes.push(spokeBraid.arash);
+          if (spokeBraid.natalie.length > 0) completedNatalieSpokes.push(spokeBraid.natalie);
+        }
       }
 
-      const arashUnwrapped = unwrapLongitudes(arashNodes);
-      const natalieUnwrapped = unwrapLongitudes(natalieNodes);
-
-      // Unbraided single Teal/Gold lines before Waterloo; Braided rope helix from Waterloo onward
-      const braidedCur = buildBraidedRope(arashUnwrapped, natalieUnwrapped, waterlooIndex, waterlooIndex);
-
-      if (stopIndex > 0) {
-        // Line growth is active for the current step
-        activeArashSpoke = braidedCur.arash;
-        activeNatalieSpoke = braidedCur.natalie;
-      } else {
-        // At Stop 0 (Ludhiana), line is 0 length (just the pin)
-        activeArashSpoke = null;
-        activeNatalieSpoke = null;
+      // Build active segment for stopIndex
+      const prevS = stops[stopIndex - 1];
+      if (stopIndex > 0 && prevS) {
+        const startPt = currentStop.flyVia || prevS.coords;
+        const destPt = currentStop.coords;
+        const segUnwrapped = unwrapLongitudes([startPt, destPt]);
+        const segBraid = buildBraidedRope(segUnwrapped, segUnwrapped, waterlooIndex, waterlooIndex);
+        if (currentStop.owner === "arash" || currentStop.owner === "both") activeArashSpoke = segBraid.arash;
+        if (currentStop.owner === "natalie" || currentStop.owner === "both") activeNatalieSpoke = segBraid.natalie;
       }
       return;
     }
 
     // 2. STOPS FROM SEATTLE ONWARD (Vacation Hub & Spoke Trips)
-    // Base journey up to Seattle is completed
+    // Base journey up to Seattle is completed and stays 100% visible!
     const baseArashNodes = [];
     const baseNatalieNodes = [];
     for (let i = 0; i <= seattleIndex; i++) {

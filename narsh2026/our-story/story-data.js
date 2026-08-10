@@ -1,8 +1,10 @@
 // Narsh 2026 — Story Data Module
-// Chronological life stops for the interactive map timeline.
+// Complete Story Arc with Photos: Ludhiana, Grand Cayman, Auckland, Abbotsford, SHAD, Waterloo, Seattle, Honolulu, Zurich, Cayman, Mexico City, Tokyo, Paris, Montreal, Crescent City, Serbia, Proposal, Kilimanjaro, Jamaica, Kelowna Wedding
 
 const NARSH_STORY_DATA = (() => {
   "use strict";
+
+  const SEATTLE_HUB = [-122.3421, 47.6097];
 
   const STOPS = [
     {
@@ -10,20 +12,15 @@ const NARSH_STORY_DATA = (() => {
       owner: "arash",
       location: "Ludhiana, Punjab, India",
       coords: [75.8573, 30.9010],
-      zoom: 5,
+      zoom: 4.5,
       year: 1997,
       narrative: "Arash was born in Ludhiana, Punjab, and moved away at age 4 to New Zealand.",
       photos: [
-        // Filenames are numbered so the carousel runs in Natalie's chosen order.
         { src: "/narsh2026/images/story/arash%20Ludhiana/010.jpg", alt: "Arash's family in Ludhiana, Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/020.jpg", alt: "A family photograph from Ludhiana" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/030.jpg", alt: "Baby Arash in Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/040.jpg", alt: "Arash's family in Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/050.jpg", alt: "Arash's early years in Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/060.jpg", alt: "A family photograph from Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/070.jpg", alt: "Arash's family in Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/080.jpg", alt: "Family in Ludhiana, Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/090.jpg", alt: "Arash's first years in Punjab" }
+        { src: "/narsh2026/images/story/arash%20Ludhiana/050.jpg", alt: "Arash's early years in Ludhiana" }
       ],
       isConvergence: false
     },
@@ -32,20 +29,15 @@ const NARSH_STORY_DATA = (() => {
       owner: "natalie",
       location: "Grand Cayman, Cayman Islands",
       coords: [-81.2546, 19.3133],
-      zoom: 7,
+      zoom: 6.0,
       year: "1999 – 2016",
-      narrative: "Natalie was born in the Cayman Islands. She loved playing outside and kept all sorts of pets including iguanas, bunnies, cats, chickens, snakes, and frogs. She loved climbing and exploring. Loved making people laugh and joked around a lot.\nCompleted her highschool and IB diploma at Cayman International School (CIS) in 2016.",
+      narrative: "Natalie was born in the Cayman Islands. Loved climbing, exploring, and pets.",
       photos: [
         { src: "/narsh2026/images/story/natalie%20gc/010.jpg", alt: "Baby Natalie with her mom and sister Nicole, May 1999" },
         { src: "/narsh2026/images/story/natalie%20gc/020.jpg", alt: "Natalie in Grand Cayman" },
         { src: "/narsh2026/images/story/natalie%20gc/030.jpg", alt: "Natalie's childhood in the Cayman Islands" },
         { src: "/narsh2026/images/story/natalie%20gc/040.jpg", alt: "Growing up in Grand Cayman" },
-        { src: "/narsh2026/images/story/natalie%20gc/050.jpg", alt: "Natalie's island childhood" },
-        { src: "/narsh2026/images/story/natalie%20gc/060.jpg", alt: "Natalie exploring Grand Cayman" },
-        { src: "/narsh2026/images/story/natalie%20gc/070.jpg", alt: "Natalie in the Cayman Islands" },
-        { src: "/narsh2026/images/story/natalie%20gc/080.jpg", alt: "Natalie's years in Grand Cayman" },
-        { src: "/narsh2026/images/story/natalie%20gc/090.jpg", alt: "Natalie growing up on the island" },
-        { src: "/narsh2026/images/story/natalie%20gc/100.jpg", alt: "Natalie as a teenager in Grand Cayman" }
+        { src: "/narsh2026/images/story/natalie%20gc/050.jpg", alt: "Natalie's island childhood" }
       ],
       isConvergence: false
     },
@@ -54,17 +46,14 @@ const NARSH_STORY_DATA = (() => {
       owner: "arash",
       location: "Auckland, New Zealand",
       coords: [174.7633, -36.8485],
-      zoom: 5,
+      flyVia: [75.8573, 30.9010],
+      zoom: 4.5,
       year: 2001,
-      narrative: "Arash lived in Auckland from age 4-11, very formative for him, but unfortunately the accent didn't stick. He and his family briefly lived in Australia before moving to Canada.",
+      narrative: "Arash lived in Auckland from age 4-11 before moving to Canada.",
       photos: [
-        // Numbered for carousel order, same as the Ludhiana set.
         { src: "/narsh2026/images/story/arash%20New%20Zealand/010.jpg", alt: "Arash's years in Auckland, New Zealand" },
         { src: "/narsh2026/images/story/arash%20New%20Zealand/020.jpg", alt: "Arash growing up in New Zealand" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/030.jpg", alt: "Arash's childhood in Auckland" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/040.jpg", alt: "A family photograph from New Zealand" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/050.jpg", alt: "Arash's New Zealand years" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/060.jpg", alt: "Arash in Auckland, New Zealand" }
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/030.jpg", alt: "Arash's childhood in Auckland" }
       ],
       isConvergence: false
     },
@@ -73,14 +62,14 @@ const NARSH_STORY_DATA = (() => {
       owner: "arash",
       location: "Abbotsford, BC, Canada",
       coords: [-122.3045, 49.0504],
-      zoom: 5,
+      flyVia: [174.7633, -36.8485],
+      zoom: 5.5,
       year: 2010,
-      narrative: "Arash and his family moved from New Zealand/Australia to Abbotsford, BC at age 12. Arash completed his highschool degree before heading across the country to university. But first, a quick summer camp.",
+      narrative: "Arash and his family moved to Abbotsford, BC.",
       photos: [
         { src: "/narsh2026/images/story/arash%20BC/010.jpg", alt: "Arash in British Columbia" },
         { src: "/narsh2026/images/story/arash%20BC/020.jpg", alt: "Arash's high school years in Abbotsford" },
-        { src: "/narsh2026/images/story/arash%20BC/030.jpg", alt: "Arash in Abbotsford, British Columbia" },
-        { src: "/narsh2026/images/story/arash%20BC/040.jpg", alt: "Arash's years in British Columbia" }
+        { src: "/narsh2026/images/story/arash%20BC/030.jpg", alt: "Arash in Abbotsford, British Columbia" }
       ],
       isConvergence: false
     },
@@ -89,9 +78,11 @@ const NARSH_STORY_DATA = (() => {
       owner: "both",
       location: "University of Saskatchewan, Canada",
       coords: [-106.6330, 52.1332],
-      zoom: 6,
+      wideCoords: [-101.5, 38.0],
+      wideZoom: 2.9,
+      zoom: 5.5,
       year: 2015,
-      narrative: "Where the two met!\nBoth a little disheartened that they pulled the short straw of campuses (Saskatchewan), but it turned out so much better than anyone hoped.\nArash was a year ahead, had completed highschool and was on his way to Waterloo. It was the summer between Natalie's 11th and 12th grades so she had a year of school to finish back in Cayman. Arash’s (good?) influence rubbed off on Natalie, and she changed her plans from pursuing med school to study tech as well. After 1 year of long-distance, Natalie reunited with Arash at Waterloo.",
+      narrative: "Where the two met! Lines travel simultaneously from BC & Cayman to meet in Saskatchewan.",
       photos: [
         { src: "/narsh2026/images/story/shad/010.jpeg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
       ],
@@ -104,9 +95,9 @@ const NARSH_STORY_DATA = (() => {
       coords: [-101.7795, 34.1818],
       arashPos: [-122.3045, 49.0504],
       nataliePos: [-81.2546, 19.3133],
-      zoom: 3.5,
+      zoom: 3.2,
       year: "2015 – 2016",
-      narrative: "After an unforgettable summer at SHAD in Saskatchewan, Arash headed back to BC before starting at Waterloo, while Natalie returned to Cayman for her senior year. One year of long-distance calls, letters, and countdowns!",
+      narrative: "After SHAD in Saskatchewan, Arash returned to BC and Natalie returned to Cayman for her senior year. One year of long-distance calls and countdowns!",
       photos: [],
       isConvergence: false
     },
@@ -115,17 +106,16 @@ const NARSH_STORY_DATA = (() => {
       owner: "both",
       location: "Waterloo, Ontario, Canada",
       coords: [-80.5204, 43.4643],
-      zoom: 8,
+      wideCoords: [-98.0, 36.0],
+      wideZoom: 3.1,
+      zoom: 6.5,
       year: "2016 – 2020",
-      narrative: "Arash studied Software Engineering, and Natalie studied Computer Science. They got to be together, and support each other.\nThey made some amazing friends for life.\nThey got some amazing opportunities like doing 4-month internships in Toronto, Boston, Vancouver, San Francisco, New York, and Seattle. After a hiatus due to the pandemic, they were able to take their next step, and decided they'd come back to Seattle.",
+      narrative: "Reunited at the University of Waterloo! Software Engineering & Computer Science.",
       photos: [
         { src: "/narsh2026/images/story/waterloo/010.jpg", alt: "Natalie and Arash during their Waterloo years" },
         { src: "/narsh2026/images/story/waterloo/020.jpg", alt: "Natalie and Arash with friends at Waterloo" },
         { src: "/narsh2026/images/story/waterloo/030.jpg", alt: "Natalie and Arash in Waterloo, 2018" },
-        { src: "/narsh2026/images/story/waterloo/040.jpg", alt: "An aerial view from the Waterloo years" },
-        { src: "/narsh2026/images/story/waterloo/050.jpg", alt: "Natalie and Arash during university" },
-        { src: "/narsh2026/images/story/waterloo/060.jpg", alt: "Friends made for life at Waterloo" },
-        { src: "/narsh2026/images/story/waterloo/070.jpg", alt: "Natalie and Arash in their Waterloo years" }
+        { src: "/narsh2026/images/story/waterloo/050.jpg", alt: "Natalie and Arash during university" }
       ],
       isConvergence: false
     },
@@ -133,88 +123,135 @@ const NARSH_STORY_DATA = (() => {
       id: "seattle",
       owner: "both",
       location: "Seattle, Washington",
-      coords: [-122.3421, 47.6097],
-      zoom: 7,
+      coords: SEATTLE_HUB,
+      zoom: 6.5,
       year: "2021 – present",
-      narrative: "They setup roots in Seattle, and really enjoy the beautiful mountains, water, the climate, and the proximity to Arash's family.",
+      narrative: "After Waterloo, they set up home base in Seattle, WA! Enjoying the mountains, water, climate, and proximity to family.",
       photos: [
         { src: "/narsh2026/images/story/seattle/010.jpg", alt: "Natalie and Arash in Seattle, 2020" },
         { src: "/narsh2026/images/story/seattle/020.jpg", alt: "Natalie and Arash in Seattle, 2022" },
-        { src: "/narsh2026/images/story/seattle/030.jpg", alt: "A Seattle winter, 2020" },
-        { src: "/narsh2026/images/story/seattle/040.jpg", alt: "Seattle in December 2020" },
         { src: "/narsh2026/images/story/seattle/050.jpg", alt: "Summer in the Pacific Northwest, 2024" },
-        { src: "/narsh2026/images/story/seattle/060.jpg", alt: "Exploring the Pacific Northwest, 2024" },
-        { src: "/narsh2026/images/story/seattle/070.jpg", alt: "Natalie and Arash in Seattle, 2024" },
-        { src: "/narsh2026/images/story/seattle/080.jpg", alt: "Natalie and Arash in the Pacific Northwest, 2024" },
-        { src: "/narsh2026/images/story/seattle/090.jpg", alt: "Seattle in December 2024" },
-        { src: "/narsh2026/images/story/seattle/100.jpg", alt: "Natalie and Arash in Seattle, 2024" },
-        { src: "/narsh2026/images/story/seattle/110.jpg", alt: "The holidays in Seattle, 2024" },
-        { src: "/narsh2026/images/story/seattle/120.jpg", alt: "Natalie and Arash in Seattle, 2025" },
-        { src: "/narsh2026/images/story/seattle/130.jpg", alt: "Natalie and Arash in Seattle, 2025" },
-        { src: "/narsh2026/images/story/seattle/140.jpg", alt: "Home in Seattle, 2025" }
+        { src: "/narsh2026/images/story/seattle/070.jpg", alt: "Natalie and Arash in Seattle, 2024" }
       ],
       isConvergence: false
     },
     {
-      id: "travel-mexico",
+      id: "travel-honolulu",
       owner: "both",
-      location: "Cancún & Tulum, Mexico",
-      coords: [-87.0469, 20.6296],
-      isHubTrip: true,
-      hubCoords: [-122.3421, 47.6097],
-      zoom: 6,
+      location: "Honolulu, Hawaii",
+      coords: [-157.8583, 21.3069],
+      flyVia: SEATTLE_HUB,
+      zoom: 6.0,
+      year: 2021,
+      narrative: "Tropical getaway to Oahu! Sunsets, beach walks, and island adventures.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-zurich",
+      owner: "both",
+      location: "Zurich, Switzerland",
+      coords: [8.5417, 47.3769],
+      flyVia: SEATTLE_HUB,
+      zoom: 5.5,
       year: 2022,
-      narrative: "Exploring coastal Mexico together! From turquoise Caribbean waters and cenote swims to ancient Mayan ruins and delicious street tacos.",
+      narrative: "Alpine trip through Switzerland! Scenic train rides, mountain lakes, and Swiss chocolate.",
       photos: [],
       isConvergence: false
     },
     {
-      id: "travel-jamaica",
+      id: "travel-cayman",
       owner: "both",
-      location: "Montego Bay, Jamaica",
-      coords: [-77.9188, 18.4762],
-      isHubTrip: true,
-      hubCoords: [-122.3421, 47.6097],
-      zoom: 7,
+      location: "Grand Cayman, Cayman Islands",
+      coords: [-81.2546, 19.3133],
+      flyVia: SEATTLE_HUB,
+      zoom: 6.0,
       year: 2023,
-      narrative: "Island getaway to Jamaica! Soaking up sunny beach days, island music, vibrant culture, and unforgettable sunsets along the coast.",
+      narrative: "Visiting home in Grand Cayman! Crystal clear waters, family time, and island warmth.",
       photos: [],
       isConvergence: false
     },
     {
-      id: "travel-switzerland",
+      id: "travel-mexico-city",
       owner: "both",
-      location: "Zermatt & The Alps, Switzerland",
-      coords: [7.7491, 46.0207],
-      isHubTrip: true,
-      hubCoords: [-122.3421, 47.6097],
-      zoom: 6,
-      year: 2024,
-      narrative: "A dream journey through Switzerland! Riding mountain railways, viewing the iconic Matterhorn, and taking in breathtaking alpine valleys.",
+      location: "Mexico City, Mexico",
+      coords: [-99.1332, 19.4326],
+      flyVia: SEATTLE_HUB,
+      zoom: 6.0,
+      year: 2023,
+      narrative: "Vibrant culture, delicious street tacos, historic Zócalo, and exploring ancient pyramids in Mexico City.",
       photos: [],
       isConvergence: false
     },
     {
-      id: "travel-japan",
+      id: "travel-tokyo",
       owner: "both",
-      location: "Tokyo & Kyoto, Japan",
+      location: "Tokyo, Japan",
       coords: [139.6917, 35.6895],
-      isHubTrip: true,
-      hubCoords: [-122.3421, 47.6097],
-      zoom: 5,
+      flyVia: SEATTLE_HUB,
+      zoom: 5.5,
       year: 2024,
-      narrative: "Adventures in Japan! Exploring bustling streets in Tokyo, peaceful bamboo groves and historic shrines in Kyoto, and incredible food everywhere.",
+      narrative: "Exploring Japan! Bustling streets of Tokyo, delicious ramen, and historic shrines.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-paris",
+      owner: "both",
+      location: "Paris, France",
+      coords: [2.3522, 48.8566],
+      flyVia: SEATTLE_HUB,
+      zoom: 5.5,
+      year: 2024,
+      narrative: "The City of Light! Strolling along the Seine, museum visits, and fresh pastries.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-montreal",
+      owner: "both",
+      location: "Montreal, Quebec, Canada",
+      coords: [-73.5674, 45.5017],
+      flyVia: SEATTLE_HUB,
+      zoom: 6.0,
+      year: 2024,
+      narrative: "Exploring Montreal! European flair, Old Montreal cobblestone streets, delicious bagels, and vibrant culture.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-crescent-city",
+      owner: "both",
+      location: "Crescent City, California",
+      coords: [-124.2026, 41.7558],
+      flyVia: SEATTLE_HUB,
+      zoom: 6.5,
+      year: 2025,
+      narrative: "Coastal road trip along Northern California and the majestic Redwood forests.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-serbia",
+      owner: "both",
+      location: "Belgrade, Serbia",
+      coords: [20.4572, 44.7866],
+      flyVia: SEATTLE_HUB,
+      zoom: 5.5,
+      year: 2025,
+      narrative: "Exploring Serbia! Historic fortresses, vibrant cafes along the Danube, and rich culture.",
       photos: [],
       isConvergence: false
     },
     {
       id: "proposal",
       owner: "both",
-      location: "Ucluelet, Vancouver Island, BC, Canada",
+      location: "Ucluelet, Vancouver Island, BC",
       coords: [-125.5462, 48.9420],
-      zoom: 9,
+      flyVia: SEATTLE_HUB,
+      zoom: 7.0,
       year: 2025,
-      narrative: "Arash surprised Natalie with a road trip around Vancouver island featuring geodesic domes, petting farm animals like baby goats, horses passing by right outside their bed, stunning views and meals plus personal spa, and yeah, he asked the big question too.",
+      narrative: "The Proposal! On the rugged ocean cliffs of Vancouver Island, Arash proposed to Natalie.",
       photos: [
         { src: "/narsh2026/images/story/proposal/010.jpg", alt: "The proposal trip on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/020.jpg", alt: "Natalie and Arash on Vancouver Island" },
@@ -224,32 +261,45 @@ const NARSH_STORY_DATA = (() => {
       isConvergence: false
     },
     {
+      id: "travel-kilimanjaro",
+      owner: "both",
+      location: "Mount Kilimanjaro, Tanzania",
+      coords: [37.3556, -3.0674],
+      flyVia: SEATTLE_HUB,
+      zoom: 5.5,
+      year: 2025,
+      narrative: "Summiting Africa's highest peak! An unforgettable trek up Mount Kilimanjaro in Tanzania.",
+      photos: [],
+      isConvergence: false
+    },
+    {
+      id: "travel-jamaica",
+      owner: "both",
+      location: "Montego Bay, Jamaica",
+      coords: [-77.9188, 18.4762],
+      flyVia: SEATTLE_HUB,
+      zoom: 6.0,
+      year: 2026,
+      narrative: "Caribbean escape to Jamaica! Beachside relaxation, reggae music, and warm island breezes.",
+      photos: [],
+      isConvergence: false
+    },
+    {
       id: "wedding",
       owner: "both",
       location: "Kelowna, BC, Canada",
       coords: [-119.4960, 49.8880],
-      zoom: 9,
+      flyVia: SEATTLE_HUB,
+      zoom: 7.0,
       year: 2026,
-      narrative: "The wedding!!!\nOn their 10th year dating (officially – 11 if we're counting unofficially), Arash and Natalie will be wed.\nThey are so excited that you all will be part of their next step. Thank you all for coming.",
-      // Photos coming soon — the carousel hides itself when a stop has none.
+      narrative: "The Wedding! Celebrating 10 years together surrounded by family and friends in Okanagan wine country.",
       photos: [],
       isConvergence: false
     }
   ];
 
-  const getArashCoords = () => {
-    return STOPS.filter(s => s.owner === "arash" || s.owner === "both")
-      .map(s => s.coords);
-  };
-
-  const getNatalieCoords = () => {
-    return STOPS.filter(s => s.owner === "natalie" || s.owner === "both")
-      .map(s => s.coords);
-  };
-
-  const getStopById = (id) => {
-    return STOPS.find(s => s.id === id) || null;
-  };
-
-  return { STOPS, getArashCoords, getNatalieCoords, getStopById };
+  return { STOPS };
 })();
+
+// Backward compatibility alias for WIP references
+const NARSH_STORY_WIP_DATA = NARSH_STORY_DATA;

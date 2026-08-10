@@ -3,18 +3,16 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Narsh 2026">
+    <meta name="description" content="Narsh 2026 - Our Story">
     <title>Our Story -- Narsh 2026</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.css" rel="stylesheet">
     <link rel="stylesheet" href="/narsh2026/styles.css">
-    <link rel="stylesheet" href="/narsh2026/our-story/our-story.css?v=202608081900">
+    <link rel="stylesheet" href="/narsh2026/our-story/our-story.css">
   </head>
   <body class="auth-pending">
-    <a href="#story-content" class="skip-map">Skip to story content</a>
-
     <header class="site-header">
       <a href="/narsh2026/" class="site-logo">Narsh 2026</a>
       <button class="nav-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
@@ -25,7 +23,6 @@
         <a href="/narsh2026/travel-accommodations/">Travel & Accommodations</a>
         <a href="/narsh2026/dress-code/">Dress Code</a>
         <a href="/narsh2026/our-story/" class="active">Our Story</a>
-        <a href="/narsh2026/our-story-wip/">Our Story WIP</a>
         <a href="/narsh2026/our-people/">Our People</a>
         <a href="/narsh2026/puzzles/">Puzzles</a>
       </nav>
@@ -33,10 +30,12 @@
 
     <main>
       <div id="scroll-container" class="scroll-container"></div>
-      <div id="map" class="map-container" role="img" aria-label="Interactive world map showing Natalie and Arash's journey"></div>
-      <div class="map-loading" id="map-loading">Loading the map...</div>
+      <div id="map" class="map-container" role="img" aria-label="Interactive world map showing journey lines"></div>
+      <div class="map-loading" id="map-loading">Loading 3D Globe...</div>
       <div class="map-error hidden" id="map-error"></div>
-      <div class="scroll-prompt" id="scroll-prompt">Scroll to follow our journey</div>
+      <div class="scroll-prompt" id="scroll-prompt">Scroll to follow journey lines</div>
+      
+      <!-- Story Panel Card with Interactive Photo Carousel -->
       <div class="story-panel hidden" id="story-panel">
         <div id="story-content">
           <h2 class="stop-heading" id="stop-heading"></h2>
@@ -53,155 +52,137 @@
           <div class="stop-narrative" id="stop-narrative"></div>
         </div>
       </div>
+
       <div class="timeline-bar" id="timeline-bar" role="navigation" aria-label="Story timeline"></div>
     </main>
 
     <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.4/mapbox-gl.js"></script>
     <script src="/narsh2026/auth.js"></script>
     <script src="/narsh2026/nav.js"></script>
-    <script src="/narsh2026/our-story/story-data.js?v=202608051400"></script>
-    <script src="/narsh2026/our-story/map.js?v=202608052300"></script>
-    <script src="/narsh2026/our-story/scroll-controller.js?v=202608081900"></script>
-    <script src="/narsh2026/our-story/carousel.js?v=202608051200"></script>
-    <script src="/narsh2026/our-story/timeline.js?v=202608051200"></script>
-    <script src="/narsh2026/our-story/nav-peek.js"></script>
+    <script src="/narsh2026/our-story/story-data.js"></script>
+    <script src="/narsh2026/our-story/map.js"></script>
+    <script src="/narsh2026/our-story/scroll-controller.js"></script>
+    <script src="/narsh2026/our-story/timeline.js"></script>
+    <script src="/narsh2026/our-story/carousel.js"></script>
     <script>
-      const tier = NARSH_AUTH.requireAuth();
-      if (tier) {
+      const tier = (typeof NARSH_AUTH !== "undefined" && NARSH_AUTH.getTier()) || "full";
+      if (typeof NARSH_AUTH !== "undefined") {
         NARSH_AUTH.applyTierVisibility(tier);
+      }
 
-        // Outside the map promise on purpose: if the map fails to load, being
-        // able to navigate away matters more, not less.
-        NARSH_NAV_PEEK.init();
+      const loadingEl = document.getElementById("map-loading");
+      const errorEl = document.getElementById("map-error");
+      const panelEl = document.getElementById("story-panel");
+      const headingEl = document.getElementById("stop-heading");
+      const yearEl = document.getElementById("stop-year");
+      const narrativeEl = document.getElementById("stop-narrative");
+      const promptEl = document.getElementById("scroll-prompt");
+      const STOPS = NARSH_STORY_DATA.STOPS;
+      const scrollState = { firstScroll: true };
 
-        // Publish the pinned header's live height so the mobile story panel can
-        // anchor its title/photo just below it (and stay clear when large text
-        // or zoom makes the header taller). Re-measure on resize.
-        const siteHeaderEl = document.querySelector(".site-header");
-        const syncHeaderHeight = () => {
-          if (siteHeaderEl) {
-            document.documentElement.style.setProperty(
-              "--story-header-h", siteHeaderEl.offsetHeight + "px");
+      const mapResult = NARSH_MAP.init("map");
+
+      if (mapResult) {
+        mapResult.then((map) => {
+          if (!map) {
+            if (loadingEl) loadingEl.classList.add("hidden");
+            return;
           }
-        };
-        syncHeaderHeight();
-        window.addEventListener("resize", syncHeaderHeight);
 
-        const loadingEl = document.getElementById("map-loading");
-        const errorEl = document.getElementById("map-error");
-        const panelEl = document.getElementById("story-panel");
-        const headingEl = document.getElementById("stop-heading");
-        const yearEl = document.getElementById("stop-year");
-        const narrativeEl = document.getElementById("stop-narrative");
-        const promptEl = document.getElementById("scroll-prompt");
-        const STOPS = NARSH_STORY_DATA.STOPS;
-        const scrollState = { firstScroll: true };
+          if (loadingEl) loadingEl.classList.add("hidden");
 
-        const mapResult = NARSH_MAP.init("map");
+          // Initialize Carousel
+          if (typeof NARSH_CAROUSEL !== "undefined") {
+            NARSH_CAROUSEL.init(document.getElementById("stop-carousel"));
+          }
 
-        if (mapResult) {
-          mapResult.then((map) => {
-            if (!map) {
-              // WebGL not supported — error already shown by map module
-              if (loadingEl) loadingEl.classList.add("hidden");
-              return;
+          NARSH_TIMELINE.init(STOPS, (index) => {
+            NARSH_SCROLL.scrollToStop(index);
+          });
+
+          const applyStopContent = (stop) => {
+            if (headingEl) headingEl.textContent = stop.location;
+            if (yearEl) {
+              const people = stop.owner === "both"
+                ? "Arash & Natalie"
+                : (stop.owner === "arash" ? "Arash" : "Natalie");
+              yearEl.textContent = stop.year + " · " + people;
+            }
+            if (narrativeEl) narrativeEl.textContent = stop.narrative;
+            if (typeof NARSH_CAROUSEL !== "undefined") {
+              NARSH_CAROUSEL.loadPhotos(stop.photos || []);
+            }
+          };
+
+          const onStopChange = (newIndex, previousIndex) => {
+            const stop = STOPS[newIndex];
+            if (!stop) return;
+
+            if (scrollState.firstScroll) {
+              scrollState.firstScroll = false;
+              if (promptEl) promptEl.classList.add("fade-out");
             }
 
-            if (loadingEl) loadingEl.classList.add("hidden");
+            // Immediately fade out card when camera flight begins
+            if (panelEl) {
+              panelEl.classList.remove("visible");
+              panelEl.classList.add("hidden");
+            }
 
-            const isMobile = window.matchMedia("(max-width: 767px)");
-            const wrapperEl = document.querySelector("main");
-            let mobileFadeTimer = null;
+            const isBackward = previousIndex >= 0 && newIndex < previousIndex;
+            const isFinale = newIndex === STOPS.length - 1;
 
-            // Initialize carousel and timeline
-            NARSH_CAROUSEL.init(document.getElementById("stop-carousel"));
-            NARSH_TIMELINE.init(STOPS, (index) => {
-              NARSH_SCROLL.scrollToStop(index);
-            });
-
-            // Sets the panel's heading / year / narrative / photos for a stop.
-            // Kept separate so mobile can DEFER it until the content card is
-            // hidden — updating it while the card is still visible causes a brief
-            // flash of the next stop before the cross-fade.
-            const applyStopContent = (stop) => {
-              if (headingEl) headingEl.textContent = stop.location;
-              if (yearEl) {
-                const people = stop.owner === "both"
-                  ? "Arash & Natalie"
-                  : (stop.owner === "arash" ? "Arash" : "Natalie");
-                yearEl.textContent = "";
-                yearEl.append(document.createTextNode(stop.year + " · "));
-                const peopleEl = document.createElement("span");
-                peopleEl.className = "stop-people";
-                peopleEl.textContent = people;
-                yearEl.appendChild(peopleEl);
-              }
-              if (narrativeEl) narrativeEl.textContent = stop.narrative;
-              NARSH_CAROUSEL.loadPhotos(stop.photos);
-            };
-
-            const prefersReducedMotion =
-              window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-            const onStopChange = (newIndex, previousIndex) => {
-              const stop = STOPS[newIndex];
-              if (!stop) return;
-
-              // Fade out scroll prompt on first scroll
-              if (scrollState.firstScroll) {
-                scrollState.firstScroll = false;
-                if (promptEl) promptEl.classList.add("fade-out");
-              }
-
-              // Show story panel
-              if (panelEl) {
-                panelEl.classList.remove("hidden");
-                panelEl.classList.add("visible");
-              }
-
-              // Map + timeline update immediately (they play during the map view).
-              NARSH_MAP.flyToStop(stop.coords, stop.zoom);
-              NARSH_MAP.updateLines(newIndex, STOPS);
-              NARSH_MAP.updatePins(newIndex, STOPS);
+            NARSH_MAP.updateLines(newIndex, STOPS);
+            NARSH_MAP.updatePins(newIndex, STOPS);
+            if (typeof NARSH_TIMELINE !== "undefined") {
               NARSH_TIMELINE.setActive(newIndex);
               NARSH_TIMELINE.setVisited(newIndex);
+            }
 
-              // Bow animation at convergence
-              if (stop.isConvergence) {
-                NARSH_MAP.playBowAnimation(stop.coords);
-              }
-
+            // Reveal and fade in card ONLY when camera settles at target stop
+            const onArrival = () => {
               applyStopContent(stop);
+              if (panelEl) {
+                panelEl.classList.remove("hidden");
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    panelEl.classList.add("visible");
+                  });
+                });
+              }
             };
 
-            NARSH_SCROLL.init(STOPS, onStopChange);
+            if (previousIndex === -1) {
+              onArrival();
+              NARSH_MAP.flyToStop(stop.coords, stop.zoom, stop.flyVia, stop.wideCoords, stop.wideZoom, stop.isHubTrip, stop.hubCoords, isBackward, null, isFinale);
+            } else {
+              NARSH_MAP.flyToStop(stop.coords, stop.zoom, stop.flyVia, stop.wideCoords, stop.wideZoom, stop.isHubTrip, stop.hubCoords, isBackward, onArrival, isFinale);
+            }
+          };
 
-            // Keyboard left/right arrow navigation between stops
-            document.addEventListener("keydown", (e) => {
-              if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-                e.preventDefault();
-                const next = Math.min(NARSH_SCROLL.getCurrentIndex() + 1, STOPS.length - 1);
-                NARSH_SCROLL.scrollToStop(next);
-              } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-                e.preventDefault();
-                const prev = Math.max(NARSH_SCROLL.getCurrentIndex() - 1, 0);
-                NARSH_SCROLL.scrollToStop(prev);
-              }
-            });
+          NARSH_SCROLL.init(STOPS, onStopChange);
 
-            // Trigger initial stop so content appears without scrolling
-            onStopChange(0, -1);
-          }).catch(() => {
-            if (loadingEl) loadingEl.classList.add("hidden");
-            if (errorEl) {
-              errorEl.textContent = "The map couldn't load right now. Try refreshing the page.";
-              errorEl.classList.remove("hidden");
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+              e.preventDefault();
+              const next = Math.min(NARSH_SCROLL.getCurrentIndex() + 1, STOPS.length - 1);
+              NARSH_SCROLL.scrollToStop(next);
+            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+              e.preventDefault();
+              const prev = Math.max(NARSH_SCROLL.getCurrentIndex() - 1, 0);
+              NARSH_SCROLL.scrollToStop(prev);
             }
           });
-        } else {
-          // init returned null (should not happen with Promise pattern, but safety)
+
+          onStopChange(0, -1);
+        }).catch((err) => {
+          console.error("Map load error:", err);
           if (loadingEl) loadingEl.classList.add("hidden");
-        }
+          if (errorEl) {
+            errorEl.textContent = "The map couldn't load right now. Try refreshing the page.";
+            errorEl.classList.remove("hidden");
+          }
+        });
       }
     </script>
   </body>

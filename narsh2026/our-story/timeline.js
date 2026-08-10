@@ -1,97 +1,101 @@
-// Narsh 2026 — Timeline Bar Module
-// Clickable timeline bar with active/visited state management and year labels.
-
+// Narsh 2026 — Our Story Timeline Module
 const NARSH_TIMELINE = (() => {
   "use strict";
 
+  let STOPS = [];
+  let containerEl = null;
   let dotElements = [];
-  let currentIndex = -1;
   let prevBtnEl = null;
   let nextBtnEl = null;
-  let dotClickHandler = null;
+  let onDotClickCallback = null;
+  let activeIndex = -1;
 
   const init = (stops, onDotClick) => {
-    const barEl = document.getElementById("timeline-bar");
-    if (!barEl) return;
+    STOPS = stops;
+    onDotClickCallback = onDotClick;
+    containerEl = document.getElementById("timeline-bar");
+    if (!containerEl) return;
 
-    dotElements = [];
-    dotClickHandler = onDotClick;
+    containerEl.textContent = "";
 
-    // Prev button sits to the left of the dots. It steps back one stop.
     prevBtnEl = document.createElement("button");
     prevBtnEl.className = "timeline-nav timeline-nav-prev";
-    prevBtnEl.setAttribute("aria-label", "Previous moment");
+    prevBtnEl.setAttribute("aria-label", "Previous stop");
+    prevBtnEl.innerHTML = "&#8249;";
     prevBtnEl.addEventListener("click", () => {
-      if (dotClickHandler) dotClickHandler(Math.max(0, currentIndex - 1));
+      if (activeIndex > 0 && onDotClickCallback) {
+        onDotClickCallback(activeIndex - 1);
+      }
     });
-    barEl.appendChild(prevBtnEl);
+    containerEl.appendChild(prevBtnEl);
 
-    stops.forEach((stop, index) => {
-      const dotEl = document.createElement("button");
-      dotEl.className = "timeline-dot";
-      dotEl.setAttribute("aria-label", stop.location + ", " + stop.year);
-      dotEl.title = stop.location;
+    dotElements = [];
+    STOPS.forEach((stop, i) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "timeline-dot-wrapper";
 
-      dotEl.addEventListener("click", () => {
-        if (onDotClick) onDotClick(index);
+      const dot = document.createElement("button");
+      dot.className = "timeline-dot";
+      dot.setAttribute("aria-label", stop.year + " - " + stop.location);
+      dot.setAttribute("title", stop.year + " - " + stop.location);
+
+      dot.addEventListener("click", () => {
+        if (onDotClickCallback) {
+          onDotClickCallback(i);
+        }
       });
 
-      // Show year labels at first stop, convergence stop, and last stop
-      const showYear = index === 0 || stop.isConvergence || index === stops.length - 1;
-      if (showYear) {
-        const wrapperEl = document.createElement("div");
-        wrapperEl.className = "timeline-dot-wrapper";
+      wrapper.appendChild(dot);
+      containerEl.appendChild(wrapper);
 
-        const yearEl = document.createElement("span");
-        yearEl.className = "timeline-year";
-        yearEl.textContent = stop.year;
-
-        wrapperEl.appendChild(dotEl);
-        wrapperEl.appendChild(yearEl);
-        barEl.appendChild(wrapperEl);
-      } else {
-        barEl.appendChild(dotEl);
-      }
-
-      dotElements.push(dotEl);
+      dotElements.push({ dot, wrapper, stop });
     });
 
-    // Next button sits to the right of the dots. It advances one stop.
     nextBtnEl = document.createElement("button");
     nextBtnEl.className = "timeline-nav timeline-nav-next";
-    nextBtnEl.setAttribute("aria-label", "Next moment");
+    nextBtnEl.setAttribute("aria-label", "Next stop");
+    nextBtnEl.innerHTML = "&#8250;";
     nextBtnEl.addEventListener("click", () => {
-      if (dotClickHandler) dotClickHandler(Math.min(dotElements.length - 1, currentIndex + 1));
+      if (activeIndex < STOPS.length - 1 && onDotClickCallback) {
+        onDotClickCallback(activeIndex + 1);
+      }
     });
-    barEl.appendChild(nextBtnEl);
-  };
+    containerEl.appendChild(nextBtnEl);
 
-  const updateNav = () => {
-    if (prevBtnEl) prevBtnEl.disabled = currentIndex <= 0;
-    if (nextBtnEl) nextBtnEl.disabled = currentIndex >= dotElements.length - 1;
+    updateNavButtons();
   };
 
   const setActive = (index) => {
-    dotElements.forEach((dotEl, i) => {
+    activeIndex = index;
+    dotElements.forEach((item, i) => {
       if (i === index) {
-        dotEl.classList.add("active");
-        dotEl.setAttribute("aria-current", "step");
+        item.dot.classList.add("active");
+        item.dot.setAttribute("aria-current", "step");
       } else {
-        dotEl.classList.remove("active");
-        dotEl.removeAttribute("aria-current");
+        item.dot.classList.remove("active");
+        item.dot.removeAttribute("aria-current");
       }
     });
-    currentIndex = index;
-    updateNav();
+    updateNavButtons();
   };
 
-  const setVisited = (upToIndex) => {
-    dotElements.forEach((dotEl, i) => {
-      if (i <= upToIndex) {
-        dotEl.classList.add("visited");
+  const setVisited = (index) => {
+    dotElements.forEach((item, i) => {
+      if (i <= index) {
+        item.dot.classList.add("visited");
+      } else {
+        item.dot.classList.remove("visited");
       }
     });
+  };
+
+  const updateNavButtons = () => {
+    if (prevBtnEl) prevBtnEl.disabled = activeIndex <= 0;
+    if (nextBtnEl) nextBtnEl.disabled = activeIndex >= STOPS.length - 1;
   };
 
   return { init, setActive, setVisited };
 })();
+
+// Backward compatibility alias for WIP references
+const NARSH_TIMELINE_WIP = NARSH_TIMELINE;

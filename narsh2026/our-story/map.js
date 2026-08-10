@@ -1,5 +1,5 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Distance-Adaptive Dynamic Camera Speeds, Dynamic Arc Resolution Sampling, Zero Atmosphere Ring Glow & High-Resolution Geodesic Trajectories.
+// Senior Cartography Design Engine: Outward-Only Hub & Spoke Trajectories (MultiLineString), Zero Return Line Clutter, Dynamic Distance Speeds & Zero Atmosphere Ring Glow.
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -9,6 +9,7 @@ const NARSH_MAP = (() => {
   const CAMERA_CURVE = 1.2;   // Gentle trajectory height
   const ROPE_AMPLITUDE = 0.12; // Scale-harmonized braided rope offset
   const KM_PER_TWIST = 250;    // Balanced twist density: 1 crossover per 250 km along path
+  const SEATTLE_HUB = [-122.3421, 47.6097];
 
   const COLOR_ARASH = "#2A9D8F";
   const COLOR_NATALIE = "#D4A843";
@@ -19,13 +20,9 @@ const NARSH_MAP = (() => {
   let reducedMotion = false;
   const lastCoords = { "line-arash": [], "line-natalie": [] };
 
-  let targetArashCoords = [];
-  let targetNatalieCoords = [];
-
-  let startArashCount = 0;
-  let endArashCount = 0;
-  let startNatalieCount = 0;
-  let endNatalieCount = 0;
+  // Stores completed MultiLineString arrays: [ baseLine, spoke1, spoke2, ... ]
+  let targetArashSpokes = [];
+  let targetNatalieSpokes = [];
 
   let flightActive = false;
   let flightStartTime = 0;
@@ -138,7 +135,6 @@ const NARSH_MAP = (() => {
       "bottom-left"
     );
 
-    // Synchronize line geometries on every frame the camera moves
     mapInstance.on("move", onCameraMove);
 
     return new Promise((resolve) => {
@@ -158,7 +154,7 @@ const NARSH_MAP = (() => {
     });
   };
 
-  // Synchronized camera frame handler locked directly to camera location
+  // Synchronized camera frame handler for MultiLineString flight progress
   const onCameraMove = () => {
     if (!flightActive || reducedMotion || !mapInstance || typeof mapInstance.getCenter !== "function") return;
 
@@ -179,15 +175,33 @@ const NARSH_MAP = (() => {
       t = 1.0;
     }
 
-    const countArash = Math.round(startArashCount + (endArashCount - startArashCount) * t);
-    const countNatalie = Math.round(startNatalieCount + (endNatalieCount - startNatalieCount) * t);
-
-    setLineData("line-arash", targetArashCoords.slice(0, Math.max(0, countArash)));
-    setLineData("line-natalie", targetNatalieCoords.slice(0, Math.max(0, countNatalie)));
+    renderSpokesProgress(t);
 
     if (t >= 1.0) {
       flightActive = false;
     }
+  };
+
+  const renderSpokesProgress = (t) => {
+    const sliceSpokes = (spokesList) => {
+      if (spokesList.length === 0) return [];
+      const result = [];
+      for (let i = 0; i < spokesList.length; i++) {
+        const spoke = spokesList[i];
+        if (i < spokesList.length - 1) {
+          // Completed spokes render 100%
+          result.push(spoke);
+        } else {
+          // Active in-flight spoke renders up to fraction t
+          const count = Math.max(1, Math.round(spoke.length * t));
+          result.push(spoke.slice(0, count));
+        }
+      }
+      return result;
+    };
+
+    setLineData("line-arash", sliceSpokes(targetArashSpokes));
+    setLineData("line-natalie", sliceSpokes(targetNatalieSpokes));
   };
 
   const stopGlobeSpin = () => {
@@ -197,7 +211,6 @@ const NARSH_MAP = (() => {
     }
   };
 
-  // Finale Zoom Out & User Interaction Control Guard
   const startFinaleGlobeSpin = () => {
     if (!mapInstance || reducedMotion || typeof mapInstance.getCenter !== "function") return;
     stopGlobeSpin();
@@ -293,7 +306,7 @@ const NARSH_MAP = (() => {
     if (!mapInstance.getSource("line-arash")) {
       mapInstance.addSource("line-arash", {
         type: "geojson",
-        data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
+        data: { type: "Feature", geometry: { type: "MultiLineString", coordinates: [] } }
       });
       mapInstance.addLayer({
         id: "line-arash-glow",
@@ -313,7 +326,7 @@ const NARSH_MAP = (() => {
     if (!mapInstance.getSource("line-natalie")) {
       mapInstance.addSource("line-natalie", {
         type: "geojson",
-        data: { type: "Feature", geometry: { type: "LineString", coordinates: [] } }
+        data: { type: "Feature", geometry: { type: "MultiLineString", coordinates: [] } }
       });
       mapInstance.addLayer({
         id: "line-natalie-glow",
@@ -378,16 +391,12 @@ const NARSH_MAP = (() => {
       if (c) currentCamCenter = [c.lng, c.lat];
     } catch (e) {}
 
-    // Calculate Geodesic Flight Distance to dynamically scale flight speed & duration!
     const distKm = getGeodesicDistanceKm(currentCamCenter, coords);
 
-    // Distance-Adaptive Speed: Short regional flights (< 1200km e.g. Seattle -> Ucluelet) use gentle speed (0.6 - 0.95),
-    // while long oceanic flights (> 2000km) keep full snappy speed (1.4).
     const dynamicSpeed = distKm < 1500
       ? Math.max(0.55, Math.min(1.4, 0.4 + (distKm / 1500) * 0.95))
       : 1.4;
 
-    // Minimum flight duration: Ensures short flights take at least 1500ms so they never feel rushed or abrupt!
     const dynamicDurationMs = distKm < 1500
       ? Math.max(1500, Math.round(1200 + (1500 - distKm) * 0.35))
       : 1200;
@@ -395,22 +404,13 @@ const NARSH_MAP = (() => {
     if (reducedMotion) {
       const targetLng = unwrapTargetLng(currentCamCenter[0], coords[0]);
       mapInstance.jumpTo({ center: [targetLng, coords[1]], zoom: effectiveZoom, padding: padding });
-      setLineData("line-arash", targetArashCoords);
-      setLineData("line-natalie", targetNatalieCoords);
+      renderSpokesProgress(1.0);
       if (onArrival) onArrival();
       if (isFinale) startFinaleGlobeSpin();
       return;
     }
 
-    const currentArashLen = (lastCoords["line-arash"] || []).length;
-    const currentNatalieLen = (lastCoords["line-natalie"] || []).length;
-
-    startArashCount = currentArashLen;
-    endArashCount = targetArashCoords.length;
-    startNatalieCount = currentNatalieLen;
-    endNatalieCount = targetNatalieCoords.length;
-
-    // Handle Waypoint Flight (e.g. Cayman -> India -> NZ, OR Trip A -> Seattle -> Trip B)
+    // Handle Waypoint Flight (Leg 1: sweep to Hub, Leg 2: draw outward spoke to Destination)
     if (flyVia && !isBackward) {
       const flight1Ms = 600;
       const flight2Ms = dynamicDurationMs;
@@ -419,11 +419,6 @@ const NARSH_MAP = (() => {
       const flyViaTargetCoords = [flyViaLng, flyVia[1]];
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
-
-      startArashCount = currentArashLen;
-      endArashCount = currentArashLen;
-      startNatalieCount = currentNatalieLen;
-      endNatalieCount = currentNatalieLen;
 
       activeStartCoords = null;
       activeTargetCoords = null;
@@ -443,10 +438,6 @@ const NARSH_MAP = (() => {
 
       mapInstance.once("moveend", () => {
         if (!mapInstance || flightId !== currentFlightId) return;
-        startArashCount = currentArashLen;
-        endArashCount = targetArashCoords.length;
-        startNatalieCount = currentNatalieLen;
-        endNatalieCount = targetNatalieCoords.length;
 
         activeStartCoords = flyViaTargetCoords;
         activeTargetCoords = cameraTargetCoords;
@@ -559,60 +550,67 @@ const NARSH_MAP = (() => {
   const updateLines = (stopIndex, stops) => {
     if (!mapInstance) return;
 
-    const convergenceIndex = stops.findIndex(s => s.isConvergence);
     const waterlooIndex = stops.findIndex(s => s.id === "waterloo");
+    const seattleIndex = stops.findIndex(s => s.id === "seattle");
 
-    const arashNodes = [];
-    const natalieNodes = [];
-    let convArashIdx = -1;
-    let convNatalieIdx = -1;
-    let braidStartArashIdx = -1;
-    let braidStartNatalieIdx = -1;
+    // 1. Build Base Path up to Seattle (stops 0..seattleIndex)
+    const baseArashNodes = [];
+    const baseNatalieNodes = [];
 
-    for (let i = 0; i <= stopIndex; i++) {
+    const baseMaxIdx = Math.min(stopIndex, seattleIndex >= 0 ? seattleIndex : stopIndex);
+
+    for (let i = 0; i <= baseMaxIdx; i++) {
       const stop = stops[i];
 
-      // For vacation trips departing from Seattle (flyVia), start the new segment FROM Seattle!
-      if (stop.flyVia) {
-        if (stop.owner === "arash" || stop.owner === "both") pushUniqueNode(arashNodes, stop.flyVia);
-        if (stop.owner === "natalie" || stop.owner === "both") pushUniqueNode(natalieNodes, stop.flyVia);
-      }
-
       if (stop.arashPos) {
-        if (i === convergenceIndex) convArashIdx = arashNodes.length;
-        pushUniqueNode(arashNodes, stop.arashPos);
+        pushUniqueNode(baseArashNodes, stop.arashPos);
       } else if (stop.owner === "arash" || stop.owner === "both") {
-        if (i === convergenceIndex) convArashIdx = arashNodes.length;
-        if (i === waterlooIndex) braidStartArashIdx = arashNodes.length;
-        pushUniqueNode(arashNodes, stop.coords);
+        pushUniqueNode(baseArashNodes, stop.coords);
       }
 
       if (stop.nataliePos) {
-        if (i === convergenceIndex) convNatalieIdx = natalieNodes.length;
-        pushUniqueNode(natalieNodes, stop.nataliePos);
+        pushUniqueNode(baseNatalieNodes, stop.nataliePos);
       } else if (stop.owner === "natalie" || stop.owner === "both") {
-        if (i === convergenceIndex) convNatalieIdx = natalieNodes.length;
-        if (i === waterlooIndex) braidStartNatalieIdx = natalieNodes.length;
-        pushUniqueNode(natalieNodes, stop.coords);
+        pushUniqueNode(baseNatalieNodes, stop.coords);
       }
     }
 
-    const arashUnwrapped = unwrapLongitudes(arashNodes);
-    const natalieUnwrapped = unwrapLongitudes(natalieNodes);
+    const arashUnwrapped = unwrapLongitudes(baseArashNodes);
+    const natalieUnwrapped = unwrapLongitudes(baseNatalieNodes);
 
-    // Braiding ONLY begins when they travel together from Waterloo (waterlooIndex) onward!
-    const braided = buildBraidedRope(arashUnwrapped, natalieUnwrapped, braidStartArashIdx, braidStartNatalieIdx);
-    targetArashCoords = braided.arash;
-    targetNatalieCoords = braided.natalie;
+    const braidedBase = buildBraidedRope(arashUnwrapped, natalieUnwrapped, waterlooIndex, waterlooIndex);
+
+    targetArashSpokes = [];
+    targetNatalieSpokes = [];
+
+    if (braidedBase.arash.length > 0) targetArashSpokes.push(braidedBase.arash);
+    if (braidedBase.natalie.length > 0) targetNatalieSpokes.push(braidedBase.natalie);
+
+    // 2. Build Outward-Only Hub & Spoke Lines for Vacation Trips (from Seattle onward)
+    if (stopIndex > seattleIndex && seattleIndex >= 0) {
+      for (let i = seattleIndex + 1; i <= stopIndex; i++) {
+        const stop = stops[i];
+        if (!stop) continue;
+
+        const hub = stop.flyVia || SEATTLE_HUB;
+        const dest = stop.coords;
+
+        // Generate clean braided spoke outward from Seattle -> Destination (ZERO return lines!)
+        const hubUnwrapped = unwrapLongitudes([hub, dest]);
+        const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, 0, 0);
+
+        if (spokeBraid.arash.length > 0) targetArashSpokes.push(spokeBraid.arash);
+        if (spokeBraid.natalie.length > 0) targetNatalieSpokes.push(spokeBraid.natalie);
+      }
+    }
 
     if (reducedMotion) {
-      setLineData("line-arash", targetArashCoords);
-      setLineData("line-natalie", targetNatalieCoords);
+      renderSpokesProgress(1.0);
     }
   };
 
   const unwrapLongitudes = (nodes) => {
-    if (nodes.length === 0) return [];
+    if (!nodes || nodes.length === 0) return [];
     const out = [nodes[0].slice()];
     for (let i = 1; i < nodes.length; i++) {
       let lng = nodes[i][0];
@@ -624,10 +622,10 @@ const NARSH_MAP = (() => {
     return out;
   };
 
-  // Senior Design Hat Braided Rope Helix with Geodesic Metric Normal Vectors (Even Ribbon Braid across East-West & North-South flights!)
+  // Senior Design Hat Braided Rope Helix with Geodesic Metric Normal Vectors
   const buildBraidedRope = (arashNodes, natalieNodes, weaveArashFromIdx, weaveNatalieFromIdx) => {
     const buildSingleLine = (nodes, weaveFromIdx, phaseSign) => {
-      if (nodes.length === 0) return [];
+      if (!nodes || nodes.length === 0) return [];
       if (nodes.length === 1) return [nodes[0].slice()];
 
       const out = [nodes[0].slice()];
@@ -636,14 +634,12 @@ const NARSH_MAP = (() => {
         const b = nodes[j + 1];
         const isWoven = weaveFromIdx >= 0 && j >= weaveFromIdx;
 
-        // Dynamic High-Resolution Arc Sampling: 1 point every 30 km along path!
         const gcArc = getGreatCirclePoints(a, b);
 
         const rad = Math.PI / 180;
         const midLat = (a[1] + b[1]) / 2;
         const cosLat = Math.max(0.2, Math.cos(midLat * rad));
 
-        // Metric-scaled delta for uniform perpendicular normal vector
         const dLatM = b[1] - a[1];
         const dLngM = (b[0] - a[0]) * cosLat;
         const lenM = Math.sqrt(dLatM * dLatM + dLngM * dLngM);
@@ -651,12 +647,10 @@ const NARSH_MAP = (() => {
         const nx = lenM > 0 ? (-dLatM / lenM) / cosLat : 0;
         const ny = lenM > 0 ? (dLngM / lenM) : 0;
 
-        // Calculate path distance along the actual Great Circle arc
         let segDistKm = 0;
         for (let k = 0; k < gcArc.length - 1; k++) {
           segDistKm += getGeodesicDistanceKm(gcArc[k], gcArc[k + 1]);
         }
-        // Harmonized 250km twist density for crisp, elegant braids across ocean & overland flights!
         const numTwists = Math.max(2, Math.round(segDistKm / KM_PER_TWIST));
 
         for (let s = 1; s < gcArc.length; s++) {
@@ -664,7 +658,6 @@ const NARSH_MAP = (() => {
           const t = s / gcArc.length;
 
           if (isWoven) {
-            // Metric-scaled elegant micro-braid (1 twist per 250km, amplitude 0.12)
             const wave = Math.sin(t * Math.PI * numTwists) * ROPE_AMPLITUDE * phaseSign;
             out.push([pt[0] + nx * wave, pt[1] + ny * wave]);
           } else {
@@ -681,15 +674,15 @@ const NARSH_MAP = (() => {
     };
   };
 
-  const setLineData = (sourceId, coords) => {
+  const setLineData = (sourceId, multiCoords) => {
     if (!mapInstance || typeof mapInstance.getSource !== "function") return;
     try {
       const source = mapInstance.getSource(sourceId);
       if (source) {
-        lastCoords[sourceId] = coords.slice();
+        lastCoords[sourceId] = multiCoords.slice();
         source.setData({
           type: "Feature",
-          geometry: { type: "LineString", coordinates: coords.length > 0 ? coords : [] }
+          geometry: { type: "MultiLineString", coordinates: multiCoords }
         });
       }
     } catch (e) {}

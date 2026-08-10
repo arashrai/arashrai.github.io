@@ -14,7 +14,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [75.8573, 30.9010],
       zoom: 4.5,
       year: 1997,
-      narrative: "Arash was born in Ludhiana, Punjab, and moved away at age 4 to New Zealand.",
+      narrative: "Arash was born in Punjab. He does not remember what he was like.",
       photos: [
         { src: "/narsh2026/images/story/arash%20Ludhiana/010.jpg", alt: "Arash's family in Ludhiana, Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/020.jpg", alt: "A family photograph from Ludhiana" },
@@ -31,7 +31,7 @@ const NARSH_STORY_DATA = (() => {
       coords: [-81.2546, 19.3133],
       zoom: 6.0,
       year: "1999 – 2016",
-      narrative: "Natalie was born in the Cayman Islands. Loved climbing, exploring, and pets.",
+      narrative: "Natalie was born in the Cayman Islands to Canadian parents. No animal was safe from her love. Thankfully she was safe from the hurricanes.",
       photos: [
         { src: "/narsh2026/images/story/natalie%20gc/010.jpg", alt: "Baby Natalie with her mom and sister Nicole, May 1999" },
         { src: "/narsh2026/images/story/natalie%20gc/020.jpg", alt: "Natalie in Grand Cayman" },
@@ -49,7 +49,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: [75.8573, 30.9010],
       zoom: 4.5,
       year: 2001,
-      narrative: "Arash lived in Auckland from age 4-11 before moving to Canada.",
+      narrative: "Arash moved to NZ at the age of 4. Lost the accent, kept the passport.",
       photos: [
         { src: "/narsh2026/images/story/arash%20New%20Zealand/010.jpg", alt: "Arash's years in Auckland, New Zealand" },
         { src: "/narsh2026/images/story/arash%20New%20Zealand/020.jpg", alt: "Arash growing up in New Zealand" },
@@ -65,7 +65,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: [174.7633, -36.8485],
       zoom: 5.5,
       year: 2010,
-      narrative: "Arash and his family moved to Abbotsford, BC.",
+      narrative: "Arash attended high school in Abbotsford, spending most of his free time on the internet.",
       photos: [
         { src: "/narsh2026/images/story/arash%20BC/010.jpg", alt: "Arash in British Columbia" },
         { src: "/narsh2026/images/story/arash%20BC/020.jpg", alt: "Arash's high school years in Abbotsford" },
@@ -82,7 +82,7 @@ const NARSH_STORY_DATA = (() => {
       wideZoom: 2.9,
       zoom: 5.5,
       year: 2015,
-      narrative: "Where the two met! Lines travel simultaneously from BC & Cayman to meet in Saskatchewan.",
+      narrative: "Natalie and Arash were both assigned to the same summer camp at the University of Saskatchewan. Despite hanging out in very different groups, campers introduced them because both of them had been showing off the same party trick: dislocating (and relocating) their shoulders.",
       photos: [
         { src: "/narsh2026/images/story/shad/010.jpeg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
       ],
@@ -97,7 +97,7 @@ const NARSH_STORY_DATA = (() => {
       nataliePos: [-81.2546, 19.3133],
       zoom: 3.2,
       year: "2015 – 2016",
-      narrative: "After SHAD in Saskatchewan, Arash returned to BC and Natalie returned to Cayman for her senior year. One year of long-distance calls and countdowns!",
+      narrative: "After Saskatchewan, Arash returned to BC and Natalie returned to Cayman for her senior year. They spent the year watching movies/shows together while long distance. Arash convinced Natalie that the shareholders needed her more than the animals (she originally wanted to be a vet).",
       photos: [],
       isConvergence: false
     },
@@ -110,7 +110,7 @@ const NARSH_STORY_DATA = (() => {
       wideZoom: 3.1,
       zoom: 6.5,
       year: "2016 – 2020",
-      narrative: "Reunited at the University of Waterloo! Software Engineering & Computer Science.",
+      narrative: "Reunited at the University of Waterloo! They travelled far and wide for internships (sometimes together, sometimes apart) but always found their way back to eachother.",
       photos: [
         { src: "/narsh2026/images/story/waterloo/010.jpg", alt: "Natalie and Arash during their Waterloo years" },
         { src: "/narsh2026/images/story/waterloo/020.jpg", alt: "Natalie and Arash with friends at Waterloo" },
@@ -126,7 +126,7 @@ const NARSH_STORY_DATA = (() => {
       coords: SEATTLE_HUB,
       zoom: 6.5,
       year: "2021 – present",
-      narrative: "After Waterloo, they set up home base in Seattle, WA! Enjoying the mountains, water, climate, and proximity to family.",
+      narrative: "After graduating and being split apart by the pandemic they decided they were done with long distance and moved to Seattle to build a life together. They made lots of friends, took lots of trips, and interviewed many cats before finally adopting Presto & Trino.",
       photos: [
         { src: "/narsh2026/images/story/seattle/010.jpg", alt: "Natalie and Arash in Seattle, 2020" },
         { src: "/narsh2026/images/story/seattle/020.jpg", alt: "Natalie and Arash in Seattle, 2022" },
@@ -143,7 +143,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
       year: 2021,
-      narrative: "Tropical getaway to Oahu! Sunsets, beach walks, and island adventures.",
+      narrative: "Natalie showed Arash that while he could not float, he could, in fact, swim.",
       photos: [],
       isConvergence: false
     },
@@ -155,7 +155,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2022,
-      narrative: "Alpine trip through Switzerland! Scenic train rides, mountain lakes, and Swiss chocolate.",
+      narrative: "They rode a train through the Alps. Arash fell asleep. The Matterhorn hid behind the clouds. They accidentally ordered an extra cheese course.",
       photos: [],
       isConvergence: false
     },
@@ -167,7 +167,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
       year: 2023,
-      narrative: "Visiting home in Grand Cayman! Crystal clear waters, family time, and island warmth.",
+      narrative: "Arash finally visited Natalie's homeland to see what all the fuss was about.",
       photos: [],
       isConvergence: false
     },
@@ -179,7 +179,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
       year: 2023,
-      narrative: "Vibrant culture, delicious street tacos, historic Zócalo, and exploring ancient pyramids in Mexico City.",
+      narrative: "They went to Mexico, made churros together, and got food poisoning from their own churros.",
       photos: [],
       isConvergence: false
     },
@@ -191,7 +191,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2024,
-      narrative: "Exploring Japan! Bustling streets of Tokyo, delicious ramen, and historic shrines.",
+      narrative: "They went to Japan and only considered moving there four times.",
       photos: [],
       isConvergence: false
     },
@@ -203,7 +203,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2024,
-      narrative: "The City of Light! Strolling along the Seine, museum visits, and fresh pastries.",
+      narrative: "They failed to reserve tickets for the Louvre. They ate baguettes in the park instead.",
       photos: [],
       isConvergence: false
     },
@@ -215,7 +215,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
       year: 2024,
-      narrative: "Exploring Montreal! European flair, Old Montreal cobblestone streets, delicious bagels, and vibrant culture.",
+      narrative: "They went to Montreal for their Waterloo roommate's wedding. Very unoriginal of them.",
       photos: [],
       isConvergence: false
     },
@@ -227,7 +227,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.5,
       year: 2025,
-      narrative: "Coastal road trip along Northern California and the majestic Redwood forests.",
+      narrative: "They went to see the redwoods. It ruined trees for them. They discovered their love of glamping.",
       photos: [],
       isConvergence: false
     },
@@ -239,19 +239,19 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2025,
-      narrative: "Exploring Serbia! Historic fortresses, vibrant cafes along the Danube, and rich culture.",
+      narrative: "They travelled to Serbia for Natalie's sister's wedding. They road tripped across eastern Europe in van filled with of Natalie's relatives. They changed a tire in Bosnia.",
       photos: [],
       isConvergence: false
     },
     {
       id: "proposal",
       owner: "both",
-      location: "Ucluelet, Vancouver Island, BC",
+      location: "Ucluelet, BC",
       coords: [-125.5462, 48.9420],
       flyVia: SEATTLE_HUB,
       zoom: 7.0,
       year: 2025,
-      narrative: "The Proposal! On the rugged ocean cliffs of Vancouver Island, Arash proposed to Natalie.",
+      narrative: "They went on a road trip to Vancouver Island. Each day was a surprise for Natalie. Except for the last because Arash is too easy to read.",
       photos: [
         { src: "/narsh2026/images/story/proposal/010.jpg", alt: "The proposal trip on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/020.jpg", alt: "Natalie and Arash on Vancouver Island" },
@@ -268,7 +268,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2025,
-      narrative: "Summiting Africa's highest peak! An unforgettable trek up Mount Kilimanjaro in Tanzania.",
+      narrative: "They climbed a mountain with Natalie's dad. They didn't shower for a week and still didn't mind sharing a tent. Arash vowed to never climb again. They saw a bunch of cats (big ones).",
       photos: [],
       isConvergence: false
     },
@@ -280,7 +280,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
       year: 2026,
-      narrative: "Caribbean escape to Jamaica! Beachside relaxation, reggae music, and warm island breezes.",
+      narrative: "Another wedding. Real original.",
       photos: [],
       isConvergence: false
     },
@@ -292,7 +292,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 7.0,
       year: 2026,
-      narrative: "The Wedding! Celebrating 10 years together surrounded by family and friends in Okanagan wine country.",
+      narrative: "11 years later, they're finally doing it. Kelowna, BC. See you all there!",
       photos: [],
       isConvergence: false
     }

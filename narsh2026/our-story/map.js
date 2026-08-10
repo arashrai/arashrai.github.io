@@ -1,8 +1,9 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: 100% Flash-Free Camera-Locked Line Trajectories.
-// - In-flight lines start at progress 0.0 when updateLines is called.
-// - Zero line pre-rendering or disappearing during Leg 1 camera sweeps.
-// - Completed lines remain 100% solid and visible at all times.
+// Senior Cartography Design Engine: Precise Separate Travel to Waterloo, Braided Helix from Seattle Onward.
+// - Stop 4 (Saskatchewan): Abbotsford -> Saskatchewan (Teal) & Cayman -> Saskatchewan (Gold).
+// - Stop 5 (Long Distance): Returned home to BC & Cayman.
+// - Stop 6 (Waterloo): Separate travel from home to Waterloo (Abbotsford -> Waterloo Teal, Cayman -> Waterloo Gold).
+// - Stop 7 (Seattle): Reunited move to Seattle — Braided Ribbon Helix weaves from Waterloo -> Seattle!
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -486,7 +487,7 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: Sweep camera to Hub. In-flight progress is 0.0 (ZERO line growth).
+      // LEG 1: Sweep camera to Hub. Progress = 0.0 (ZERO line growth).
       activeStartCoords = null;
       activeTargetCoords = null;
       currentInFlightProgress = 0.0;
@@ -671,7 +672,6 @@ const NARSH_MAP = (() => {
     currentCompletedNatalie = [];
     currentInFlightArash = null;
     currentInFlightNatalie = null;
-    // In-flight progress starts at 0.0 when setting up a new stop!
     currentInFlightProgress = 0.0;
 
     const LUDHIANA = [75.8573, 30.9010];
@@ -716,23 +716,27 @@ const NARSH_MAP = (() => {
       }
     }
 
-    // Stop 5 (Long Distance): Arash returned to BC, Natalie to Cayman.
-    // Base lines up to Saskatchewan remain completed. No new line segment is drawn.
+    // Stop 5 (Long Distance): Arash returned home to BC, Natalie returned home to Cayman.
+    // Base lines up to Saskatchewan remain completed.
 
-    // Stop 6 (Waterloo): Both travel to Waterloo.
-    // Braided Rope Helix begins from Waterloo onward!
+    // Stop 6 (Waterloo): Reunited at University of Waterloo!
+    // Separate travel from home:
+    // Arash: Abbotsford, BC -> Waterloo, ON (Teal)
+    // Natalie: Grand Cayman -> Waterloo, ON (Gold)
     if (stopIndex >= 6) {
-      const braided = buildBraidedRope(unwrapLongitudes([SASKATCHEWAN, WATERLOO]), unwrapLongitudes([SASKATCHEWAN, WATERLOO]), 0, 0);
+      const arashWaterloo = getGreatCirclePoints(ABBOTSFORD, WATERLOO);
+      const natalieWaterloo = getGreatCirclePoints(CAYMAN, WATERLOO);
       if (stopIndex === 6) {
-        currentInFlightArash = braided.arash;
-        currentInFlightNatalie = braided.natalie;
+        currentInFlightArash = arashWaterloo;
+        currentInFlightNatalie = natalieWaterloo;
       } else {
-        currentCompletedArash.push(braided.arash);
-        currentCompletedNatalie.push(braided.natalie);
+        currentCompletedArash.push(arashWaterloo);
+        currentCompletedNatalie.push(natalieWaterloo);
       }
     }
 
-    // Stop 7 (Seattle): Both travel Waterloo -> Seattle.
+    // Stop 7 (Seattle): Both move together Waterloo -> Seattle
+    // Braided Ribbon Helix weaves from Waterloo -> Seattle!
     if (stopIndex >= 7) {
       const braided = buildBraidedRope(unwrapLongitudes([WATERLOO, SEATTLE_HUB]), unwrapLongitudes([WATERLOO, SEATTLE_HUB]), 0, 0);
       if (stopIndex === 7) {

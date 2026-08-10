@@ -145,22 +145,7 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.5,
       year: "2021 – present",
       narrative: "After graduating and being split apart by the pandemic they decided they were done with long distance and moved to Seattle to build a life together. They made lots of friends, took lots of trips, and interviewed many cats before finally adopting Presto & Trino.",
-      photos: [
-        { src: "/narsh2026/images/story/seattle/010.jpg", alt: "Natalie and Arash in Seattle, 2020" },
-        { src: "/narsh2026/images/story/seattle/020.jpg", alt: "Natalie and Arash in Seattle, 2022" },
-        { src: "/narsh2026/images/story/seattle/030.jpg", alt: "Exploring the Seattle waterfront" },
-        { src: "/narsh2026/images/story/seattle/040.jpg", alt: "Seattle living and hiking" },
-        { src: "/narsh2026/images/story/seattle/050.jpg", alt: "Summer in the Pacific Northwest, 2024" },
-        { src: "/narsh2026/images/story/seattle/060.jpg", alt: "Seattle adventures with friends" },
-        { src: "/narsh2026/images/story/seattle/070.jpg", alt: "Natalie and Arash in Seattle, 2024" },
-        { src: "/narsh2026/images/story/seattle/080.jpg", alt: "Seattle city life" },
-        { src: "/narsh2026/images/story/seattle/090.jpg", alt: "With Presto & Trino in Seattle" },
-        { src: "/narsh2026/images/story/seattle/100.jpg", alt: "Pacific Northwest outdoors" },
-        { src: "/narsh2026/images/story/seattle/110.jpg", alt: "Life in Seattle" },
-        { src: "/narsh2026/images/story/seattle/120.jpg", alt: "Natalie and Arash at home in Seattle" },
-        { src: "/narsh2026/images/story/seattle/130.jpg", alt: "Presto & Trino" },
-        { src: "/narsh2026/images/story/seattle/140.jpg", alt: "Natalie and Arash in Washington" }
-      ],
+      photos: [],
       isConvergence: false
     },
     {

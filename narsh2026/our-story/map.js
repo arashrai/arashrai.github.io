@@ -1,12 +1,8 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Explicit Stop-Based Trajectory Mapping.
-// - Stop 0 (Ludhiana): Arash born in Punjab (0 lines).
-// - Stop 1 (Cayman): Natalie born in Cayman (0 lines, no cross-ocean line between babies!).
-// - Stop 2 (Auckland): Arash travels Ludhiana -> Auckland (Teal line).
-// - Stop 3 (Abbotsford): Arash travels Auckland -> Abbotsford (Teal line).
-// - Stop 4 (Saskatchewan): Convergence (Abbotsford -> Saskatchewan Teal, Cayman -> Saskatchewan Gold).
-// - Stop 6 (Waterloo): Weave braided ribbon helix from Waterloo onward!
-// - Stops 8..19 (Vacation Trips): Outward-only single spokes from Seattle (zero return line clutter).
+// Senior Cartography Design Engine: 100% Flash-Free Camera-Locked Line Trajectories.
+// - In-flight lines start at progress 0.0 when updateLines is called.
+// - Zero line pre-rendering or disappearing during Leg 1 camera sweeps.
+// - Completed lines remain 100% solid and visible at all times.
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -31,7 +27,7 @@ const NARSH_MAP = (() => {
   let currentCompletedNatalie = [];
   let currentInFlightArash = null;
   let currentInFlightNatalie = null;
-  let currentInFlightProgress = 1.0;
+  let currentInFlightProgress = 0.0;
 
   let flightActive = false;
   let flightStartTime = 0;
@@ -490,7 +486,7 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: Sweep camera to Hub. Progress = 0.0 (ZERO line growth).
+      // LEG 1: Sweep camera to Hub. In-flight progress is 0.0 (ZERO line growth).
       activeStartCoords = null;
       activeTargetCoords = null;
       currentInFlightProgress = 0.0;
@@ -675,7 +671,8 @@ const NARSH_MAP = (() => {
     currentCompletedNatalie = [];
     currentInFlightArash = null;
     currentInFlightNatalie = null;
-    currentInFlightProgress = 1.0;
+    // In-flight progress starts at 0.0 when setting up a new stop!
+    currentInFlightProgress = 0.0;
 
     const LUDHIANA = [75.8573, 30.9010];
     const CAYMAN = [-81.2546, 19.3133];

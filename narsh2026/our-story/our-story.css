@@ -30,6 +30,24 @@ html, body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Fixed Header Bar above 3D Globe map */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: rgba(255, 248, 240, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+  box-sizing: border-box;
+}
+
 #map, .map-container {
   position: fixed;
   top: 0;

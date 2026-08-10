@@ -1,5 +1,5 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Locked Camera-Line Progress, 2-Leg Sweeps (Zero Line Growth on Leg 1, Smooth Growth on Leg 2), Zero Flashing & High-Resolution Braided Helix.
+// Senior Cartography Design Engine: Precise Separate Early Lines (Arash Teal, Natalie Gold), 2-Leg Sweeps (Leg 1 = Zero Line Growth, Leg 2 = Camera-Locked Growth), Braided Helix from Waterloo Onward.
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -19,11 +19,11 @@ const NARSH_MAP = (() => {
   let mapInstance = null;
   let reducedMotion = false;
 
-  // Fully completed spoke arrays (stops 0 .. current-1)
+  // Fully completed line arrays (stops 0 .. current-1)
   let completedArashSpokes = [];
   let completedNatalieSpokes = [];
 
-  // Active in-flight spoke currently being drawn (during Leg 2)
+  // Active in-flight spoke currently being drawn (ONLY during Leg 2)
   let activeArashSpoke = null;
   let activeNatalieSpoke = null;
 
@@ -189,7 +189,9 @@ const NARSH_MAP = (() => {
     const buildMulti = (completedList, activeSpoke) => {
       const result = [];
       for (let i = 0; i < completedList.length; i++) {
-        result.push(completedList[i]);
+        if (completedList[i] && completedList[i].length > 0) {
+          result.push(completedList[i]);
+        }
       }
       if (activeSpoke && activeSpoke.length > 0) {
         const count = Math.max(1, Math.round(activeSpoke.length * t));
@@ -420,13 +422,18 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: ZERO line growth during sweep to Hub! Active spoke is null.
+      // LEG 1: ZERO line growth during sweep to Hub! Active spokes are null.
       activeStartCoords = null;
       activeTargetCoords = null;
-
       flightDurationMs = flight1Ms;
       flightStartTime = performance.now();
       flightActive = true;
+
+      // Keep active spokes null during Leg 1 so no new line segment draws while sweeping!
+      const pendingArashSpoke = activeArashSpoke;
+      const pendingNatalieSpoke = activeNatalieSpoke;
+      activeArashSpoke = null;
+      activeNatalieSpoke = null;
 
       mapInstance.flyTo({
         center: flyViaTargetCoords,
@@ -440,7 +447,9 @@ const NARSH_MAP = (() => {
       mapInstance.once("moveend", () => {
         if (!mapInstance || flightId !== currentFlightId) return;
 
-        // LEG 2: Line grows dynamically from Hub -> Destination locked to camera lens!
+        // LEG 2: Restore active spokes and grow line dynamically from Hub -> Destination!
+        activeArashSpoke = pendingArashSpoke;
+        activeNatalieSpoke = pendingNatalieSpoke;
         activeStartCoords = flyViaTargetCoords;
         activeTargetCoords = cameraTargetCoords;
 
@@ -460,7 +469,6 @@ const NARSH_MAP = (() => {
         mapInstance.once("moveend", () => {
           if (flightId !== currentFlightId) return;
 
-          // Commit active spoke into completed spokes list on arrival
           if (activeArashSpoke) completedArashSpokes.push(activeArashSpoke);
           if (activeNatalieSpoke) completedNatalieSpokes.push(activeNatalieSpoke);
           activeArashSpoke = null;
@@ -491,6 +499,11 @@ const NARSH_MAP = (() => {
       flightStartTime = performance.now();
       flightActive = true;
 
+      const pendingArashSpoke = activeArashSpoke;
+      const pendingNatalieSpoke = activeNatalieSpoke;
+      activeArashSpoke = null;
+      activeNatalieSpoke = null;
+
       mapInstance.flyTo({
         center: wideCoords,
         zoom: wideZoom ? (isMobile ? Math.max(2.2, wideZoom - 0.6) : wideZoom) : 3.0,
@@ -503,6 +516,8 @@ const NARSH_MAP = (() => {
       mapInstance.once("moveend", () => {
         if (!mapInstance || flightId !== currentFlightId) return;
 
+        activeArashSpoke = pendingArashSpoke;
+        activeNatalieSpoke = pendingNatalieSpoke;
         activeStartCoords = wideCoords;
         activeTargetCoords = cameraTargetCoords;
 
@@ -591,19 +606,49 @@ const NARSH_MAP = (() => {
     const currentStop = stops[stopIndex];
     if (!currentStop) return;
 
-    // Reset completed & active spokes for target stop index
     completedArashSpokes = [];
     completedNatalieSpokes = [];
     activeArashSpoke = null;
     activeNatalieSpoke = null;
 
-    // 1. Build Base Journey up to Seattle (stops 0 .. min(stopIndex-1, seattleIndex))
+    // 1. EARLY STOPS BEFORE SEATTLE (stops 0 .. seattleIndex)
+    if (stopIndex <= seattleIndex) {
+      // Arash nodes up to stopIndex
+      const arashNodes = [];
+      const natalieNodes = [];
+
+      for (let i = 0; i <= stopIndex; i++) {
+        const s = stops[i];
+        if (s.arashPos) pushUniqueNode(arashNodes, s.arashPos);
+        else if (s.owner === "arash" || s.owner === "both") pushUniqueNode(arashNodes, s.coords);
+
+        if (s.nataliePos) pushUniqueNode(natalieNodes, s.nataliePos);
+        else if (s.owner === "natalie" || s.owner === "both") pushUniqueNode(natalieNodes, s.coords);
+      }
+
+      const arashUnwrapped = unwrapLongitudes(arashNodes);
+      const natalieUnwrapped = unwrapLongitudes(natalieNodes);
+
+      // Unbraided single Teal/Gold lines before Waterloo; Braided rope helix from Waterloo onward
+      const braidedCur = buildBraidedRope(arashUnwrapped, natalieUnwrapped, waterlooIndex, waterlooIndex);
+
+      if (stopIndex > 0) {
+        // Line growth is active for the current step
+        activeArashSpoke = braidedCur.arash;
+        activeNatalieSpoke = braidedCur.natalie;
+      } else {
+        // At Stop 0 (Ludhiana), line is 0 length (just the pin)
+        activeArashSpoke = null;
+        activeNatalieSpoke = null;
+      }
+      return;
+    }
+
+    // 2. STOPS FROM SEATTLE ONWARD (Vacation Hub & Spoke Trips)
+    // Base journey up to Seattle is completed
     const baseArashNodes = [];
     const baseNatalieNodes = [];
-
-    const baseMaxIdx = Math.min(stopIndex - 1, seattleIndex >= 0 ? seattleIndex : stopIndex - 1);
-
-    for (let i = 0; i <= baseMaxIdx; i++) {
+    for (let i = 0; i <= seattleIndex; i++) {
       const s = stops[i];
       if (s.arashPos) pushUniqueNode(baseArashNodes, s.arashPos);
       else if (s.owner === "arash" || s.owner === "both") pushUniqueNode(baseArashNodes, s.coords);
@@ -611,58 +656,32 @@ const NARSH_MAP = (() => {
       if (s.nataliePos) pushUniqueNode(baseNatalieNodes, s.nataliePos);
       else if (s.owner === "natalie" || s.owner === "both") pushUniqueNode(baseNatalieNodes, s.coords);
     }
+    const baseArashUnwrapped = unwrapLongitudes(baseArashNodes);
+    const baseNatalieUnwrapped = unwrapLongitudes(baseNatalieNodes);
+    const braidedBase = buildBraidedRope(baseArashUnwrapped, baseNatalieUnwrapped, waterlooIndex, waterlooIndex);
+    if (braidedBase.arash.length > 0) completedArashSpokes.push(braidedBase.arash);
+    if (braidedBase.natalie.length > 0) completedNatalieSpokes.push(braidedBase.natalie);
 
-    if (baseArashNodes.length > 0 || baseNatalieNodes.length > 0) {
-      const arashUnwrapped = unwrapLongitudes(baseArashNodes);
-      const natalieUnwrapped = unwrapLongitudes(baseNatalieNodes);
-      const braidedBase = buildBraidedRope(arashUnwrapped, natalieUnwrapped, waterlooIndex, waterlooIndex);
-      if (braidedBase.arash.length > 0) completedArashSpokes.push(braidedBase.arash);
-      if (braidedBase.natalie.length > 0) completedNatalieSpokes.push(braidedBase.natalie);
+    // Completed vacation spokes for prior vacation stops (seattleIndex+1 .. stopIndex-1)
+    for (let i = seattleIndex + 1; i <= stopIndex - 1; i++) {
+      const s = stops[i];
+      if (!s) continue;
+      const hub = s.flyVia || SEATTLE_HUB;
+      const dest = s.coords;
+      const hubUnwrapped = unwrapLongitudes([hub, dest]);
+      const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, 0, 0);
+      if (spokeBraid.arash.length > 0) completedArashSpokes.push(spokeBraid.arash);
+      if (spokeBraid.natalie.length > 0) completedNatalieSpokes.push(spokeBraid.natalie);
     }
 
-    // 2. Build completed vacation spokes for prior vacation stops (seattleIndex+1 .. stopIndex-1)
-    if (seattleIndex >= 0 && stopIndex - 1 > seattleIndex) {
-      for (let i = seattleIndex + 1; i <= stopIndex - 1; i++) {
-        const s = stops[i];
-        if (!s) continue;
-        const hub = s.flyVia || SEATTLE_HUB;
-        const dest = s.coords;
-
-        const hubUnwrapped = unwrapLongitudes([hub, dest]);
-        const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, 0, 0);
-        if (spokeBraid.arash.length > 0) completedArashSpokes.push(spokeBraid.arash);
-        if (spokeBraid.natalie.length > 0) completedNatalieSpokes.push(spokeBraid.natalie);
-      }
-    }
-
-    // 3. Build ACTIVE in-flight spoke for current stopIndex (Leg 2 growth)
+    // Active in-flight spoke for current vacation stop (Leg 2 growth)
     if (currentStop.flyVia) {
-      // Vacation trip spoke from Seattle -> Destination
       const hub = currentStop.flyVia;
       const dest = currentStop.coords;
       const hubUnwrapped = unwrapLongitudes([hub, dest]);
       const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, 0, 0);
       activeArashSpoke = spokeBraid.arash;
       activeNatalieSpoke = spokeBraid.natalie;
-    } else if (stopIndex <= seattleIndex) {
-      // Early journey stop (e.g. Ludhiana, Cayman, NZ, Abbotsford, Saskatchewan, Waterloo, Seattle)
-      const curArashNodes = [];
-      const curNatalieNodes = [];
-      for (let i = 0; i <= stopIndex; i++) {
-        const s = stops[i];
-        if (s.arashPos) pushUniqueNode(curArashNodes, s.arashPos);
-        else if (s.owner === "arash" || s.owner === "both") pushUniqueNode(curArashNodes, s.coords);
-
-        if (s.nataliePos) pushUniqueNode(curNatalieNodes, s.nataliePos);
-        else if (s.owner === "natalie" || s.owner === "both") pushUniqueNode(curNatalieNodes, s.coords);
-      }
-      const arashUnwrapped = unwrapLongitudes(curArashNodes);
-      const natalieUnwrapped = unwrapLongitudes(curNatalieNodes);
-      const braidedCur = buildBraidedRope(arashUnwrapped, natalieUnwrapped, waterlooIndex, waterlooIndex);
-      activeArashSpoke = braidedCur.arash;
-      activeNatalieSpoke = braidedCur.natalie;
-      completedArashSpokes = [];
-      completedNatalieSpokes = [];
     }
 
     if (reducedMotion) {

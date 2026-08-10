@@ -2432,8 +2432,8 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "gurinders-wife",
-      "name": "Gurinder's wife",
+      "id": "sati-khangura",
+      "name": "Sati khangura",
       "photo": null,
       "groups": [
         "arashs-family"
@@ -2466,7 +2466,7 @@ const NARSH_GUESTS = (() => {
       "socialHidden": false,
       "parents": [
         "gurinder-khangura",
-        "gurinders-wife"
+        "sati-khangura"
       ],
       "inferredParents": []
     },
@@ -2487,7 +2487,7 @@ const NARSH_GUESTS = (() => {
       "socialHidden": false,
       "parents": [
         "gurinder-khangura",
-        "gurinders-wife"
+        "sati-khangura"
       ],
       "inferredParents": []
     },
@@ -3319,7 +3319,7 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "jasan-khangura",
-      "target": "gurinders-wife",
+      "target": "sati-khangura",
       "type": "parent"
     },
     {
@@ -3329,7 +3329,7 @@ const NARSH_GUESTS = (() => {
     },
     {
       "source": "millen-khangura",
-      "target": "gurinders-wife",
+      "target": "sati-khangura",
       "type": "parent"
     },
     {
@@ -3816,9 +3816,9 @@ const NARSH_GUESTS = (() => {
       "id": "household-gurinder-khangura",
       "members": [
         "gurinder-khangura",
-        "gurinders-wife"
+        "sati-khangura"
       ],
-      "displayName": "Gurinder & Gurinder's"
+      "displayName": "Gurinder & Sati"
     },
     {
       "id": "household-bhupinder-boparai",
@@ -3886,7 +3886,7 @@ const NARSH_GUESTS = (() => {
     },
     {
       "a": "gurinder-khangura",
-      "b": "gurinders-wife",
+      "b": "sati-khangura",
       "side": "arash"
     },
     {

@@ -1,12 +1,11 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Dynamic Arc Resolution Sampling, Zero Atmosphere Ring Glow & High-Resolution Geodesic Trajectories.
+// Senior Cartography Design Engine: Distance-Adaptive Dynamic Camera Speeds, Dynamic Arc Resolution Sampling, Zero Atmosphere Ring Glow & High-Resolution Geodesic Trajectories.
 
 const NARSH_MAP = (() => {
   "use strict";
 
   const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
 
-  const CAMERA_SPEED = 1.4;   // Rapid, responsive camera speed
   const CAMERA_CURVE = 1.2;   // Gentle trajectory height
   const ROPE_AMPLITUDE = 0.12; // Scale-harmonized braided rope offset
   const KM_PER_TWIST = 250;    // Balanced twist density: 1 crossover per 250 km along path
@@ -204,7 +203,6 @@ const NARSH_MAP = (() => {
     stopGlobeSpin();
     isUserInteracting = false;
 
-    // DISABLE manual user interactions while camera zoom out animation is in progress
     if (mapInstance.dragPan) mapInstance.dragPan.disable();
     if (mapInstance.scrollZoom) mapInstance.scrollZoom.disable();
     if (mapInstance.dragRotate) mapInstance.dragRotate.disable();
@@ -218,18 +216,15 @@ const NARSH_MAP = (() => {
       essential: true
     });
 
-    // ONLY AFTER zoom out completes, enable controls & start auto-spin!
     mapInstance.once("moveend", () => {
       if (!mapInstance) return;
 
-      // Enable 100% full interactive manual controls for user
       if (mapInstance.dragPan) mapInstance.dragPan.enable();
       if (mapInstance.scrollZoom) mapInstance.scrollZoom.enable();
       if (mapInstance.dragRotate) mapInstance.dragRotate.enable();
       if (mapInstance.touchZoomRotate) mapInstance.touchZoomRotate.enable();
       if (mapInstance.doubleClickZoom) mapInstance.doubleClickZoom.enable();
 
-      // Attach user interaction listeners now that zoom out has completed!
       const canvas = mapInstance.getCanvas();
       if (canvas) {
         const handleUserInteraction = () => {
@@ -260,7 +255,6 @@ const NARSH_MAP = (() => {
   const applyWarmStyleOverrides = () => {
     if (!mapInstance || typeof mapInstance.getStyle !== "function") return;
     try {
-      // Remove atmosphere glow ring completely by setting horizon-blend: 0 and uniform background color
       if (mapInstance.setFog) {
         mapInstance.setFog({
           color: "#F5E6D3",
@@ -296,7 +290,6 @@ const NARSH_MAP = (() => {
   const setupLayers = () => {
     if (!mapInstance || typeof mapInstance.getSource !== "function") return;
 
-    // Arash line (Teal)
     if (!mapInstance.getSource("line-arash")) {
       mapInstance.addSource("line-arash", {
         type: "geojson",
@@ -317,7 +310,6 @@ const NARSH_MAP = (() => {
       });
     }
 
-    // Natalie line (Gold)
     if (!mapInstance.getSource("line-natalie")) {
       mapInstance.addSource("line-natalie", {
         type: "geojson",
@@ -338,7 +330,6 @@ const NARSH_MAP = (() => {
       });
     }
 
-    // Pins
     if (!mapInstance.getSource("stops")) {
       mapInstance.addSource("stops", {
         type: "geojson",
@@ -387,6 +378,20 @@ const NARSH_MAP = (() => {
       if (c) currentCamCenter = [c.lng, c.lat];
     } catch (e) {}
 
+    // Calculate Geodesic Flight Distance to dynamically scale flight speed & duration!
+    const distKm = getGeodesicDistanceKm(currentCamCenter, coords);
+
+    // Distance-Adaptive Speed: Short regional flights (< 1200km e.g. Seattle -> Ucluelet) use gentle speed (0.6 - 0.95),
+    // while long oceanic flights (> 2000km) keep full snappy speed (1.4).
+    const dynamicSpeed = distKm < 1500
+      ? Math.max(0.55, Math.min(1.4, 0.4 + (distKm / 1500) * 0.95))
+      : 1.4;
+
+    // Minimum flight duration: Ensures short flights take at least 1500ms so they never feel rushed or abrupt!
+    const dynamicDurationMs = distKm < 1500
+      ? Math.max(1500, Math.round(1200 + (1500 - distKm) * 0.35))
+      : 1200;
+
     if (reducedMotion) {
       const targetLng = unwrapTargetLng(currentCamCenter[0], coords[0]);
       mapInstance.jumpTo({ center: [targetLng, coords[1]], zoom: effectiveZoom, padding: padding });
@@ -408,7 +413,7 @@ const NARSH_MAP = (() => {
     // Handle Waypoint Flight (e.g. Cayman -> India -> NZ, OR Trip A -> Seattle -> Trip B)
     if (flyVia && !isBackward) {
       const flight1Ms = 600;
-      const flight2Ms = 1200;
+      const flight2Ms = dynamicDurationMs;
 
       const flyViaLng = unwrapTargetLng(currentCamCenter[0], flyVia[0]);
       const flyViaTargetCoords = [flyViaLng, flyVia[1]];
@@ -430,7 +435,7 @@ const NARSH_MAP = (() => {
       mapInstance.flyTo({
         center: flyViaTargetCoords,
         zoom: Math.max(3.0, effectiveZoom - 1.0),
-        speed: CAMERA_SPEED,
+        speed: 1.4,
         curve: CAMERA_CURVE,
         padding: padding,
         essential: true
@@ -453,7 +458,7 @@ const NARSH_MAP = (() => {
         mapInstance.flyTo({
           center: cameraTargetCoords,
           zoom: effectiveZoom,
-          speed: CAMERA_SPEED,
+          speed: dynamicSpeed,
           curve: CAMERA_CURVE,
           padding: padding,
           essential: true
@@ -489,7 +494,7 @@ const NARSH_MAP = (() => {
       mapInstance.flyTo({
         center: wideCoords,
         zoom: wideZoom ? (isMobile ? Math.max(2.2, wideZoom - 0.6) : wideZoom) : 3.0,
-        speed: CAMERA_SPEED,
+        speed: 1.2,
         curve: CAMERA_CURVE,
         padding: padding,
         essential: true
@@ -500,7 +505,7 @@ const NARSH_MAP = (() => {
         mapInstance.flyTo({
           center: cameraTargetCoords,
           zoom: effectiveZoom,
-          speed: CAMERA_SPEED,
+          speed: dynamicSpeed,
           curve: CAMERA_CURVE,
           padding: padding,
           essential: true
@@ -516,15 +521,15 @@ const NARSH_MAP = (() => {
       return;
     }
 
-    // Standard fast camera flight (forward or backward)
-    flightDurationMs = 1200;
+    // Standard distance-adaptive camera flight
+    flightDurationMs = dynamicDurationMs;
     flightStartTime = performance.now();
     flightActive = true;
 
     mapInstance.flyTo({
       center: cameraTargetCoords,
       zoom: effectiveZoom,
-      speed: CAMERA_SPEED,
+      speed: dynamicSpeed,
       curve: CAMERA_CURVE,
       padding: padding,
       essential: true

@@ -41,7 +41,7 @@ Steve Blumer,Natalie's Family,,,
 Matt D'Souza,Waterloo,,,
 Grace Jean,,Matt D'Souza,,
 Gaea Turman,Seattleite,Nariyan Krsnadas,,
-Daniel Prilik,Waterloo,,,
+Daniel Prilik,"Metamate,Waterloo",,,
 Logan Howard,Stripe,,,
 Annie Huang,,Logan Howard,,
 "Teresa Solomon ",Cayman Crew,Geoffrey Solomon,,
@@ -102,39 +102,33 @@ Mary Fleury,Natalie's Family,,,,,mary.jpg
 Jatinder Kaur,Arash's Family,,"Mohinder Kaur,Bachittar Boparai",,,jatinder.jpg
 Amritpal Rai,Arash's Family,,Balbir Rai,,,amritpal.jpg
 Janessa Reimer,Natalie's Family,Glen Antle,"Glen Antle,Jennifer Reimer",
-...,Natalie's Family,,Rene Fleury,,,,,
-Aman Rai,Arash's Family,,"Gurpreet Rai,Kiran Kaur",
-Amrit Kaur,Arash's Family,Aman Rai,"Amrit's mom,Amrit's dad",
-Gurpreet Rai,Arash's Family,,Balbir Rai,
-Kiran Kaur,Arash's Family,Gurpreet Rai,,Manpreet Bala
-Balbir Rai,Arash's Family,,,Navi's grandpa
-Mehreen Rai,Arash's Family,,"Aman Rai,Amrit Kaur",
-Nehmat Rai,Arash's Family,,"Aman Rai,Amrit Kaur",
-Amrit's mom,Arash's Family,Amrit's dad,,,,,,hide
-Amrit's dad,Arash's Family,,,,,,,hide
+...,Natalie's Family,,Rene Fleury,,,,,only
+Aman Rai,"Arash's Family,Seattleite",,"Gurpreet Rai,Kiran Kaur",
+Amrit Kaur,"Arash's Family,Seattleite",Aman Rai,"Amrit's mom,Amrit's dad",
+Gurpreet Rai,"Arash's Family,Seattleite",,Balbir Rai,
+Kiran Kaur,"Arash's Family,Seattleite",Gurpreet Rai,,Manpreet Bala
+Balbir Rai,Arash's Family,,,
+Mehreen Rai,"Arash's Family,Seattleite",,"Aman Rai,Amrit Kaur",
+Nehmat Rai,"Arash's Family,Seattleite",,"Aman Rai,Amrit Kaur",
 Harkanwal Grewal,Arash's Family,,Satwinder Kaur,
-Upneet Bala,Arash's Family,,"Manpreet Bala,Gurpreet Bala",,,,,hide
+Upneet Bala,"Arash's Family,Seattleite",,"Manpreet Bala,Gurpreet Bala",,,,,hide
 Manpreet Bala,Arash's Family,Gurpreet Bala,,Kiran Kaur,,,,hide
 Gurpreet Bala,Arash's Family,,,,,,,hide
-Jas Bala,Arash's Family,,"Manpreet Bala,Gurpreet Bala",,,,,hide
+Jas Bala,"Arash's Family,Seattleite",,"Manpreet Bala,Gurpreet Bala",,,,,hide
 Navi Rai,Arash's Family,,"Cookie Kaur,Kulwant Rai",,,,,hide
 Gagan Rai,Arash's Family,,"Cookie Kaur,Kulwant Rai",,,,,hide
 Cookie Kaur,Arash's Family,Kulwant Rai,,,,,,hide
-Kulwant Rai,Arash's Family,,"Navi's grandpa,Navi's grandma",,,,,hide
-Navi's grandpa,Arash's Family,,,Balbir Rai,,,,hide
-Navi's grandma,Arash's Family,Navi's grandpa,,,,,,hide
-Sira Auntie,Arash's Family,,"Isha's grandpa,Isha's grandma",,,,,hide
-Isha Brar,Arash's Family,,Sira Auntie,,,,,hide
-Isha's grandpa,Arash's Family,,,Balbir Rai,,,,hide
-Isha's grandma,Arash's Family,Isha's grandpa,,,,,,hide
-Shawn Brar,Arash's Family,,Sira Auntie,,,,,hide
-Shinday and family,Arash's Family,,"Isha's grandpa,Isha's grandma",,,,,hide
+Kulwant Rai,Arash's Family,,,,,,,hide
+Sira Kaur,Arash's Family,,,,,,,hide
+Isha Brar,Arash's Family,,Sira Kaur,,,,,hide
+Shawn Brar,Arash's Family,,Sira Kaur,,,,,hide
+Shinday and family,Arash's Family,,,,,,,hide
 Gurinder Khangura,Arash's Family,,,Kiran Kaur,,,,hide
 Gurinder's wife,Arash's Family,Gurinder Khangura,,,,,,hide
 Jasan Khangura,Arash's Family,,"Gurinder Khangura,Gurinder's wife",,,,,hide
 Millen Khangura,Arash's Family,,"Gurinder Khangura,Gurinder's wife",,,,,hide
-Aman,Arash's Family,,"Amrit's mom,Amrit's dad",,,,,hide
-Gurleen,Arash's Family,,"Amrit's mom,Amrit's dad",,,,,hide
+Aman,Arash's Family,,"",,,,,hide
+Gurleen,Arash's Family,,"",,,,,hide
 Satwinder Kaur,Arash's Family,,Balbir Rai,
 Jasan Grewal,Arash's Family,Harkanwal Grewal
 Gurnoor Boparai,Arash's Family,,"Bhupinder Boparai,Karamjit Kaur"
@@ -146,7 +140,7 @@ Santokh Rai,Arash's Family,,,,,,,hide
 Ujjagar Rai,Arash's Family,,,,,,,hide
 Shaminder Kaur,Arash's Family,,,,,,,hide
 Poonam Rai,Arash's Family,,,,,,,hide
-Amar pal Rai,Arash's Family,,,,,,,hide
+Amarpal Rai,Arash's Family,,,,,,,hide
 Jasvir Kaur,Arash's Family,,,,,,,hide
 Bunny Brar,Arash's Family,,,,,,,hide
 Sukhwinder Kaur,Arash's Family,,,,,,,hide

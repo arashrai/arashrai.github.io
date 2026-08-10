@@ -163,6 +163,7 @@
           NARSH_SCROLL.init(STOPS, onStopChange);
 
           document.addEventListener("keydown", (e) => {
+            if (document.body.classList.contains("nav-open")) return;
             if (e.key === "ArrowRight" || e.key === "ArrowDown") {
               e.preventDefault();
               const next = Math.min(NARSH_SCROLL.getCurrentIndex() + 1, STOPS.length - 1);

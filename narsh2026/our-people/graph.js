@@ -57,6 +57,13 @@ const NARSH_GRAPH = (() => {
   let svgEl = null;
   let simulation = null;
   let currentView = "social";
+  // The Everyone view's own camera, parked here whenever we leave that view.
+  // It cannot be re-read from the SVG on the way back: frameOnCouple overwrites
+  // the live zoom transform with one built from family-tree coordinates, and
+  // replaying that against the force layout threw the graph far off to the left.
+  // null until the first time we leave social view — identity is the correct
+  // starting camera, which is what the initial render already uses.
+  let socialTransform = null;
   let expandedNodeId = null;
   let zoomBehavior = null;
   let innerGroupEl = null;
@@ -1067,10 +1074,15 @@ const NARSH_GRAPH = (() => {
       collapseNode();
     }
 
-    currentView = view;
+    // Park the Everyone camera before leaving it, so a round trip through the
+    // tree comes back to where the user actually was. Guarded on the *outgoing*
+    // view: a tree -> tree re-render (family filter change) must not overwrite
+    // the stored social camera with frameOnCouple's tree-space transform.
+    if (currentView === "social" && svgEl) {
+      socialTransform = d3.zoomTransform(svgEl.node());
+    }
 
-    // Store the current zoom transform to preserve across view switches
-    const currentTransform = svgEl ? d3.zoomTransform(svgEl.node()) : null;
+    currentView = view;
 
     if (reducedMotion) {
       // Instant swap: clear and render new view
@@ -1081,11 +1093,11 @@ const NARSH_GRAPH = (() => {
         currentFamilyFilter = familyFilter || "both";
         renderFamilyTree(currentFamilyFilter);
       }
-      // Restore zoom transform. Tree view is exempt: renderFamilyTree has just
-      // framed the camera on the couple, and restoring the social transform
-      // would immediately undo it.
-      if (view === "social" && currentTransform && zoomBehavior) {
-        svgEl.call(zoomBehavior.transform, currentTransform);
+      // Restore the parked Everyone camera. Tree view is exempt: renderFamilyTree
+      // has just framed the camera on the couple, and restoring the social
+      // transform would immediately undo it.
+      if (view === "social" && socialTransform && zoomBehavior) {
+        svgEl.call(zoomBehavior.transform, socialTransform);
       }
     } else {
       // Crossfade: fade out over 200ms, swap content, fade in over 200ms
@@ -1100,11 +1112,11 @@ const NARSH_GRAPH = (() => {
             currentFamilyFilter = familyFilter || "both";
             renderFamilyTree(currentFamilyFilter);
           }
-          // Restore zoom transform. Tree view is exempt: renderFamilyTree has
-          // just framed the camera on the couple, and restoring the social
-          // transform would immediately undo it.
-          if (view === "social" && currentTransform && zoomBehavior) {
-            svgEl.call(zoomBehavior.transform, currentTransform);
+          // Restore the parked Everyone camera. Tree view is exempt:
+          // renderFamilyTree has just framed the camera on the couple, and
+          // restoring the social transform would immediately undo it.
+          if (view === "social" && socialTransform && zoomBehavior) {
+            svgEl.call(zoomBehavior.transform, socialTransform);
           }
           innerGroupEl.transition()
             .duration(200)

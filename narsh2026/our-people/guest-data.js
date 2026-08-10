@@ -2019,7 +2019,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "aman-rai",
       "name": "Aman Rai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/aman.png",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2041,7 +2041,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "amrit-kaur",
       "name": "Amrit Kaur",
-      "photo": null,
+      "photo": "/narsh2026/images/people/amrit.png",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2118,7 +2118,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "mehreen-rai",
       "name": "Mehreen Rai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/mahi.png",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2140,7 +2140,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "nehmat-rai",
       "name": "Nehmat Rai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/nemo.png",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2568,7 +2568,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "gurnoor-boparai",
       "name": "Gurnoor Boparai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/noor.png",
       "groups": [
         "arashs-family"
       ],

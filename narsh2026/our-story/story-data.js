@@ -95,7 +95,7 @@ const NARSH_STORY_DATA = (() => {
       wideZoom: 2.9,
       zoom: 5.5,
       year: 2015,
-      narrative: "Natalie and Arash were both assigned to the same summer camp at the University of Saskatchewan. Despite hanging out in very different groups, campers introduced them because both of them had been showing off the same party trick: dislocating (and relocating) their shoulders.",
+      narrative: "Natalie and Arash were both assigned to the same summer camp at the University of Saskatchewan. Campers introduced them because both of them had been showing off the same party trick: dislocating (and relocating) their shoulders.",
       photos: [
         { src: "/narsh2026/images/story/shad/010.jpeg", alt: "Natalie and Arash at SHAD in Saskatchewan" }
       ],
@@ -111,7 +111,9 @@ const NARSH_STORY_DATA = (() => {
       zoom: 3.2,
       year: "2015 – 2016",
       narrative: "After Saskatchewan, Arash returned to BC and Natalie returned to Cayman for her senior year. They spent the year watching movies/shows together while long distance. Arash convinced Natalie that the shareholders needed her more than the animals (she originally wanted to be a vet).",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/arash_natalie_on_the_phone.png", alt: "Arash and Natalie video calling while long distance" }
+      ],
       isConvergence: false
     },
     {

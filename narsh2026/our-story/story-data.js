@@ -20,7 +20,11 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/arash%20Ludhiana/020.jpg", alt: "A family photograph from Ludhiana" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/030.jpg", alt: "Baby Arash in Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/040.jpg", alt: "Arash's family in Punjab" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/050.jpg", alt: "Arash's early years in Ludhiana" }
+        { src: "/narsh2026/images/story/arash%20Ludhiana/050.jpg", alt: "Arash's early years in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/060.jpg", alt: "Arash as a baby in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/070.jpg", alt: "Arash with family in Punjab" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/080.jpg", alt: "Arash growing up in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/090.jpg", alt: "Arash's early childhood in India" }
       ],
       isConvergence: false
     },
@@ -37,7 +41,12 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/natalie%20gc/020.jpg", alt: "Natalie in Grand Cayman" },
         { src: "/narsh2026/images/story/natalie%20gc/030.jpg", alt: "Natalie's childhood in the Cayman Islands" },
         { src: "/narsh2026/images/story/natalie%20gc/040.jpg", alt: "Growing up in Grand Cayman" },
-        { src: "/narsh2026/images/story/natalie%20gc/050.jpg", alt: "Natalie's island childhood" }
+        { src: "/narsh2026/images/story/natalie%20gc/050.jpg", alt: "Natalie's island childhood" },
+        { src: "/narsh2026/images/story/natalie%20gc/060.jpg", alt: "Natalie with pets in Cayman" },
+        { src: "/narsh2026/images/story/natalie%20gc/070.jpg", alt: "Natalie on the beach in Grand Cayman" },
+        { src: "/narsh2026/images/story/natalie%20gc/080.jpg", alt: "Natalie's early years in Cayman" },
+        { src: "/narsh2026/images/story/natalie%20gc/090.jpg", alt: "Natalie growing up on the island" },
+        { src: "/narsh2026/images/story/natalie%20gc/100.jpg", alt: "Natalie in Grand Cayman, Cayman Islands" }
       ],
       isConvergence: false
     },
@@ -53,7 +62,10 @@ const NARSH_STORY_DATA = (() => {
       photos: [
         { src: "/narsh2026/images/story/arash%20New%20Zealand/010.jpg", alt: "Arash's years in Auckland, New Zealand" },
         { src: "/narsh2026/images/story/arash%20New%20Zealand/020.jpg", alt: "Arash growing up in New Zealand" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/030.jpg", alt: "Arash's childhood in Auckland" }
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/030.jpg", alt: "Arash's childhood in Auckland" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/040.jpg", alt: "Arash at school in New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/050.jpg", alt: "Arash's years living in Auckland" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/060.jpg", alt: "Arash in New Zealand" }
       ],
       isConvergence: false
     },
@@ -69,7 +81,8 @@ const NARSH_STORY_DATA = (() => {
       photos: [
         { src: "/narsh2026/images/story/arash%20BC/010.jpg", alt: "Arash in British Columbia" },
         { src: "/narsh2026/images/story/arash%20BC/020.jpg", alt: "Arash's high school years in Abbotsford" },
-        { src: "/narsh2026/images/story/arash%20BC/030.jpg", alt: "Arash in Abbotsford, British Columbia" }
+        { src: "/narsh2026/images/story/arash%20BC/030.jpg", alt: "Arash in Abbotsford, British Columbia" },
+        { src: "/narsh2026/images/story/arash%20BC/040.jpg", alt: "Arash during high school in BC" }
       ],
       isConvergence: false
     },
@@ -115,7 +128,10 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/waterloo/010.jpg", alt: "Natalie and Arash during their Waterloo years" },
         { src: "/narsh2026/images/story/waterloo/020.jpg", alt: "Natalie and Arash with friends at Waterloo" },
         { src: "/narsh2026/images/story/waterloo/030.jpg", alt: "Natalie and Arash in Waterloo, 2018" },
-        { src: "/narsh2026/images/story/waterloo/050.jpg", alt: "Natalie and Arash during university" }
+        { src: "/narsh2026/images/story/waterloo/040.jpg", alt: "Waterloo student days" },
+        { src: "/narsh2026/images/story/waterloo/050.jpg", alt: "Natalie and Arash during university" },
+        { src: "/narsh2026/images/story/waterloo/060.jpg", alt: "University of Waterloo campus life" },
+        { src: "/narsh2026/images/story/waterloo/070.jpg", alt: "Graduation and Waterloo memories" }
       ],
       isConvergence: false
     },
@@ -130,15 +146,25 @@ const NARSH_STORY_DATA = (() => {
       photos: [
         { src: "/narsh2026/images/story/seattle/010.jpg", alt: "Natalie and Arash in Seattle, 2020" },
         { src: "/narsh2026/images/story/seattle/020.jpg", alt: "Natalie and Arash in Seattle, 2022" },
+        { src: "/narsh2026/images/story/seattle/030.jpg", alt: "Exploring the Seattle waterfront" },
+        { src: "/narsh2026/images/story/seattle/040.jpg", alt: "Seattle living and hiking" },
         { src: "/narsh2026/images/story/seattle/050.jpg", alt: "Summer in the Pacific Northwest, 2024" },
-        { src: "/narsh2026/images/story/seattle/070.jpg", alt: "Natalie and Arash in Seattle, 2024" }
+        { src: "/narsh2026/images/story/seattle/060.jpg", alt: "Seattle adventures with friends" },
+        { src: "/narsh2026/images/story/seattle/070.jpg", alt: "Natalie and Arash in Seattle, 2024" },
+        { src: "/narsh2026/images/story/seattle/080.jpg", alt: "Seattle city life" },
+        { src: "/narsh2026/images/story/seattle/090.jpg", alt: "With Presto & Trino in Seattle" },
+        { src: "/narsh2026/images/story/seattle/100.jpg", alt: "Pacific Northwest outdoors" },
+        { src: "/narsh2026/images/story/seattle/110.jpg", alt: "Life in Seattle" },
+        { src: "/narsh2026/images/story/seattle/120.jpg", alt: "Natalie and Arash at home in Seattle" },
+        { src: "/narsh2026/images/story/seattle/130.jpg", alt: "Presto & Trino" },
+        { src: "/narsh2026/images/story/seattle/140.jpg", alt: "Natalie and Arash in Washington" }
       ],
       isConvergence: false
     },
     {
       id: "travel-honolulu",
       owner: "both",
-      location: "Honolulu, Hawaii",
+      location: "Oahu, Hawaii",
       coords: [-157.8583, 21.3069],
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
@@ -162,7 +188,7 @@ const NARSH_STORY_DATA = (() => {
     {
       id: "travel-cayman",
       owner: "both",
-      location: "Grand Cayman, Cayman Islands",
+      location: "Grand Cayman",
       coords: [-81.2546, 19.3133],
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
@@ -172,7 +198,7 @@ const NARSH_STORY_DATA = (() => {
       isConvergence: false
     },
     {
-      id: "travel-mexico-city",
+      id: "travel-mexico",
       owner: "both",
       location: "Mexico City, Mexico",
       coords: [-99.1332, 19.4326],
@@ -235,7 +261,7 @@ const NARSH_STORY_DATA = (() => {
       id: "travel-serbia",
       owner: "both",
       location: "Belgrade, Serbia",
-      coords: [20.4572, 44.7866],
+      coords: [20.4489, 44.7866],
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2025,
@@ -255,8 +281,8 @@ const NARSH_STORY_DATA = (() => {
       photos: [
         { src: "/narsh2026/images/story/proposal/010.jpg", alt: "The proposal trip on Vancouver Island" },
         { src: "/narsh2026/images/story/proposal/020.jpg", alt: "Natalie and Arash on Vancouver Island" },
-        { src: "/narsh2026/images/story/proposal/030.jpg", alt: "Newly engaged on Vancouver Island" },
-        { src: "/narsh2026/images/story/proposal/040.jpg", alt: "Celebrating the engagement" }
+        { src: "/narsh2026/images/story/proposal/030.jpg", alt: "Engagement photo on the coast" },
+        { src: "/narsh2026/images/story/proposal/040.jpg", alt: "Celebrating the proposal" }
       ],
       isConvergence: false
     },

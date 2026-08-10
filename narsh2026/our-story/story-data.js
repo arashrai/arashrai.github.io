@@ -157,7 +157,10 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.0,
       year: 2021,
       narrative: "Natalie showed Arash that while he could not float, he could, in fact, swim.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/hawaii.jpg", alt: "Natalie and Arash in Oahu, Hawaii" },
+        { src: "/narsh2026/images/story/misc/hawaii2.jpg", alt: "Hawaii getaway" }
+      ],
       isConvergence: false
     },
     {
@@ -169,7 +172,11 @@ const NARSH_STORY_DATA = (() => {
       zoom: 5.5,
       year: 2022,
       narrative: "They rode a train through the Alps. Arash fell asleep. The Matterhorn hid behind the clouds. They accidentally ordered an extra cheese course.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/switzerland.jpg", alt: "Natalie and Arash in Switzerland" },
+        { src: "/narsh2026/images/story/misc/switzerland2.jpg", alt: "Alpine views in Switzerland" },
+        { src: "/narsh2026/images/story/misc/switzerland3.jpg", alt: "Swiss train ride through the Alps" }
+      ],
       isConvergence: false
     },
     {
@@ -181,7 +188,9 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.0,
       year: 2023,
       narrative: "Arash finally visited Natalie's homeland to see what all the fuss was about.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/cayman.png", alt: "Visiting Grand Cayman" }
+      ],
       isConvergence: false
     },
     {
@@ -193,7 +202,10 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.0,
       year: 2023,
       narrative: "They went to Mexico, made churros together, and got food poisoning from their own churros.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/mexico.jpg", alt: "Exploring Mexico City" },
+        { src: "/narsh2026/images/story/misc/mexico2.jpg", alt: "Natalie and Arash making churros in Mexico" }
+      ],
       isConvergence: false
     },
     {
@@ -205,7 +217,10 @@ const NARSH_STORY_DATA = (() => {
       zoom: 5.5,
       year: 2024,
       narrative: "They went to Japan and only considered moving there four times.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/japan.jpg", alt: "Natalie and Arash in Tokyo, Japan" },
+        { src: "/narsh2026/images/story/misc/japan2.jpg", alt: "Exploring Japan" }
+      ],
       isConvergence: false
     },
     {
@@ -217,7 +232,10 @@ const NARSH_STORY_DATA = (() => {
       zoom: 5.5,
       year: 2024,
       narrative: "They failed to reserve tickets for the Louvre. They ate baguettes in the park instead.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/paris.jpg", alt: "Natalie and Arash in Paris, France" },
+        { src: "/narsh2026/images/story/misc/paris2.jpg", alt: "Baguettes in Paris" }
+      ],
       isConvergence: false
     },
     {
@@ -229,7 +247,9 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.0,
       year: 2024,
       narrative: "They went to Montreal for their Waterloo roommate's wedding. Very unoriginal of them.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/montreal.jpeg", alt: "Wedding trip to Montreal" }
+      ],
       isConvergence: false
     },
     {
@@ -241,7 +261,9 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.5,
       year: 2025,
       narrative: "They went to see the redwoods. It ruined trees for them. They discovered their love of glamping.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/crescent_city.jpg", alt: "Redwoods and glamping in Crescent City" }
+      ],
       isConvergence: false
     },
     {
@@ -253,7 +275,11 @@ const NARSH_STORY_DATA = (() => {
       zoom: 5.5,
       year: 2025,
       narrative: "They travelled to Serbia for Natalie's sister's wedding. They road tripped across eastern Europe in van filled with of Natalie's relatives. They changed a tire in Bosnia.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/serbia.jpg", alt: "Wedding trip in Belgrade, Serbia" },
+        { src: "/narsh2026/images/story/misc/serbia2.jpg", alt: "Road trip across Eastern Europe" },
+        { src: "/narsh2026/images/story/misc/serbia3.jpg", alt: "In Serbia with family" }
+      ],
       isConvergence: false
     },
     {
@@ -282,7 +308,10 @@ const NARSH_STORY_DATA = (() => {
       zoom: 5.5,
       year: 2025,
       narrative: "They climbed a mountain with Natalie's dad. They didn't shower for a week and still didn't mind sharing a tent. Arash vowed to never climb again. They saw a bunch of cats (big ones).",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/kilimanjaro.png", alt: "Mount Kilimanjaro climb with Natalie's dad" },
+        { src: "/narsh2026/images/story/misc/kilimanjaro2.jpg", alt: "Summiting Mount Kilimanjaro in Tanzania" }
+      ],
       isConvergence: false
     },
     {
@@ -294,7 +323,9 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.0,
       year: 2026,
       narrative: "Another wedding. Real original.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/misc/jamaica.jpg", alt: "Wedding trip to Montego Bay, Jamaica" }
+      ],
       isConvergence: false
     },
     {

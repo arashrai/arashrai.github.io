@@ -1,5 +1,9 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Persistent Early Lines (Zero Disappearing Lines on Waypoint Sweeps), Camera-Locked Line Growth & Braided Helix.
+// Clean Architecture: Deterministic Stop-Based Trajectory Engine.
+// - 100% Camera-Locked Line Growth (Leg 2 only).
+// - Zero line growth or disappearance during Leg 1 camera sweeps.
+// - Clean outward-only Hub & Spoke lines from Seattle (zero return line clutter).
+// - Unbraided single Teal/Gold lines early; Braided helix from Waterloo onward.
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -9,7 +13,6 @@ const NARSH_MAP = (() => {
   const CAMERA_CURVE = 1.2;
   const ROPE_AMPLITUDE = 0.12;
   const KM_PER_TWIST = 250;
-  const SEATTLE_HUB = [-122.3421, 47.6097];
 
   const COLOR_ARASH = "#2A9D8F";
   const COLOR_NATALIE = "#D4A843";
@@ -19,13 +22,12 @@ const NARSH_MAP = (() => {
   let mapInstance = null;
   let reducedMotion = false;
 
-  // Fully completed line arrays (prior stops)
-  let completedArashSpokes = [];
-  let completedNatalieSpokes = [];
-
-  // Active in-flight line segment currently being drawn (ONLY during Leg 2)
-  let activeArashSpoke = null;
-  let activeNatalieSpoke = null;
+  // Render State Arrays for MultiLineString
+  let currentCompletedArash = [];
+  let currentCompletedNatalie = [];
+  let currentInFlightArash = null;
+  let currentInFlightNatalie = null;
+  let currentInFlightProgress = 1.0;
 
   let flightActive = false;
   let flightStartTime = 0;
@@ -36,8 +38,6 @@ const NARSH_MAP = (() => {
 
   let globeSpinReqId = null;
   let isUserInteracting = false;
-
-  // Flight Token Guard against rapid navigation clicks / key skips
   let currentFlightId = 0;
 
   // Spherical distance in kilometers
@@ -64,7 +64,7 @@ const NARSH_MAP = (() => {
     return 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   };
 
-  // High-Resolution Dynamic Great Circle Geodesic Arc Interpolation
+  // High-Resolution Great Circle Geodesic Arc
   const getGreatCirclePoints = (start, end) => {
     if (!start || !end) return [];
     const rad = Math.PI / 180;
@@ -109,6 +109,71 @@ const NARSH_MAP = (() => {
       points.push([lon, lat]);
     }
     return points;
+  };
+
+  const unwrapLongitudes = (nodes) => {
+    if (!nodes || nodes.length === 0) return [];
+    const out = [nodes[0].slice()];
+    for (let i = 1; i < nodes.length; i++) {
+      let lng = nodes[i][0];
+      const prevLng = out[i - 1][0];
+      while (lng - prevLng > 180) lng -= 360;
+      while (lng - prevLng < -180) lng += 360;
+      out.push([lng, nodes[i][1]]);
+    }
+    return out;
+  };
+
+  // Braided Rope Engine (Weaves only when weaveFromIdx >= 0)
+  const buildBraidedRope = (arashNodes, natalieNodes, weaveArashFromIdx, weaveNatalieFromIdx) => {
+    const buildSingleLine = (nodes, weaveFromIdx, phaseSign) => {
+      if (!nodes || nodes.length === 0) return [];
+      if (nodes.length === 1) return [nodes[0].slice()];
+
+      const out = [nodes[0].slice()];
+      for (let j = 0; j < nodes.length - 1; j++) {
+        const a = nodes[j];
+        const b = nodes[j + 1];
+        const isWoven = weaveFromIdx >= 0 && j >= weaveFromIdx;
+
+        const gcArc = getGreatCirclePoints(a, b);
+
+        const rad = Math.PI / 180;
+        const midLat = (a[1] + b[1]) / 2;
+        const cosLat = Math.max(0.2, Math.cos(midLat * rad));
+
+        const dLatM = b[1] - a[1];
+        const dLngM = (b[0] - a[0]) * cosLat;
+        const lenM = Math.sqrt(dLatM * dLatM + dLngM * dLngM);
+
+        const nx = lenM > 0 ? (-dLatM / lenM) / cosLat : 0;
+        const ny = lenM > 0 ? (dLngM / lenM) : 0;
+
+        let segDistKm = 0;
+        for (let k = 0; k < gcArc.length - 1; k++) {
+          segDistKm += getGeodesicDistanceKm(gcArc[k], gcArc[k + 1]);
+        }
+        const numTwists = Math.max(2, Math.round(segDistKm / KM_PER_TWIST));
+
+        for (let s = 1; s < gcArc.length; s++) {
+          const pt = gcArc[s];
+          const t = s / gcArc.length;
+
+          if (isWoven) {
+            const wave = Math.sin(t * Math.PI * numTwists) * ROPE_AMPLITUDE * phaseSign;
+            out.push([pt[0] + nx * wave, pt[1] + ny * wave]);
+          } else {
+            out.push(pt.slice());
+          }
+        }
+      }
+      return out;
+    };
+
+    return {
+      arash: buildSingleLine(arashNodes, weaveArashFromIdx, 1),
+      natalie: buildSingleLine(natalieNodes, weaveNatalieFromIdx, -1)
+    };
   };
 
   const init = (containerId) => {
@@ -156,7 +221,6 @@ const NARSH_MAP = (() => {
     });
   };
 
-  // Synchronized camera frame handler: line growth is locked directly to camera location
   const onCameraMove = () => {
     if (!flightActive || reducedMotion || !mapInstance || typeof mapInstance.getCenter !== "function") return;
 
@@ -178,30 +242,31 @@ const NARSH_MAP = (() => {
       t = 1.0;
     }
 
-    renderCurrentProgress(t);
+    currentInFlightProgress = t;
+    renderCurrentState();
 
     if (t >= 1.0) {
       flightActive = false;
     }
   };
 
-  const renderCurrentProgress = (t) => {
-    const buildMulti = (completedList, activeSpoke) => {
+  const renderCurrentState = () => {
+    const buildMulti = (completedList, activeSpoke, progress) => {
       const result = [];
       for (let i = 0; i < completedList.length; i++) {
         if (completedList[i] && completedList[i].length > 0) {
           result.push(completedList[i]);
         }
       }
-      if (activeSpoke && activeSpoke.length > 0) {
-        const count = Math.max(1, Math.round(activeSpoke.length * t));
+      if (activeSpoke && activeSpoke.length > 0 && progress > 0) {
+        const count = Math.max(1, Math.round(activeSpoke.length * progress));
         result.push(activeSpoke.slice(0, count));
       }
       return result;
     };
 
-    setLineData("line-arash", buildMulti(completedArashSpokes, activeArashSpoke));
-    setLineData("line-natalie", buildMulti(completedNatalieSpokes, activeNatalieSpoke));
+    setLineData("line-arash", buildMulti(currentCompletedArash, currentInFlightArash, currentInFlightProgress));
+    setLineData("line-natalie", buildMulti(currentCompletedNatalie, currentInFlightNatalie, currentInFlightProgress));
   };
 
   const stopGlobeSpin = () => {
@@ -404,15 +469,16 @@ const NARSH_MAP = (() => {
     if (reducedMotion) {
       const targetLng = unwrapTargetLng(currentCamCenter[0], coords[0]);
       mapInstance.jumpTo({ center: [targetLng, coords[1]], zoom: effectiveZoom, padding: padding });
-      renderCurrentProgress(1.0);
+      currentInFlightProgress = 1.0;
+      renderCurrentState();
       if (onArrival) onArrival();
       if (isFinale) startFinaleGlobeSpin();
       return;
     }
 
     // Handle Waypoint Flight (2-Leg Sweep)
-    // Leg 1: Sweeps camera back to Hub (Seattle or India). ZERO line growth during Leg 1!
-    // Leg 2: Flies camera to Destination. Line grows dynamically under camera during Leg 2!
+    // Leg 1: Sweeps camera to Hub/Origin. In-flight progress is 0.0 (ZERO line growth). Completed lines stay 100% solid!
+    // Leg 2: Flies camera to Destination. Line grows dynamically under camera lens from 0% to 100%!
     if (flyVia && !isBackward) {
       const flight1Ms = 600;
       const flight2Ms = dynamicDurationMs;
@@ -422,17 +488,15 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: Keep active spokes NULL during Leg 1 so completed lines stay 100% visible and NO line draws while sweeping!
+      // LEG 1: Sweep camera to Hub/Origin. Progress = 0.0. Completed lines stay 100% intact.
       activeStartCoords = null;
       activeTargetCoords = null;
+      currentInFlightProgress = 0.0;
+      renderCurrentState();
+
       flightDurationMs = flight1Ms;
       flightStartTime = performance.now();
       flightActive = true;
-
-      const pendingArashSpoke = activeArashSpoke;
-      const pendingNatalieSpoke = activeNatalieSpoke;
-      activeArashSpoke = null;
-      activeNatalieSpoke = null;
 
       mapInstance.flyTo({
         center: flyViaTargetCoords,
@@ -446,9 +510,7 @@ const NARSH_MAP = (() => {
       mapInstance.once("moveend", () => {
         if (!mapInstance || flightId !== currentFlightId) return;
 
-        // LEG 2: Restore active spokes and grow line dynamically from Hub -> Destination!
-        activeArashSpoke = pendingArashSpoke;
-        activeNatalieSpoke = pendingNatalieSpoke;
+        // LEG 2: Fly from Hub -> Destination. Line grows under camera from 0% -> 100%!
         activeStartCoords = flyViaTargetCoords;
         activeTargetCoords = cameraTargetCoords;
 
@@ -468,13 +530,17 @@ const NARSH_MAP = (() => {
         mapInstance.once("moveend", () => {
           if (flightId !== currentFlightId) return;
 
-          if (activeArashSpoke) completedArashSpokes.push(activeArashSpoke);
-          if (activeNatalieSpoke) completedNatalieSpokes.push(activeNatalieSpoke);
-          activeArashSpoke = null;
-          activeNatalieSpoke = null;
+          // Commit in-flight spoke into completed spokes list on arrival
+          if (currentInFlightArash) currentCompletedArash.push(currentInFlightArash);
+          if (currentInFlightNatalie) currentCompletedNatalie.push(currentInFlightNatalie);
+          currentInFlightArash = null;
+          currentInFlightNatalie = null;
+          currentInFlightProgress = 1.0;
 
           activeStartCoords = null;
           activeTargetCoords = null;
+          renderCurrentState();
+
           if (onArrival) onArrival();
           if (isFinale) {
             setTimeout(startFinaleGlobeSpin, 800);
@@ -493,15 +559,12 @@ const NARSH_MAP = (() => {
 
       activeStartCoords = null;
       activeTargetCoords = null;
+      currentInFlightProgress = 0.0;
+      renderCurrentState();
 
       flightDurationMs = flight1Ms;
       flightStartTime = performance.now();
       flightActive = true;
-
-      const pendingArashSpoke = activeArashSpoke;
-      const pendingNatalieSpoke = activeNatalieSpoke;
-      activeArashSpoke = null;
-      activeNatalieSpoke = null;
 
       mapInstance.flyTo({
         center: wideCoords,
@@ -515,8 +578,6 @@ const NARSH_MAP = (() => {
       mapInstance.once("moveend", () => {
         if (!mapInstance || flightId !== currentFlightId) return;
 
-        activeArashSpoke = pendingArashSpoke;
-        activeNatalieSpoke = pendingNatalieSpoke;
         activeStartCoords = wideCoords;
         activeTargetCoords = cameraTargetCoords;
 
@@ -532,16 +593,20 @@ const NARSH_MAP = (() => {
           padding: padding,
           essential: true
         });
+
         mapInstance.once("moveend", () => {
           if (flightId !== currentFlightId) return;
 
-          if (activeArashSpoke) completedArashSpokes.push(activeArashSpoke);
-          if (activeNatalieSpoke) completedNatalieSpokes.push(activeNatalieSpoke);
-          activeArashSpoke = null;
-          activeNatalieSpoke = null;
+          if (currentInFlightArash) currentCompletedArash.push(currentInFlightArash);
+          if (currentInFlightNatalie) currentCompletedNatalie.push(currentInFlightNatalie);
+          currentInFlightArash = null;
+          currentInFlightNatalie = null;
+          currentInFlightProgress = 1.0;
 
           activeStartCoords = null;
           activeTargetCoords = null;
+          renderCurrentState();
+
           if (onArrival) onArrival();
           if (isFinale) {
             setTimeout(startFinaleGlobeSpin, 800);
@@ -551,7 +616,7 @@ const NARSH_MAP = (() => {
       return;
     }
 
-    // Standard camera flight
+    // Standard single-leg flight
     activeStartCoords = currentCamCenter;
     activeTargetCoords = cameraTargetCoords;
 
@@ -571,184 +636,21 @@ const NARSH_MAP = (() => {
     mapInstance.once("moveend", () => {
       if (flightId !== currentFlightId) return;
 
-      if (activeArashSpoke) completedArashSpokes.push(activeArashSpoke);
-      if (activeNatalieSpoke) completedNatalieSpokes.push(activeNatalieSpoke);
-      activeArashSpoke = null;
-      activeNatalieSpoke = null;
+      if (currentInFlightArash) currentCompletedArash.push(currentInFlightArash);
+      if (currentInFlightNatalie) currentCompletedNatalie.push(currentInFlightNatalie);
+      currentInFlightArash = null;
+      currentInFlightNatalie = null;
+      currentInFlightProgress = 1.0;
 
       activeStartCoords = null;
       activeTargetCoords = null;
+      renderCurrentState();
+
       if (onArrival) onArrival();
       if (isFinale) {
         setTimeout(startFinaleGlobeSpin, 800);
       }
     });
-  };
-
-  const pushUniqueNode = (arr, pt) => {
-    if (!pt) return;
-    if (arr.length === 0) {
-      arr.push(pt.slice());
-    } else {
-      const last = arr[arr.length - 1];
-      if (Math.abs(last[0] - pt[0]) > 0.0001 || Math.abs(last[1] - pt[1]) > 0.0001) {
-        arr.push(pt.slice());
-      }
-    }
-  };
-
-  const updateLines = (stopIndex, stops) => {
-    if (!mapInstance) return;
-
-    const waterlooIndex = stops.findIndex(s => s.id === "waterloo");
-    const seattleIndex = stops.findIndex(s => s.id === "seattle");
-    const currentStop = stops[stopIndex];
-    if (!currentStop) return;
-
-    completedArashSpokes = [];
-    completedNatalieSpokes = [];
-    activeArashSpoke = null;
-    activeNatalieSpoke = null;
-
-    // 1. EARLY STOPS BEFORE SEATTLE (stops 0 .. seattleIndex)
-    if (stopIndex <= seattleIndex) {
-      // Build completed segments up to stopIndex - 1
-      for (let i = 1; i <= stopIndex - 1; i++) {
-        const prevS = stops[i - 1];
-        const curS = stops[i];
-        if (prevS && curS && curS.flyVia) {
-          const hubUnwrapped = unwrapLongitudes([curS.flyVia, curS.coords]);
-          const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, waterlooIndex, waterlooIndex);
-          if (spokeBraid.arash.length > 0) completedArashSpokes.push(spokeBraid.arash);
-          if (spokeBraid.natalie.length > 0) completedNatalieSpokes.push(spokeBraid.natalie);
-        }
-      }
-
-      // Build active segment for stopIndex
-      const prevS = stops[stopIndex - 1];
-      if (stopIndex > 0 && prevS) {
-        const startPt = currentStop.flyVia || prevS.coords;
-        const destPt = currentStop.coords;
-        const segUnwrapped = unwrapLongitudes([startPt, destPt]);
-        const segBraid = buildBraidedRope(segUnwrapped, segUnwrapped, waterlooIndex, waterlooIndex);
-        if (currentStop.owner === "arash" || currentStop.owner === "both") activeArashSpoke = segBraid.arash;
-        if (currentStop.owner === "natalie" || currentStop.owner === "both") activeNatalieSpoke = segBraid.natalie;
-      }
-      return;
-    }
-
-    // 2. STOPS FROM SEATTLE ONWARD (Vacation Hub & Spoke Trips)
-    // Base journey up to Seattle is completed and stays 100% visible!
-    const baseArashNodes = [];
-    const baseNatalieNodes = [];
-    for (let i = 0; i <= seattleIndex; i++) {
-      const s = stops[i];
-      if (s.arashPos) pushUniqueNode(baseArashNodes, s.arashPos);
-      else if (s.owner === "arash" || s.owner === "both") pushUniqueNode(baseArashNodes, s.coords);
-
-      if (s.nataliePos) pushUniqueNode(baseNatalieNodes, s.nataliePos);
-      else if (s.owner === "natalie" || s.owner === "both") pushUniqueNode(baseNatalieNodes, s.coords);
-    }
-    const baseArashUnwrapped = unwrapLongitudes(baseArashNodes);
-    const baseNatalieUnwrapped = unwrapLongitudes(baseNatalieNodes);
-    const braidedBase = buildBraidedRope(baseArashUnwrapped, baseNatalieUnwrapped, waterlooIndex, waterlooIndex);
-    if (braidedBase.arash.length > 0) completedArashSpokes.push(braidedBase.arash);
-    if (braidedBase.natalie.length > 0) completedNatalieSpokes.push(braidedBase.natalie);
-
-    // Completed vacation spokes for prior vacation stops (seattleIndex+1 .. stopIndex-1)
-    for (let i = seattleIndex + 1; i <= stopIndex - 1; i++) {
-      const s = stops[i];
-      if (!s) continue;
-      const hub = s.flyVia || SEATTLE_HUB;
-      const dest = s.coords;
-      const hubUnwrapped = unwrapLongitudes([hub, dest]);
-      const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, 0, 0);
-      if (spokeBraid.arash.length > 0) completedArashSpokes.push(spokeBraid.arash);
-      if (spokeBraid.natalie.length > 0) completedNatalieSpokes.push(spokeBraid.natalie);
-    }
-
-    // Active in-flight spoke for current vacation stop (Leg 2 growth)
-    if (currentStop.flyVia) {
-      const hub = currentStop.flyVia;
-      const dest = currentStop.coords;
-      const hubUnwrapped = unwrapLongitudes([hub, dest]);
-      const spokeBraid = buildBraidedRope(hubUnwrapped, hubUnwrapped, 0, 0);
-      activeArashSpoke = spokeBraid.arash;
-      activeNatalieSpoke = spokeBraid.natalie;
-    }
-
-    if (reducedMotion) {
-      if (activeArashSpoke) completedArashSpokes.push(activeArashSpoke);
-      if (activeNatalieSpoke) completedNatalieSpokes.push(activeNatalieSpoke);
-      activeArashSpoke = null;
-      activeNatalieSpoke = null;
-      renderCurrentProgress(1.0);
-    }
-  };
-
-  const unwrapLongitudes = (nodes) => {
-    if (!nodes || nodes.length === 0) return [];
-    const out = [nodes[0].slice()];
-    for (let i = 1; i < nodes.length; i++) {
-      let lng = nodes[i][0];
-      const prevLng = out[i - 1][0];
-      while (lng - prevLng > 180) lng -= 360;
-      while (lng - prevLng < -180) lng += 360;
-      out.push([lng, nodes[i][1]]);
-    }
-    return out;
-  };
-
-  // Senior Design Hat Braided Rope Helix with Geodesic Metric Normal Vectors
-  const buildBraidedRope = (arashNodes, natalieNodes, weaveArashFromIdx, weaveNatalieFromIdx) => {
-    const buildSingleLine = (nodes, weaveFromIdx, phaseSign) => {
-      if (!nodes || nodes.length === 0) return [];
-      if (nodes.length === 1) return [nodes[0].slice()];
-
-      const out = [nodes[0].slice()];
-      for (let j = 0; j < nodes.length - 1; j++) {
-        const a = nodes[j];
-        const b = nodes[j + 1];
-        const isWoven = weaveFromIdx >= 0 && j >= weaveFromIdx;
-
-        const gcArc = getGreatCirclePoints(a, b);
-
-        const rad = Math.PI / 180;
-        const midLat = (a[1] + b[1]) / 2;
-        const cosLat = Math.max(0.2, Math.cos(midLat * rad));
-
-        const dLatM = b[1] - a[1];
-        const dLngM = (b[0] - a[0]) * cosLat;
-        const lenM = Math.sqrt(dLatM * dLatM + dLngM * dLngM);
-
-        const nx = lenM > 0 ? (-dLatM / lenM) / cosLat : 0;
-        const ny = lenM > 0 ? (dLngM / lenM) : 0;
-
-        let segDistKm = 0;
-        for (let k = 0; k < gcArc.length - 1; k++) {
-          segDistKm += getGeodesicDistanceKm(gcArc[k], gcArc[k + 1]);
-        }
-        const numTwists = Math.max(2, Math.round(segDistKm / KM_PER_TWIST));
-
-        for (let s = 1; s < gcArc.length; s++) {
-          const pt = gcArc[s];
-          const t = s / gcArc.length;
-
-          if (isWoven) {
-            const wave = Math.sin(t * Math.PI * numTwists) * ROPE_AMPLITUDE * phaseSign;
-            out.push([pt[0] + nx * wave, pt[1] + ny * wave]);
-          } else {
-            out.push(pt.slice());
-          }
-        }
-      }
-      return out;
-    };
-
-    return {
-      arash: buildSingleLine(arashNodes, weaveArashFromIdx, 1),
-      natalie: buildSingleLine(natalieNodes, weaveNatalieFromIdx, -1)
-    };
   };
 
   const setLineData = (sourceId, multiCoords) => {
@@ -764,12 +666,124 @@ const NARSH_MAP = (() => {
     } catch (e) {}
   };
 
+  // Deterministic Trajectory Generator for Stop targetIndex
+  const updateLines = (stopIndex, stops) => {
+    if (!mapInstance) return;
+
+    currentCompletedArash = [];
+    currentCompletedNatalie = [];
+    currentInFlightArash = null;
+    currentInFlightNatalie = null;
+    currentInFlightProgress = 1.0;
+
+    const waterlooIdx = stops.findIndex(s => s.id === "waterloo");
+    const seattleIdx = stops.findIndex(s => s.id === "seattle");
+
+    // helper to get Arash/Natalie coordinates array up to a given stop index
+    const getArashCoordsUpTo = (maxIdx) => {
+      const pts = [];
+      for (let i = 0; i <= maxIdx; i++) {
+        const s = stops[i];
+        if (!s) continue;
+        if (s.arashPos) pts.push(s.arashPos.slice());
+        else if (s.owner === "arash" || s.owner === "both") pts.push(s.coords.slice());
+      }
+      return pts;
+    };
+
+    const getNatalieCoordsUpTo = (maxIdx) => {
+      const pts = [];
+      for (let i = 0; i <= maxIdx; i++) {
+        const s = stops[i];
+        if (!s) continue;
+        if (s.nataliePos) pts.push(s.nataliePos.slice());
+        else if (s.owner === "natalie" || s.owner === "both") pts.push(s.coords.slice());
+      }
+      return pts;
+    };
+
+    // Case A: Early Journey (stops 0 .. seattleIdx)
+    if (stopIndex <= seattleIdx) {
+      // 1. Completed lines up to stopIndex - 1
+      if (stopIndex > 1) {
+        const prevArash = getArashCoordsUpTo(stopIndex - 1);
+        const prevNatalie = getNatalieCoordsUpTo(stopIndex - 1);
+        const prevArashUnwrapped = unwrapLongitudes(prevArash);
+        const prevNatalieUnwrapped = unwrapLongitudes(prevNatalie);
+        const prevBraided = buildBraidedRope(prevArashUnwrapped, prevNatalieUnwrapped, waterlooIdx, waterlooIdx);
+        if (prevBraided.arash.length > 0) currentCompletedArash.push(prevBraided.arash);
+        if (prevBraided.natalie.length > 0) currentCompletedNatalie.push(prevBraided.natalie);
+      }
+
+      // 2. In-flight segment for stopIndex
+      if (stopIndex > 0) {
+        const curStop = stops[stopIndex];
+        const prevStop = stops[stopIndex - 1];
+        const startPt = curStop.flyVia || (prevStop ? prevStop.coords : null);
+        const endPt = curStop.coords;
+
+        if (startPt && endPt) {
+          const segUnwrapped = unwrapLongitudes([startPt, endPt]);
+          const segBraid = buildBraidedRope(segUnwrapped, segUnwrapped, (stopIndex >= waterlooIdx ? 0 : -1), (stopIndex >= waterlooIdx ? 0 : -1));
+          if (curStop.owner === "arash" || curStop.owner === "both") currentInFlightArash = segBraid.arash;
+          if (curStop.owner === "natalie" || curStop.owner === "both") currentInFlightNatalie = segBraid.natalie;
+        }
+      }
+      renderCurrentState();
+      return;
+    }
+
+    // Case B: Vacation Hub & Spoke Era (stops > seattleIdx)
+    // 1. Base Journey up to Seattle is 100% completed & fixed
+    const baseArash = getArashCoordsUpTo(seattleIdx);
+    const baseNatalie = getNatalieCoordsUpTo(seattleIdx);
+    const baseArashUnwrapped = unwrapLongitudes(baseArash);
+    const baseNatalieUnwrapped = unwrapLongitudes(baseNatalie);
+    const braidedBase = buildBraidedRope(baseArashUnwrapped, baseNatalieUnwrapped, waterlooIdx, waterlooIdx);
+    if (braidedBase.arash.length > 0) currentCompletedArash.push(braidedBase.arash);
+    if (braidedBase.natalie.length > 0) currentCompletedNatalie.push(braidedBase.natalie);
+
+    // 2. Previously completed vacation spokes (seattleIdx+1 .. stopIndex-1)
+    for (let i = seattleIdx + 1; i <= stopIndex - 1; i++) {
+      const s = stops[i];
+      if (!s) continue;
+      const hub = s.flyVia || [-122.3421, 47.6097];
+      const dest = s.coords;
+      const spokeUnwrapped = unwrapLongitudes([hub, dest]);
+      const spokeBraid = buildBraidedRope(spokeUnwrapped, spokeUnwrapped, 0, 0);
+      if (spokeBraid.arash.length > 0) currentCompletedArash.push(spokeBraid.arash);
+      if (spokeBraid.natalie.length > 0) currentCompletedNatalie.push(spokeBraid.natalie);
+    }
+
+    // 3. Active in-flight spoke for stopIndex (Leg 2 growth)
+    const curStop = stops[stopIndex];
+    if (curStop && curStop.flyVia) {
+      const hub = curStop.flyVia;
+      const dest = curStop.coords;
+      const spokeUnwrapped = unwrapLongitudes([hub, dest]);
+      const spokeBraid = buildBraidedRope(spokeUnwrapped, spokeUnwrapped, 0, 0);
+      currentInFlightArash = spokeBraid.arash;
+      currentInFlightNatalie = spokeBraid.natalie;
+    }
+
+    if (reducedMotion) {
+      if (currentInFlightArash) currentCompletedArash.push(currentInFlightArash);
+      if (currentInFlightNatalie) currentCompletedNatalie.push(currentInFlightNatalie);
+      currentInFlightArash = null;
+      currentInFlightNatalie = null;
+      currentInFlightProgress = 1.0;
+    }
+
+    renderCurrentState();
+  };
+
   const updatePins = (stopIndex, stops) => {
     if (!mapInstance || typeof mapInstance.getSource !== "function") return;
 
     const features = [];
     for (let i = 0; i <= stopIndex; i++) {
       const stop = stops[i];
+      if (!stop) continue;
 
       if (stop.arashPos && stop.nataliePos) {
         features.push({

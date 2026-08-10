@@ -1,9 +1,8 @@
 // Narsh 2026 — Our Story Map Module
-// Senior Cartography Design Engine: Precise Separate Travel to Waterloo, Braided Helix from Seattle Onward.
-// - Stop 4 (Saskatchewan): Abbotsford -> Saskatchewan (Teal) & Cayman -> Saskatchewan (Gold).
-// - Stop 5 (Long Distance): Returned home to BC & Cayman.
-// - Stop 6 (Waterloo): Separate travel from home to Waterloo (Abbotsford -> Waterloo Teal, Cayman -> Waterloo Gold).
-// - Stop 7 (Seattle): Reunited move to Seattle — Braided Ribbon Helix weaves from Waterloo -> Seattle!
+// Senior Cartography Design Engine: 100% Flawless Camera-Locked Trajectories.
+// - Leg 1 Sweep: Camera sweeps to Hub/Origin. Line progress is locked at 0.0 (Zero line growth during sweep).
+// - Leg 2 Flight: Line grows dynamically under camera lens from 0.0 to 1.0 in exact sync with WebGL camera frames.
+// - Completed lines remain 100% solid, persistent, and visible at all times.
 
 const NARSH_MAP = (() => {
   "use strict";
@@ -31,6 +30,7 @@ const NARSH_MAP = (() => {
   let currentInFlightProgress = 0.0;
 
   let flightActive = false;
+  let isLeg1Sweep = false; // Flag to suppress line growth during Leg 1 camera sweeps
   let flightStartTime = 0;
   let flightDurationMs = 1200;
 
@@ -224,6 +224,13 @@ const NARSH_MAP = (() => {
 
   const onCameraMove = () => {
     if (!flightActive || reducedMotion || !mapInstance || typeof mapInstance.getCenter !== "function") return;
+
+    // During Leg 1 sweep, line progress stays locked at 0.0 (ZERO line growth)!
+    if (isLeg1Sweep) {
+      currentInFlightProgress = 0.0;
+      renderCurrentState();
+      return;
+    }
 
     let t = 1.0;
     try {
@@ -487,7 +494,8 @@ const NARSH_MAP = (() => {
       const cameraTargetLng = unwrapTargetLng(flyViaLng, coords[0]);
       const cameraTargetCoords = [cameraTargetLng, coords[1]];
 
-      // LEG 1: Sweep camera to Hub. Progress = 0.0 (ZERO line growth).
+      // LEG 1: Sweep camera to Hub. Progress stays locked at 0.0 (ZERO line growth).
+      isLeg1Sweep = true;
       activeStartCoords = null;
       activeTargetCoords = null;
       currentInFlightProgress = 0.0;
@@ -510,6 +518,7 @@ const NARSH_MAP = (() => {
         if (!mapInstance || flightId !== currentFlightId) return;
 
         // LEG 2: Fly from Hub -> Destination. Line grows under camera from 0% -> 100%!
+        isLeg1Sweep = false;
         activeStartCoords = flyViaTargetCoords;
         activeTargetCoords = cameraTargetCoords;
 
@@ -555,6 +564,7 @@ const NARSH_MAP = (() => {
     if (wideCoords) {
       const flight1Ms = 800;
 
+      isLeg1Sweep = true;
       activeStartCoords = null;
       activeTargetCoords = null;
       currentInFlightProgress = 0.0;
@@ -576,6 +586,7 @@ const NARSH_MAP = (() => {
       mapInstance.once("moveend", () => {
         if (!mapInstance || flightId !== currentFlightId) return;
 
+        isLeg1Sweep = false;
         activeStartCoords = wideCoords;
         activeTargetCoords = cameraTargetCoords;
 
@@ -615,6 +626,7 @@ const NARSH_MAP = (() => {
     }
 
     // Standard single-leg flight
+    isLeg1Sweep = false;
     activeStartCoords = currentCamCenter;
     activeTargetCoords = cameraTargetCoords;
 

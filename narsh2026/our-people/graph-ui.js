@@ -120,7 +120,11 @@ const NARSH_GRAPH_UI = (() => {
       return;
     }
 
-    const results = NARSH_GUESTS.searchGuests(query);
+    // searchGuests spans every guest because the family tree still needs to find
+    // tree-only people. In the everyone view they aren't drawn, so drop them here
+    // rather than announcing a hit and panning to a node that isn't on screen.
+    const results = NARSH_GUESTS.searchGuests(query)
+      .filter((g) => currentView !== "social" || !g.socialHidden);
 
     if (results.length > 0) {
       NARSH_GRAPH.zoomToNode(results[0].id);

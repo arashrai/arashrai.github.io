@@ -149,9 +149,13 @@ rows.forEach((r) => {
     citiesRaw: splitMulti(col(r, "cities")),
     photo: clean(col(r, "photo")),
     special: clean(col(r, "special")),
-    // `tree` column: "hide" keeps this person OUT of the family-tree view while
-    // leaving them fully in the graph/everyone view. Used to trim large branches.
-    treeHidden: clean(col(r, "tree")).toLowerCase() === "hide"
+    // `tree` column, two opposite switches:
+    //   "hide" — OUT of the family-tree view, still in the graph/everyone view.
+    //            Used to trim large branches.
+    //   "only" — the mirror image: in the family tree (so lineage stays complete)
+    //            but never drawn, searchable, or counted in the everyone view.
+    treeHidden: clean(col(r, "tree")).toLowerCase() === "hide",
+    socialHidden: clean(col(r, "tree")).toLowerCase() === "only"
   };
   people.push(p);
   nameToId.set(name.toLowerCase(), id);
@@ -544,6 +548,8 @@ const GUESTS = people.map((p) => ({
   side: sideOf[p.id] || null,
   // Hidden from the family-tree view only (still present in the graph view).
   treeHidden: p.treeHidden,
+  // The reverse: hidden from the graph/everyone view, kept in the family tree.
+  socialHidden: p.socialHidden,
   parents: p.parentIds,
   // Derived from the `sibling` column — never drawn as a parentage line.
   inferredParents: p.inferredParents
@@ -588,12 +594,20 @@ const NARSH_GUESTS = (() => {
     HOUSEHOLDS.forEach(h => { h.members.forEach(m => householdMap.set(m, h)); });
     const processed = new Set();
     const socialNodes = [];
+    // Tree-only people are dropped here, which is what keeps them out of the
+    // everyone view. They are untouched in GUESTS, so the family tree (built
+    // from GUESTS, not from these nodes) still shows them.
     GUESTS.forEach(guest => {
       if (processed.has(guest.id)) return;
       const household = householdMap.get(guest.id);
       if (household) {
         household.members.forEach(m => processed.add(m));
-        const members = household.members.map(m => getGuestById(m)).filter(Boolean);
+        const members = household.members
+          .map(m => getGuestById(m))
+          .filter(Boolean)
+          .filter(m => !m.socialHidden);
+        // Whole household hidden — no bubble at all.
+        if (!members.length) return;
         const allGroups = [...new Set(members.flatMap(m => m.groups))];
         const allCities = [...new Set(members.flatMap(m => m.cities))];
         // Distinct member photos: two people with different photos show both
@@ -602,13 +616,23 @@ const NARSH_GUESTS = (() => {
         const photos = [...new Set(members.map(m => m.photo).filter(Boolean))];
         const photo = photos[0] || null;
         const isCouple = members.some(m => m.isCouple);
+        const visibleIds = members.map(m => m.id);
+        // When a tree-only person is pulled out of a shared bubble the baked
+        // displayName ("Ann & Bob") would still name them, so rebuild it from
+        // whoever is actually left. A lone survivor just uses their own name.
+        const shown = visibleIds.length === household.members.length
+          ? household.displayName
+          : (members.length === 1
+            ? members[0].name
+            : members.map(m => m.name.split(" ")[0]).join(" & "));
         socialNodes.push({
-          id: household.id, name: household.displayName, photo, photos,
+          id: household.id, name: shown, photo, photos,
           groups: allGroups, cities: allCities, isCouple,
-          memberIds: household.members, isHousehold: true
+          memberIds: visibleIds, isHousehold: members.length > 1
         });
       } else {
         processed.add(guest.id);
+        if (guest.socialHidden) return;
         socialNodes.push({
           id: guest.id, name: guest.name, photo: guest.photo,
           photos: guest.photo ? [guest.photo] : [],

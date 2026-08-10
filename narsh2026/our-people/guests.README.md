@@ -22,6 +22,7 @@ are the old **placeholder** people — edit or delete them and add your real gue
 | **cities** | optional | Places they've lived, comma-separated *inside quotes*. Powers the future map feature. | `"Grand Cayman, Waterloo"` |
 | **photo** | optional | Filename you'll drop into `images/people/`. Blank = nice initials placeholder. | `claire.jpg` |
 | **special** | optional | Any extra cross-cluster link worth drawing a line for. Freeform — Claude translates it. | `college roommate of Priya Chakraborty` |
+| **tree** | optional | Hide someone from *one* of the two views. `hide` = keep them in Everyone, drop them from the Family Tree (used to trim big branches). `only` = the reverse: keep them in the Family Tree so the lineage still connects, but never show them in Everyone. Blank = visible in both. | `hide` |
 
 ## What you DON'T need to fill in (Claude derives it)
 
@@ -80,6 +81,12 @@ These already exist (each has a color in the graph):
   A one-way `comes_with` is treated as ambiguous and left unconnected in the tree
   (it still merges a bubble in the Everyone view) — the build prints a warning
   telling you exactly who to fix.
+
+- **Hiding someone from one view** — set the `tree` column. `hide` drops them from
+  this tree but leaves them in Everyone. `only` does the opposite: they stay in the
+  tree (so children below them still connect to the right ancestor) but they get no
+  bubble in Everyone, no lines, no search hit, and they aren't counted in the group
+  filter chips. Their relatives are unaffected either way.
 
 **Rule of thumb for the two columns:** put a **spouse** in `comes_with`; put a
 **parent** in `parent`. If a child currently "comes with" their parent, move that

@@ -140,8 +140,11 @@ const NARSH_CAROUSEL = (() => {
 
     const isDesktop = window.innerWidth >= 768;
     const budget = window.innerHeight * (isDesktop ? 0.45 : 0.32);
-    // Increased mobile photo height cap to 230px so photos look large and prominent
-    const maxHeight = Math.max(180, Math.min(230, budget));
+    // Separate ceilings per breakpoint. The phone sheet only has room for a small
+    // photo (230px), but applying that same cap on desktop threw away the larger
+    // 0.45 budget and left the carousel tiny on a wide screen.
+    const heightCap = isDesktop ? 460 : 230;
+    const maxHeight = Math.max(180, Math.min(heightCap, budget));
 
     const ratio = img.naturalHeight / img.naturalWidth;
     let w = maxWidth;

@@ -397,14 +397,47 @@ html, body {
   cursor: default;
 }
 
+/* Mapbox attribution sits bottom-left, which is exactly where the timeline bar
+   is, so the compact (i) was half-clipped. Lift it clear of the bar. Mapbox's
+   terms require this stay visible while we're serving their tiles, so it is
+   moved rather than hidden. Heights track .timeline-bar. */
+.mapboxgl-ctrl-bottom-left {
+  bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+}
+
 /* Desktop layout */
 @media (min-width: 768px) {
   .story-panel {
     bottom: calc(60px + env(safe-area-inset-bottom, 0px));
     right: var(--space-lg);
     left: auto;
-    width: 380px;
-    max-width: 380px;
+    /* Photo width is driven by #story-content, so the panel width is what lets
+       the carousel grow. clamp floors it at the previous 380px so narrow laptops
+       never get a smaller panel than before, and 40vw keeps the globe visible
+       behind it rather than letting the card eat the screen. */
+    width: clamp(380px, 40vw, 520px);
+    max-width: 520px;
+  }
+
+  /* Type scaled up to match the wider panel — 14px body read as lost in it. */
+  .story-panel .story-heading,
+  .story-panel .stop-heading {
+    font-size: 26px;
+  }
+
+  .story-panel .story-narrative,
+  .story-panel .stop-narrative {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+/* Roomier padding only once the panel has actually grown past 380px. Applying it
+   at 768px would have eaten content width the panel didn't have yet and made
+   landscape photos smaller than before. */
+@media (min-width: 1024px) {
+  .story-panel {
+    padding: var(--space-lg);
   }
 }
 
@@ -478,5 +511,10 @@ html, body {
     min-width: 36px;
     min-height: 36px;
     padding: 2px 4px;
+  }
+
+  /* Mobile timeline bar is 48px, not 52px. */
+  .mapboxgl-ctrl-bottom-left {
+    bottom: calc(52px + env(safe-area-inset-bottom, 0px));
   }
 }

@@ -100,17 +100,32 @@ const NARSH_CAROUSEL = (() => {
         const img = document.createElement("img");
         img.className = "carousel-photo";
         img.alt = photo.alt || "";
-        img.loading = "eager";
         img.decoding = "async";
         img.fetchPriority = i === 0 ? "high" : "low";
-        img.src = photo.src;
-        sizeWhenReady(img);
+        // Deferred rather than native loading="lazy": these slides sit in an
+        // overflow:hidden track and move by transform, which browsers do not
+        // reliably treat as entering the viewport, so a lazy slide can stay
+        // blank after you tap next. ensureLoaded drives it explicitly instead.
+        img.dataset.src = photo.src;
         trackEl.appendChild(img);
       });
     }
 
+    ensureLoaded(currentIndex);
     updateUI();
-    sizeWhenReady(trackEl ? trackEl.children[currentIndex] : null);
+  };
+
+  // Attach src to slide `i` and its immediate neighbours, so the next/prev tap
+  // already has its photo in flight. Idempotent — each slide is fetched once.
+  const ensureLoaded = (index) => {
+    if (!trackEl) return;
+    for (let i = index - 1; i <= index + 1; i++) {
+      const img = trackEl.children[i];
+      if (!img || !img.dataset || !img.dataset.src) continue;
+      img.src = img.dataset.src;
+      delete img.dataset.src;
+      sizeWhenReady(img);
+    }
   };
 
   const sizeWhenReady = (img) => {
@@ -160,6 +175,7 @@ const NARSH_CAROUSEL = (() => {
   const goTo = (index) => {
     const clamped = Math.max(0, Math.min(index, photos.length - 1));
     currentIndex = clamped;
+    ensureLoaded(clamped);
 
     if (trackEl) {
       if (reducedMotion) {

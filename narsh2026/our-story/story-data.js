@@ -46,7 +46,9 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/natalie%20gc/070.jpg", alt: "Natalie on the beach in Grand Cayman" },
         { src: "/narsh2026/images/story/natalie%20gc/080.jpg", alt: "Natalie's early years in Cayman" },
         { src: "/narsh2026/images/story/natalie%20gc/090.jpg", alt: "Natalie growing up on the island" },
-        { src: "/narsh2026/images/story/natalie%20gc/100.jpg", alt: "Natalie in Grand Cayman, Cayman Islands" }
+        { src: "/narsh2026/images/story/natalie%20gc/100.jpg", alt: "Natalie in Grand Cayman, Cayman Islands" },
+        { src: "/narsh2026/images/story/natalie%20gc/110.jpeg", alt: "Natalie with pet chickens" },
+        { src: "/narsh2026/images/story/natalie%20gc/120.jpeg", alt: "Natalie with a green iguana she caught in their pool" }
       ],
       isConvergence: false
     },
@@ -145,7 +147,18 @@ const NARSH_STORY_DATA = (() => {
       zoom: 6.5,
       year: "2021 – present",
       narrative: "After graduating and being split apart by the pandemic they decided they were done with long distance and moved to Seattle to build a life together. They made lots of friends, took lots of trips, and interviewed many cats before finally adopting Presto & Trino.",
-      photos: [],
+      photos: [
+        { src: "/narsh2026/images/story/seattle/010.jpeg", alt: "Seattle ferry and ferris wheel" },
+        { src: "/narsh2026/images/story/seattle/020.jpeg", alt: "Backpacking at baker lake" },
+        { src: "/narsh2026/images/story/seattle/030.jpeg", alt: "Hiking" },
+        { src: "/narsh2026/images/story/seattle/040.jpeg", alt: "Skiing and snowboarding" },
+        { src: "/narsh2026/images/story/seattle/050.jpeg", alt: "Our first apartment in Seattle" },
+        { src: "/narsh2026/images/story/seattle/060.jpeg", alt: "Arash and (most of) his girls" },
+        { src: "/narsh2026/images/story/seattle/070.jpeg", alt: "Quesadilla and coke" },
+        { src: "/narsh2026/images/story/seattle/080.jpeg", alt: "Skiing and snowboarding some more" },
+        { src: "/narsh2026/images/story/seattle/090.jpeg", alt: "Lap cats" },
+        { src: "/narsh2026/images/story/seattle/100.jpeg", alt: "We need to take another with Trino in it too" }
+      ],
       isConvergence: false
     },
     {
@@ -187,7 +200,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 6.0,
       year: 2023,
-      narrative: "Arash finally visited Natalie's homeland to see what all the fuss was about.",
+      narrative: "Arash finally visited Natalie's homeland to see what all the fuss was about. Featuring stingray.",
       photos: [
         { src: "/narsh2026/images/story/misc/cayman.png", alt: "Visiting Grand Cayman" }
       ],

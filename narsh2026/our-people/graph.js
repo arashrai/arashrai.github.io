@@ -225,18 +225,25 @@ const NARSH_GRAPH = (() => {
       if (hintEl) hintEl.classList.add("hidden");
     }
 
-    // Click handler on SVG background to collapse
+    // Click anywhere that isn't a person collapses the open card.
+    //
+    // This used to whitelist only the <svg> and .graph-inner <g> as "background",
+    // which meant almost nothing counted: the cluster blobs are filled <path>
+    // elements covering most of the canvas, so a click in open-looking space
+    // reported the blob as its target and the card never closed. Blocklisting
+    // nodes instead of whitelisting background is robust to whatever decorative
+    // layers get drawn later.
     svgEl.on("click", (event) => {
-      // Only collapse if click is on the SVG itself or inner group (not on a node)
+      if (!expandedNodeId) return;
+      // Node handlers stopPropagation, so a click on a person shouldn't reach
+      // here at all — but the desktop detail card is a foreignObject inside the
+      // node group, so keep the guard rather than relying on that.
       const target = event.target;
-      if (target === svgEl.node() || target === innerGroupEl.node() || target.tagName === "svg") {
-        if (expandedNodeId) {
-          if (currentView === "tree") {
-            collapseTreeNode();
-          } else {
-            collapseNode();
-          }
-        }
+      if (target.closest && target.closest("g.node, g.tree-node")) return;
+      if (currentView === "tree") {
+        collapseTreeNode();
+      } else {
+        collapseNode();
       }
     });
   };

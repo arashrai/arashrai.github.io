@@ -145,6 +145,15 @@
   overflow: hidden;
 }
 
+/* Group blobs and relationship lines are decoration — neither has a click or
+   hover handler. Letting them capture pointer events made them report as the
+   event target for clicks in open space, which is what stopped "click away to
+   dismiss" from firing across most of the canvas. */
+.graph-canvas .cluster-regions,
+.graph-canvas .edges {
+  pointer-events: none;
+}
+
 /* Graph loading state */
 .graph-loading {
   position: absolute;

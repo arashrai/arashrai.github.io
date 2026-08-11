@@ -7,7 +7,10 @@
 const NARSH_MAP = (() => {
   "use strict";
 
-  const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXBkbDdvaGIwY2dhMnNwcHN0MXB2MmhmIn0.jLnDHXAAGi0CZ1XSMVUArQ";
+  // URL-restricted to arashrai.com/narsh2026/ and /narsh2026/our-story/.
+  // Public pk. tokens are visible in source by design; the URL scope is what
+  // stops a scraped copy being used elsewhere against our free tier.
+  const MAPBOX_TOKEN = "pk.eyJ1IjoibmF0YWxpZWZsZXVyeSIsImEiOiJjbXNvOHR4enMwMmQ0MnpwdTl2YXlnaG04In0.plkajtykA-z2G8JJ7ln25g";
 
   const CAMERA_CURVE = 1.2;
   const ROPE_AMPLITUDE = 0.12;

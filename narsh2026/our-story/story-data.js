@@ -114,7 +114,7 @@ const NARSH_STORY_DATA = (() => {
       year: "2015 – 2016",
       narrative: "After Saskatchewan, Arash returned to BC and Natalie returned to Cayman for her senior year. They spent the year watching movies/shows together while long distance. Arash convinced Natalie that the shareholders needed her more than the animals (she originally wanted to be a vet).",
       photos: [
-        { src: "/narsh2026/images/story/misc/arash_natalie_on_the_phone.png", alt: "Arash and Natalie video calling while long distance" }
+        { src: "/narsh2026/images/story/misc/arash_natalie_on_the_phone.jpg", alt: "Arash and Natalie video calling while long distance" }
       ],
       isConvergence: false
     },
@@ -203,7 +203,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2023,
       narrative: "Arash finally visited Natalie's homeland to see what all the fuss was about. Featuring stingray.",
       photos: [
-        { src: "/narsh2026/images/story/misc/cayman.png", alt: "Visiting Grand Cayman" }
+        { src: "/narsh2026/images/story/misc/cayman.jpg", alt: "Visiting Grand Cayman" }
       ],
       isConvergence: false
     },
@@ -323,7 +323,7 @@ const NARSH_STORY_DATA = (() => {
       year: 2025,
       narrative: "They climbed a mountain with Natalie's dad. They didn't shower for a week and still didn't mind sharing a tent. Arash vowed to never climb again. They saw a bunch of cats (big ones).",
       photos: [
-        { src: "/narsh2026/images/story/misc/kilimanjaro.png", alt: "Mount Kilimanjaro climb with Natalie's dad" },
+        { src: "/narsh2026/images/story/misc/kilimanjaro.jpg", alt: "Mount Kilimanjaro climb with Natalie's dad" },
         { src: "/narsh2026/images/story/misc/kilimanjaro2.jpg", alt: "Summiting Mount Kilimanjaro in Tanzania" }
       ],
       isConvergence: false

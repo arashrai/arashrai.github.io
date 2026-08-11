@@ -131,6 +131,7 @@ const NARSH_STORY_DATA = (() => {
       photos: [
         { src: "/narsh2026/images/story/waterloo/010.jpg", alt: "Natalie and Arash during their Waterloo years" },
         { src: "/narsh2026/images/story/waterloo/020.jpg", alt: "Natalie and Arash with friends at Waterloo" },
+        { src: "/narsh2026/images/story/waterloo/025.jpg", alt: "Cleo listening to some sick beats" },
         { src: "/narsh2026/images/story/waterloo/030.jpg", alt: "Natalie and Arash in Waterloo, 2018" },
         { src: "/narsh2026/images/story/waterloo/040.jpg", alt: "Waterloo student days" },
         { src: "/narsh2026/images/story/waterloo/050.jpg", alt: "Natalie and Arash during university" },

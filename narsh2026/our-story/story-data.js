@@ -288,7 +288,7 @@ const NARSH_STORY_DATA = (() => {
       flyVia: SEATTLE_HUB,
       zoom: 5.5,
       year: 2025,
-      narrative: "They travelled to Serbia for Natalie's sister's wedding. They road tripped across eastern Europe in van filled with of Natalie's relatives. They changed a tire in Bosnia.",
+      narrative: "They travelled to Serbia for Natalie's sister's wedding. They road tripped across eastern Europe in a van full of Natalie's relatives. They changed a tire in Bosnia.",
       photos: [
         { src: "/narsh2026/images/story/misc/serbia.jpg", alt: "Wedding trip in Belgrade, Serbia" },
         { src: "/narsh2026/images/story/misc/serbia2.jpg", alt: "Road trip across Eastern Europe" },

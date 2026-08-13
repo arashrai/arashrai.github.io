@@ -11,10 +11,6 @@ const NARSH_AUTH = (() => {
   const GATE_URL = "/narsh2026/";
 
   // Pre-computed SHA-256 hashes of tier passwords (hashed lowercased+trimmed).
-  // day2 password: "fleurai" (Sep 26 only — Anand Karaj + reception)
-  // full password: "fleurai2026" (everything, incl. Mehndi & Jaggo)
-  // Note: this is a light client-side gate, not real security — the hashes here
-  // are reversible from the page source, so don't reuse personal passwords.
   const TIER_HASHES = {
     "day2": "7406eaf847fce84e0b5d4280918612562e1c32c2ed082adeb6c0cc5c02138798",
     "full": "33d4a113b07ddb18a6135210cab4f07c06c0c3859307692bb635a3e3a8c9d295"

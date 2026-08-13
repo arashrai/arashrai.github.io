@@ -44,7 +44,12 @@ html, body {
   font-family: "Playfair Display", Georgia, serif !important;
 }
 
-#map, .map-container {
+#map,
+.map-container,
+.mapboxgl-map,
+.mapboxgl-canvas-container,
+.mapboxgl-canvas,
+#map canvas {
   position: fixed;
   top: 0;
   left: 0;
@@ -53,6 +58,10 @@ html, body {
   height: 100dvh;
   background: var(--color-cream);
   z-index: 1;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
 }
 
 .map-vignette {
@@ -64,6 +73,20 @@ html, body {
   pointer-events: none;
   z-index: 2;
   box-shadow: inset 0 0 100px rgba(61, 43, 31, 0.15);
+}
+
+@media (max-width: 767px) {
+  .map-vignette {
+    display: none !important;
+  }
+}
+
+.mapboxgl-control-container,
+.mapboxgl-ctrl-group,
+.mapboxgl-ctrl {
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
 .scroll-container {

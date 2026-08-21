@@ -22,9 +22,11 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/arash%20Ludhiana/040.jpg", alt: "Arash's family in Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/050.jpg", alt: "Arash's early years in Ludhiana" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/060.jpg", alt: "Arash as a baby in Ludhiana" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/065.jpeg", alt: "Toddler Arash in a denim jacket, held by a family elder in Ludhiana" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/070.jpg", alt: "Arash with family in Punjab" },
         { src: "/narsh2026/images/story/arash%20Ludhiana/080.jpg", alt: "Arash growing up in Ludhiana" },
-        { src: "/narsh2026/images/story/arash%20Ludhiana/090.jpg", alt: "Arash's early childhood in India" }
+        { src: "/narsh2026/images/story/arash%20Ludhiana/090.jpg", alt: "Arash's early childhood in India" },
+        { src: "/narsh2026/images/story/arash%20Ludhiana/100.jpeg", alt: "Young Arash with his family in Punjab" }
       ],
       isConvergence: false
     },

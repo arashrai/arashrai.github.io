@@ -56,6 +56,7 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 | 260803-tdv | Support the sibling column in guests.csv; cut Arash's family tree from 8 root lineages to 6 | 2026-08-03 | 2ae83e5 | [260803-tdv-support-the-sibling-column-in-guests-csv](./quick/260803-tdv-support-the-sibling-column-in-guests-csv/) |
 | 260808-odc | Our Story: one full swipe/wheel gesture advances exactly one story stop (device verification outstanding) | 2026-08-08 | 8cd4000, 1cbac56 | [260808-odc-our-story-page-one-full-swipe-advances-e](./quick/260808-odc-our-story-page-one-full-swipe-advances-e/) |
 | 260808-ojg | Family tree: frame the initial camera on Natalie + Arash instead of the combined-forest center (browser verification outstanding) | 2026-08-08 | 78f5497, 2e03c2b | [260808-ojg-family-tree-loads-centered-on-natalie-an](./quick/260808-ojg-family-tree-loads-centered-on-natalie-an/) |
+| fast | Add two Ludhiana photos (065, 100) to Arash's first Our Story stop, downscaled to the 1600px cap | 2026-08-21 | 825b578 | — (inline, no plan) |
 
 ---
-*Last activity: 2026-08-08 - Completed quick tasks 260808-odc (Our Story one-step-per-gesture) and 260808-ojg (family tree framed on the couple); both awaiting device/browser verification*
+*Last activity: 2026-08-21 - Added two Ludhiana photos to the Our Story opening stop and pushed to master (rebased onto Arash's b575035)*

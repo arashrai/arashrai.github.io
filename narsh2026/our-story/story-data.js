@@ -69,7 +69,21 @@ const NARSH_STORY_DATA = (() => {
         { src: "/narsh2026/images/story/arash%20New%20Zealand/030.jpg", alt: "Arash's childhood in Auckland" },
         { src: "/narsh2026/images/story/arash%20New%20Zealand/040.jpg", alt: "Arash at school in New Zealand" },
         { src: "/narsh2026/images/story/arash%20New%20Zealand/050.jpg", alt: "Arash's years living in Auckland" },
-        { src: "/narsh2026/images/story/arash%20New%20Zealand/060.jpg", alt: "Arash in New Zealand" }
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/060.jpg", alt: "Arash in New Zealand" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/070.jpeg", alt: "Arash in a blue bucket hat driving a go-kart around an outdoor track" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/080.jpeg", alt: "Arash in a red polo standing with a friend outside a tent on a field" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/090.jpeg", alt: "Arash sitting between his mum and dad on the sofa at home, a cake on the table in front of them" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/100.jpeg", alt: "Young Arash with his dad at a lookout above Auckland, the Sky Tower behind them" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/110.jpeg", alt: "Arash in a denim shirt, chin on his hands, beside a birthday cake with lit candles" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/120.jpeg", alt: "Arash in a red suit and tie holding his dad's hand by a shopping centre fountain" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/130.jpeg", alt: "Arash, still in the red suit, sitting in a yellow hot rod ride at the shopping centre" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/140.jpeg", alt: "Arash in a blue jumper standing in front of the family's white sedan in the driveway" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/150.jpeg", alt: "Arash at kindergarten with his teacher and three other children around a water play table" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/160.jpeg", alt: "Arash standing on the rocks at low tide, a sailboat on the harbour behind him" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/170.jpeg", alt: "Arash with his mum at a hilltop lookout, Auckland's suburbs spread out below" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/180.jpeg", alt: "Arash grinning beneath the trig station at the summit of Mount Eden" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/190.jpeg", alt: "Arash at the wheel of a coin-operated kiddie ride, a cartoon driver riding shotgun" },
+        { src: "/narsh2026/images/story/arash%20New%20Zealand/200.jpeg", alt: "Arash and his mum standing in a garden hedge maze" }
       ],
       isConvergence: false
     },

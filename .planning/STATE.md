@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-25T19:48:44.219Z"
+last_updated: "2026-08-26T00:00:00.000Z"
 progress:
   total_phases: 5
   completed_phases: 3
@@ -57,6 +57,7 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 | 260808-odc | Our Story: one full swipe/wheel gesture advances exactly one story stop (device verification outstanding) | 2026-08-08 | 8cd4000, 1cbac56 | [260808-odc-our-story-page-one-full-swipe-advances-e](./quick/260808-odc-our-story-page-one-full-swipe-advances-e/) |
 | 260808-ojg | Family tree: frame the initial camera on Natalie + Arash instead of the combined-forest center (browser verification outstanding) | 2026-08-08 | 78f5497, 2e03c2b | [260808-ojg-family-tree-loads-centered-on-natalie-an](./quick/260808-ojg-family-tree-loads-centered-on-natalie-an/) |
 | fast | Add two Ludhiana photos (065, 100) to Arash's first Our Story stop, downscaled to the 1600px cap | 2026-08-21 | 825b578 | — (inline, no plan) |
+| fast | Add fourteen childhood photos (070-200) to Arash's New Zealand Our Story stop; already under the 1600px cap, no re-encode | 2026-08-26 | b3015eb | — (inline, no plan) |
 
 ---
-*Last activity: 2026-08-21 - Added two Ludhiana photos to the Our Story opening stop and pushed to master (rebased onto Arash's b575035)*
+*Last activity: 2026-08-26 - Added fourteen New Zealand childhood photos to the Our Story stop and pushed to master*

@@ -322,6 +322,97 @@ p {
   margin-top: var(--space-xl);
 }
 
+/* Wedding Countdown Timer */
+
+.countdown-container {
+  background: var(--color-warm-white);
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-md) var(--space-md);
+  margin: 0 auto var(--space-lg);
+  text-align: center;
+  max-width: 440px;
+  box-sizing: border-box;
+}
+
+.gate-page .countdown-container {
+  margin-top: var(--space-lg);
+  margin-bottom: 0;
+}
+
+.countdown-label {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-terracotta);
+  margin-bottom: var(--space-sm);
+}
+
+.countdown-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.countdown-unit {
+  background: rgba(255, 248, 240, 0.85);
+  border: 1px solid rgba(201, 146, 142, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 8px 6px;
+  min-width: 58px;
+  flex: 1;
+  max-width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.countdown-value {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-terracotta);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-unit-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+.countdown-divider {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-golden);
+  user-select: none;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.countdown-subtext {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: var(--space-sm);
+}
+
+.countdown-celebration {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  color: var(--color-terracotta);
+  padding: var(--space-sm) 0;
+}
+
 /* Desktop Styles */
 
 @media (min-width: 768px) {

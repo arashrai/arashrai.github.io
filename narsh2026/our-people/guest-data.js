@@ -1937,7 +1937,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "jatinder-kaur",
       "name": "Jatinder Kaur",
-      "photo": "/narsh2026/images/people/jatinder.jpg",
+      "photo": "/narsh2026/images/people/jatinder.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -1958,7 +1958,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "amritpal-rai",
       "name": "Amritpal Rai",
-      "photo": "/narsh2026/images/people/amritpal.jpg",
+      "photo": "/narsh2026/images/people/amritpal.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2060,7 +2060,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "gurpreet-rai",
       "name": "Gurpreet Rai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/gurpreet.jpeg",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2081,7 +2081,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "kiran-kaur",
       "name": "Kiran Kaur",
-      "photo": null,
+      "photo": "/narsh2026/images/people/kiran.jpeg",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2098,9 +2098,9 @@ const NARSH_GUESTS = (() => {
       "inferredParents": []
     },
     {
-      "id": "balbir-rai",
-      "name": "Balbir Rai",
-      "photo": null,
+      "id": "gurjinder-kaur",
+      "name": "Gurjinder Kaur",
+      "photo": "/narsh2026/images/people/gurjinder.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2108,7 +2108,25 @@ const NARSH_GUESTS = (() => {
       "isCouple": false,
       "funFact": null,
       "connectionToCouple": null,
-      "householdId": null,
+      "householdId": "household-balbir-rai",
+      "side": "arash",
+      "treeHidden": false,
+      "socialHidden": false,
+      "parents": [],
+      "inferredParents": []
+    },
+    {
+      "id": "balbir-rai",
+      "name": "Balbir Rai",
+      "photo": "/narsh2026/images/people/balbir.jpeg",
+      "groups": [
+        "arashs-family"
+      ],
+      "cities": [],
+      "isCouple": false,
+      "funFact": null,
+      "connectionToCouple": null,
+      "householdId": "household-balbir-rai",
       "side": "arash",
       "treeHidden": false,
       "socialHidden": false,
@@ -2118,7 +2136,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "mehreen-rai",
       "name": "Mehreen Rai",
-      "photo": "/narsh2026/images/people/mahi.png",
+      "photo": "/narsh2026/images/people/mahi.jpeg",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2140,7 +2158,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "nehmat-rai",
       "name": "Nehmat Rai",
-      "photo": "/narsh2026/images/people/nemo.png",
+      "photo": "/narsh2026/images/people/nemo.jpeg",
       "groups": [
         "arashs-family",
         "seattleite"
@@ -2162,7 +2180,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "harkanwal-grewal",
       "name": "Harkanwal Grewal",
-      "photo": null,
+      "photo": "/narsh2026/images/people/harkanwal.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2530,7 +2548,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "satwinder-kaur",
       "name": "Satwinder Kaur",
-      "photo": null,
+      "photo": "/narsh2026/images/people/satwinder.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2550,7 +2568,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "jasan-grewal",
       "name": "Jasan Grewal",
-      "photo": null,
+      "photo": "/narsh2026/images/people/jasan.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2568,7 +2586,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "gurnoor-boparai",
       "name": "Gurnoor Boparai",
-      "photo": "/narsh2026/images/people/noor.png",
+      "photo": "/narsh2026/images/people/noor.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2589,7 +2607,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "bhupinder-boparai",
       "name": "Bhupinder Boparai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/bhupinder.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2610,7 +2628,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "mohinder-kaur",
       "name": "Mohinder Kaur",
-      "photo": null,
+      "photo": "/narsh2026/images/people/mohinder.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -2628,7 +2646,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "bachittar-boparai",
       "name": "Bachittar Boparai",
-      "photo": null,
+      "photo": "/narsh2026/images/people/bachittar.png",
       "groups": [
         "arashs-family"
       ],
@@ -2646,7 +2664,7 @@ const NARSH_GUESTS = (() => {
     {
       "id": "karamjit-kaur",
       "name": "Karamjit Kaur",
-      "photo": null,
+      "photo": "/narsh2026/images/people/karamjit.jpeg",
       "groups": [
         "arashs-family"
       ],
@@ -3789,6 +3807,14 @@ const NARSH_GUESTS = (() => {
       "displayName": "Gurpreet & Kiran"
     },
     {
+      "id": "household-balbir-rai",
+      "members": [
+        "gurjinder-kaur",
+        "balbir-rai"
+      ],
+      "displayName": "Gurjinder & Balbir"
+    },
+    {
       "id": "household-harkanwal-grewal",
       "members": [
         "harkanwal-grewal",
@@ -4023,6 +4049,11 @@ const NARSH_GUESTS = (() => {
       "a": "giao-nguyen",
       "b": "tom-yang",
       "side": null
+    },
+    {
+      "a": "balbir-rai",
+      "b": "gurjinder-kaur",
+      "side": "arash"
     },
     {
       "a": "harkanwal-grewal",
